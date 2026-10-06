@@ -1,0 +1,373 @@
+/* smbk-slider — Slider. Figma "Slider" 4711:52100 over "SliderThumb" 4711:51614.
+ * A row of fine vertical lines on a sunken band; the lines turn brand red up
+ * to the thumb, a narrow red bar, or between two thumbs for a range. Each
+ * thumb has a native range input, invisible, right after it in the markup:
+ * the input does the keyboard, form and screen reader work, and the thumb
+ * reads the input's states with :has(+ …). A single slider's input also lies
+ * over the whole rail and takes the pointer; a range's two inputs cannot
+ * share the pointer, so the wrapper takes it on the rail and moves the nearer
+ * thumb. The wrapper sets the value as percentages: the red window's start
+ * and width, the red lines' offset inside it, and each thumb's place. */
+
+.smbk-slider {
+  display: grid;
+  gap: var(--smbk-space-stack-sm);
+  min-width: 0;
+}
+
+/* ---- the label row: label at the start, value at the end ---- */
+
+.smbk-slider__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--smbk-space-inline-md);
+  min-width: 0;
+}
+
+.smbk-slider__value {
+  margin-inline-start: auto;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-body-t-font-family);
+  font-size: var(--smbk-typography-body-t-font-size);
+  font-weight: var(--smbk-typography-body-t-font-weight);
+  line-height: var(--smbk-typography-body-t-line-height);
+  letter-spacing: var(--smbk-typography-body-t-letter-spacing);
+  font-variant-numeric: tabular-nums;
+  text-box: trim-both cap alphabetic;
+  white-space: nowrap;
+}
+
+.smbk-slider__body {
+  display: grid;
+  gap: var(--smbk-space-stack-xs);
+}
+
+/* ---- the rail: the row that takes the pointer, the smallest touch size tall.
+   It is a size container, so the red lines can be as wide as the whole rail
+   however narrow their window is. ---- */
+
+.smbk-slider__rail {
+  position: relative;
+  height: var(--smbk-size-target-min);
+  container-type: inline-size;
+}
+
+/* The band and its lines. 45 lines, as Figma draws, spread across the band:
+   the first and last sit a hairline in from its ends, the rest evenly between. */
+.smbk-slider__track {
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  translate: 0 -50%;
+  box-sizing: border-box;
+  height: var(--smbk-size-icon-md);
+  padding-inline: calc(var(--smbk-border-width-hairline) / 2);
+  color: var(--smbk-color-border-control);
+  background-color: var(--smbk-color-surface-sunken);
+  background-image: repeating-linear-gradient(to right, currentColor 0 var(--smbk-border-width-hairline), transparent var(--smbk-border-width-hairline) calc((100% - var(--smbk-border-width-hairline)) / 44));
+  background-origin: content-box;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+/* The red window: from the start (or the lower thumb) to the value (or the
+   upper thumb). It holds the red lines and cuts them off at its edges. */
+.smbk-slider__fill {
+  position: absolute;
+  inset-block: 0;
+  overflow: hidden;
+}
+
+/* The same lines in red, as wide as the rail and moved back by the window's
+   start, so every red line sits exactly on a gray one. */
+.smbk-slider__lines {
+  position: absolute;
+  inset-block: 0;
+  box-sizing: border-box;
+  width: 100cqi;
+  padding-inline: calc(var(--smbk-border-width-hairline) / 2);
+  color: var(--smbk-color-border-brand);
+  background-color: var(--smbk-color-surface-sunken);
+  background-image: repeating-linear-gradient(to right, currentColor 0 var(--smbk-border-width-hairline), transparent var(--smbk-border-width-hairline) calc((100% - var(--smbk-border-width-hairline)) / 44));
+  background-origin: content-box;
+  background-repeat: no-repeat;
+}
+
+.smbk-slider__thumb {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  box-sizing: border-box;
+  width: var(--smbk-size-8);
+  height: var(--smbk-size-selection-lg);
+  margin-inline-start: calc(var(--smbk-size-8) / -2);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight-subtle);
+  border-radius: var(--smbk-radius-full);
+  background: var(--smbk-color-surface-brand);
+  box-shadow: var(--smbk-elevation-0);
+  pointer-events: none;
+}
+
+/* The value bubble: the tooltip, over the thumb, its arrow's tip on the thumb's top.
+   Two classes, so these win over the tooltip's own block rule wherever it loads. */
+.smbk-slider__thumb > .smbk-slider__bubble {
+  position: absolute;
+  bottom: calc(100% + var(--smbk-size-icon-xs) / 2);
+  left: 50%;
+  translate: -50% 0;
+  visibility: hidden;
+  opacity: 0;
+}
+
+/* The input: as wide as the rail plus one thumb, so the browser's own thumb,
+   drawn at the drawn thumb's width, lands where the drawn thumb is. */
+.smbk-slider__control {
+  position: absolute;
+  top: 0;
+  inset-inline-start: calc(var(--smbk-size-8) / -2);
+  box-sizing: border-box;
+  width: calc(100% + var(--smbk-size-8));
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  opacity: 0;
+  appearance: none;
+  cursor: pointer;
+}
+
+.smbk-slider__control::-webkit-slider-runnable-track {
+  height: 100%;
+  background: transparent;
+}
+
+.smbk-slider__control::-webkit-slider-thumb {
+  width: var(--smbk-size-8);
+  height: 100%;
+  appearance: none;
+}
+
+.smbk-slider__control::-moz-range-track {
+  height: 100%;
+  background: transparent;
+}
+
+.smbk-slider__control::-moz-range-thumb {
+  width: var(--smbk-size-8);
+  height: 100%;
+  border: 0;
+  background: transparent;
+}
+
+/* ---- sizes: lg is the default above ---- */
+
+.smbk-slider--size-md .smbk-slider__track {
+  height: var(--smbk-size-icon-sm);
+}
+
+.smbk-slider--size-md .smbk-slider__thumb {
+  height: var(--smbk-size-selection-md);
+}
+
+.smbk-slider--size-sm .smbk-slider__track {
+  height: var(--smbk-size-icon-xs);
+}
+
+.smbk-slider--size-sm .smbk-slider__thumb {
+  width: var(--smbk-size-6);
+  height: var(--smbk-size-selection-sm);
+  margin-inline-start: calc(var(--smbk-size-6) / -2);
+}
+
+.smbk-slider--size-sm .smbk-slider__control {
+  inset-inline-start: calc(var(--smbk-size-6) / -2);
+  width: calc(100% + var(--smbk-size-6));
+}
+
+.smbk-slider--size-sm .smbk-slider__control::-webkit-slider-thumb {
+  width: var(--smbk-size-6);
+}
+
+.smbk-slider--size-sm .smbk-slider__control::-moz-range-thumb {
+  width: var(--smbk-size-6);
+}
+
+/* ---- range: the rail takes the pointer, the thumbs take hover ---- */
+
+.smbk-slider--type-range .smbk-slider__rail {
+  cursor: pointer;
+  touch-action: pan-y;
+}
+
+.smbk-slider--type-range .smbk-slider__control {
+  pointer-events: none;
+}
+
+.smbk-slider--type-range .smbk-slider__thumb {
+  pointer-events: auto;
+}
+
+/* ---- states: each thumb reads the input right after it ---- */
+
+@media (hover: hover) {
+  .smbk-slider__thumb:has(+ .smbk-slider__control:hover),
+  .smbk-slider--type-range .smbk-slider__thumb:hover {
+    box-shadow: var(--smbk-elevation-1);
+  }
+}
+
+.smbk-slider__thumb:has(+ .smbk-slider__control:active),
+.smbk-slider--type-range .smbk-slider__thumb:active,
+.smbk-slider__thumb[data-pressed] {
+  box-shadow: var(--smbk-elevation-2);
+}
+
+.smbk-slider__thumb:has(+ .smbk-slider__control:active) > .smbk-slider__bubble,
+.smbk-slider--type-range .smbk-slider__thumb:active > .smbk-slider__bubble,
+.smbk-slider__thumb[data-pressed] > .smbk-slider__bubble {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Figma's focus style: the page color in the gap, then the focus ring, so the
+   ring reads clearly over the lines. The transparent outline is what forced
+   colors mode paints, since it drops shadows. */
+.smbk-slider__thumb:has(+ .smbk-slider__control:focus-visible) {
+  outline: var(--smbk-focus-ring-width) solid transparent;
+  outline-offset: var(--smbk-focus-ring-offset);
+  box-shadow:
+    0 0 0 var(--smbk-focus-ring-offset) var(--smbk-color-surface-canvas),
+    0 0 0 calc(var(--smbk-focus-ring-offset) + var(--smbk-focus-ring-width)) var(--smbk-color-border-focus);
+}
+
+.smbk-slider__control:disabled {
+  cursor: default;
+}
+
+.smbk-slider__rail:has(.smbk-slider__control:disabled) {
+  cursor: default;
+}
+
+.smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__track {
+  color: var(--smbk-color-border-subtle);
+}
+
+.smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__lines {
+  color: var(--smbk-color-icon-disabled);
+}
+
+.smbk-slider__thumb:has(+ .smbk-slider__control:disabled) {
+  border-color: var(--smbk-color-border-control-disabled);
+  background: var(--smbk-color-icon-disabled);
+  box-shadow: none;
+  pointer-events: none;
+}
+
+.smbk-slider:has(.smbk-slider__control:disabled) .smbk-slider__label,
+.smbk-slider:has(.smbk-slider__control:disabled) .smbk-slider__value,
+.smbk-slider:has(.smbk-slider__control:disabled) .smbk-slider__bounds {
+  color: var(--smbk-color-text-disabled);
+}
+
+/* ---- min and max under the band ---- */
+
+.smbk-slider__bounds {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--smbk-space-inline-md);
+  color: var(--smbk-color-text-subtlest);
+  font-family: var(--smbk-typography-body-t-font-family);
+  font-size: var(--smbk-typography-body-t-font-size);
+  font-weight: var(--smbk-typography-body-t-font-weight);
+  line-height: var(--smbk-typography-body-t-line-height);
+  letter-spacing: var(--smbk-typography-body-t-letter-spacing);
+}
+
+/* On the words, not the row: a flex row does not trim its items' text. */
+.smbk-slider__bounds > * {
+  text-box: trim-both cap alphabetic;
+}
+
+/* ---- the narrow form: a finger-sized target, the look unchanged ---- */
+
+@container style(--smbk-layout: narrow) {
+  .smbk-slider__control {
+    top: calc((var(--smbk-size-target-min) - var(--smbk-size-target-comfortable)) / 2);
+    height: var(--smbk-size-target-comfortable);
+  }
+
+  .smbk-slider--type-range .smbk-slider__rail::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: calc((var(--smbk-size-target-min) - var(--smbk-size-target-comfortable)) / 2);
+    height: var(--smbk-size-target-comfortable);
+  }
+}
+
+/* ---- motion: the thumb lifts with the state purpose; the bubble fades with the
+   feedback purpose, as the tooltip does. Nothing moves under reduced motion. ---- */
+
+.smbk-slider__thumb {
+  transition: box-shadow var(--smbk-motion-state-duration) var(--smbk-motion-state-easing);
+}
+
+.smbk-slider__thumb > .smbk-slider__bubble {
+  transition-property: opacity, visibility;
+  transition-duration: var(--smbk-motion-feedback-duration);
+  transition-timing-function: var(--smbk-motion-feedback-easing);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-slider__thumb,
+  .smbk-slider__thumb > .smbk-slider__bubble {
+    transition: none;
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  /* The band keeps its lines (drawn as a background image, which forced colors would drop), in
+     CanvasText; the part up to the thumb is filled with Highlight; the thumb is CanvasText. */
+  .smbk-slider__track,
+  .smbk-slider__lines {
+    forced-color-adjust: none;
+  }
+
+  .smbk-slider__track {
+    background-color: Canvas;
+    color: CanvasText;
+  }
+
+  .smbk-slider__lines {
+    background-color: Highlight;
+    color: HighlightText;
+  }
+
+  .smbk-slider__thumb {
+    border-color: Canvas;
+    background: CanvasText;
+  }
+
+  .smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__track {
+    color: GrayText;
+  }
+
+  .smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__lines {
+    background-color: GrayText;
+    color: Canvas;
+  }
+
+  .smbk-slider__thumb:has(+ .smbk-slider__control:disabled) {
+    background: GrayText;
+  }
+
+  .smbk-slider:has(.smbk-slider__control:disabled) :is(.smbk-slider__label, .smbk-slider__value, .smbk-slider__bounds) {
+    color: GrayText;
+  }
+}

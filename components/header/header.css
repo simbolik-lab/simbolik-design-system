@@ -1,0 +1,251 @@
+/* smbk-header — Header. Figma "Header" 4209:22809 (Desktop; Mobile Default and Expanded).
+ * The top of a website: brand, page links in the middle, a call to action and
+ * the theme switch at the end. In a wide space the bar is three columns, the
+ * links centered in it. In a narrow space the links move into a menu that a
+ * button opens under the bar, and the call to action fills the menu's last
+ * row. Which form shows is the layout switch. */
+
+.smbk-header {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  border-radius: var(--smbk-radius-control-lg);
+  background: var(--smbk-color-surface-default);
+  color: var(--smbk-color-text-default);
+  box-shadow: var(--smbk-elevation-1);
+}
+
+/* Background off: no fill, edge or shadow; the bar sits on the page. The open narrow menu keeps
+   the surface, because its links stack over the page below. */
+.smbk-header--background-off:not(.smbk-header--expanded) {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* A page may switch the background while it is on screen (on once content scrolls under the bar):
+   the surface, its edge and its shadow fade in and out with the state purpose rather than
+   jumping. No movement under reduced motion (the block at the end). */
+.smbk-header {
+  transition-property: background-color, border-color, box-shadow;
+  transition-duration: var(--smbk-motion-state-duration);
+  transition-timing-function: var(--smbk-motion-state-easing);
+}
+
+/* Figma draws the header's edge inside it (80 tall in a wide space, 56 in a narrow one), so each
+   padding here gives the edge's width back; the same in the narrow bar and its menu.
+   The wide bar as Figma draws it: three columns, the brand at the start of the
+   first, the links in the second, the controls at the end of the third. The first and the third
+   share what the links leave equally, so the links stay in the middle of the bar whatever the two
+   ends hold; where there is too little room, each end keeps what its content needs and the links
+   give up the exact middle rather than overlap. Figma's columns sit flush; the medium inline step
+   between them is only the least distance when room runs short. */
+.smbk-header__bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--smbk-space-inline-md);
+  padding: calc(var(--smbk-space-inset-xl) - var(--smbk-border-width-hairline));
+}
+
+.smbk-header__brand {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  flex-shrink: 0;
+  color: inherit;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* In the narrow form the brand gives way first: in a space too narrow for the
+   brand, the theme switch and the menu button (the smallest phones), the logo
+   scales down inside its box rather than pushing the menu button out of the
+   bar. At every width where they fit, nothing changes. */
+@container style(--smbk-layout: narrow) {
+  .smbk-header__brand {
+    flex-shrink: 1;
+    min-width: 0;
+  }
+}
+
+.smbk-header__brand:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+  border-radius: var(--smbk-radius-control-xs);
+}
+
+.smbk-header__logo {
+  height: var(--smbk-size-icon-xl);
+  width: auto;
+}
+
+/* Figma draws the logo a step smaller in the narrow bar (its sizes are not bound to variables). Only
+   there may it scale down inside its box (the brand giving way, above): a wide bar keeps the whole logo,
+   because a logo that may shrink to its box has no width of its own to claim in the bar's first column. */
+@container style(--smbk-layout: narrow) {
+  .smbk-header__logo {
+    height: var(--smbk-size-icon-lg);
+    max-width: 100%;
+  }
+}
+
+/* The gap between page links is the large inline step, as Figma binds it. */
+.smbk-header__links {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-lg);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.smbk-header__end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--smbk-space-inline-lg);
+  flex-shrink: 0;
+}
+
+/* The open menu, as Figma's expanded mobile header draws it: the
+   dividers and links the large inset in from the sides, the medium stack apart;
+   the call to action the large inset below the last divider and above the
+   menu's foot. */
+.smbk-header__menu {
+  display: none;
+  flex-direction: column;
+  padding: 0 calc(var(--smbk-space-inset-xl) - var(--smbk-border-width-hairline));
+}
+
+.smbk-header__menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+  margin: 0;
+  padding: var(--smbk-space-stack-md) 0 0;
+  list-style: none;
+}
+
+.smbk-header__menu-list > li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+}
+
+.smbk-header__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.smbk-header__group[hidden] {
+  display: none;
+}
+
+.smbk-header__menu-cta {
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--smbk-space-inset-xl);
+}
+
+.smbk-header__menu-cta > * {
+  width: 100%;
+}
+
+/* ---- the two forms. The selectors carry the block so they outweigh the display
+   rule of the button they hide, whichever stylesheet comes later. ---- */
+
+.smbk-header .smbk-header__narrow-only {
+  display: none;
+}
+
+/* The narrow bar as Figma draws it: one row, brand and controls at its two ends; the medium inset above, below
+   and at the end, the large one at the start. The menu button's own padding
+   brings its icon level with the logo's inset from the other edge. */
+@container style(--smbk-layout: narrow) {
+  .smbk-header__bar {
+    display: flex;
+    justify-content: space-between;
+    padding: calc(var(--smbk-space-inset-md) - var(--smbk-border-width-hairline)) calc(var(--smbk-space-inset-md) - var(--smbk-border-width-hairline)) calc(var(--smbk-space-inset-md) - var(--smbk-border-width-hairline)) calc(var(--smbk-space-inset-xl) - var(--smbk-border-width-hairline));
+  }
+
+  .smbk-header .smbk-header__wide-only {
+    display: none;
+  }
+
+  .smbk-header .smbk-header__narrow-only {
+    display: inline-flex;
+  }
+
+  .smbk-header__end {
+    gap: var(--smbk-space-inline-md);
+  }
+
+  .smbk-header--expanded .smbk-header__menu {
+    display: flex;
+    block-size: auto;
+    padding-bottom: calc(var(--smbk-space-inset-xl) - var(--smbk-border-width-hairline));
+    transition-duration: var(--smbk-motion-enter-duration);
+    transition-timing-function: var(--smbk-motion-enter-easing);
+  }
+}
+
+/* ---- motion: in a narrow space the menu grows from no height to its own under the bar with the
+   enter purpose, and shrinks back with the exit purpose. Its display changes at the end of the
+   exit, so it stays drawn while it closes. It is clipped while it moves, to a focus ring's reach.
+   A browser that cannot animate to a natural height opens it at once. No movement under
+   reduced motion. ---- */
+
+.smbk-header__menu {
+  interpolate-size: allow-keywords;
+  block-size: 0;
+  overflow: clip;
+  overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+  transition-property: block-size, padding-bottom, display;
+  transition-duration: var(--smbk-motion-exit-duration);
+  transition-timing-function: var(--smbk-motion-exit-easing);
+  transition-behavior: allow-discrete;
+}
+
+/* A group of further links under an item of the open menu grows the same way. */
+.smbk-header__group {
+  interpolate-size: allow-keywords;
+  overflow: clip;
+  overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+  transition-property: block-size, display;
+  transition-duration: var(--smbk-motion-enter-duration);
+  transition-timing-function: var(--smbk-motion-enter-easing);
+  transition-behavior: allow-discrete;
+}
+
+.smbk-header__group[hidden] {
+  block-size: 0;
+  transition-duration: var(--smbk-motion-exit-duration);
+  transition-timing-function: var(--smbk-motion-exit-easing);
+}
+
+@starting-style {
+  .smbk-header--expanded .smbk-header__menu {
+    block-size: 0;
+    padding-bottom: 0;
+  }
+
+  .smbk-header__group:not([hidden]) {
+    block-size: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-header,
+  .smbk-header__menu,
+  .smbk-header__group {
+    transition: none;
+  }
+}

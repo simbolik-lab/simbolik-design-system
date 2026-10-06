@@ -1,0 +1,55 @@
+/* smbk-search — Search field. Figma "Search Field" 4212:26902.
+ * Built on the input: the block always sits on an smbk-input well, and the
+ * magnifier is the input's icon part. This stylesheet adds only what a search
+ * needs — a tighter side padding, a clear control and an optional key hint.
+ * Hover, focus, error, disabled and the small size are the input's own, so a
+ * change to the input reaches the search field. */
+
+/* Figma binds the side padding one step tighter than the input's, at both sizes. */
+.smbk-input.smbk-search {
+  padding: 0 var(--smbk-space-inline-md);
+}
+
+.smbk-search__control {
+  appearance: none;
+}
+
+.smbk-search__control::-webkit-search-cancel-button,
+.smbk-search__control::-webkit-search-decoration {
+  appearance: none;
+}
+
+.smbk-search__clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--smbk-color-text-subtlest);
+  font-size: var(--smbk-size-icon-sm);
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.smbk-search__clear:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+  border-radius: var(--smbk-radius-full);
+}
+
+.smbk-search:has(.smbk-input__control:disabled) .smbk-search__clear {
+  color: var(--smbk-color-text-disabled);
+  pointer-events: none;
+}
+
+/* The key hint is a small Kbd at the far end. */
+.smbk-search__kbd {
+  flex-shrink: 0;
+}
+
+.smbk-search:has(.smbk-input__control:disabled) .smbk-search__kbd {
+  opacity: var(--smbk-opacity-media-disabled);
+}

@@ -1,0 +1,49 @@
+/* smbk-kbd — Kbd. Figma "Kbd" 888:8. A raised keycap.
+ * Its height is a display size step; its width hugs the key text and the side
+ * padding, so one glyph gives a near-square cap and a word or a shortcut
+ * widens it. */
+
+/* An inline block, not an inline flex box, so the trim reaches its words; the
+   padding centers the cap height in the fixed height, inside the hairline edge. */
+.smbk-kbd {
+  box-sizing: border-box;
+  display: inline-block;
+  height: var(--smbk-size-display-lg);
+  padding: calc((var(--smbk-size-display-lg) - 2 * var(--smbk-border-width-hairline) - 1cap) / 2) var(--smbk-space-inset-sm);
+  text-align: center;
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight-subtle);
+  border-radius: var(--smbk-radius-control-xs);
+  background: var(--smbk-color-surface-raised);
+  color: var(--smbk-color-text-subtle);
+  box-shadow: var(--smbk-elevation-1);
+  font-family: var(--smbk-typography-label-m-font-family);
+  font-size: var(--smbk-typography-label-m-font-size);
+  font-weight: var(--smbk-typography-label-m-font-weight);
+  line-height: var(--smbk-typography-label-m-line-height);
+  letter-spacing: var(--smbk-typography-label-m-letter-spacing);
+  text-box: trim-both cap alphabetic;
+  text-transform: var(--smbk-typography-label-m-text-transform);
+  white-space: nowrap;
+}
+
+.smbk-kbd--size-md,
+.smbk-kbd--size-sm {
+  font-family: var(--smbk-typography-label-s-font-family);
+  font-size: var(--smbk-typography-label-s-font-size);
+  font-weight: var(--smbk-typography-label-s-font-weight);
+  line-height: var(--smbk-typography-label-s-line-height);
+  letter-spacing: var(--smbk-typography-label-s-letter-spacing);
+  text-box: trim-both cap alphabetic;
+}
+
+/* Each size centers the cap height in its own height, with its own padding above and below,
+   so no key sits low and the glyphs taller than a capital, such as ⌘, stay inside the top edge. */
+.smbk-kbd--size-md {
+  height: var(--smbk-size-display-md);
+  padding-block: calc((var(--smbk-size-display-md) - 2 * var(--smbk-border-width-hairline) - 1cap) / 2);
+}
+
+.smbk-kbd--size-sm {
+  height: var(--smbk-size-display-sm);
+  padding: calc((var(--smbk-size-display-sm) - 2 * var(--smbk-border-width-hairline) - 1cap) / 2) var(--smbk-space-inset-xs);
+}

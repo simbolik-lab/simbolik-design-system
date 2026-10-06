@@ -1,0 +1,215 @@
+/* smbk-segmented — Segmented control. Figma "SegmentedControl" 4209:19853 and "SegmentItem" 4207:19346.
+ * Drawn as the tabs' bar is: a canvas well
+ * at a control height, its items the smallest inset in from its edge and
+ * apart, filling its height. Items are real radios inside labels, so only one
+ * can be chosen and arrow keys move between them. The chosen item sits on the
+ * raised surface, drawn by an indicator that slides from choice to choice
+ * once the wrapper has placed it (motion rules at the end).
+ * The items are columns of one row: equal by default, as Figma's items fill
+ * their bar, each as wide as the widest and sharing any width the bar is
+ * given; or each hugging its words. */
+
+.smbk-segmented {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-grid;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: column;
+  align-items: stretch;
+  gap: var(--smbk-space-inset-2xs);
+  height: var(--smbk-size-control-lg);
+  /* Figma draws the edge inside the bar and lays the items over it, so the padding gives the edge's
+     width back: the large bar is 48 tall and its items 44. */
+  padding: calc(var(--smbk-space-inset-2xs) - var(--smbk-border-width-hairline));
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  border-radius: var(--smbk-radius-control-lg);
+  background: var(--smbk-color-surface-canvas);
+}
+
+.smbk-segmented__item {
+  box-sizing: border-box;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--smbk-space-inline-sm);
+  padding: 0 var(--smbk-space-inset-lg);
+  border: var(--smbk-border-width-hairline) solid transparent;
+  border-radius: var(--smbk-radius-control-md);
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-m-font-family);
+  font-size: var(--smbk-typography-body-m-font-size);
+  font-weight: var(--smbk-typography-body-m-font-weight);
+  line-height: var(--smbk-typography-body-m-line-height);
+  letter-spacing: var(--smbk-typography-body-m-letter-spacing);
+  text-box: trim-both cap alphabetic;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+@media (hover: hover) {
+  .smbk-segmented__item:hover {
+    color: var(--smbk-color-text-link-hover);
+  }
+}
+
+.smbk-segmented__control {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.smbk-segmented__item:has(.smbk-segmented__control:checked) {
+  background: var(--smbk-color-surface-raised);
+  border-color: var(--smbk-color-border-edge-highlight);
+  color: var(--smbk-color-text-default);
+  box-shadow: var(--smbk-elevation-0);
+}
+
+/* The chosen item's surface as one piece that slides from choice to choice. The wrapper places it
+   over the chosen item and marks the bar; until then (markup written by hand, or before the page's
+   script runs) it is not drawn and the chosen item draws its own surface, which looks the same at
+   rest. It comes first in the bar, and the items are positioned, so they paint over it. */
+.smbk-segmented__indicator {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  border-radius: var(--smbk-radius-control-md);
+  background: var(--smbk-color-surface-raised);
+  box-shadow: var(--smbk-elevation-0);
+  pointer-events: none;
+}
+
+.smbk-segmented[data-indicator] > .smbk-segmented__indicator {
+  display: block;
+}
+
+.smbk-segmented[data-indicator] > .smbk-segmented__item:has(.smbk-segmented__control:checked) {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+/* Figma's focus: a ring in the focus color, one ring-width out from the item's edge. */
+.smbk-segmented__item:has(.smbk-segmented__control:focus-visible) {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+.smbk-segmented__item:has(.smbk-segmented__control:disabled) {
+  color: var(--smbk-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.smbk-segmented__icon {
+  font-size: var(--smbk-size-icon-sm);
+}
+
+/* ---- item width: hug, each item as wide as its words, at the start of a bar given more room ---- */
+
+.smbk-segmented--item-width-hug {
+  grid-auto-columns: auto;
+  justify-content: start;
+}
+
+/* ---- sizes: the bar is the large, medium or small control height; the medium item keeps the
+   large one's padding and type, and the small one steps both down ---- */
+
+.smbk-segmented--size-md {
+  height: var(--smbk-size-control-md);
+}
+
+.smbk-segmented--size-sm {
+  height: var(--smbk-size-control-sm);
+  border-radius: var(--smbk-radius-control-md);
+}
+
+.smbk-segmented--size-sm .smbk-segmented__item {
+  gap: var(--smbk-space-inline-xs);
+  padding: 0 var(--smbk-space-inset-md);
+  border-radius: var(--smbk-radius-control-sm);
+  font-family: var(--smbk-typography-body-t-font-family);
+  font-size: var(--smbk-typography-body-t-font-size);
+  font-weight: var(--smbk-typography-body-t-font-weight);
+  line-height: var(--smbk-typography-body-t-line-height);
+  letter-spacing: var(--smbk-typography-body-t-letter-spacing);
+  text-box: trim-both cap alphabetic;
+}
+
+.smbk-segmented--size-sm > .smbk-segmented__indicator {
+  border-radius: var(--smbk-radius-control-sm);
+}
+
+.smbk-segmented--size-sm .smbk-segmented__icon {
+  font-size: var(--smbk-size-icon-xs);
+}
+
+/* The words carry the trim: the segment is a flex row, and a flex row does not pass the trim to its items. */
+.smbk-segmented__label {
+  text-box: trim-both cap alphabetic;
+}
+
+/* ---- motion: the indicator slides to the chosen item with the state purpose, as a switch's thumb
+   does, and the words change color with the feedback purpose. No movement under reduced motion. ---- */
+
+.smbk-segmented__item {
+  transition: color var(--smbk-motion-feedback-duration) var(--smbk-motion-feedback-easing);
+}
+
+.smbk-segmented[data-indicator] > .smbk-segmented__indicator {
+  transition-property: translate, width, height;
+  transition-duration: var(--smbk-motion-state-duration);
+  transition-timing-function: var(--smbk-motion-state-easing);
+}
+
+/* Set by the wrapper while it places the indicator without a slide. */
+.smbk-segmented[data-indicator] > .smbk-segmented__indicator[data-instant] {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-segmented__item,
+  .smbk-segmented[data-indicator] > .smbk-segmented__indicator {
+    transition: none;
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  .smbk-segmented__item:has(.smbk-segmented__control:checked) {
+    forced-color-adjust: none;
+    border-color: Highlight;
+    background: Highlight;
+    color: HighlightText;
+    box-shadow: none;
+  }
+
+  .smbk-segmented__item:has(.smbk-segmented__control:checked:focus-visible) {
+    outline-color: CanvasText;
+  }
+
+  .smbk-segmented__indicator {
+    border-color: Highlight;
+    background: Highlight;
+  }
+
+  .smbk-segmented__item:has(.smbk-segmented__control:disabled) {
+    color: GrayText;
+  }
+}

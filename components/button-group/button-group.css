@@ -1,0 +1,162 @@
+/* smbk-btn-group — Button group. Figma "ButtonGroup" 4163:5325.
+ * Children are smbk-btn elements. Merged and segmented types fuse them into one
+ * bar: inner corners are squared, a hairline divider separates neighbors, and
+ * an outline group carries the border itself with ghost buttons inside. */
+
+.smbk-btn-group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-xl);
+}
+
+.smbk-btn-group--orientation-vertical {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* ---- merged and segmented: one bar ---- */
+
+.smbk-btn-group--type-merged,
+.smbk-btn-group--type-segmented {
+  gap: 0;
+  border-radius: var(--smbk-radius-control-md);
+}
+
+.smbk-btn-group--type-merged.smbk-btn-group--size-md,
+.smbk-btn-group--type-merged.smbk-btn-group--size-sm,
+.smbk-btn-group--type-segmented.smbk-btn-group--size-md,
+.smbk-btn-group--type-segmented.smbk-btn-group--size-sm {
+  border-radius: var(--smbk-radius-control-sm);
+}
+
+.smbk-btn-group--type-merged > .smbk-btn,
+.smbk-btn-group--type-segmented > .smbk-btn {
+  border-radius: 0;
+}
+
+.smbk-btn-group--type-merged > .smbk-btn:first-child,
+.smbk-btn-group--type-segmented > .smbk-btn:first-child {
+  border-start-start-radius: inherit;
+  border-end-start-radius: inherit;
+}
+
+.smbk-btn-group--type-merged > .smbk-btn:last-child,
+.smbk-btn-group--type-segmented > .smbk-btn:last-child {
+  border-start-end-radius: inherit;
+  border-end-end-radius: inherit;
+}
+
+.smbk-btn-group--orientation-vertical.smbk-btn-group--type-merged > .smbk-btn:first-child,
+.smbk-btn-group--orientation-vertical.smbk-btn-group--type-segmented > .smbk-btn:first-child {
+  border-radius: 0;
+  border-start-start-radius: inherit;
+  border-start-end-radius: inherit;
+}
+
+.smbk-btn-group--orientation-vertical.smbk-btn-group--type-merged > .smbk-btn:last-child,
+.smbk-btn-group--orientation-vertical.smbk-btn-group--type-segmented > .smbk-btn:last-child {
+  border-radius: 0;
+  border-end-start-radius: inherit;
+  border-end-end-radius: inherit;
+}
+
+/* Divider between neighbors: the strong border on secondary bars, the subtle border on outline bars, a highlight line on the brand bar. */
+.smbk-btn-group--type-merged > .smbk-btn + .smbk-btn,
+.smbk-btn-group--type-segmented > .smbk-btn + .smbk-btn {
+  border-inline-start: var(--smbk-border-width-hairline) solid var(--smbk-color-border-strong);
+}
+
+.smbk-btn-group--orientation-vertical.smbk-btn-group--type-merged > .smbk-btn + .smbk-btn,
+.smbk-btn-group--orientation-vertical.smbk-btn-group--type-segmented > .smbk-btn + .smbk-btn {
+  border-inline-start: 0;
+  border-block-start: var(--smbk-border-width-hairline) solid var(--smbk-color-border-strong);
+}
+
+.smbk-btn-group--tone-outline.smbk-btn-group--type-merged > .smbk-btn + .smbk-btn,
+.smbk-btn-group--tone-outline.smbk-btn-group--type-segmented > .smbk-btn + .smbk-btn {
+  border-inline-start-color: var(--smbk-color-border-subtle);
+}
+
+.smbk-btn-group--tone-outline.smbk-btn-group--orientation-vertical.smbk-btn-group--type-merged > .smbk-btn + .smbk-btn,
+.smbk-btn-group--tone-outline.smbk-btn-group--orientation-vertical.smbk-btn-group--type-segmented > .smbk-btn + .smbk-btn {
+  border-block-start-color: var(--smbk-color-border-subtle);
+}
+
+.smbk-btn-group--tone-brand.smbk-btn-group--type-merged > .smbk-btn + .smbk-btn,
+.smbk-btn-group--tone-brand.smbk-btn-group--type-segmented > .smbk-btn + .smbk-btn {
+  border-inline-start-color: var(--smbk-color-border-edge-highlight-subtle);
+}
+
+.smbk-btn-group--tone-brand.smbk-btn-group--orientation-vertical.smbk-btn-group--type-merged > .smbk-btn + .smbk-btn,
+.smbk-btn-group--tone-brand.smbk-btn-group--orientation-vertical.smbk-btn-group--type-segmented > .smbk-btn + .smbk-btn {
+  border-block-start-color: var(--smbk-color-border-edge-highlight-subtle);
+}
+
+/* The outline bar draws the border itself; buttons inside are ghost, or outline buttons that give up their own edge. */
+.smbk-btn-group--tone-outline.smbk-btn-group--type-merged > .smbk-btn--tone-outline,
+.smbk-btn-group--tone-outline.smbk-btn-group--type-segmented > .smbk-btn--tone-outline {
+  border-color: transparent;
+}
+
+.smbk-btn-group--tone-outline.smbk-btn-group--type-merged > .smbk-btn--tone-outline + .smbk-btn--tone-outline,
+.smbk-btn-group--tone-outline.smbk-btn-group--type-segmented > .smbk-btn--tone-outline + .smbk-btn--tone-outline {
+  border-inline-start-color: var(--smbk-color-border-subtle);
+}
+
+.smbk-btn-group--tone-outline.smbk-btn-group--orientation-vertical.smbk-btn-group--type-merged > .smbk-btn--tone-outline + .smbk-btn--tone-outline,
+.smbk-btn-group--tone-outline.smbk-btn-group--orientation-vertical.smbk-btn-group--type-segmented > .smbk-btn--tone-outline + .smbk-btn--tone-outline {
+  border-inline-start-color: transparent;
+  border-block-start-color: var(--smbk-color-border-subtle);
+}
+
+.smbk-btn-group--tone-outline.smbk-btn-group--type-merged,
+.smbk-btn-group--tone-outline.smbk-btn-group--type-segmented {
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-action-outline-border);
+}
+
+/* ---- a button that opens a dropdown ----
+   The dropdown's anchor holds its opener, so the opener is not a child of the bar. In a merged or
+   segmented row the anchor passes the bar's corners on to its button, and the button draws the same
+   divider and edge as a button standing in the bar. */
+
+.smbk-btn-group--type-merged:not(.smbk-btn-group--orientation-vertical) > .smbk-dropdown__anchor,
+.smbk-btn-group--type-segmented:not(.smbk-btn-group--orientation-vertical) > .smbk-dropdown__anchor {
+  border-radius: 0;
+}
+
+.smbk-btn-group--type-merged:not(.smbk-btn-group--orientation-vertical) > .smbk-dropdown__anchor:first-child,
+.smbk-btn-group--type-segmented:not(.smbk-btn-group--orientation-vertical) > .smbk-dropdown__anchor:first-child {
+  border-start-start-radius: inherit;
+  border-end-start-radius: inherit;
+}
+
+.smbk-btn-group--type-merged:not(.smbk-btn-group--orientation-vertical) > .smbk-dropdown__anchor:last-child,
+.smbk-btn-group--type-segmented:not(.smbk-btn-group--orientation-vertical) > .smbk-dropdown__anchor:last-child {
+  border-start-end-radius: inherit;
+  border-end-end-radius: inherit;
+}
+
+.smbk-btn-group--type-merged:not(.smbk-btn-group--orientation-vertical) > .smbk-dropdown__anchor > .smbk-btn,
+.smbk-btn-group--type-segmented:not(.smbk-btn-group--orientation-vertical) > .smbk-dropdown__anchor > .smbk-btn {
+  border-radius: inherit;
+}
+
+.smbk-btn-group--type-merged:not(.smbk-btn-group--orientation-vertical) > .smbk-btn + .smbk-dropdown__anchor > .smbk-btn,
+.smbk-btn-group--type-segmented:not(.smbk-btn-group--orientation-vertical) > .smbk-btn + .smbk-dropdown__anchor > .smbk-btn {
+  border-inline-start: var(--smbk-border-width-hairline) solid var(--smbk-color-border-strong);
+}
+
+.smbk-btn-group--tone-outline.smbk-btn-group--type-merged > .smbk-dropdown__anchor > .smbk-btn--tone-outline,
+.smbk-btn-group--tone-outline.smbk-btn-group--type-segmented > .smbk-dropdown__anchor > .smbk-btn--tone-outline {
+  border-color: transparent;
+}
+
+.smbk-btn-group--tone-outline.smbk-btn-group--type-merged:not(.smbk-btn-group--orientation-vertical) > .smbk-btn + .smbk-dropdown__anchor > .smbk-btn,
+.smbk-btn-group--tone-outline.smbk-btn-group--type-segmented:not(.smbk-btn-group--orientation-vertical) > .smbk-btn + .smbk-dropdown__anchor > .smbk-btn {
+  border-inline-start-color: var(--smbk-color-border-subtle);
+}
+
+.smbk-btn-group--tone-brand.smbk-btn-group--type-merged:not(.smbk-btn-group--orientation-vertical) > .smbk-btn + .smbk-dropdown__anchor > .smbk-btn,
+.smbk-btn-group--tone-brand.smbk-btn-group--type-segmented:not(.smbk-btn-group--orientation-vertical) > .smbk-btn + .smbk-dropdown__anchor > .smbk-btn {
+  border-inline-start-color: var(--smbk-color-border-edge-highlight-subtle);
+}

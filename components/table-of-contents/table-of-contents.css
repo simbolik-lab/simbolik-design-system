@@ -1,0 +1,344 @@
+/* smbk-toc — Table of contents. Figma "TableofContents" 4505:11351 over "TableofContentsItem" (State × Type: Parent, Child).
+ * A card listing the sections of the page: a label with a rule under it, then
+ * one small link per section, children indented, the one in view marked with
+ * a line on its left, which slides from item to item. In a narrow space (Figma's Mobile) a box whose heading
+ * row, an icon, the label and a caret, is a button: pressed, a rule and the
+ * links open under it, and close again (the open flag). */
+
+.smbk-toc {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-lg);
+  width: var(--smbk-size-table-of-contents-width);
+  padding: var(--smbk-space-inset-xl);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  border-radius: var(--smbk-radius-container-sm);
+}
+
+/* With extra content, the navigation keeps the card's own stacking inside it. */
+.smbk-toc__nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-lg);
+}
+
+/* Content under the list that belongs with it, set off by the same rule as the label's. */
+.smbk-toc__extra {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+  padding: 0 var(--smbk-space-inset-md);
+}
+
+.smbk-toc__extra::before {
+  content: "";
+  display: block;
+  height: 0;
+  border-top: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-top);
+  border-bottom: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-bottom);
+}
+
+.smbk-toc__label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-sm);
+  margin: 0;
+  padding: var(--smbk-space-inset-md) var(--smbk-space-inset-md) 0;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-label-s-font-family);
+  font-size: var(--smbk-typography-label-s-font-size);
+  font-weight: var(--smbk-typography-label-s-font-weight);
+  line-height: var(--smbk-typography-label-s-line-height);
+  letter-spacing: var(--smbk-typography-label-s-letter-spacing);
+  text-transform: var(--smbk-typography-label-s-text-transform);
+}
+
+/* The words carry the trim themselves: the label is a flex column, which does not pass it on. */
+.smbk-toc__label-text {
+  text-box: trim-both cap alphabetic;
+}
+
+.smbk-toc__label::after {
+  content: "";
+  display: block;
+  height: 0;
+  border-top: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-top);
+  border-bottom: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-bottom);
+}
+
+.smbk-toc__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The heading row is the narrow form's; the wide form shows the label instead. */
+.smbk-toc__toggle {
+  display: none;
+}
+
+/* A long entry wraps onto more lines instead of being cut short, and keeps one line's height when short. */
+.smbk-toc__item {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-xs);
+  min-height: var(--smbk-size-control-xs);
+  padding: var(--smbk-space-inset-2xs) var(--smbk-space-inset-lg);
+  border-left: var(--smbk-border-width-hairline) solid transparent;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-s-font-family);
+  font-size: var(--smbk-typography-body-s-font-size);
+  font-weight: var(--smbk-typography-body-s-font-weight);
+  line-height: var(--smbk-typography-body-s-line-height);
+  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
+  text-decoration: none;
+  overflow-wrap: break-word;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+@media (hover: hover) {
+  .smbk-toc__item:hover {
+    color: var(--smbk-color-text-brand);
+  }
+}
+
+.smbk-toc__item[aria-current="true"] {
+  border-left-color: var(--smbk-color-border-control);
+  color: var(--smbk-color-text-default);
+}
+
+.smbk-toc__item:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+  border-radius: var(--smbk-radius-control-xs);
+}
+
+.smbk-toc__item--child {
+  padding-left: var(--smbk-space-inset-2xl);
+}
+
+/* The current item's line as one indicator, placed over that item by the wrapper, which then marks
+   the body `data-indicator`. Without it (hand-written markup, the rendered pictures) the current item
+   draws its own line. Every item's left edge is the list's, children included, so the line only
+   moves up and down. */
+.smbk-toc__body {
+  position: relative;
+}
+
+.smbk-toc__indicator {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  border-left: var(--smbk-border-width-hairline) solid var(--smbk-color-border-control);
+  pointer-events: none;
+}
+
+.smbk-toc__body[data-indicator] > .smbk-toc__indicator {
+  display: block;
+}
+
+.smbk-toc__body[data-indicator] .smbk-toc__item[aria-current="true"] {
+  border-left-color: transparent;
+}
+
+/* Children sit in a list of their own under the parent's link; the gap above them is the list's own
+   gap, so a parent is as far from its first child as any item is from the next, as Figma spaces them. */
+.smbk-toc__item + .smbk-toc__list {
+  margin-top: var(--smbk-space-stack-sm);
+}
+
+/* ---- narrow: the folding box (Figma's Mobile). The medium stack between its rows, the large
+   inset inside it, the medium control radius; it fills its column. The heading row reaches out
+   through the box's inset on three sides so the whole top of the box takes a press, a target
+   well over the minimum, while its contents sit where Figma draws them. ---- */
+
+@container style(--smbk-layout: narrow) {
+  .smbk-toc {
+    gap: var(--smbk-space-stack-md);
+    width: 100%;
+    padding: var(--smbk-space-inset-lg);
+    border-radius: var(--smbk-radius-control-md);
+  }
+
+  .smbk-toc__nav {
+    gap: var(--smbk-space-stack-md);
+  }
+
+  .smbk-toc__label {
+    display: none;
+  }
+
+  .smbk-toc__toggle {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--smbk-space-inline-md);
+    margin: calc(-1 * var(--smbk-space-inset-lg)) calc(-1 * var(--smbk-space-inset-lg)) 0;
+    padding: calc(var(--smbk-space-inset-lg) + var(--smbk-space-inset-2xs)) var(--smbk-space-inset-lg) var(--smbk-space-inset-2xs);
+    border: 0;
+    border-radius: var(--smbk-radius-control-md);
+    background: none;
+    color: var(--smbk-color-text-subtle);
+    cursor: pointer;
+    font-family: var(--smbk-typography-label-s-font-family);
+    font-size: var(--smbk-typography-label-s-font-size);
+    font-weight: var(--smbk-typography-label-s-font-weight);
+    line-height: var(--smbk-typography-label-s-line-height);
+    letter-spacing: var(--smbk-typography-label-s-letter-spacing);
+    text-transform: var(--smbk-typography-label-s-text-transform);
+    text-align: start;
+  }
+
+  /* Only where a pointer really hovers: a tap on a phone would otherwise leave the row in the hover color. */
+  @media (hover: hover) {
+    .smbk-toc__toggle:hover {
+      color: var(--smbk-color-text-brand);
+    }
+  }
+
+  .smbk-toc__toggle:focus-visible {
+    outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+    outline-offset: calc(-1 * var(--smbk-focus-ring-width));
+  }
+
+  .smbk-toc__heading {
+    display: flex;
+    align-items: center;
+    gap: var(--smbk-space-inline-sm);
+    min-width: 0;
+  }
+
+  /* The words carry the trim themselves: the row is a flex row, which does not pass it on. */
+  .smbk-toc__heading-text {
+    min-width: 0;
+    text-box: trim-both cap alphabetic;
+  }
+
+  /* Figma binds both icons to the subtlest text color. */
+  .smbk-toc__icon,
+  .smbk-toc__caret {
+    flex-shrink: 0;
+    color: var(--smbk-color-text-subtlest);
+    font-size: var(--smbk-size-icon-xs);
+  }
+
+  /* The caret points at the closed list and turns to point down it when it opens. */
+  .smbk-toc__caret {
+    transition: transform var(--smbk-motion-state-duration) var(--smbk-motion-state-easing);
+  }
+
+  .smbk-toc--open .smbk-toc__caret {
+    transform: rotate(90deg);
+  }
+
+  /* The links under a rule, the medium stack apart. Closed, the body is gone: out of the tab order. */
+  .smbk-toc__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--smbk-space-stack-md);
+  }
+
+  .smbk-toc__body::before {
+    content: "";
+    display: block;
+    height: 0;
+    border-top: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-top);
+    border-bottom: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-bottom);
+  }
+
+  .smbk-toc:not(.smbk-toc--open) .smbk-toc__body {
+    display: none;
+  }
+
+  /* ---- motion: the body grows from no height to its own with the enter purpose and shrinks with the
+     exit purpose, clipped to a focus ring's reach while it moves; its display changes at the end of
+     the exit, so it stays drawn while it closes. A browser that cannot animate to a natural height
+     opens it at once. No movement under reduced motion. ---- */
+
+  .smbk-toc__body {
+    interpolate-size: allow-keywords;
+    overflow: clip;
+    overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+    transition-property: block-size, display;
+    transition-duration: var(--smbk-motion-enter-duration);
+    transition-timing-function: var(--smbk-motion-enter-easing);
+    transition-behavior: allow-discrete;
+  }
+
+  .smbk-toc:not(.smbk-toc--open) .smbk-toc__body {
+    block-size: 0;
+    transition-duration: var(--smbk-motion-exit-duration);
+    transition-timing-function: var(--smbk-motion-exit-easing);
+  }
+
+  @starting-style {
+    .smbk-toc--open .smbk-toc__body {
+      block-size: 0;
+    }
+  }
+}
+
+/* ---- motion: the line slides to the current item with the state purpose, as the tabs' indicator
+   does, and the words change color with the feedback purpose. Only once the wrapper has placed the
+   line, so nothing moves as the page loads. No movement under reduced motion. ---- */
+
+.smbk-toc__item {
+  transition: color var(--smbk-motion-feedback-duration) var(--smbk-motion-feedback-easing);
+}
+
+.smbk-toc__body[data-indicator] > .smbk-toc__indicator {
+  transition-property: translate, width, height;
+  transition-duration: var(--smbk-motion-state-duration);
+  transition-timing-function: var(--smbk-motion-state-easing);
+}
+
+/* Set by the wrapper while it places the line without a slide. */
+.smbk-toc__body[data-indicator] > .smbk-toc__indicator[data-instant] {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-toc__caret,
+  .smbk-toc__body,
+  .smbk-toc__item,
+  .smbk-toc__body[data-indicator] > .smbk-toc__indicator {
+    transition: none;
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  /* Forced colors draws every row's clear line; only the current row keeps one, and is filled
+     with Highlight. The sliding line, once the wrapper has placed it, is Highlight too. */
+  .smbk-toc__item {
+    border-left-color: Canvas;
+  }
+
+  .smbk-toc .smbk-toc__item[aria-current="true"],
+  .smbk-toc__body[data-indicator] .smbk-toc__item[aria-current="true"] {
+    forced-color-adjust: none;
+    border-left-color: Highlight;
+    background: Highlight;
+    color: HighlightText;
+  }
+
+  .smbk-toc .smbk-toc__item[aria-current="true"]:focus-visible {
+    outline-color: CanvasText;
+  }
+
+  .smbk-toc__indicator {
+    border-left-color: Highlight;
+  }
+}

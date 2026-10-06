@@ -1,0 +1,189 @@
+/* smbk-theme-switch — Theme switch. Figma "ThemeSwitch" 4209:19857 and "ThemeItem" 4207:19190.
+ * The segmented control's bar with two icon-only items, drawn as the tabs' bar
+ * is: a canvas well at a control height,
+ * its items square, the smallest inset in from its edge and apart. The chosen
+ * item is raised on the raised surface, drawn by an indicator that slides
+ * between the two once the wrapper has placed it (motion rules at the end). */
+
+.smbk-theme-switch {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: stretch;
+  gap: var(--smbk-space-inset-2xs);
+  height: var(--smbk-size-control-lg);
+  /* Figma draws the edge inside the switch and lays the items over it, so the padding gives the
+     edge's width back: the large switch is 48 tall and its items 44 square. */
+  padding: calc(var(--smbk-space-inset-2xs) - var(--smbk-border-width-hairline));
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  border-radius: var(--smbk-radius-control-lg);
+  background: var(--smbk-color-surface-canvas);
+}
+
+/* Each item is square, as tall as the bar inside its inset. */
+.smbk-theme-switch__item {
+  box-sizing: border-box;
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--smbk-size-control-lg) - 2 * var(--smbk-space-inset-2xs));
+  border: var(--smbk-border-width-hairline) solid transparent;
+  border-radius: var(--smbk-radius-control-md);
+  color: var(--smbk-color-text-subtle);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Figma's ThemeItem hovers in the brand text, where the segment item takes the link hover. */
+@media (hover: hover) {
+  .smbk-theme-switch__item:hover {
+    color: var(--smbk-color-text-brand);
+  }
+}
+
+.smbk-theme-switch__control {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.smbk-theme-switch__item:has(.smbk-theme-switch__control:checked) {
+  background: var(--smbk-color-surface-raised);
+  border-color: var(--smbk-color-border-edge-highlight);
+  color: var(--smbk-color-text-default);
+  box-shadow: var(--smbk-elevation-0);
+}
+
+/* The chosen item's surface as one piece that slides between the two. The wrapper places it over
+   the chosen item and marks the bar; until then (markup written by hand, or before the page's
+   script runs) it is not drawn and the chosen item draws its own surface, which looks the same at
+   rest. It comes first in the bar, and the items are positioned, so they paint over it. */
+.smbk-theme-switch__indicator {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  border-radius: var(--smbk-radius-control-md);
+  background: var(--smbk-color-surface-raised);
+  box-shadow: var(--smbk-elevation-0);
+  pointer-events: none;
+}
+
+.smbk-theme-switch[data-indicator] > .smbk-theme-switch__indicator {
+  display: block;
+}
+
+.smbk-theme-switch[data-indicator] > .smbk-theme-switch__item:has(.smbk-theme-switch__control:checked) {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+/* Figma's focus: a ring in the focus color, one ring-width out from the item's edge. */
+.smbk-theme-switch__item:has(.smbk-theme-switch__control:focus-visible) {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+.smbk-theme-switch__item:has(.smbk-theme-switch__control:disabled) {
+  color: var(--smbk-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.smbk-theme-switch__icon {
+  font-size: var(--smbk-size-icon-lg);
+}
+
+/* ---- sizes: the bar is the large, medium or small control height. The medium keeps the large
+   icon; the small steps the icon and the corners down. ---- */
+
+.smbk-theme-switch--size-md {
+  height: var(--smbk-size-control-md);
+}
+
+.smbk-theme-switch--size-md .smbk-theme-switch__item {
+  width: calc(var(--smbk-size-control-md) - 2 * var(--smbk-space-inset-2xs));
+}
+
+.smbk-theme-switch--size-sm {
+  height: var(--smbk-size-control-sm);
+  border-radius: var(--smbk-radius-control-md);
+}
+
+.smbk-theme-switch--size-sm .smbk-theme-switch__item {
+  width: calc(var(--smbk-size-control-sm) - 2 * var(--smbk-space-inset-2xs));
+  border-radius: var(--smbk-radius-control-sm);
+}
+
+.smbk-theme-switch--size-sm > .smbk-theme-switch__indicator {
+  border-radius: var(--smbk-radius-control-sm);
+}
+
+.smbk-theme-switch--size-sm .smbk-theme-switch__icon {
+  font-size: var(--smbk-size-icon-sm);
+}
+
+/* ---- motion: the indicator slides to the chosen item with the state purpose, as a switch's thumb
+   does, and the icons change color with the feedback purpose. No movement under reduced motion. ---- */
+
+.smbk-theme-switch__item {
+  transition: color var(--smbk-motion-feedback-duration) var(--smbk-motion-feedback-easing);
+}
+
+.smbk-theme-switch[data-indicator] > .smbk-theme-switch__indicator {
+  transition-property: translate, width, height;
+  transition-duration: var(--smbk-motion-state-duration);
+  transition-timing-function: var(--smbk-motion-state-easing);
+}
+
+/* Set by the wrapper while it places the indicator without a slide. */
+.smbk-theme-switch[data-indicator] > .smbk-theme-switch__indicator[data-instant] {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-theme-switch__item,
+  .smbk-theme-switch[data-indicator] > .smbk-theme-switch__indicator {
+    transition: none;
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  .smbk-theme-switch__item:has(.smbk-theme-switch__control:checked) {
+    forced-color-adjust: none;
+    border-color: Highlight;
+    background: Highlight;
+    color: HighlightText;
+    box-shadow: none;
+  }
+
+  .smbk-theme-switch__item:has(.smbk-theme-switch__control:checked:focus-visible) {
+    outline-color: CanvasText;
+  }
+
+  .smbk-theme-switch__indicator {
+    border-color: Highlight;
+    background: Highlight;
+  }
+
+  .smbk-theme-switch__item:has(.smbk-theme-switch__control:disabled) {
+    color: GrayText;
+  }
+}

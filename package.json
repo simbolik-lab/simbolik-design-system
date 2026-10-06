@@ -1,0 +1,41 @@
+{
+  "name": "simbolik",
+  "version": "0.1.2-alpha",
+  "private": true,
+  "license": "MIT",
+  "description": "The Simbolik design system as code: design tokens, CSS components, React components and a conformance checker.",
+  "author": "simbolik (https://simbolik.ai)",
+  "homepage": "https://design.simbolik.ai/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simbolik-lab/simbolik-design-system.git"
+  },
+  "type": "module",
+  "scripts": {
+    "tokens:build": "tsx build/build.ts",
+    "tokens:validate": "tsx build/validate.ts",
+    "tokens:contrast": "tsx build/contrast.ts",
+    "css:bundle": "tsx build/bundle.ts",
+    "typecheck": "tsc --noEmit",
+    "conformance": "tsx conformance/cli.ts"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "style-dictionary": "^5.5.5",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@fontsource/funnel-display": "^5.3.0",
+    "@fontsource/geist": "^5.3.0",
+    "@fontsource/geist-mono": "^5.3.0",
+    "@phosphor-icons/web": "^2.1.2",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  }
+}

@@ -1,0 +1,54 @@
+/* smbk-banner — Banner. Figma "Banner" 4381:2200. */
+
+.smbk-banner {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-xl);
+  width: 100%;
+  min-height: var(--smbk-size-control-md);
+  padding: var(--smbk-space-inset-xs);
+  background: var(--smbk-color-surface-default);
+  /* The line along the bottom edge. Figma strokes it inside the frame, over the padding, so it takes
+     no room: drawn as an inner shadow, as the accordion draws its own, the strip stays one control tall. */
+  box-shadow: inset 0 calc(-1 * var(--smbk-border-width-hairline)) 0 var(--smbk-color-border-subtle);
+  color: var(--smbk-color-text-subtle);
+}
+
+/* The message and the link, centered in the room the dismiss control leaves. A
+   message too long for one line wraps, centered, and the link follows it or
+   drops beneath it. Figma draws one line only; the padding here shows only
+   once the text wraps, so the lines never touch the strip's edges. */
+.smbk-banner__content {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  column-gap: var(--smbk-space-inline-xl);
+  row-gap: var(--smbk-space-stack-xs);
+  min-width: 0;
+  padding-block: var(--smbk-space-inset-xs);
+  text-align: center;
+}
+
+.smbk-banner__message {
+  margin: 0;
+  font-family: var(--smbk-typography-body-s-font-family);
+  font-size: var(--smbk-typography-body-s-font-size);
+  font-weight: var(--smbk-typography-body-s-font-weight);
+  line-height: var(--smbk-typography-body-s-line-height);
+  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
+  text-box: trim-both cap alphabetic;
+}
+
+.smbk-banner__dismiss {
+  flex-shrink: 0;
+}
+
+/* ---- feedback tones: subtle surface, their border color on the line beneath, their text ---- */
+
+.smbk-banner--tone-info { background: var(--smbk-color-feedback-info-surface-subtle); box-shadow: inset 0 calc(-1 * var(--smbk-border-width-hairline)) 0 var(--smbk-color-feedback-info-border); color: var(--smbk-color-feedback-info-text-on-subtle); }
+.smbk-banner--tone-success { background: var(--smbk-color-feedback-success-surface-subtle); box-shadow: inset 0 calc(-1 * var(--smbk-border-width-hairline)) 0 var(--smbk-color-feedback-success-border); color: var(--smbk-color-feedback-success-text-on-subtle); }
+.smbk-banner--tone-warning { background: var(--smbk-color-feedback-warning-surface-subtle); box-shadow: inset 0 calc(-1 * var(--smbk-border-width-hairline)) 0 var(--smbk-color-feedback-warning-border); color: var(--smbk-color-feedback-warning-text-on-subtle); }
+.smbk-banner--tone-danger { background: var(--smbk-color-feedback-danger-surface-subtle); box-shadow: inset 0 calc(-1 * var(--smbk-border-width-hairline)) 0 var(--smbk-color-feedback-danger-border); color: var(--smbk-color-feedback-danger-text-on-subtle); }

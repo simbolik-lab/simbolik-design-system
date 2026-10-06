@@ -1,0 +1,142 @@
+/* smbk-input — Input. Figma "Input" 4212:26450.
+ * The block is the well; the native control sits inside it with no chrome of
+ * its own, so that icons and the control share one border, one focus ring.
+ * The search field and the select are built on this well: their markup
+ * carries smbk-input, so every change here reaches them too. The select's
+ * well is itself the control, a button, which the focus and disabled rules
+ * below also cover. */
+
+.smbk-input {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+  width: 100%;
+  height: var(--smbk-size-control-md);
+  padding: 0 var(--smbk-space-inline-lg);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  border-radius: var(--smbk-radius-control-md);
+  background: var(--smbk-color-surface-sunken);
+  color: var(--smbk-color-text-default);
+  box-shadow: var(--smbk-elevation-inset-2);
+  font-family: var(--smbk-typography-body-m-font-family);
+  font-size: var(--smbk-typography-body-m-font-size);
+  font-weight: var(--smbk-typography-body-m-font-weight);
+  line-height: var(--smbk-typography-body-m-line-height);
+  letter-spacing: var(--smbk-typography-body-m-letter-spacing);
+  text-box: trim-both cap alphabetic;
+  cursor: text;
+}
+
+/* Hover lifts the well onto the raised surface; the edge highlight stays. */
+@media (hover: hover) {
+  .smbk-input:hover {
+    background: var(--smbk-color-surface-raised);
+    box-shadow: var(--smbk-elevation-0);
+  }
+}
+
+.smbk-input:focus-within {
+  background: var(--smbk-color-surface-sunken);
+  border-color: var(--smbk-color-border-focus-field);
+  box-shadow: var(--smbk-elevation-inset-2);
+}
+
+/* Field focus is the border alone; a well that is itself the control draws no ring. */
+.smbk-input:focus-visible {
+  outline: none;
+}
+
+.smbk-input--error {
+  border-color: var(--smbk-color-feedback-danger-border);
+}
+
+@media (hover: hover) {
+  .smbk-input--error:hover {
+    border-color: var(--smbk-color-feedback-danger-border);
+  }
+}
+
+.smbk-input:has(.smbk-input__control:disabled),
+.smbk-input:disabled {
+  border-color: transparent;
+  background: var(--smbk-color-surface-default-disabled);
+  color: var(--smbk-color-text-disabled);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.smbk-input__control {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  outline: none;
+}
+
+.smbk-input__control::placeholder {
+  color: var(--smbk-color-text-subtlest);
+  opacity: 1;
+}
+
+.smbk-input__control:disabled {
+  color: var(--smbk-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.smbk-input__icon {
+  color: var(--smbk-color-text-subtlest);
+  font-size: var(--smbk-size-icon-md);
+}
+
+.smbk-input:has(.smbk-input__control:disabled) .smbk-input__icon {
+  color: var(--smbk-color-text-disabled);
+}
+
+/* Figma draws the trailing icon one step smaller than the leading one. */
+.smbk-input__icon:last-child {
+  font-size: var(--smbk-size-icon-sm);
+}
+
+/* ---- small ---- */
+
+.smbk-input--size-small {
+  height: var(--smbk-size-control-sm);
+  padding: 0 var(--smbk-space-inline-md);
+  border-radius: var(--smbk-radius-control-sm);
+  font-family: var(--smbk-typography-body-s-font-family);
+  font-size: var(--smbk-typography-body-s-font-size);
+  font-weight: var(--smbk-typography-body-s-font-weight);
+  line-height: var(--smbk-typography-body-s-line-height);
+  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
+  text-box: trim-both cap alphabetic;
+}
+
+.smbk-input--size-small .smbk-input__icon {
+  font-size: var(--smbk-size-icon-sm);
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  /* Field focus is the edge alone, as everywhere: here the edge turns Highlight and thickens by a
+     focus ring's width, since a hairline color change does not show in forced colors. */
+  .smbk-input:focus-within {
+    border-color: Highlight;
+    outline: var(--smbk-focus-ring-width) solid Highlight;
+    outline-offset: 0;
+  }
+
+  .smbk-input:has(.smbk-input__control:disabled),
+  .smbk-input:disabled,
+  .smbk-input__control:disabled {
+    border-color: GrayText;
+    color: GrayText;
+  }
+}

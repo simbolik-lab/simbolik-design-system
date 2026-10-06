@@ -1,0 +1,96 @@
+/* smbk-alert — Alert. Figma "Alert" 4139:6031. */
+
+.smbk-alert {
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--smbk-space-inline-lg);
+  width: 100%;
+  padding: var(--smbk-space-inset-xl);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  border-radius: var(--smbk-radius-control-lg);
+  background: var(--smbk-color-surface-default);
+  color: var(--smbk-color-text-default);
+}
+
+.smbk-alert__icon {
+  flex-shrink: 0;
+  font-size: var(--smbk-size-icon-md);
+}
+
+.smbk-alert__body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--smbk-space-inset-lg);
+  min-width: 0;
+  padding: var(--smbk-space-inset-xs) 0;
+}
+
+.smbk-alert__title {
+  margin: 0;
+  font-family: var(--smbk-typography-body-m-medium-font-family);
+  font-size: var(--smbk-typography-body-m-medium-font-size);
+  font-weight: var(--smbk-typography-body-m-medium-font-weight);
+  line-height: var(--smbk-typography-body-m-medium-line-height);
+  letter-spacing: var(--smbk-typography-body-m-medium-letter-spacing);
+  text-box: trim-both cap alphabetic;
+}
+
+.smbk-alert__description {
+  margin: 0;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-s-font-family);
+  font-size: var(--smbk-typography-body-s-font-size);
+  font-weight: var(--smbk-typography-body-s-font-weight);
+  line-height: var(--smbk-typography-body-s-line-height);
+  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
+  text-box: trim-both cap alphabetic;
+}
+
+.smbk-alert__action {
+  flex-shrink: 0;
+}
+
+.smbk-alert__dismiss {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-size: var(--smbk-size-icon-md);
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.smbk-alert__dismiss:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+  border-radius: var(--smbk-radius-full);
+}
+
+/* ---- feedback tones: subtle surface, matching border and text; smaller icon ---- */
+
+.smbk-alert--tone-info,
+.smbk-alert--tone-success,
+.smbk-alert--tone-warning,
+.smbk-alert--tone-danger {
+  gap: var(--smbk-space-inset-lg);
+}
+
+.smbk-alert--tone-info .smbk-alert__icon,
+.smbk-alert--tone-success .smbk-alert__icon,
+.smbk-alert--tone-warning .smbk-alert__icon,
+.smbk-alert--tone-danger .smbk-alert__icon {
+  font-size: var(--smbk-size-icon-sm);
+}
+
+.smbk-alert--tone-info { background: var(--smbk-color-feedback-info-surface-subtle); border-color: var(--smbk-color-feedback-info-border); color: var(--smbk-color-feedback-info-text-on-subtle); }
+.smbk-alert--tone-success { background: var(--smbk-color-feedback-success-surface-subtle); border-color: var(--smbk-color-feedback-success-border); color: var(--smbk-color-feedback-success-text-on-subtle); }
+.smbk-alert--tone-warning { background: var(--smbk-color-feedback-warning-surface-subtle); border-color: var(--smbk-color-feedback-warning-border); color: var(--smbk-color-feedback-warning-text-on-subtle); }
+.smbk-alert--tone-danger { background: var(--smbk-color-feedback-danger-surface-subtle); border-color: var(--smbk-color-feedback-danger-border); color: var(--smbk-color-feedback-danger-text-on-subtle); }

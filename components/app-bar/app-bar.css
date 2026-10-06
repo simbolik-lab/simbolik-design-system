@@ -1,0 +1,244 @@
+/* smbk-app-bar — App bar. Figma "App bar" 4239:28857 (Desktop; Mobile Default and Expanded).
+ * The top bar of an application: brand, navigation links, then at the end the
+ * search field, action buttons, the theme switch and the user. In a narrow
+ * space the links, search and actions give way to a search button and a menu
+ * button, and the menu button opens a stacked list under the bar. Which form
+ * shows is the layout switch, never a width written here. */
+
+.smbk-app-bar {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  border-radius: var(--smbk-radius-control-lg);
+  background: var(--smbk-color-surface-default);
+  color: var(--smbk-color-text-default);
+  box-shadow: var(--smbk-elevation-1);
+}
+
+/* Background off: no fill, edge or shadow; the bar sits on the page. The open narrow menu keeps
+   the surface, because its links stack over the page below. */
+.smbk-app-bar--background-off:not(.smbk-app-bar--expanded) {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Figma draws the bar's edge inside it (56 tall with a medium control between two medium insets),
+   so each padding here gives the edge's width back; the same in the narrow bar and its menu. */
+.smbk-app-bar__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--smbk-space-inline-md);
+  padding: calc(var(--smbk-space-inset-md) - var(--smbk-border-width-hairline));
+}
+
+.smbk-app-bar__brand {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: inherit;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.smbk-app-bar__brand:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+  border-radius: var(--smbk-radius-control-xs);
+}
+
+.smbk-app-bar__logo {
+  height: var(--smbk-size-icon-xl);
+  width: auto;
+}
+
+/* Figma draws the mark alone a step smaller in the narrow bar (its sizes are not bound to variables). */
+@container style(--smbk-layout: narrow) {
+  .smbk-app-bar__logo {
+    height: var(--smbk-size-icon-lg);
+  }
+}
+
+/* The links: large navigation items with their icons, in a row. */
+.smbk-app-bar__nav {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-xs);
+  flex-shrink: 0;
+}
+
+/* Links at the end: the free room goes before them instead of on either side, so they sit
+   against the end group, the bar's own gap apart. */
+.smbk-app-bar--links-end .smbk-app-bar__nav {
+  margin-inline-start: auto;
+}
+
+/* Everything after the links. When space runs short, the search field is what gives. */
+.smbk-app-bar__end {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-md);
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.smbk-app-bar__search {
+  flex: 0 1 auto;
+  width: var(--smbk-size-search-width);
+  min-width: 0;
+}
+
+.smbk-app-bar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-md);
+  flex-shrink: 0;
+}
+
+.smbk-app-bar__end > :not(.smbk-app-bar__search) {
+  flex-shrink: 0;
+}
+
+.smbk-app-bar__divider {
+  height: var(--smbk-size-control-md);
+}
+
+/* The open menu, as Figma's expanded mobile app bar draws it: the
+   dividers, the links and the theme switch all stop the large inset short of
+   the sides; the links the medium stack apart and from the dividers; the theme
+   switch the large inset below the last divider and above the menu's foot. */
+.smbk-app-bar__menu {
+  display: none;
+  flex-direction: column;
+  padding: 0 calc(var(--smbk-space-inset-xl) - var(--smbk-border-width-hairline));
+}
+
+.smbk-app-bar__menu nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+  padding-top: var(--smbk-space-stack-md);
+}
+
+.smbk-app-bar__menu nav:not(:last-child) {
+  padding-bottom: var(--smbk-space-stack-md);
+}
+
+.smbk-app-bar__menu-end {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: var(--smbk-space-inset-xl);
+}
+
+/* ---- the two forms. Wide shows the links, search, actions, theme and divider in the bar;
+   narrow shows the search and menu buttons and stacks the rest under the bar.
+   The selectors carry the block so they outweigh the display rule of the
+   button or logo they hide, whichever stylesheet comes later. ---- */
+
+.smbk-app-bar .smbk-app-bar__narrow-only {
+  display: none;
+}
+
+/* Logo off: the wide bar starts with its links and keeps its end group at the end, even with no
+   links. The narrow bar keeps its logo, as Figma binds the Logo boolean in the Desktop variants only. */
+.smbk-app-bar--logo-off .smbk-app-bar__brand {
+  display: none;
+}
+
+.smbk-app-bar--logo-off .smbk-app-bar__end {
+  margin-inline-start: auto;
+}
+
+@container style(--smbk-layout: narrow) {
+  .smbk-app-bar--logo-off .smbk-app-bar__brand {
+    display: inline-flex;
+  }
+}
+
+/* The narrow bar as Figma draws it: the medium inset above, below
+   and at the end, the large one at the start. The menu button's own padding
+   brings its icon level with the logo's inset from the other edge. */
+@container style(--smbk-layout: narrow) {
+  .smbk-app-bar__bar {
+    padding: calc(var(--smbk-space-inset-md) - var(--smbk-border-width-hairline)) calc(var(--smbk-space-inset-md) - var(--smbk-border-width-hairline)) calc(var(--smbk-space-inset-md) - var(--smbk-border-width-hairline)) calc(var(--smbk-space-inset-xl) - var(--smbk-border-width-hairline));
+  }
+
+  .smbk-app-bar .smbk-app-bar__wide-only {
+    display: none;
+  }
+
+  .smbk-app-bar .smbk-app-bar__narrow-only {
+    display: inline-flex;
+  }
+
+  .smbk-app-bar--expanded .smbk-app-bar__menu {
+    display: flex;
+    block-size: auto;
+    padding-bottom: calc(var(--smbk-space-inset-xl) - var(--smbk-border-width-hairline));
+    transition-duration: var(--smbk-motion-enter-duration);
+    transition-timing-function: var(--smbk-motion-enter-easing);
+  }
+}
+
+/* ---- hide on scroll: in a narrow space, a bar with the flag on stays at the top of the window, the
+   medium inset from its edge (the room a page leaves around its bar), over the page as it scrolls under it.
+   The wrapper marks it scrolled away while the reader scrolls down: it slides up past the window's edge,
+   by the gap above it and a large inset more so its shadow goes too, with the exit motion, and comes back
+   with the enter motion. It sticks inside the element around it, so that element must run the page's
+   length. At once under reduced motion. A wide space, where the page scrolls an inner area, keeps the
+   bar as it is. ---- */
+
+@container style(--smbk-layout: narrow) {
+  .smbk-app-bar--hide-on-scroll {
+    position: sticky;
+    top: var(--smbk-space-inset-md);
+    z-index: var(--smbk-layer-sticky);
+    transition: translate var(--smbk-motion-enter-duration) var(--smbk-motion-enter-easing);
+  }
+
+  .smbk-app-bar--hide-on-scroll.smbk-app-bar--scrolled-away {
+    translate: 0 calc(-100% - var(--smbk-space-inset-md) - var(--smbk-space-inset-lg));
+    transition-duration: var(--smbk-motion-exit-duration);
+    transition-timing-function: var(--smbk-motion-exit-easing);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-app-bar--hide-on-scroll {
+    transition: none;
+  }
+}
+
+/* ---- motion: in a narrow space the menu grows from no height to its own under the bar with the
+   enter purpose, and shrinks back with the exit purpose. Its display changes at the end of the
+   exit, so it stays drawn while it closes. It is clipped while it moves, to a focus ring's reach.
+   A browser that cannot animate to a natural height opens it at once. No movement under
+   reduced motion. ---- */
+
+.smbk-app-bar__menu {
+  interpolate-size: allow-keywords;
+  block-size: 0;
+  overflow: clip;
+  overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+  transition-property: block-size, padding-bottom, display;
+  transition-duration: var(--smbk-motion-exit-duration);
+  transition-timing-function: var(--smbk-motion-exit-easing);
+  transition-behavior: allow-discrete;
+}
+
+@starting-style {
+  .smbk-app-bar--expanded .smbk-app-bar__menu {
+    block-size: 0;
+    padding-bottom: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-app-bar__menu {
+    transition: none;
+  }
+}

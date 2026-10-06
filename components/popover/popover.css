@@ -1,0 +1,192 @@
+/* smbk-popover — Popover. Figma "Popover" 4804:65705, over "PopoverHeader"
+ * 4804:65619, "PopoverBody" 4804:65655 and "PopoverFooter" 4803:65513.
+ * A raised panel in three sections spaced by the large stack step: a header
+ * (an optional icon, the title, an optional description, an optional close
+ * button and an optional divider), a body of text or a field, and a footer
+ * (a divider, then buttons at the end or a line of helper text). The width is
+ * the popover width token, carried from Figma's frame, and never more than the
+ * room it is given.
+ * With an opener, the anchor holds the opener and the panel, and the panel
+ * hangs under the opener as the dropdown's does, the same gap away. */
+
+.smbk-popover {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-lg);
+  width: var(--smbk-size-popover-width);
+  max-width: 100%;
+  margin: 0;
+  padding: var(--smbk-space-inset-xl);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  border-radius: var(--smbk-radius-control-lg);
+  background: var(--smbk-color-surface-raised);
+  color: var(--smbk-color-text-default);
+  box-shadow: var(--smbk-elevation-3);
+  text-align: start;
+}
+
+/* ---- header ---- */
+
+.smbk-popover__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+}
+
+.smbk-popover__heading {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--smbk-space-inline-md);
+}
+
+/* The words keep clear of the close button, which sits over the corner (below). */
+.smbk-popover__heading:has(.smbk-popover__close) {
+  padding-inline-end: calc(var(--smbk-size-control-sm) - (var(--smbk-space-inset-xl) - var(--smbk-space-inset-sm)) + var(--smbk-space-inline-md));
+}
+
+/* As tall as the title's row, so the two line up. */
+.smbk-popover__icon {
+  flex-shrink: 0;
+  color: var(--smbk-color-text-subtle);
+  font-size: var(--smbk-size-icon-sm);
+}
+
+.smbk-popover__titles {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+  min-width: 0;
+}
+
+/* A block, so the trim reaches its words; the padding makes the row as tall as
+   Figma's title box, with the cap height centered in it. */
+.smbk-popover__title {
+  display: block;
+  margin: 0;
+  padding-block: calc((var(--smbk-size-display-sm) - 1cap) / 2);
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-body-s-semibold-font-family);
+  font-size: var(--smbk-typography-body-s-semibold-font-size);
+  font-weight: var(--smbk-typography-body-s-semibold-font-weight);
+  line-height: var(--smbk-typography-body-s-semibold-line-height);
+  letter-spacing: var(--smbk-typography-body-s-semibold-letter-spacing);
+  text-box: trim-both cap alphabetic;
+}
+
+.smbk-popover__description {
+  margin: 0;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-s-font-family);
+  font-size: var(--smbk-typography-body-s-font-size);
+  font-weight: var(--smbk-typography-body-s-font-weight);
+  line-height: var(--smbk-typography-body-s-line-height);
+  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
+  text-box: trim-both cap alphabetic;
+}
+
+/* Figma places the close button in the panel's corner, the small inset from
+   its top and end edges, over the padding rather than in the row. */
+.smbk-popover__close {
+  position: absolute;
+  top: var(--smbk-space-inset-sm);
+  inset-inline-end: var(--smbk-space-inset-sm);
+}
+
+.smbk-popover__divider {
+  margin: 0;
+}
+
+/* ---- body: a few lines in the description's look, a field, or both ---- */
+
+.smbk-popover__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+}
+
+/* ---- footer: a divider, then actions at the end or helper text ---- */
+
+.smbk-popover__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--smbk-space-stack-md);
+}
+
+.smbk-popover__footer > .smbk-popover__divider,
+.smbk-popover__helper {
+  align-self: stretch;
+}
+
+.smbk-popover__helper {
+  margin: 0;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-t-font-family);
+  font-size: var(--smbk-typography-body-t-font-size);
+  font-weight: var(--smbk-typography-body-t-font-weight);
+  line-height: var(--smbk-typography-body-t-line-height);
+  letter-spacing: var(--smbk-typography-body-t-letter-spacing);
+  text-box: trim-both cap alphabetic;
+}
+
+/* ---- the opener: the anchor holds the opener and the panel hanging under it ---- */
+
+.smbk-popover__anchor {
+  position: relative;
+  display: inline-flex;
+}
+
+/* Hanging from its opener, the panel is never wider than the window less the extra-large inset on either side,
+   so on the narrowest phones it narrows rather than make the page scroll sideways. */
+.smbk-popover__anchor > .smbk-popover {
+  position: absolute;
+  top: calc(100% + var(--smbk-space-stack-xs));
+  left: 0;
+  z-index: var(--smbk-layer-overlay);
+  max-width: calc(100vw - 2 * var(--smbk-space-inset-xl));
+}
+
+.smbk-popover__anchor > .smbk-popover--align-end {
+  right: 0;
+  left: auto;
+}
+
+/* A closed panel. The panel's own display would otherwise outweigh the hidden attribute. */
+.smbk-popover[hidden] {
+  display: none;
+}
+
+/* ---- motion: as the dropdown's panel, it drops from its opener across the gap and fades in
+   with the enter purpose, and goes back the same way with the exit purpose. Its display
+   changes at the end of the exit, so it stays drawn while it leaves. No movement under
+   reduced motion. ---- */
+
+.smbk-popover {
+  transition-property: opacity, translate, display;
+  transition-duration: var(--smbk-motion-enter-duration);
+  transition-timing-function: var(--smbk-motion-enter-easing);
+  transition-behavior: allow-discrete;
+}
+
+.smbk-popover[hidden] {
+  opacity: 0;
+  translate: 0 calc(-1 * var(--smbk-space-stack-xs));
+  transition-duration: var(--smbk-motion-exit-duration);
+  transition-timing-function: var(--smbk-motion-exit-easing);
+}
+
+@starting-style {
+  .smbk-popover {
+    opacity: 0;
+    translate: 0 calc(-1 * var(--smbk-space-stack-xs));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-popover {
+    transition: none;
+  }
+}

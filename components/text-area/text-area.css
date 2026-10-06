@@ -1,0 +1,69 @@
+/* smbk-text-area — Text area. Figma "TextArea" 4800:64744.
+ * Built on the input: the block always sits on an smbk-input well and the
+ * textarea is the input's control, so the well's chrome and its hover, focus,
+ * error and disabled looks are the input's own and follow any change to it.
+ * Figma binds the same fills, borders and shadows in every state. This
+ * stylesheet adds only what several lines need: the well grows with the
+ * control instead of keeping the control height, the text is the small body
+ * preset, and a grip at the corner shows the box can be made taller. */
+
+.smbk-input.smbk-text-area {
+  position: relative;
+  align-items: stretch;
+  height: auto;
+  padding: 0;
+  font-family: var(--smbk-typography-body-s-font-family);
+  font-size: var(--smbk-typography-body-s-font-size);
+  font-weight: var(--smbk-typography-body-s-font-weight);
+  line-height: var(--smbk-typography-body-s-line-height);
+  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
+}
+
+/* The padding is on the control, so the browser's own resize handle sits in
+   the well's corner. A textarea's lines cannot be trimmed to the cap height,
+   so the block padding gives back the space above and below the capitals,
+   putting the first line's capitals where Figma's trimmed text sits. Three
+   rows at that padding are the height Figma draws. */
+.smbk-text-area__control {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  min-height: calc(1lh + 2 * var(--smbk-space-inset-lg) - (1lh - 1cap));
+  margin: 0;
+  padding: calc(var(--smbk-space-inset-lg) - (1lh - 1cap) / 2) var(--smbk-space-inline-lg);
+  resize: vertical;
+  /* The system's scrollbar: thin, in the subtle border color, on a clear track. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--smbk-color-border-subtle) transparent;
+}
+
+.smbk-text-area__control:disabled {
+  resize: none;
+}
+
+/* Figma's grip, the notches icon, a hairline step in from the corner. It only
+   draws: the browser's resize handle underneath takes the pointer. Where the
+   browser cannot hide its own handle (Firefox), its own handle shows instead. */
+.smbk-text-area__grip {
+  display: none;
+  position: absolute;
+  inset-block-end: var(--smbk-space-inset-xs);
+  inset-inline-end: var(--smbk-space-inset-xs);
+  color: var(--smbk-color-text-subtlest);
+  font-size: var(--smbk-size-icon-xs);
+  pointer-events: none;
+}
+
+@supports selector(::-webkit-resizer) {
+  .smbk-text-area__control::-webkit-resizer {
+    background: transparent;
+  }
+
+  .smbk-text-area__grip {
+    display: block;
+  }
+}
+
+.smbk-text-area:has(.smbk-input__control:disabled) .smbk-text-area__grip {
+  color: var(--smbk-color-text-disabled);
+}

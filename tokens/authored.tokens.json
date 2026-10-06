@@ -1,0 +1,461 @@
+{
+ "$description": "Tokens the system needs that Figma has no place to hold. Authored here so that a design value still lives in exactly one place. The normalization of a Figma export never touches this file.",
+ "layer": {
+  "$type": "number",
+  "$description": "Stacking order: the named layer a component occupies when things overlap. Each layer is named for what it holds.",
+  "base": {
+   "$value": 0
+  },
+  "raised": {
+   "$value": 1000
+  },
+  "sticky": {
+   "$value": 1100
+  },
+  "overlay": {
+   "$value": 1200
+  },
+  "modal": {
+   "$value": 1300
+  },
+  "critical": {
+   "$value": 1400
+  }
+ },
+ "size": {
+  "sidebar": {
+   "width": {
+    "$type": "dimension",
+    "$value": {
+     "value": 280,
+     "unit": "px"
+    },
+    "$description": "Width of the expanded sidebar. Not a step on any primitive scale."
+   }
+  },
+  "modal": {
+   "$description": "The greatest width of a modal at each size. Fixed frame widths in Figma with no variable behind them; they should become variables.",
+   "sm": {
+    "$type": "dimension",
+    "$value": {
+     "value": 400,
+     "unit": "px"
+    }
+   },
+   "md": {
+    "$type": "dimension",
+    "$value": {
+     "value": 560,
+     "unit": "px"
+    }
+   },
+   "lg": {
+    "$type": "dimension",
+    "$value": {
+     "value": 800,
+     "unit": "px"
+    }
+   }
+  },
+  "drawer": {
+   "width": {
+    "$type": "dimension",
+    "$value": {
+     "value": 384,
+     "unit": "px"
+    },
+    "$description": "Width of a drawer from the left or right edge. A fixed frame width in Figma with no variable behind it; it should become one."
+   }
+  },
+  "dropdown": {
+   "width": {
+    "$type": "dimension",
+    "$value": {
+     "value": 240,
+     "unit": "px"
+    },
+    "$description": "Width of the dropdown menu panel. A fixed frame width in Figma with no variable behind it; it should become one."
+   }
+  },
+  "command-palette": {
+   "width": {
+    "$type": "dimension",
+    "$value": {
+     "value": 640,
+     "unit": "px"
+    },
+    "$description": "Width of the command palette. A fixed frame width in Figma with no variable behind it; it should become one."
+   }
+  },
+  "search": {
+   "width": {
+    "$type": "dimension",
+    "$value": {
+     "value": 320,
+     "unit": "px"
+    },
+    "$description": "Width of the search field in the wide app bar. A fixed frame width in Figma with no variable behind it; it should become one."
+   }
+  },
+  "preview": {
+   "narrow": {
+    "$type": "dimension",
+    "$value": {
+     "value": 360,
+     "unit": "px"
+    },
+    "$description": "Width of Figma's phone frames, used for the narrow previews of components that reflow. Not a viewport step; the steps in the size foundation are the layout breakpoints."
+   }
+  },
+  "table-of-contents": {
+   "width": {
+    "$type": "dimension",
+    "$value": {
+     "value": 240,
+     "unit": "px"
+    },
+    "$description": "Width of the table of contents card. A fixed frame width in Figma with no variable behind it."
+   }
+  },
+  "popover": {
+   "width": {
+    "$type": "dimension",
+    "$value": {
+     "value": 320,
+     "unit": "px"
+    },
+    "$description": "Width of the popover panel. A fixed frame width in Figma with no variable behind it; it should become one."
+   }
+  }
+ },
+ "breakpoint": {
+  "text-size": {
+   "$type": "dimension",
+   "$value": "{size.viewport.768}",
+   "$description": "The viewport width at and above which the text size context switches from min to max. Aliases an existing viewport step rather than introducing a new measurement."
+  },
+  "layout": {
+   "$type": "dimension",
+   "$value": "{size.viewport.768}",
+   "$description": "The viewport width at and above which the page counts as wide for layout. Below it, components that reflow for narrow spaces take their narrow form. Aliases the same viewport step as the text-size switch, so the two change together."
+  },
+  "side-columns": {
+   "$type": "dimension",
+   "$value": "{size.viewport.1280}",
+   "$description": "The viewport width at and above which a documentation page has room for a column on each side of its content: the sidebar on one side, the table of contents on the other. Between the layout switch and this width the page keeps one side column: the table of contents moves into the page and the sidebar starts as its column of icons. Aliases an existing viewport step rather than introducing a new measurement."
+  }
+ },
+ "font": {
+  "weight": {
+   "bold": {
+    "$type": "fontWeight",
+    "$value": 700,
+    "$description": "Figma's primitives stop at semibold, but its components set titles and button labels in Geist Bold. It lives here rather than in Figma."
+   }
+  }
+ },
+ "typography": {
+  "$description": "Weight variants of the Figma text styles. Figma has no text style for them; its components apply the weight as an override on top of the regular style. They live here, not in Figma.",
+  "body-l-bold": {
+   "$type": "typography",
+   "$value": {
+    "fontFamily": "{font.family.body}",
+    "fontWeight": "{font.weight.bold}",
+    "fontSize": "{text.body-lg}",
+    "lineHeight": 1.4,
+    "letterSpacing": {
+     "value": 0,
+     "unit": "px"
+    }
+   },
+   "$description": "Body L in bold: drawer and modal titles."
+  },
+  "body-m-bold": {
+   "$type": "typography",
+   "$value": {
+    "fontFamily": "{font.family.body}",
+    "fontWeight": "{font.weight.bold}",
+    "fontSize": "{text.body-md}",
+    "lineHeight": 1.4,
+    "letterSpacing": {
+     "value": 0,
+     "unit": "px"
+    }
+   },
+   "$description": "Body M in bold. Kept for the sites built on the system; the system's own components use semibold for button labels."
+  },
+  "body-s-bold": {
+   "$type": "typography",
+   "$value": {
+    "fontFamily": "{font.family.body}",
+    "fontWeight": "{font.weight.bold}",
+    "fontSize": "{text.body-sm}",
+    "lineHeight": 1.4,
+    "letterSpacing": "{font.letter-spacing.none}"
+   },
+   "$description": "Body S in bold. Kept for the sites built on the system; the system's own components use semibold for small button labels."
+  },
+  "body-m-medium": {
+   "$type": "typography",
+   "$value": {
+    "fontFamily": "{font.family.body}",
+    "fontWeight": "{font.weight.medium}",
+    "fontSize": "{text.body-md}",
+    "lineHeight": 1.4,
+    "letterSpacing": {
+     "value": 0,
+     "unit": "px"
+    }
+   },
+   "$description": "Body M in medium: alert and toast titles, card footer titles, avatar initials."
+  },
+  "body-m-semibold": {
+   "$type": "typography",
+   "$value": {
+    "fontFamily": "{font.family.body}",
+    "fontWeight": "{font.weight.semibold}",
+    "fontSize": "{text.body-md}",
+    "lineHeight": 1.4,
+    "letterSpacing": {
+     "value": 0,
+     "unit": "px"
+    }
+   },
+   "$description": "Body M in semibold: button labels."
+  },
+  "body-s-semibold": {
+   "$type": "typography",
+   "$value": {
+    "fontFamily": "{font.family.body}",
+    "fontWeight": "{font.weight.semibold}",
+    "fontSize": "{text.body-sm}",
+    "lineHeight": 1.4,
+    "letterSpacing": "{font.letter-spacing.none}"
+   },
+   "$description": "Body S in semibold: small button labels."
+  },
+  "body-l-light": {
+   "$type": "typography",
+   "$value": {
+    "fontFamily": "{font.family.body}",
+    "fontWeight": "{font.weight.light}",
+    "fontSize": "{text.body-lg}",
+    "lineHeight": 1.4,
+    "letterSpacing": {
+     "value": 0,
+     "unit": "px"
+    }
+   },
+   "$description": "Body L in light: a section's or an opener's lede, where Figma sets Geist Light."
+  },
+  "h4-light": {
+   "$type": "typography",
+   "$value": {
+    "fontFamily": "{font.family.display}",
+    "fontWeight": "{font.weight.light}",
+    "fontSize": "{text.heading-sm}",
+    "lineHeight": 1.2,
+    "letterSpacing": "{font.letter-spacing.none}"
+   },
+   "$description": "H4 in light: the titles of named points, such as a list of principles."
+  }
+ },
+ "duration": {
+  "$type": "duration",
+  "$description": "Raw durations, named by their length in milliseconds. Figma has no motion design, so they are authored here. Components never read these; they read a motion purpose.",
+  "80": {
+   "$value": {
+    "value": 80,
+    "unit": "ms"
+   }
+  },
+  "150": {
+   "$value": {
+    "value": 150,
+    "unit": "ms"
+   }
+  },
+  "200": {
+   "$value": {
+    "value": 200,
+    "unit": "ms"
+   }
+  },
+  "320": {
+   "$value": {
+    "value": 320,
+    "unit": "ms"
+   }
+  },
+  "1000": {
+   "$value": {
+    "value": 1000,
+    "unit": "ms"
+   }
+  },
+  "1600": {
+   "$value": {
+    "value": 1600,
+    "unit": "ms"
+   }
+  },
+  "2400": {
+   "$value": {
+    "value": 2400,
+    "unit": "ms"
+   }
+  },
+  "22000": {
+   "$value": {
+    "value": 22000,
+    "unit": "ms"
+   }
+  }
+ },
+ "easing": {
+  "$type": "cubicBezier",
+  "$description": "Raw easing curves, named by the curve they are: deceleration and acceleration only, no bounce and no overshoot. Components never read these; they read a motion purpose.",
+  "expo-out": {
+   "$value": [
+    0.16,
+    1,
+    0.3,
+    1
+   ],
+   "$description": "Fast start, long gentle stop."
+  },
+  "expo-in": {
+   "$value": [
+    0.7,
+    0,
+    0.84,
+    0
+   ],
+   "$description": "Slow start, quick finish."
+  },
+  "cubic-in-out": {
+   "$value": [
+    0.65,
+    0,
+    0.35,
+    1
+   ],
+   "$description": "Eases in and out symmetrically."
+  }
+ },
+ "motion": {
+  "$description": "Motion by purpose (motion.{purpose}.{property}): timing is chosen by purpose, not taste. Each purpose pairs a duration with an easing. Under reduced motion every component drops its movement; these values then go unused.",
+  "feedback": {
+   "$description": "Confirming a pointer or focus change: a color shift on hover, a tooltip appearing.",
+   "duration": {
+    "$type": "duration",
+    "$value": "{duration.150}"
+   },
+   "easing": {
+    "$type": "cubicBezier",
+    "$value": "{easing.expo-out}"
+   }
+  },
+  "state": {
+   "$description": "A control changing state in place and able to change back: a switch thumb sliding, a caret turning, a progress bar growing.",
+   "duration": {
+    "$type": "duration",
+    "$value": "{duration.200}"
+   },
+   "easing": {
+    "$type": "cubicBezier",
+    "$value": "{easing.cubic-in-out}"
+   }
+  },
+  "enter": {
+   "$description": "Something arriving or opening: a drawer sliding in, a modal or menu appearing, an accordion opening.",
+   "duration": {
+    "$type": "duration",
+    "$value": "{duration.320}"
+   },
+   "easing": {
+    "$type": "cubicBezier",
+    "$value": "{easing.expo-out}"
+   }
+  },
+  "exit": {
+   "$description": "Something leaving or closing. Shorter than entering, and accelerating away, so a dismissal never holds the reader up.",
+   "duration": {
+    "$type": "duration",
+    "$value": "{duration.200}"
+   },
+   "easing": {
+    "$type": "cubicBezier",
+    "$value": "{easing.expo-in}"
+   }
+  },
+  "stagger": {
+   "$description": "Items entering one after another.",
+   "delay": {
+    "$type": "duration",
+    "$value": "{duration.80}",
+    "$description": "The delay added per item in a sequence. Keep a sequence short enough that the last item starts within half a second."
+   }
+  },
+  "hover": {
+   "$description": "A panel that opens while a mouse rests on its opener (a site header's menus): how long the pointer must rest before it opens, so a pointer passing over does not open it, and how long it may be gone before it closes, so it can cross from the opener into the panel. Touch and keyboard never wait; they open on a press.",
+   "open-delay": {
+    "$type": "duration",
+    "$value": "{duration.80}",
+    "$description": "From the pointer arriving on the opener to the panel opening."
+   },
+   "close-delay": {
+    "$type": "duration",
+    "$value": "{duration.320}",
+    "$description": "From the pointer leaving the opener and panel to the panel closing; coming back within it keeps the panel open."
+   }
+  },
+  "marquee": {
+   "$description": "A continuous strip that scrolls on its own. Runs at a constant speed.",
+   "duration": {
+    "$type": "duration",
+    "$value": "{duration.22000}"
+   }
+  },
+  "live-pulse": {
+   "$description": "The pulse of something really live, open or running. A state, never decoration.",
+   "duration": {
+    "$type": "duration",
+    "$value": "{duration.2400}"
+   },
+   "easing": {
+    "$type": "cubicBezier",
+    "$value": "{easing.cubic-in-out}"
+   }
+  },
+  "loading": {
+   "$description": "A placeholder waiting for its content: the skeleton's sweep, from one edge to the other, again until the content arrives. Stopped under reduced motion.",
+   "duration": {
+    "$type": "duration",
+    "$value": "{duration.1600}"
+   },
+   "easing": {
+    "$type": "cubicBezier",
+    "$value": "{easing.cubic-in-out}"
+   }
+  },
+  "cursor": {
+   "$description": "A blinking text cursor. Blinks in steps, not with a curve.",
+   "duration": {
+    "$type": "duration",
+    "$value": "{duration.1000}"
+   }
+  },
+  "ambient": {
+   "$description": "Slow background drift the eye should never have to follow.",
+   "duration": {
+    "$type": "duration",
+    "$value": "{duration.1600}"
+   },
+   "easing": {
+    "$type": "cubicBezier",
+    "$value": "{easing.cubic-in-out}"
+   }
+  }
+ }
+}

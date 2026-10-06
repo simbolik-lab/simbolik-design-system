@@ -1,0 +1,73 @@
+/* smbk-breadcrumbs — Breadcrumbs. Figma "Breadcrumbs" 4136:867.
+ * A trail of links to the pages above this one, ending on the current page.
+ * Figma paints the ancestors with the muted link color and the current page
+ * with the plain link color; the separators take the muted color too. */
+
+.smbk-breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--smbk-space-inset-xs);
+  margin: 0;
+  padding: var(--smbk-space-inset-xs) 0;
+  list-style: none;
+}
+
+.smbk-breadcrumbs__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--smbk-space-inset-xs);
+}
+
+.smbk-breadcrumbs__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--smbk-space-inset-2xs);
+  color: var(--smbk-color-text-link-disabled);
+  font-family: var(--smbk-typography-body-m-font-family);
+  font-size: var(--smbk-typography-body-m-font-size);
+  font-weight: var(--smbk-typography-body-m-font-weight);
+  line-height: var(--smbk-typography-body-m-line-height);
+  letter-spacing: var(--smbk-typography-body-m-letter-spacing);
+  /* Untrimmed, as the link is: its focus ring hugs the words, and a box
+     trimmed to the cap height would draw the ring through descenders. */
+  text-decoration: none;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+@media (hover: hover) {
+  .smbk-breadcrumbs__link:hover {
+    color: var(--smbk-color-text-link-hover);
+    text-decoration: underline;
+    text-decoration-color: var(--smbk-color-text-link-underline-hover);
+  }
+}
+
+.smbk-breadcrumbs__link:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+  border-radius: var(--smbk-radius-full);
+}
+
+.smbk-breadcrumbs__link[aria-current="page"] {
+  color: var(--smbk-color-text-link);
+  text-decoration: none;
+  cursor: default;
+}
+
+.smbk-breadcrumbs__separator {
+  color: var(--smbk-color-text-link-disabled);
+  font-size: var(--smbk-size-icon-xs);
+}
+
+/* ---- sizes ---- */
+
+.smbk-breadcrumbs--size-sm .smbk-breadcrumbs__link {
+  font-family: var(--smbk-typography-body-s-font-family);
+  font-size: var(--smbk-typography-body-s-font-size);
+  font-weight: var(--smbk-typography-body-s-font-weight);
+  line-height: var(--smbk-typography-body-s-line-height);
+  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
+}

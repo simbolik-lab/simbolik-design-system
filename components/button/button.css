@@ -1,0 +1,246 @@
+/* smbk-btn — Button.
+ * Figma "Button" 4136:5058. Semantic tokens only; states are pseudo-classes.
+ * The focus ring is the system rule. Hover and press change at once. */
+
+.smbk-btn {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--smbk-space-inline-md);
+  height: var(--smbk-size-control-lg);
+  padding: 0 var(--smbk-space-inset-lg);
+  border: var(--smbk-border-width-hairline) solid transparent;
+  border-radius: var(--smbk-radius-control-md);
+  background: var(--smbk-color-action-brand-background);
+  border-color: var(--smbk-color-action-brand-border);
+  color: var(--smbk-color-action-brand-foreground);
+  font-family: var(--smbk-typography-body-m-semibold-font-family);
+  font-size: var(--smbk-typography-body-m-semibold-font-size);
+  font-weight: var(--smbk-typography-body-m-semibold-font-weight);
+  line-height: var(--smbk-typography-body-m-semibold-line-height);
+  letter-spacing: var(--smbk-typography-body-m-semibold-letter-spacing);
+  text-box: trim-both cap alphabetic;
+  text-transform: var(--smbk-typography-body-m-semibold-text-transform);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.smbk-btn:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+.smbk-btn:disabled,
+.smbk-btn[aria-disabled="true"] {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ---- parts ---- */
+
+.smbk-btn__icon {
+  font-size: var(--smbk-size-icon-lg);
+}
+
+.smbk-btn__label {
+  display: inline-block;
+}
+
+/* ---- tone: brand (the default) ---- */
+
+@media (hover: hover) {
+  .smbk-btn--tone-brand:hover {
+    background: var(--smbk-color-action-brand-background-hover);
+    border-color: var(--smbk-color-action-brand-border-hover);
+    box-shadow: var(--smbk-elevation-inset);
+  }
+}
+
+.smbk-btn--tone-brand:active {
+  background: var(--smbk-color-action-brand-background-pressed);
+  border-color: var(--smbk-color-action-brand-border-hover);
+  box-shadow: var(--smbk-elevation-inset);
+}
+
+.smbk-btn--tone-brand:disabled,
+.smbk-btn--tone-brand[aria-disabled="true"] {
+  background: var(--smbk-color-action-brand-background-disabled);
+  border-color: var(--smbk-color-action-brand-border-disabled);
+  color: var(--smbk-color-action-brand-foreground-disabled);
+  box-shadow: none;
+}
+
+/* ---- tone: secondary — a filled button with no border ---- */
+
+.smbk-btn--tone-secondary {
+  background: var(--smbk-color-action-secondary-background);
+  border-color: transparent;
+  color: var(--smbk-color-action-secondary-foreground);
+}
+
+@media (hover: hover) {
+  .smbk-btn--tone-secondary:hover {
+    background: var(--smbk-color-action-secondary-background-hover);
+  }
+}
+
+.smbk-btn--tone-secondary:active {
+  background: var(--smbk-color-action-secondary-background-pressed);
+}
+
+.smbk-btn--tone-secondary:disabled,
+.smbk-btn--tone-secondary[aria-disabled="true"] {
+  background: var(--smbk-color-action-secondary-background-disabled);
+  color: var(--smbk-color-action-secondary-foreground-disabled);
+}
+
+/* ---- tone: outline — transparent with a visible border ---- */
+
+.smbk-btn--tone-outline {
+  background: transparent;
+  border-color: var(--smbk-color-action-outline-border);
+  color: var(--smbk-color-action-outline-foreground);
+}
+
+@media (hover: hover) {
+  .smbk-btn--tone-outline:hover {
+    background: var(--smbk-color-action-outline-background-hover);
+    border-color: var(--smbk-color-action-outline-border-hover);
+  }
+}
+
+.smbk-btn--tone-outline:active {
+  background: var(--smbk-color-action-outline-background-pressed);
+  border-color: var(--smbk-color-action-outline-border-pressed);
+}
+
+.smbk-btn--tone-outline:disabled,
+.smbk-btn--tone-outline[aria-disabled="true"] {
+  background: transparent;
+  border-color: var(--smbk-color-action-outline-border-disabled);
+  color: var(--smbk-color-action-outline-foreground-disabled);
+}
+
+/* ---- tone: ghost — no chrome at rest, keeps the full hit area ---- */
+
+.smbk-btn--tone-ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--smbk-color-action-ghost-foreground);
+}
+
+@media (hover: hover) {
+  .smbk-btn--tone-ghost:hover {
+    background: var(--smbk-color-action-ghost-background-hover);
+  }
+}
+
+.smbk-btn--tone-ghost:active {
+  background: var(--smbk-color-action-ghost-background-pressed);
+}
+
+.smbk-btn--tone-ghost:disabled,
+.smbk-btn--tone-ghost[aria-disabled="true"] {
+  background: transparent;
+  color: var(--smbk-color-action-ghost-foreground-disabled);
+}
+
+/* ---- tone: danger — the destructive family ---- */
+
+.smbk-btn--tone-danger {
+  background: var(--smbk-color-action-destructive-background);
+  border-color: var(--smbk-color-action-destructive-border);
+  color: var(--smbk-color-action-destructive-foreground);
+}
+
+@media (hover: hover) {
+  .smbk-btn--tone-danger:hover {
+    background: var(--smbk-color-action-destructive-background-hover);
+    border-color: var(--smbk-color-action-destructive-border-hover);
+    color: var(--smbk-color-action-destructive-foreground-hover);
+  }
+}
+
+.smbk-btn--tone-danger:active {
+  background: var(--smbk-color-action-destructive-background-pressed);
+  border-color: var(--smbk-color-action-destructive-border-hover);
+  color: var(--smbk-color-action-destructive-foreground-hover);
+}
+
+.smbk-btn--tone-danger:disabled,
+.smbk-btn--tone-danger[aria-disabled="true"] {
+  background: var(--smbk-color-action-destructive-background-disabled);
+  border-color: var(--smbk-color-action-destructive-border-disabled);
+  color: var(--smbk-color-action-destructive-foreground-disabled);
+}
+
+/* ---- size ---- */
+
+.smbk-btn--size-md {
+  gap: var(--smbk-space-inline-sm);
+  height: var(--smbk-size-control-md);
+  padding: 0 var(--smbk-space-inset-md);
+  border-radius: var(--smbk-radius-control-sm);
+}
+
+.smbk-btn--size-md .smbk-btn__icon {
+  font-size: var(--smbk-size-icon-md);
+}
+
+.smbk-btn--size-sm {
+  gap: var(--smbk-space-inline-xs);
+  height: var(--smbk-size-control-sm);
+  padding: 0 var(--smbk-space-inset-sm);
+  border-radius: var(--smbk-radius-control-sm);
+  font-family: var(--smbk-typography-body-s-semibold-font-family);
+  font-size: var(--smbk-typography-body-s-semibold-font-size);
+  font-weight: var(--smbk-typography-body-s-semibold-font-weight);
+  line-height: var(--smbk-typography-body-s-semibold-line-height);
+  letter-spacing: var(--smbk-typography-body-s-semibold-letter-spacing);
+  text-box: trim-both cap alphabetic;
+}
+
+.smbk-btn--size-sm .smbk-btn__icon {
+  font-size: var(--smbk-size-icon-sm);
+}
+
+/* ---- icon only: a square, with the icon one size step larger ---- */
+
+.smbk-btn--icon-only {
+  width: var(--smbk-size-control-lg);
+  padding: 0;
+  gap: 0;
+}
+
+.smbk-btn--icon-only .smbk-btn__icon {
+  font-size: var(--smbk-size-icon-xl);
+}
+
+.smbk-btn--icon-only.smbk-btn--size-md {
+  width: var(--smbk-size-control-md);
+}
+
+.smbk-btn--icon-only.smbk-btn--size-md .smbk-btn__icon {
+  font-size: var(--smbk-size-icon-lg);
+}
+
+.smbk-btn--icon-only.smbk-btn--size-sm {
+  width: var(--smbk-size-control-sm);
+}
+
+.smbk-btn--icon-only.smbk-btn--size-sm .smbk-btn__icon {
+  font-size: var(--smbk-size-icon-md);
+}
+
+/* Figma trims every text box to its cap height (leading trim); the label part does the same
+   so a label centers in its control exactly as it does in the frame. */
+.smbk-btn__label {
+  text-box: trim-both cap alphabetic;
+}

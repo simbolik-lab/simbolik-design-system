@@ -1,0 +1,274 @@
+{
+  "$extensions": {
+    "tokens-bruecke-meta": {
+      "useDTCG": true,
+      "spec": "https://www.designtokens.org/tr/2025.10/format/",
+      "colorMode": "hex",
+      "variableCollections": [
+        "Primitives",
+        "Semantic Color",
+        "Semantic Dimension",
+        "Semantic Typography",
+        "Semantic"
+      ],
+      "createdAt": "2026-09-22T17:39:58.765Z"
+    }
+  },
+  "text": {
+    "display-xl": {
+      "$value": "{font.size.88}",
+      "$type": "dimension",
+      "$extensions": {
+        "figma": {
+          "variableId": "VariableID:4055:9363",
+          "collection": {
+            "id": "VariableCollectionId:4054:9351",
+            "name": "Semantic Typography",
+            "defaultModeId": "4054:6"
+          },
+          "scopes": [
+            "FONT_SIZE"
+          ]
+        }
+      }
+    },
+    "display-lg": {
+      "$value": "{font.size.72}",
+      "$type": "dimension",
+      "$extensions": {
+        "figma": {
+          "variableId": "VariableID:4055:9364",
+          "collection": {
+            "id": "VariableCollectionId:4054:9351",
+            "name": "Semantic Typography",
+            "defaultModeId": "4054:6"
+          },
+          "scopes": [
+            "FONT_SIZE"
+          ]
+        }
+      }
+    },
+    "heading-xl": {
+      "$value": "{font.size.56}",
+      "$type": "dimension",
+      "$extensions": {
+        "figma": {
+          "variableId": "VariableID:4055:9365",
+          "collection": {
+            "id": "VariableCollectionId:4054:9351",
+            "name": "Semantic Typography",
+            "defaultModeId": "4054:6"
+          },
+          "scopes": [
+            "FONT_SIZE"
+          ]
+        }
+      }
+    },
+    "heading-lg": {
+      "$value": "{font.size.48}",
+      "$type": "dimension",
+      "$extensions": {
+        "figma": {
+          "variableId": "VariableID:4055:9366",
+          "collection": {
+            "id": "VariableCollectionId:4054:9351",
+            "name": "Semantic Typography",
+            "defaultModeId": "4054:6"
+          },
+          "scopes": [
+            "FONT_SIZE"
+          ]
+        }
+      }
+    },
+    "heading-md": {
+      "$value": "{font.size.40}",
+      "$type": "dimension",
+      "$extensions": {
+        "figma": {
+          "variableId": "VariableID:4055:9367",
+          "collection": {
+            "id": "VariableCollectionId:4054:9351",
+            "name": "Semantic Typography",
+            "defaultModeId": "4054:6"
+          },
+          "scopes": [
+            "FONT_SIZE"
+          ]
+        }
+      }
+    },
+    "heading-sm": {
+      "$value": "{font.size.32}",
+      "$type": "dimension",
+      "$extensions": {
+        "figma": {
+          "variableId": "VariableID:4055:9368",
+          "collection": {
+            "id": "VariableCollectionId:4054:9351",
+            "name": "Semantic Typography",
+            "defaultModeId": "4054:6"
+          },
+          "scopes": [
+            "FONT_SIZE"
+          ]
+        }
+      }
+    },
+    "heading-xs": {
+      "$value": "{font.size.28}",
+      "$type": "dimension",
+      "$extensions": {
+        "figma": {
+          "variableId": "VariableID:4055:9369",
+          "collection": {
+            "id": "VariableCollectionId:4054:9351",
+            "name": "Semantic Typography",
+            "defaultModeId": "4054:6"
+          },
+          "scopes": [
+            "FONT_SIZE"
+          ]
+        }
+      }
+    },
+    "heading-2xs": {
+      "$value": "{font.size.24}",
+      "$type": "dimension",
+      "$extensions": {
+        "figma": {
+          "variableId": "VariableID:4055:9370",
+          "collection": {
+            "id": "VariableCollectionId:4054:9351",
+            "name": "Semantic Typography",
+            "defaultModeId": "4054:6"
+          },
+          "scopes": [
+            "FONT_SIZE"
+          ]
+        }
+      }
+    },
+    "body-lg": {
+      "$value": "{font.size.20}",
+      "$type": "dimension",
+      "$extensions": {
+        "figma": {
+          "variableId": "VariableID:4055:9371",
+          "collection": {
+            "id": "VariableCollectionId:4054:9351",
+            "name": "Semantic Typography",
+            "defaultModeId": "4054:6"
+          },
+          "scopes": [
+            "FONT_SIZE"
+          ]
+        }
+      }
+    },
+    "body-md": {
+      "$value": "{font.size.16}",
+      "$type": "dimension",
+      "$extensions": {
+        "figma": {
+          "variableId": "VariableID:4055:9372",
+          "collection": {
+            "id": "VariableCollectionId:4054:9351",
+            "name": "Semantic Typography",
+            "defaultModeId": "4054:6"
+          },
+          "scopes": [
+            "FONT_SIZE"
+          ]
+        }
+      }
+    },
+    "body-sm": {
+      "$value": "{font.size.14}",
+      "$type": "dimension",
+      "$extensions": {
+        "figma": {
+          "variableId": "VariableID:4055:9373",
+          "collection": {
+            "id": "VariableCollectionId:4054:9351",
+            "name": "Semantic Typography",
+            "defaultModeId": "4054:6"
+          },
+          "scopes": [
+            "FONT_SIZE"
+          ]
+        }
+      }
+    },
+    "body-xs": {
+      "$value": "{font.size.12}",
+      "$type": "dimension",
+      "$extensions": {
+        "figma": {
+          "variableId": "VariableID:4055:9374",
+          "collection": {
+            "id": "VariableCollectionId:4054:9351",
+            "name": "Semantic Typography",
+            "defaultModeId": "4054:6"
+          },
+          "scopes": [
+            "FONT_SIZE"
+          ]
+        }
+      }
+    },
+    "label-lg": {
+      "$value": "{font.size.16}",
+      "$type": "dimension",
+      "$extensions": {
+        "figma": {
+          "variableId": "VariableID:4055:9375",
+          "collection": {
+            "id": "VariableCollectionId:4054:9351",
+            "name": "Semantic Typography",
+            "defaultModeId": "4054:6"
+          },
+          "scopes": [
+            "FONT_SIZE"
+          ]
+        }
+      }
+    },
+    "label-md": {
+      "$value": "{font.size.14}",
+      "$type": "dimension",
+      "$extensions": {
+        "figma": {
+          "variableId": "VariableID:4055:9376",
+          "collection": {
+            "id": "VariableCollectionId:4054:9351",
+            "name": "Semantic Typography",
+            "defaultModeId": "4054:6"
+          },
+          "scopes": [
+            "FONT_SIZE"
+          ]
+        }
+      }
+    },
+    "label-sm": {
+      "$value": "{font.size.12}",
+      "$type": "dimension",
+      "$extensions": {
+        "figma": {
+          "variableId": "VariableID:4055:9377",
+          "collection": {
+            "id": "VariableCollectionId:4054:9351",
+            "name": "Semantic Typography",
+            "defaultModeId": "4054:6"
+          },
+          "scopes": [
+            "FONT_SIZE"
+          ]
+        }
+      }
+    }
+  }
+}

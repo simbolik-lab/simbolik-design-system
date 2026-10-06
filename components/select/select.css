@@ -1,0 +1,154 @@
+/* smbk-select — Select. Figma "Select" 4253:2857 (State: Closed, Open × Size: Default, Small).
+ * Closed, it is the input: Figma builds it on an Input instance, and here the
+ * well is a button that carries smbk-input, so its chrome, hover, focus,
+ * error, disabled and small size are the input's own and follow any change
+ * to it. Open, it is the dropdown: Figma builds the list on a Dropdown
+ * instance, and here the list carries smbk-dropdown and each choice is a
+ * dropdown item, so the panel, the rows, their two heights and their icons
+ * are the dropdown's own. This stylesheet only places the list under the
+ * well, at the well's width, and lets it scroll. The label and the help text
+ * around a select are the field's. */
+
+.smbk-select {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Only what a button needs on top of the input's well. */
+.smbk-select__well {
+  margin: 0;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.smbk-input.smbk-select__well:not(:disabled) {
+  cursor: pointer;
+}
+
+/* The value is cut short with an ellipsis, so the clip is across only: the words are trimmed to the cap
+   height, and a clip up and down would cut the descenders where the clip margin is not honoured (WebKit). */
+.smbk-select__value {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-x: clip;
+  overflow-y: visible;
+  overflow-clip-margin: var(--smbk-space-inset-xs);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-box: trim-both cap alphabetic;
+}
+
+.smbk-select__value--placeholder {
+  color: var(--smbk-color-text-subtlest);
+}
+
+.smbk-select__well:disabled .smbk-select__value--placeholder {
+  color: var(--smbk-color-text-disabled);
+}
+
+.smbk-select__icon {
+  flex-shrink: 0;
+  color: var(--smbk-color-text-subtlest);
+  font-size: var(--smbk-size-icon-sm);
+}
+
+/* ---- the open list: the dropdown panel under the well, as wide as the well ----
+   Paired with the dropdown's block, so these win over its width whatever order the stylesheets load in. */
+
+.smbk-dropdown.smbk-select__list {
+  position: absolute;
+  top: calc(var(--smbk-size-control-md) + var(--smbk-space-stack-xs));
+  left: 0;
+  z-index: var(--smbk-layer-overlay);
+  width: 100%;
+  list-style: none;
+  outline: none;
+}
+
+/* A list longer than its room: the component caps its height (select.tsx) and it scrolls inside
+   itself with the system's thin scrollbar, never handing the scroll on to the page. */
+.smbk-dropdown.smbk-select__list {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--smbk-color-border-subtle) transparent;
+}
+
+/* Rows never shrink, so a capped list scrolls rather than squeezing them. */
+.smbk-select__option {
+  flex-shrink: 0;
+}
+
+/* The keyboard's highlight looks as the pointer's hover does. */
+.smbk-select__option--highlighted {
+  background: var(--smbk-color-surface-sunken);
+}
+
+/* While the well has focus, the highlighted choice is where focus is: it carries the focus ring, drawn just
+   inside its edge, because the fill alone is too faint to find. */
+.smbk-select:focus-within .smbk-select__option--highlighted {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: calc(-1 * var(--smbk-focus-ring-width));
+}
+
+/* A choice stays on one line, cut short with an ellipsis, so every row keeps its height. The words
+   are trimmed to the cap height, so the clip is across only and the descenders stay whole in every
+   browser (WebKit does not honour the clip margin). */
+.smbk-select__option-label {
+  overflow-x: clip;
+  overflow-y: visible;
+  overflow-clip-margin: var(--smbk-space-inset-xs);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---- small: the well is the input's small size and the rows the dropdown's small items; the list follows the well's height ---- */
+
+.smbk-select--size-small .smbk-select__list {
+  top: calc(var(--smbk-size-control-sm) + var(--smbk-space-stack-xs));
+}
+
+/* ---- above: with more room over the well than under it, the list opens upward, the same gap away ---- */
+
+.smbk-select__list[data-side="above"] {
+  top: auto;
+  bottom: calc(100% + var(--smbk-space-stack-xs));
+}
+
+/* ---- motion: the list is the dropdown panel, so it drops from the well across the gap and
+   fades in with the dropdown's enter motion. It closes at once, because it leaves the page as
+   it closes. No movement under reduced motion (the dropdown's own rule). ---- */
+
+/* Opening upward it only fades: the side is known once the list is measured, after its drop has begun. */
+.smbk-select__list[data-side="above"] {
+  transition-property: opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-select__list,
+  .smbk-select__list[data-side="above"] {
+    transition: none;
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  /* The keyboard's highlight in the open list. */
+  .smbk-dropdown__item.smbk-select__option--highlighted {
+    forced-color-adjust: none;
+    background: Highlight;
+    color: HighlightText;
+  }
+
+  .smbk-select__option--highlighted .smbk-dropdown__icon {
+    color: inherit;
+  }
+}

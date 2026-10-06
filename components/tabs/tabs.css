@@ -1,0 +1,286 @@
+/* smbk-tabs — Tabs. Figma "Tabs" 4171:15599 over "TabItem" 4170:15306.
+ * The bar is always the medium control height (default) or the small one
+ * (small), its tabs the smallest inset in from its edge and apart;
+ * the tabs stretch to fill it, with no vertical padding of their own, so the
+ * bar never grows past those heights.
+ * A bar of tabs in front of one panel each. The bar is drawn much like the
+ * segmented control (canvas well, selected tab raised on the raised surface);
+ * the difference is what it does, not how it looks. */
+
+.smbk-tabs__list {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: stretch;
+  gap: var(--smbk-space-inset-2xs);
+  height: var(--smbk-size-control-md);
+  padding: var(--smbk-space-inset-2xs);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  border-radius: var(--smbk-radius-control-lg);
+  background: var(--smbk-color-surface-canvas);
+}
+
+/* A bar wider than its space (three tabs with icons on a phone) scrolls
+   sideways inside itself instead of widening the page, with the system's thin
+   scrollbar. Where the bar fits, nothing changes. A scrolling bar cuts off
+   whatever reaches past its padding, so a tab's focus ring is drawn inside
+   the tab's edge (below). A vertical bar keeps its tabs' width beside its
+   panel rather than shrinking into this scroll. */
+.smbk-tabs__list {
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--smbk-color-border-subtle) transparent;
+}
+
+.smbk-tabs__tab {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--smbk-space-inline-sm);
+  margin: 0;
+  padding: 0 var(--smbk-space-inset-lg);
+  border: var(--smbk-border-width-hairline) solid transparent;
+  border-radius: var(--smbk-radius-control-sm);
+  background: transparent;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-m-font-family);
+  font-size: var(--smbk-typography-body-m-font-size);
+  font-weight: var(--smbk-typography-body-m-font-weight);
+  line-height: var(--smbk-typography-body-m-line-height);
+  letter-spacing: var(--smbk-typography-body-m-letter-spacing);
+  text-box: trim-both cap alphabetic;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@media (hover: hover) {
+  .smbk-tabs__tab:hover {
+    color: var(--smbk-color-text-link-hover);
+  }
+}
+
+.smbk-tabs__tab[aria-selected="true"] {
+  border-radius: var(--smbk-radius-control-md);
+  background: var(--smbk-color-surface-raised);
+  border-color: var(--smbk-color-border-edge-highlight);
+  color: var(--smbk-color-text-default);
+  box-shadow: var(--smbk-elevation-0);
+}
+
+/* Inside the tab's edge: the bar's padding is thinner than the ring and its
+   gap, and the bar cuts off anything past its padding. */
+/* The selected tab's surface as one piece that slides from tab to tab. The wrapper places it over the
+   selected tab and marks the bar; until then (markup written by hand, or before the page's script
+   runs) it is not drawn and the selected tab draws its own surface, which looks the same at rest.
+   It comes first in the bar, so the tabs paint over it. */
+.smbk-tabs__indicator {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  border-radius: var(--smbk-radius-control-md);
+  background: var(--smbk-color-surface-raised);
+  box-shadow: var(--smbk-elevation-0);
+  pointer-events: none;
+}
+
+.smbk-tabs__list[data-indicator] > .smbk-tabs__indicator {
+  display: block;
+}
+
+.smbk-tabs__list[data-indicator] > .smbk-tabs__tab[aria-selected="true"] {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.smbk-tabs__tab:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: calc(-1 * var(--smbk-focus-ring-width));
+}
+
+.smbk-tabs__tab:disabled {
+  color: var(--smbk-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.smbk-tabs__icon {
+  font-size: var(--smbk-size-icon-sm);
+}
+
+/* A mark after the label (a badge): it sits in the tab's row, spaced by the tab's own gap. */
+.smbk-tabs__badge {
+  display: inline-flex;
+  align-items: center;
+}
+
+.smbk-tabs__panel {
+  padding-top: var(--smbk-space-stack-lg);
+  color: var(--smbk-color-text-default);
+}
+
+.smbk-tabs__panel[hidden] {
+  display: none;
+}
+
+.smbk-tabs__panel:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+/* ---- size: sm ---- */
+
+/* Every size and orientation rule reaches only its own bar, tabs and panels (child selectors), so
+   tabs placed inside another tab's panel keep their own size and orientation. */
+
+.smbk-tabs--size-sm > .smbk-tabs__list {
+  height: var(--smbk-size-control-sm);
+  border-radius: var(--smbk-radius-control-md);
+}
+
+.smbk-tabs--size-sm > .smbk-tabs__list > .smbk-tabs__tab {
+  gap: var(--smbk-space-inline-xs);
+  padding: 0 var(--smbk-space-inset-md);
+  font-family: var(--smbk-typography-body-t-font-family);
+  font-size: var(--smbk-typography-body-t-font-size);
+  font-weight: var(--smbk-typography-body-t-font-weight);
+  line-height: var(--smbk-typography-body-t-line-height);
+  letter-spacing: var(--smbk-typography-body-t-letter-spacing);
+  text-box: trim-both cap alphabetic;
+}
+
+.smbk-tabs--size-sm > .smbk-tabs__list > .smbk-tabs__tab[aria-selected="true"],
+.smbk-tabs--size-sm > .smbk-tabs__list > .smbk-tabs__indicator {
+  border-radius: var(--smbk-radius-control-sm);
+}
+
+.smbk-tabs--size-sm > .smbk-tabs__list > .smbk-tabs__tab > .smbk-tabs__icon {
+  font-size: var(--smbk-size-icon-xs);
+}
+
+/* ---- item width: equal, the bar spanning the tabs' whole width over their panel, its tabs sharing
+   it equally as columns of one row. A space too narrow for them still scrolls. A vertical bar's
+   tabs already share its width, so only the horizontal bar changes. ---- */
+
+.smbk-tabs--item-width-equal:not(.smbk-tabs--orientation-vertical) > .smbk-tabs__list {
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: column;
+}
+
+/* ---- orientation: vertical — a column of tabs beside the panel ---- */
+
+.smbk-tabs--orientation-vertical {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--smbk-space-inline-xl);
+}
+
+.smbk-tabs--orientation-vertical > .smbk-tabs__list {
+  flex-direction: column;
+  flex-shrink: 0;
+  align-items: stretch;
+  height: auto;
+}
+
+/* Figma lets a vertical tab hug its padding and a 16 icon: the small control height, at both densities. */
+.smbk-tabs--orientation-vertical > .smbk-tabs__list > .smbk-tabs__tab {
+  justify-content: flex-start;
+  height: var(--smbk-size-control-sm);
+}
+
+.smbk-tabs--orientation-vertical.smbk-tabs--size-sm > .smbk-tabs__list > .smbk-tabs__tab {
+  height: var(--smbk-size-control-xs);
+}
+
+.smbk-tabs--orientation-vertical > .smbk-tabs__panel {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-top: 0;
+}
+
+/* The words carry the trim: the tab is a flex row, and a flex row does not pass the trim to its items. */
+.smbk-tabs__label {
+  text-box: trim-both cap alphabetic;
+}
+
+/* ---- motion: the indicator slides to the chosen tab with the state purpose, as a switch's thumb
+   does; the words change color with the feedback purpose; a newly shown panel fades in with the
+   enter purpose, without traveling. Only once the wrapper has placed the indicator, so nothing
+   fades in as the page loads. No movement under reduced motion. ---- */
+
+.smbk-tabs__tab {
+  transition: color var(--smbk-motion-feedback-duration) var(--smbk-motion-feedback-easing);
+}
+
+.smbk-tabs__list[data-indicator] > .smbk-tabs__indicator {
+  transition-property: translate, width, height;
+  transition-duration: var(--smbk-motion-state-duration);
+  transition-timing-function: var(--smbk-motion-state-easing);
+}
+
+/* Set by the wrapper while it places the indicator without a slide. */
+.smbk-tabs__list[data-indicator] > .smbk-tabs__indicator[data-instant] {
+  transition: none;
+}
+
+.smbk-tabs__list[data-indicator] ~ .smbk-tabs__panel {
+  transition: opacity var(--smbk-motion-enter-duration) var(--smbk-motion-enter-easing);
+}
+
+@starting-style {
+  .smbk-tabs__list[data-indicator] ~ .smbk-tabs__panel {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-tabs__tab,
+  .smbk-tabs__list[data-indicator] > .smbk-tabs__indicator,
+  .smbk-tabs__list[data-indicator] ~ .smbk-tabs__panel {
+    transition: none;
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  /* The selected tab, or the indicator that slides under it once the wrapper has placed it,
+     filled with Highlight; the tab's words in HighlightText. */
+  .smbk-tabs__tab[aria-selected="true"] {
+    forced-color-adjust: none;
+    border-color: Highlight;
+    background: Highlight;
+    color: HighlightText;
+    box-shadow: none;
+  }
+
+  /* Its focus ring is drawn inside its edge, over the fill: a HighlightText ring as far in as a
+     ring usually stands out, so a Highlight edge stays around it. */
+  .smbk-tabs__tab[aria-selected="true"]:focus-visible {
+    outline-color: HighlightText;
+    outline-offset: calc(-1 * (var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset)));
+  }
+
+  /* A badge in the selected tab is forced again: its own Canvas cap with CanvasText words. */
+  .smbk-tabs__tab[aria-selected="true"] .smbk-tabs__badge {
+    forced-color-adjust: auto;
+    color: CanvasText;
+  }
+
+  .smbk-tabs__indicator {
+    border-color: Highlight;
+    background: Highlight;
+  }
+}

@@ -1,0 +1,176 @@
+/* smbk-nav-item — Navigation item. Figma "NavItem" 4209:20209 (State × Size: Large, Default, Small).
+ * One link in a navigation list: header, app bar, footer columns, drawer.
+ * An optional icon leads the label and an optional caret trails it. Hover
+ * raises the item on the raised surface with a highlight edge and the resting
+ * lift. The current page sits pressed into the bar at every size: the canvas
+ * surface, the highlight edge and the inset shadow. */
+
+.smbk-nav-item {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+  height: var(--smbk-size-control-md);
+  margin: 0;
+  padding: 0 var(--smbk-space-inset-lg);
+  border: var(--smbk-border-width-hairline) solid transparent;
+  border-radius: var(--smbk-radius-control-sm);
+  background: transparent;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-m-font-family);
+  font-size: var(--smbk-typography-body-m-font-size);
+  font-weight: var(--smbk-typography-body-m-font-weight);
+  line-height: var(--smbk-typography-body-m-line-height);
+  letter-spacing: var(--smbk-typography-body-m-letter-spacing);
+  text-align: left;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+@media (hover: hover) {
+  .smbk-nav-item:hover {
+    border-color: var(--smbk-color-border-edge-highlight);
+    background: var(--smbk-color-surface-raised);
+    color: var(--smbk-color-text-link-hover);
+    box-shadow: var(--smbk-elevation-0);
+  }
+}
+
+.smbk-nav-item[aria-current="page"] {
+  border-color: var(--smbk-color-border-edge-highlight);
+  background: var(--smbk-color-surface-canvas);
+  color: var(--smbk-color-text-default);
+  box-shadow: var(--smbk-elevation-inset-2);
+}
+
+.smbk-nav-item[aria-expanded="true"] {
+  color: var(--smbk-color-text-default);
+}
+
+.smbk-nav-item:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+.smbk-nav-item:disabled,
+.smbk-nav-item[aria-disabled="true"] {
+  color: var(--smbk-color-text-disabled);
+  pointer-events: none;
+}
+
+/* The label keeps its full line box: a trimmed box under overflow clipping would cut ascenders and descenders. */
+.smbk-nav-item__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.smbk-nav-item__icon {
+  flex-shrink: 0;
+  font-size: var(--smbk-size-icon-md);
+}
+
+.smbk-nav-item__caret {
+  flex-shrink: 0;
+  font-size: var(--smbk-size-icon-sm);
+  transition: transform var(--smbk-motion-state-duration) var(--smbk-motion-state-easing);
+}
+
+.smbk-nav-item[aria-expanded="true"] .smbk-nav-item__caret {
+  transform: rotate(180deg);
+}
+
+/* ---- sizes ---- */
+
+.smbk-nav-item--size-md {
+  gap: var(--smbk-space-inline-xs);
+  height: var(--smbk-size-control-sm);
+  padding: 0 var(--smbk-space-inset-md);
+}
+
+.smbk-nav-item--size-sm {
+  gap: var(--smbk-space-inline-xs);
+  height: var(--smbk-size-control-xs);
+  padding: 0 var(--smbk-space-inset-sm);
+  border-radius: var(--smbk-radius-control-xs);
+  font-family: var(--smbk-typography-body-s-font-family);
+  font-size: var(--smbk-typography-body-s-font-size);
+  font-weight: var(--smbk-typography-body-s-font-weight);
+  line-height: var(--smbk-typography-body-s-line-height);
+  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
+}
+
+.smbk-nav-item--size-sm .smbk-nav-item__icon {
+  font-size: var(--smbk-size-icon-sm);
+}
+
+.smbk-nav-item--size-sm .smbk-nav-item__caret {
+  font-size: var(--smbk-size-icon-xs);
+}
+
+/* ---- block: fills its row, label first and caret at the far end ---- */
+
+.smbk-nav-item--block {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+/* In a stacked list a long label wraps onto more lines instead of being cut short with an
+   ellipsis, since a navigation label cut short can become ambiguous. The
+   item keeps its size's height for one line and grows for more. A nav item in a bar keeps
+   one line: a bar that runs short of room goes to its narrow form instead. */
+.smbk-nav-item--block {
+  height: auto;
+  min-height: var(--smbk-size-control-md);
+  white-space: normal;
+}
+
+.smbk-nav-item--block.smbk-nav-item--size-md {
+  min-height: var(--smbk-size-control-sm);
+}
+
+.smbk-nav-item--block.smbk-nav-item--size-sm {
+  min-height: var(--smbk-size-control-xs);
+}
+
+.smbk-nav-item--block .smbk-nav-item__label {
+  text-overflow: clip;
+  overflow-wrap: break-word;
+}
+
+/* ---- motion: the caret turns with the state purpose as what it opens opens. None under reduced motion. ---- */
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-nav-item__caret {
+    transition: none;
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  .smbk-nav-item[aria-current="page"] {
+    forced-color-adjust: none;
+    border-color: Highlight;
+    background: Highlight;
+    color: HighlightText;
+    box-shadow: none;
+  }
+
+  .smbk-nav-item[aria-current="page"]:focus-visible {
+    outline-color: CanvasText;
+  }
+
+  .smbk-nav-item:disabled,
+  .smbk-nav-item[aria-disabled="true"] {
+    border-color: GrayText;
+    color: GrayText;
+  }
+}

@@ -1,0 +1,94 @@
+/* smbk-tag — Tag. Figma "Tag" 4088:12242. */
+
+.smbk-tag {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+  height: var(--smbk-size-display-lg);
+  padding: 0 var(--smbk-space-inset-sm);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  border-radius: var(--smbk-radius-control-sm);
+  background: var(--smbk-color-surface-raised);
+  color: var(--smbk-color-text-subtle);
+  box-shadow: var(--smbk-elevation-0);
+  font-family: var(--smbk-typography-label-s-font-family);
+  font-size: var(--smbk-typography-label-s-font-size);
+  font-weight: var(--smbk-typography-label-s-font-weight);
+  line-height: var(--smbk-typography-label-s-line-height);
+  letter-spacing: var(--smbk-typography-label-s-letter-spacing);
+  text-box: trim-both cap alphabetic;
+  text-transform: var(--smbk-typography-label-s-text-transform);
+  white-space: nowrap;
+}
+
+.smbk-tag__icon {
+  font-size: var(--smbk-size-icon-sm);
+}
+
+.smbk-tag__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-size: var(--smbk-size-icon-xs);
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.smbk-tag__remove:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+  border-radius: var(--smbk-radius-full);
+}
+
+.smbk-tag--scheme-brand {
+  background: var(--smbk-color-surface-brand);
+  border-color: var(--smbk-color-border-edge-highlight-subtle);
+  color: var(--smbk-color-text-on-brand);
+  box-shadow: var(--smbk-elevation-1);
+}
+
+.smbk-tag--scheme-outline {
+  background: transparent;
+  border-color: var(--smbk-color-border-strong);
+  box-shadow: none;
+}
+
+.smbk-tag--scheme-info {
+  background: var(--smbk-color-feedback-info-surface-subtle);
+  border-color: var(--smbk-color-feedback-info-border);
+  color: var(--smbk-color-feedback-info-text-on-subtle);
+  box-shadow: none;
+}
+
+.smbk-tag--scheme-positive {
+  background: var(--smbk-color-feedback-success-surface-subtle);
+  border-color: var(--smbk-color-feedback-success-border);
+  color: var(--smbk-color-feedback-success-text-on-subtle);
+  box-shadow: none;
+}
+
+.smbk-tag--scheme-negative {
+  background: var(--smbk-color-feedback-danger-surface-subtle);
+  border-color: var(--smbk-color-feedback-danger-border);
+  color: var(--smbk-color-feedback-danger-text-on-subtle);
+  box-shadow: none;
+}
+
+.smbk-tag--scheme-warning {
+  background: var(--smbk-color-feedback-warning-surface-subtle);
+  border-color: var(--smbk-color-feedback-warning-border);
+  color: var(--smbk-color-feedback-warning-text-on-subtle);
+  box-shadow: none;
+}
+
+/* The words carry the trim: the tag is a flex row, and a flex row does not pass the trim to its items. */
+.smbk-tag__label {
+  text-box: trim-both cap alphabetic;
+}

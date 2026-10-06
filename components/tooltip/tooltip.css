@@ -1,0 +1,146 @@
+/* smbk-tooltip — Tooltip. Figma "Tooltip" 4170:13949 and "TooltipItem" 4170:13718.
+ * The bubble is the item; the arrow is a small shape cut from a box the same
+ * color, placed on one edge. Positioning relative to the target is the page's.
+ * It fades in as it appears and out as it is hidden (motion rules at the end). */
+
+.smbk-tooltip {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--smbk-color-text-default);
+}
+
+/* A block, not an inline flex box, so the trim reaches its words; the padding
+   centers the cap height in the fixed height, inside the hairline edge. */
+.smbk-tooltip__bubble {
+  box-sizing: border-box;
+  display: block;
+  height: var(--smbk-size-display-lg);
+  padding: calc((var(--smbk-size-display-lg) - 2 * var(--smbk-border-width-hairline) - 1cap) / 2) var(--smbk-space-inset-md);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  border-radius: var(--smbk-radius-control-sm);
+  background: var(--smbk-color-surface-raised);
+  box-shadow: var(--smbk-elevation-3);
+  font-family: var(--smbk-typography-body-t-font-family);
+  font-size: var(--smbk-typography-body-t-font-size);
+  font-weight: var(--smbk-typography-body-t-font-weight);
+  line-height: var(--smbk-typography-body-t-line-height);
+  letter-spacing: var(--smbk-typography-body-t-letter-spacing);
+  text-box: trim-both cap alphabetic;
+  white-space: nowrap;
+}
+
+/* The arrow reaches a hairline into the bubble, so it lies over the bubble's edge where the two
+   meet and they read as one shape, as Figma draws it (its 12 by 5 arrow overlaps the bubble's
+   inside stroke by one); it comes after the bubble and is positioned, so it paints over the
+   edge. Its depth is half its width less that hairline. Each direction is its own triangle. */
+.smbk-tooltip__arrow {
+  position: absolute;
+  width: var(--smbk-size-icon-xs);
+  height: calc(var(--smbk-size-icon-xs) / 2 - var(--smbk-border-width-hairline));
+  background: var(--smbk-color-surface-raised);
+}
+
+/* ---- arrow placement: the arrow sits on the named edge, as Figma's Arrow Position names it:
+   top points up at a target below the bubble, bottom points down at a target above it. A
+   centered arrow takes the middle from the tooltip's own centering. ---- */
+
+.smbk-tooltip--arrow-top-start .smbk-tooltip__arrow,
+.smbk-tooltip--arrow-top-center .smbk-tooltip__arrow,
+.smbk-tooltip--arrow-top-end .smbk-tooltip__arrow {
+  bottom: calc(100% - var(--smbk-border-width-hairline));
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.smbk-tooltip--arrow-bottom-start .smbk-tooltip__arrow,
+.smbk-tooltip--arrow-bottom-center .smbk-tooltip__arrow,
+.smbk-tooltip--arrow-bottom-end .smbk-tooltip__arrow {
+  top: calc(100% - var(--smbk-border-width-hairline));
+  clip-path: polygon(50% 100%, 0 0, 100% 0);
+}
+
+.smbk-tooltip--arrow-top-start .smbk-tooltip__arrow,
+.smbk-tooltip--arrow-bottom-start .smbk-tooltip__arrow {
+  left: var(--smbk-space-inset-md);
+}
+
+.smbk-tooltip--arrow-top-end .smbk-tooltip__arrow,
+.smbk-tooltip--arrow-bottom-end .smbk-tooltip__arrow {
+  right: var(--smbk-space-inset-md);
+}
+
+.smbk-tooltip--arrow-left .smbk-tooltip__arrow,
+.smbk-tooltip--arrow-right .smbk-tooltip__arrow {
+  top: 50%;
+  width: calc(var(--smbk-size-icon-xs) / 2 - var(--smbk-border-width-hairline));
+  height: var(--smbk-size-icon-xs);
+  translate: 0 -50%;
+}
+
+.smbk-tooltip--arrow-left .smbk-tooltip__arrow {
+  right: calc(100% - var(--smbk-border-width-hairline));
+  clip-path: polygon(0 50%, 100% 0, 100% 100%);
+}
+
+.smbk-tooltip--arrow-right .smbk-tooltip__arrow {
+  left: calc(100% - var(--smbk-border-width-hairline));
+  clip-path: polygon(100% 50%, 0 0, 0 100%);
+}
+
+/* ---- inverse ---- */
+
+.smbk-tooltip--inverse {
+  color: var(--smbk-color-text-inverse);
+}
+
+.smbk-tooltip--inverse .smbk-tooltip__bubble {
+  background: var(--smbk-color-surface-inverse);
+  border-color: var(--smbk-color-border-inverse);
+}
+
+.smbk-tooltip--inverse .smbk-tooltip__arrow {
+  background: var(--smbk-color-surface-inverse);
+}
+
+/* ---- motion: a tooltip is feedback to pointing at or focusing its target, so it fades in with
+   the feedback purpose when it appears and fades out the same way when the page hides it with
+   the hidden attribute. It does not travel. No movement under reduced motion. ---- */
+
+.smbk-tooltip {
+  transition-property: opacity, display;
+  transition-duration: var(--smbk-motion-feedback-duration);
+  transition-timing-function: var(--smbk-motion-feedback-easing);
+  transition-behavior: allow-discrete;
+}
+
+/* The tooltip's own display would otherwise outweigh the hidden attribute. */
+.smbk-tooltip[hidden] {
+  display: none;
+  opacity: 0;
+}
+
+@starting-style {
+  .smbk-tooltip {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-tooltip {
+    transition: none;
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  /* The arrow is a background, which forced colors drops; drawn in the edge's color it points
+     again and closes the gap it cut in the edge. */
+  .smbk-tooltip__arrow,
+  .smbk-tooltip--inverse .smbk-tooltip__arrow {
+    background: CanvasText;
+  }
+}

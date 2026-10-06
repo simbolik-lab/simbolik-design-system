@@ -1,0 +1,34 @@
+/* smbk-logo — Logo. Figma "logo-simbolik" 363:14503.
+ * Inline SVG colored through currentColor: the mark takes the brand text role,
+ * the wordmark the default text role, so the logo follows the theme.
+ *
+ * The block's own rule carries no weight (:where), as the icon's does: the part
+ * rule of the component a logo sits in (the header's, the app bar's, the
+ * footer's) always sets its height, whatever order the stylesheets load in. */
+
+:where(.smbk-logo) {
+  display: inline-block;
+  height: var(--smbk-size-display-xl);
+  width: auto;
+  vertical-align: middle;
+}
+
+.smbk-logo__mark {
+  fill: var(--smbk-color-text-brand);
+}
+
+.smbk-logo__type {
+  fill: var(--smbk-color-text-default);
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  /* SVG fills are not forced, so the wordmark would keep the page theme's color on the user's
+     background. It takes the palette's text color instead. */
+  .smbk-logo__type {
+    fill: CanvasText;
+  }
+}

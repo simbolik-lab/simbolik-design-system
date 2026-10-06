@@ -1,0 +1,231 @@
+/* smbk-chip — Chip. Figma "Chip" 4253:1311.
+ * A capsule with an optional avatar, a label and an optional remove control.
+ * The label's own frame carries the horizontal inset. */
+
+.smbk-chip {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  height: var(--smbk-size-32);
+  padding: var(--smbk-space-inset-xs);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-action-brand-border);
+  border-radius: var(--smbk-radius-full);
+  background: var(--smbk-color-action-brand-background);
+  color: var(--smbk-color-action-brand-foreground);
+  font-family: var(--smbk-typography-body-s-font-family);
+  font-size: var(--smbk-typography-body-s-font-size);
+  font-weight: var(--smbk-typography-body-s-font-weight);
+  line-height: var(--smbk-typography-body-s-line-height);
+  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
+  text-box: trim-both cap alphabetic;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.smbk-chip:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+.smbk-chip:disabled,
+.smbk-chip[aria-disabled="true"] {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.smbk-chip__label {
+  text-box: trim-both cap alphabetic;
+  display: block;
+  padding: 0 var(--smbk-space-inset-sm);
+}
+
+.smbk-chip__avatar {
+  flex-shrink: 0;
+}
+
+.smbk-chip:disabled .smbk-chip__avatar,
+.smbk-chip[aria-disabled="true"] .smbk-chip__avatar {
+  opacity: var(--smbk-opacity-media-disabled);
+}
+
+.smbk-chip__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-size: var(--smbk-size-icon-lg);
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.smbk-chip__remove:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+  border-radius: var(--smbk-radius-full);
+}
+
+/* ---- size small ---- */
+
+.smbk-chip--size-small {
+  height: var(--smbk-size-24);
+  padding: var(--smbk-space-inset-2xs);
+  font-family: var(--smbk-typography-body-t-font-family);
+  font-size: var(--smbk-typography-body-t-font-size);
+  font-weight: var(--smbk-typography-body-t-font-weight);
+  line-height: var(--smbk-typography-body-t-line-height);
+  letter-spacing: var(--smbk-typography-body-t-letter-spacing);
+  text-box: trim-both cap alphabetic;
+}
+
+.smbk-chip--size-small .smbk-chip__label {
+  padding: 0 var(--smbk-space-inset-xs);
+}
+
+.smbk-chip--size-small .smbk-chip__remove {
+  font-size: var(--smbk-size-icon-md);
+}
+
+/* ---- tone: brand (default) ---- */
+
+@media (hover: hover) {
+  .smbk-chip--tone-brand:hover {
+    background: var(--smbk-color-action-brand-background-hover);
+    border-color: var(--smbk-color-action-brand-border-hover);
+    box-shadow: var(--smbk-elevation-1);
+  }
+}
+
+.smbk-chip--tone-brand:active,
+.smbk-chip--tone-brand.smbk-chip--selected {
+  background: var(--smbk-color-action-brand-background-pressed);
+  border-color: var(--smbk-color-action-brand-border-hover);
+  box-shadow: var(--smbk-elevation-1);
+}
+
+.smbk-chip--tone-brand:disabled,
+.smbk-chip--tone-brand[aria-disabled="true"] {
+  background: var(--smbk-color-action-brand-background-disabled);
+  border-color: var(--smbk-color-action-brand-border-disabled);
+  color: var(--smbk-color-action-brand-foreground-disabled);
+  box-shadow: none;
+}
+
+/* ---- tone: default ---- */
+
+.smbk-chip--tone-default {
+  background: var(--smbk-color-action-default-background);
+  border-color: var(--smbk-color-action-default-border);
+  color: var(--smbk-color-action-default-foreground);
+}
+
+@media (hover: hover) {
+  .smbk-chip--tone-default:hover {
+    background: var(--smbk-color-action-default-background-hover);
+    border-color: var(--smbk-color-action-default-border-hover);
+    box-shadow: var(--smbk-elevation-1);
+  }
+}
+
+.smbk-chip--tone-default:active,
+.smbk-chip--tone-default.smbk-chip--selected {
+  background: var(--smbk-color-action-default-background-pressed);
+  border-color: var(--smbk-color-action-default-border-hover);
+  box-shadow: var(--smbk-elevation-1);
+}
+
+.smbk-chip--tone-default:disabled,
+.smbk-chip--tone-default[aria-disabled="true"] {
+  background: var(--smbk-color-action-default-background-disabled);
+  border-color: var(--smbk-color-action-default-border-disabled);
+  color: var(--smbk-color-action-default-foreground-disabled);
+  box-shadow: none;
+}
+
+/* ---- tone: outline ---- */
+
+.smbk-chip--tone-outline {
+  background: transparent;
+  border-color: var(--smbk-color-action-outline-border);
+  color: var(--smbk-color-action-outline-foreground);
+}
+
+@media (hover: hover) {
+  .smbk-chip--tone-outline:hover {
+    background: var(--smbk-color-action-outline-background-hover);
+    border-color: var(--smbk-color-action-outline-border-hover);
+  }
+}
+
+.smbk-chip--tone-outline:active,
+.smbk-chip--tone-outline.smbk-chip--selected {
+  background: var(--smbk-color-action-outline-background-pressed);
+  border-color: var(--smbk-color-action-outline-border-hover);
+}
+
+.smbk-chip--tone-outline:disabled,
+.smbk-chip--tone-outline[aria-disabled="true"] {
+  background: transparent;
+  border-color: var(--smbk-color-action-outline-border-disabled);
+  color: var(--smbk-color-action-outline-foreground-disabled);
+}
+
+/* ---- tone: inverse ---- */
+
+.smbk-chip--tone-inverse {
+  background: var(--smbk-color-action-inverse-background);
+  border-color: var(--smbk-color-action-inverse-border);
+  color: var(--smbk-color-action-inverse-foreground);
+}
+
+@media (hover: hover) {
+  .smbk-chip--tone-inverse:hover {
+    background: var(--smbk-color-action-inverse-background-hover);
+    border-color: var(--smbk-color-action-inverse-border-hover);
+    box-shadow: var(--smbk-elevation-1);
+  }
+}
+
+.smbk-chip--tone-inverse:active,
+.smbk-chip--tone-inverse.smbk-chip--selected {
+  background: var(--smbk-color-action-inverse-background-pressed);
+  border-color: var(--smbk-color-action-inverse-border-hover);
+  box-shadow: var(--smbk-elevation-1);
+}
+
+.smbk-chip--tone-inverse:disabled,
+.smbk-chip--tone-inverse[aria-disabled="true"] {
+  background: var(--smbk-color-action-inverse-background-disabled);
+  border-color: var(--smbk-color-action-inverse-border-disabled);
+  color: var(--smbk-color-action-inverse-foreground-disabled);
+  box-shadow: none;
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  /* A toggle chip that is on (selected, aria-pressed) is filled with Highlight. */
+  .smbk-chip.smbk-chip--selected {
+    forced-color-adjust: none;
+    border-color: Highlight;
+    background: Highlight;
+    color: HighlightText;
+    box-shadow: none;
+  }
+
+  .smbk-chip.smbk-chip--selected:focus-visible {
+    outline-color: CanvasText;
+  }
+}

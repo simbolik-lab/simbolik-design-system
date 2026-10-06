@@ -1,0 +1,37 @@
+/* smbk-field — Field. Figma "Field" 4800:63897 (Error: No, Yes).
+ * A column: the label component in its subtle tone with the optional required
+ * mark, then the control Figma's slot holds (an input, a select or a text
+ * area, each drawing its own well), then a line of help text. The control is
+ * not wrapped: it is the field's own child, so its width and states are its
+ * own. In error, the label and the line take the danger text color, as
+ * Figma binds them, and the control draws its danger border. */
+
+.smbk-field {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-sm);
+  width: 100%;
+  min-width: 0;
+}
+
+/* The label hugs its words, so only they take a press, as Figma's label hugs. */
+.smbk-field__label {
+  align-self: flex-start;
+}
+
+.smbk-field__description {
+  margin: 0;
+  color: var(--smbk-color-text-subtlest);
+  font-family: var(--smbk-typography-body-t-font-family);
+  font-size: var(--smbk-typography-body-t-font-size);
+  font-weight: var(--smbk-typography-body-t-font-weight);
+  line-height: var(--smbk-typography-body-t-line-height);
+  letter-spacing: var(--smbk-typography-body-t-letter-spacing);
+  text-box: trim-both cap alphabetic;
+}
+
+.smbk-field--error .smbk-field__label,
+.smbk-field--error .smbk-field__description {
+  color: var(--smbk-color-feedback-danger-text-on-subtle);
+}

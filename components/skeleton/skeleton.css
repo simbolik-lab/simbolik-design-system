@@ -1,0 +1,162 @@
+/* smbk-skeleton — Skeleton. Figma "Skeleton" 915:9.
+ * Widths in Figma are example widths and not bound; a skeleton takes the width
+ * it is given. The text, title and label shapes are as tall as the text they
+ * stand in for, as this system draws it: trimmed to its capital height (on
+ * purpose, where Figma draws other heights). Each takes its preset's face,
+ * size and line height so the cap and line units measure that text: one line
+ * is one cap tall, and the lines of a paragraph (line parts, written by the
+ * wrapper for more than one line) stand one line height apart, so a skeleton
+ * paragraph is exactly as tall as the paragraph it stands in for. The avatar
+ * and button match those components' sizes; the media shape takes the
+ * proportion of the media it replaces, set by the wrapper.
+ * While it waits, a band of the sunken surface sweeps across it with the
+ * loading motion (rules at the end). */
+
+.smbk-skeleton {
+  display: block;
+  width: 100%;
+  height: 1cap;
+  border-radius: var(--smbk-radius-control-xs);
+  background-color: var(--smbk-color-surface-raised);
+  font-family: var(--smbk-typography-body-m-font-family);
+  font-size: var(--smbk-typography-body-m-font-size);
+  font-weight: var(--smbk-typography-body-m-font-weight);
+  line-height: var(--smbk-typography-body-m-line-height);
+}
+
+.smbk-skeleton--shape-title {
+  border-radius: var(--smbk-radius-control-sm);
+  font-family: var(--smbk-typography-h5-font-family);
+  font-size: var(--smbk-typography-h5-font-size);
+  font-weight: var(--smbk-typography-h5-font-weight);
+  line-height: var(--smbk-typography-h5-line-height);
+}
+
+.smbk-skeleton--shape-label {
+  font-family: var(--smbk-typography-label-s-font-family);
+  font-size: var(--smbk-typography-label-s-font-size);
+  font-weight: var(--smbk-typography-label-s-font-weight);
+  line-height: var(--smbk-typography-label-s-line-height);
+}
+
+/* A paragraph: the block holds its lines, one line height apart, and draws nothing itself. */
+.smbk-skeleton:has(> .smbk-skeleton__line) {
+  display: flex;
+  flex-direction: column;
+  gap: calc(1lh - 1cap);
+  height: auto;
+  background: none;
+  animation: none;
+}
+
+.smbk-skeleton__line {
+  display: block;
+  height: 1cap;
+  border-radius: inherit;
+  background-color: var(--smbk-color-surface-raised);
+}
+
+.smbk-skeleton--shape-avatar {
+  width: var(--smbk-size-control-md);
+  height: var(--smbk-size-control-md);
+  border-radius: var(--smbk-radius-full);
+}
+
+.smbk-skeleton--shape-media {
+  height: auto;
+  border-radius: var(--smbk-radius-container-sm);
+}
+
+.smbk-skeleton--shape-button {
+  width: auto;
+  min-width: var(--smbk-size-content-sm);
+  height: var(--smbk-size-control-lg);
+  border-radius: var(--smbk-radius-control-md);
+}
+
+/* ---- motion: the sweep ----
+   A band of the sunken surface, half the skeleton's width, fading in and out at its edges, crosses
+   the skeleton from just past its start edge to just past its end edge with the loading purpose,
+   then starts again. Both ends lie outside the skeleton, so a sweep starts and ends on the plain
+   surface, and where motion is stopped (reduced motion, the rendered pictures) the skeleton is the
+   plain surface at rest. The distances are the skeleton's own width: half for the band, and the
+   positions that put it just outside either edge. */
+
+.smbk-skeleton,
+.smbk-skeleton__line {
+  background-image: linear-gradient(to right, transparent, var(--smbk-color-surface-sunken), transparent);
+  background-position: -100% 0;
+  background-repeat: no-repeat;
+  background-size: 50% 100%;
+  animation: smbk-skeleton-sweep var(--smbk-motion-loading-duration) var(--smbk-motion-loading-easing) infinite;
+}
+
+@keyframes smbk-skeleton-sweep {
+  to {
+    background-position: 200% 0;
+  }
+}
+
+/* ---- component: the shape of the component it wraps ----
+   The skeleton draws no box of its own: the wrapped component keeps its size, place and corners and
+   draws the skeleton's surface and sweep instead of its own look, its words, icons and pictures
+   hidden but still holding their room, until the loaded flag is set. Its edge keeps its width but is
+   clear, and the band crosses it too (measured from the border box). It must win over every state the
+   wrapped component draws, whatever its own rules' weight, so these rules are marked important; the
+   band's position is not, because the sweep moves it. */
+
+.smbk-skeleton--shape-component {
+  display: contents;
+  font: inherit;
+  animation: none;
+}
+
+.smbk-skeleton--shape-component:not(.smbk-skeleton--loaded) > * {
+  border-color: transparent !important;
+  outline-color: transparent !important;
+  background-color: var(--smbk-color-surface-raised) !important;
+  background-image: linear-gradient(to right, transparent, var(--smbk-color-surface-sunken), transparent) !important;
+  background-origin: border-box !important;
+  background-position: -100% 0;
+  background-repeat: no-repeat !important;
+  background-size: 50% 100% !important;
+  box-shadow: none !important;
+  color: transparent !important;
+  pointer-events: none;
+  animation: smbk-skeleton-sweep var(--smbk-motion-loading-duration) var(--smbk-motion-loading-easing) infinite !important;
+}
+
+.smbk-skeleton--shape-component:not(.smbk-skeleton--loaded) > * * {
+  visibility: hidden !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-skeleton,
+  .smbk-skeleton__line {
+    animation: none;
+  }
+
+  .smbk-skeleton--shape-component:not(.smbk-skeleton--loaded) > * {
+    background-image: none !important;
+    animation: none !important;
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  /* The shapes are backgrounds, which forced colors drops; each is outlined in GrayText inside
+     its own box instead, so it shows as a placeholder without taking room. A paragraph outlines
+     its lines, not itself. A wrapped component keeps its own shape, its edge in GrayText. */
+  .smbk-skeleton:not(:has(> .smbk-skeleton__line)),
+  .smbk-skeleton__line {
+    outline: var(--smbk-border-width-hairline) solid GrayText;
+    outline-offset: calc(-1 * var(--smbk-border-width-hairline));
+  }
+
+  .smbk-skeleton--shape-component:not(.smbk-skeleton--loaded) > * {
+    border-color: GrayText !important;
+  }
+}

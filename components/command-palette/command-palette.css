@@ -1,0 +1,360 @@
+/* smbk-command-palette — Command palette. Figma "Command Palette" 4336:22996, built from
+ * "CommandHeader" 4333:22019, "CommandBody" 4336:22171, "CommandItem" 4333:21975 and
+ * "CommandFooter" 4336:22098.
+ * A search row over groups of commands, each group under a mono label with an
+ * optional "See all" button, and a footer of key hints. The pieces Figma
+ * builds from other components are those components here: the chips, the
+ * labels, the See all button, the keycaps and the dividers. Shown in place,
+ * or over the page in a native modal dialog on the scrim. */
+
+.smbk-command-palette {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: var(--smbk-size-command-palette-width);
+  max-width: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  border-radius: var(--smbk-radius-container-md);
+  background: var(--smbk-color-surface-default);
+  color: var(--smbk-color-text-default);
+  box-shadow: var(--smbk-elevation-3);
+}
+
+/* ---- the search row ---- */
+
+.smbk-command-palette__search {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--smbk-space-inline-md);
+  height: var(--smbk-size-target-comfortable);
+  padding: 0 var(--smbk-space-inset-xl);
+}
+
+.smbk-command-palette__search-icon {
+  flex-shrink: 0;
+  color: var(--smbk-color-text-subtlest);
+  font-size: var(--smbk-size-icon-md);
+}
+
+.smbk-command-palette__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-body-m-font-family);
+  font-size: var(--smbk-typography-body-m-font-size);
+  font-weight: var(--smbk-typography-body-m-font-weight);
+  line-height: var(--smbk-typography-body-m-line-height);
+  letter-spacing: var(--smbk-typography-body-m-letter-spacing);
+  outline: none;
+  appearance: none;
+}
+
+.smbk-command-palette__input::placeholder {
+  color: var(--smbk-color-text-subtle);
+  opacity: 1;
+}
+
+.smbk-command-palette__input::-webkit-search-cancel-button,
+.smbk-command-palette__input::-webkit-search-decoration {
+  appearance: none;
+}
+
+.smbk-command-palette__clear {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--smbk-color-text-subtlest);
+  font-size: var(--smbk-size-icon-md);
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.smbk-command-palette__clear:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+  border-radius: var(--smbk-radius-full);
+}
+
+/* ---- the chips row: the filters in force, each removable ---- */
+
+.smbk-command-palette__filters {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--smbk-space-inline-md);
+  padding: var(--smbk-space-inset-sm) var(--smbk-space-inset-xl);
+}
+
+/* ---- the body: groups of commands, scrolling when the page limits the height ---- */
+
+.smbk-command-palette__body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-xs);
+  min-height: 0;
+  padding: var(--smbk-space-inset-md) var(--smbk-space-inset-xs);
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--smbk-color-border-subtle) transparent;
+}
+
+.smbk-command-palette__group {
+  display: flex;
+  flex-direction: column;
+}
+
+.smbk-command-palette__group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--smbk-space-inline-md);
+}
+
+.smbk-command-palette__group-label {
+  padding: var(--smbk-space-inset-lg);
+}
+
+.smbk-command-palette__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.smbk-command-palette__item {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-md);
+  height: var(--smbk-size-icon-2xl);
+  padding: 0 var(--smbk-space-inset-lg);
+  border-radius: var(--smbk-radius-control-sm);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* The highlighted command, by pointer or by arrow key: Figma's Hover state. */
+.smbk-command-palette__item[aria-selected="true"] {
+  background: var(--smbk-color-surface-canvas);
+}
+
+@media (hover: hover) {
+  .smbk-command-palette__item:hover {
+    background: var(--smbk-color-surface-canvas);
+  }
+}
+
+/* While the search has focus, the command Enter runs is where focus is: it carries the focus ring, drawn
+   just inside its edge, because the fill alone is too faint to find. */
+.smbk-command-palette:focus-within .smbk-command-palette__item[aria-selected="true"] {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: calc(-1 * var(--smbk-focus-ring-width));
+}
+
+.smbk-command-palette__item[aria-disabled="true"] {
+  color: var(--smbk-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.smbk-command-palette__item-icon {
+  flex-shrink: 0;
+  color: var(--smbk-color-text-subtlest);
+  font-size: var(--smbk-size-icon-md);
+}
+
+/* The label keeps its full line box: a trimmed box under overflow clipping would cut ascenders and descenders. */
+.smbk-command-palette__item-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  font-family: var(--smbk-typography-body-m-font-family);
+  font-size: var(--smbk-typography-body-m-font-size);
+  font-weight: var(--smbk-typography-body-m-font-weight);
+  line-height: var(--smbk-typography-body-m-line-height);
+  letter-spacing: var(--smbk-typography-body-m-letter-spacing);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.smbk-command-palette__item-meta,
+.smbk-command-palette__item .smbk-kbd {
+  flex-shrink: 0;
+}
+
+.smbk-command-palette__empty {
+  margin: 0;
+  padding: var(--smbk-space-inset-lg);
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-m-font-family);
+  font-size: var(--smbk-typography-body-m-font-size);
+  font-weight: var(--smbk-typography-body-m-font-weight);
+  line-height: var(--smbk-typography-body-m-line-height);
+  letter-spacing: var(--smbk-typography-body-m-letter-spacing);
+  text-box: trim-both cap alphabetic;
+}
+
+/* ---- the footer: key hints on the canvas surface ---- */
+
+.smbk-command-palette__footer {
+  flex-shrink: 0;
+}
+
+.smbk-command-palette__hints {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-lg);
+  height: var(--smbk-size-control-sm);
+  padding: 0 var(--smbk-space-inset-xl);
+  background: var(--smbk-color-surface-canvas);
+}
+
+.smbk-command-palette__hint {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+  color: var(--smbk-color-text-subtlest);
+  font-family: var(--smbk-typography-body-t-font-family);
+  font-size: var(--smbk-typography-body-t-font-size);
+  font-weight: var(--smbk-typography-body-t-font-weight);
+  line-height: var(--smbk-typography-body-t-line-height);
+  letter-spacing: var(--smbk-typography-body-t-letter-spacing);
+  white-space: nowrap;
+}
+
+.smbk-command-palette__hint-text {
+  text-box: trim-both cap alphabetic;
+}
+
+/* ---- over the page: a native modal dialog on the scrim, the panel near the top, centered ---- */
+
+.smbk-command-palette__dialog {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: var(--smbk-space-stack-4xl) var(--smbk-space-inset-xl);
+  border: 0;
+  background: transparent;
+}
+
+.smbk-command-palette__dialog[open] {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.smbk-command-palette__dialog::backdrop {
+  background: var(--smbk-color-overlay-scrim);
+}
+
+/* ---- motion: over the page, the palette fades in and rises a spacing step into place with the
+   enter purpose, over a scrim that fades in, and fades out dropping a smaller step with the exit
+   purpose, as the modal does. Its display and its place in the top layer change at the end of
+   the exit. In place, it does not move. No movement under reduced motion. ---- */
+
+.smbk-command-palette__dialog,
+.smbk-command-palette__dialog::backdrop {
+  transition-property: translate, opacity, display, overlay;
+  transition-duration: var(--smbk-motion-exit-duration);
+  transition-timing-function: var(--smbk-motion-exit-easing);
+  transition-behavior: allow-discrete;
+}
+
+.smbk-command-palette__dialog[open],
+.smbk-command-palette__dialog[open]::backdrop {
+  transition-duration: var(--smbk-motion-enter-duration);
+  transition-timing-function: var(--smbk-motion-enter-easing);
+}
+
+.smbk-command-palette__dialog:not([open]) {
+  opacity: 0;
+  translate: 0 var(--smbk-space-8);
+}
+
+.smbk-command-palette__dialog:not([open])::backdrop {
+  opacity: 0;
+}
+
+@starting-style {
+  .smbk-command-palette__dialog[open] {
+    opacity: 0;
+    translate: 0 var(--smbk-space-16);
+  }
+
+  .smbk-command-palette__dialog[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-command-palette__dialog,
+  .smbk-command-palette__dialog::backdrop {
+    transition: none;
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  /* The highlighted command, by pointer or arrow key. A key cap in it keeps its own Canvas cap,
+     so its key stays CanvasText. */
+  .smbk-command-palette__item[aria-selected="true"] {
+    forced-color-adjust: none;
+    background: Highlight;
+    color: HighlightText;
+  }
+
+  @media (hover: hover) {
+    .smbk-command-palette__item:hover {
+      forced-color-adjust: none;
+      background: Highlight;
+      color: HighlightText;
+    }
+  }
+
+  .smbk-command-palette__item[aria-selected="true"] :is(.smbk-command-palette__item-icon, .smbk-command-palette__item-meta) {
+    color: inherit;
+  }
+
+  @media (hover: hover) {
+    .smbk-command-palette__item:hover :is(.smbk-command-palette__item-icon, .smbk-command-palette__item-meta) {
+      color: inherit;
+    }
+  }
+
+  .smbk-command-palette__item[aria-selected="true"] .smbk-kbd {
+    forced-color-adjust: auto;
+    color: CanvasText;
+  }
+
+  @media (hover: hover) {
+    .smbk-command-palette__item:hover .smbk-kbd {
+      forced-color-adjust: auto;
+      color: CanvasText;
+    }
+  }
+
+  .smbk-command-palette__item[aria-disabled="true"] {
+    color: GrayText;
+  }
+}

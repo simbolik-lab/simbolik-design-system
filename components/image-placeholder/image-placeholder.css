@@ -1,0 +1,9 @@
+/* smbk-image-placeholder — Image placeholder. Figma "Image Placeholder" 1988:5921.
+ * Takes the width it is given and the ratio of the picture it stands for. */
+
+.smbk-image-placeholder {
+  display: block;
+  width: 100%;
+  border-radius: var(--smbk-radius-control-lg);
+  background: var(--smbk-color-surface-default-disabled);
+}

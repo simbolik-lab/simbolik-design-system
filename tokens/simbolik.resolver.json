@@ -1,0 +1,45 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/resolver.json",
+  "version": "2025.10",
+  "$description": "How the token files combine. Sets always apply; each modifier is one context axis with alternative files. How each axis reaches CSS is build configuration, in build/config.ts.",
+  "sets": {
+    "primitives": { "sources": [{ "$ref": "primitives.tokens.json" }] },
+    "semantic": { "sources": [{ "$ref": "semantic.tokens.json" }] },
+    "typography-styles": { "sources": [{ "$ref": "typography-styles.tokens.json" }] },
+    "effect-styles": { "sources": [{ "$ref": "effect-styles.tokens.json" }] },
+    "authored": { "sources": [{ "$ref": "authored.tokens.json" }] }
+  },
+  "modifiers": {
+    "theme": {
+      "contexts": {
+        "light": [{ "$ref": "semantic-color/light.tokens.json" }],
+        "dark": [{ "$ref": "semantic-color/dark.tokens.json" }]
+      },
+      "default": "light"
+    },
+    "density": {
+      "contexts": {
+        "comfortable": [{ "$ref": "semantic-dimension/comfortable.tokens.json" }],
+        "compact": [{ "$ref": "semantic-dimension/compact.tokens.json" }]
+      },
+      "default": "comfortable"
+    },
+    "text-size": {
+      "contexts": {
+        "min": [{ "$ref": "semantic-typography/min.tokens.json" }],
+        "max": [{ "$ref": "semantic-typography/max.tokens.json" }]
+      },
+      "default": "min"
+    }
+  },
+  "resolutionOrder": [
+    { "$ref": "#/sets/primitives" },
+    { "$ref": "#/sets/semantic" },
+    { "$ref": "#/sets/typography-styles" },
+    { "$ref": "#/sets/effect-styles" },
+    { "$ref": "#/sets/authored" },
+    { "$ref": "#/modifiers/theme" },
+    { "$ref": "#/modifiers/density" },
+    { "$ref": "#/modifiers/text-size" }
+  ]
+}

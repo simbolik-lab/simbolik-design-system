@@ -1,0 +1,44 @@
+/* smbk-label — Label. Figma "Label" 4255:6252 (Variant: Strong, Subtle × Type: Default, Mono).
+ * The mono type sets the text in the small label preset, capitals in the mono
+ * face; the required mark stays in the body preset at either type, as Figma
+ * draws it. */
+
+.smbk-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-xs);
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-body-s-font-family);
+  font-size: var(--smbk-typography-body-s-font-size);
+  font-weight: var(--smbk-typography-body-s-font-weight);
+  line-height: var(--smbk-typography-body-s-line-height);
+  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
+}
+
+/* The trim sits on the words, not on the flex box, which does not pass it on. */
+.smbk-label__text,
+.smbk-label__required {
+  text-box: trim-both cap alphabetic;
+}
+
+.smbk-label--tone-subtle {
+  color: var(--smbk-color-text-subtle);
+}
+
+.smbk-label--type-mono .smbk-label__text {
+  font-family: var(--smbk-typography-label-s-font-family);
+  font-size: var(--smbk-typography-label-s-font-size);
+  font-weight: var(--smbk-typography-label-s-font-weight);
+  line-height: var(--smbk-typography-label-s-line-height);
+  letter-spacing: var(--smbk-typography-label-s-letter-spacing);
+  text-box: trim-both cap alphabetic;
+  text-transform: var(--smbk-typography-label-s-text-transform);
+}
+
+.smbk-label__required {
+  color: var(--smbk-color-feedback-danger-text-on-subtle);
+}
+
+.smbk-label__icon {
+  font-size: var(--smbk-size-icon-xs);
+}

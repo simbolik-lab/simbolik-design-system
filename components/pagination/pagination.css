@@ -1,0 +1,90 @@
+/* smbk-pagination — Pagination. Figma "Pagination" 4253:3044 (Type: Default, Select, Range; Border: Yes, No).
+ * The numbers type is a bar of ghost buttons, the current page held in the
+ * pressed look, with or without its border. The select type is Previous, a
+ * select of pages, Next. The range type says which rows are showing out of
+ * how many, with a select of ranges, for a table's foot. */
+
+.smbk-pagination {
+  display: inline-flex;
+  align-items: center;
+}
+
+.smbk-pagination__list {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-xs);
+  margin: 0;
+  padding: var(--smbk-space-inset-xs);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  border-radius: var(--smbk-radius-control-lg);
+  list-style: none;
+}
+
+.smbk-pagination--borderless .smbk-pagination__list {
+  border-color: transparent;
+}
+
+.smbk-pagination__item {
+  display: inline-flex;
+}
+
+.smbk-pagination__page {
+  width: var(--smbk-size-control-sm);
+  padding: 0;
+}
+
+.smbk-pagination__page[aria-current="page"] {
+  background: var(--smbk-color-action-ghost-background-pressed);
+}
+
+.smbk-pagination__gap {
+  display: inline-block;
+  text-align: center;
+  min-width: var(--smbk-size-control-sm);
+  color: var(--smbk-color-text-subtlest);
+  font-family: var(--smbk-typography-body-m-font-family);
+  font-size: var(--smbk-typography-body-m-font-size);
+  font-weight: var(--smbk-typography-body-m-font-weight);
+  line-height: var(--smbk-typography-body-m-line-height);
+  letter-spacing: var(--smbk-typography-body-m-letter-spacing);
+  text-box: trim-both cap alphabetic;
+}
+
+/* ---- type: select ---- */
+
+.smbk-pagination--type-select {
+  gap: var(--smbk-space-inline-lg);
+}
+
+.smbk-pagination--type-select .smbk-pagination__select {
+  width: auto;
+}
+
+/* ---- type: range ---- */
+
+.smbk-pagination--type-range {
+  gap: var(--smbk-space-inline-lg);
+}
+
+.smbk-pagination--type-range .smbk-pagination__select {
+  width: auto;
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  .smbk-pagination__page[aria-current="page"] {
+    forced-color-adjust: none;
+    border-color: Highlight;
+    background: Highlight;
+    color: HighlightText;
+    box-shadow: none;
+  }
+
+  .smbk-pagination__page[aria-current="page"]:focus-visible {
+    outline-color: CanvasText;
+  }
+}

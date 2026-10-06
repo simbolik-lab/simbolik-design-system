@@ -1,0 +1,2579 @@
+{
+  "$extensions": {
+    "tokens-bruecke-meta": {
+      "useDTCG": true,
+      "spec": "https://www.designtokens.org/tr/2025.10/format/",
+      "colorMode": "hex",
+      "variableCollections": [
+        "Primitives",
+        "Semantic Color",
+        "Semantic Dimension",
+        "Semantic Typography",
+        "Semantic"
+      ],
+      "createdAt": "2026-09-22T17:39:58.765Z"
+    }
+  },
+  "color": {
+    "surface": {
+      "canvas": {
+        "$value": "{color.frost.200}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4046:9255",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ]
+          }
+        }
+      },
+      "default": {
+        "$value": "{color.frost.100}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4047:9258",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ]
+          }
+        }
+      },
+      "default-disabled": {
+        "$value": "{color.midnight.50}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4086:11190",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ]
+          }
+        }
+      },
+      "raised": {
+        "$value": "{color.frost.50}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4047:9260",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ]
+          }
+        }
+      },
+      "brand": {
+        "$value": "{color.red.550}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4047:9261",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ]
+          }
+        }
+      },
+      "inverse": {
+        "$value": "{color.moonrise.650}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4065:9776",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ]
+          }
+        }
+      },
+      "sunken": {
+        "$value": "{color.frost.200}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4115:17808",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ]
+          }
+        }
+      },
+      "overlay": {
+        "$value": "{color.alpha.white.40}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4047:9263",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ]
+          }
+        }
+      },
+      "overlay-subtle": {
+        "$value": "{color.alpha.white.15}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4047:9264",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ]
+          }
+        }
+      }
+    },
+    "text": {
+      "default": {
+        "$value": "{color.moonrise.700}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4048:9265",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "subtle": {
+        "$value": "{color.moonrise.400}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4048:9266",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "subtlest": {
+        "$value": "{color.steel.850}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4048:9267",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "disabled": {
+        "$value": "{color.midnight.300}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4048:9268",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "brand": {
+        "$value": "{color.red.550}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4048:9269",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "brand-hover": {
+        "$value": "{color.red.700}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4129:21540",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "accent": {
+        "$value": "{color.blue.800}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4129:21541",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "accent-hover": {
+        "$value": "{color.blue.550}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4129:21542",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "inverse": {
+        "$value": "{color.frost.50}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4048:9270",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "on-brand": {
+        "$value": "{color.frost.50}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4087:12219",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "on-media": {
+        "$value": "{color.frost.50}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4048:9271",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "selected": {
+        "$value": "{color.frost.50}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4051:9316",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "link": {
+        "$value": "{color.moonrise.700}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4116:17811",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "link-hover": {
+        "$value": "{color.moonrise.850}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4116:17812",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "link-pressed": {
+        "$value": "{color.moonrise.500}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4129:21361",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "link-underline": {
+        "$value": "{color.moonrise.400}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4129:21362",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "link-underline-hover": {
+        "$value": "{color.moonrise.700}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4129:21363",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "link-disabled": {
+        "$value": "{color.moonrise.400}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4116:17814",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      }
+    },
+    "border": {
+      "subtle": {
+        "$value": "{color.frost.400}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4049:9272",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      },
+      "strong": {
+        "$value": "{color.frost.700}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4049:9274",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      },
+      "control": {
+        "$value": "{color.frost.900}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4049:9273",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      },
+      "control-hover": {
+        "$value": "{color.frost.1000}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4116:17918",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      },
+      "control-disabled": {
+        "$value": "{color.midnight.100}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4049:9276",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      },
+      "control-selected": {
+        "$value": "{color.alpha.white.10}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4051:9318",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      },
+      "focus": {
+        "$value": "{color.red.550}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4050:9278",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "STROKE_COLOR",
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "focus-field": {
+        "$value": "{color.blue.550}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4168:7525",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "STROKE_COLOR",
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "brand": {
+        "$value": "{color.red.550}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4050:9277",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      },
+      "inverse": {
+        "$value": "{color.moonrise.700}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4086:11085",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      },
+      "edge-top": {
+        "$value": "{color.frost.400}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4050:9279",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      },
+      "edge-bottom": {
+        "$value": "{color.alpha.white.100}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4050:9280",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      },
+      "edge-highlight": {
+        "$value": "{color.alpha.white.90}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4050:9281",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      },
+      "edge-highlight-subtle": {
+        "$value": "{color.alpha.white.20}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4087:12188",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      },
+      "edge-shade": {
+        "$value": "{color.alpha.black.20}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4050:9282",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      },
+      "edge-shade-subtle": {
+        "$value": "{color.alpha.black.10}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4116:17919",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      }
+    },
+    "action": {
+      "brand": {
+        "background": {
+          "$value": "{color.red.550}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4050:9283",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "background-hover": {
+          "$value": "{color.red.700}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4050:9284",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "background-pressed": {
+          "$value": "{color.red.700}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4116:17920",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "background-disabled": {
+          "$value": "{color.alpha.red.40}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4117:17927",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "foreground": {
+          "$value": "{color.frost.50}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4050:9287",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "foreground-disabled": {
+          "$value": "{color.alpha.white.30}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4117:17928",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "border": {
+          "$value": "{color.alpha.white.10}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4117:17929",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "border-hover": {
+          "$value": "{color.alpha.black.5}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4117:17930",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "border-disabled": {
+          "$value": "{color.alpha.black.5}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4117:17931",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        }
+      },
+      "default": {
+        "background": {
+          "$value": "{color.frost.100}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4050:9285",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "background-hover": {
+          "$value": "{color.frost.300}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4050:9286",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "background-pressed": {
+          "$value": "{color.frost.300}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4116:17921",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "background-disabled": {
+          "$value": "{color.midnight.150}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4117:17932",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "foreground": {
+          "$value": "{color.moonrise.650}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4050:9288",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "foreground-hover": {
+          "$value": "{color.red.550}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4136:3268",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "foreground-disabled": {
+          "$value": "{color.midnight.300}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4117:17954",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "border": {
+          "$value": "{color.frost.50}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4117:17953",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "border-hover": {
+          "$value": "{color.frost.600}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4117:17952",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "border-disabled": {
+          "$value": "{color.midnight.150}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4117:17951",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        }
+      },
+      "secondary": {
+        "background": {
+          "$value": "{color.alpha.moonrise.15}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4127:20052",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "background-hover": {
+          "$value": "{color.alpha.moonrise.25}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4127:20053",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "background-pressed": {
+          "$value": "{color.alpha.moonrise.20}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4127:20054",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "background-disabled": {
+          "$value": "{color.midnight.150}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4127:20055",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "foreground": {
+          "$value": "{color.moonrise.650}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4127:20056",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "foreground-disabled": {
+          "$value": "{color.midnight.300}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4127:20057",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "border": {
+          "$value": "{color.alpha.white.30}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4127:20058",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "border-hover": {
+          "$value": "{color.alpha.white.30}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4127:20059",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "border-disabled": {
+          "$value": "{color.midnight.150}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4127:20060",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        }
+      },
+      "tertiary": {
+        "background": {
+          "$value": "{color.frost.50}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4157:6111",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "background-hover": {
+          "$value": "{color.frost.500}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4157:6112",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "background-pressed": {
+          "$value": "{color.frost.500}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4157:6113",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "background-disabled": {
+          "$value": "{color.midnight.150}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4157:6114",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "foreground": {
+          "$value": "{color.moonrise.650}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4157:6115",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "foreground-disabled": {
+          "$value": "{color.midnight.300}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4157:6116",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "border": {
+          "$value": "{color.alpha.white.90}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4157:6117",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "border-hover": {
+          "$value": "{color.frost.500}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4157:6118",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "border-disabled": {
+          "$value": "{color.midnight.150}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4157:6119",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        }
+      },
+      "outline": {
+        "border": {
+          "$value": "{color.moonrise.100}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4092:14039",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "border-hover": {
+          "$value": "{color.moonrise.200}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4092:14040",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "border-pressed": {
+          "$value": "{color.moonrise.200}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4116:17922",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "border-disabled": {
+          "$value": "{color.midnight.150}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4117:17955",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "foreground": {
+          "$value": "{color.moonrise.650}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4116:17923",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "foreground-disabled": {
+          "$value": "{color.midnight.200}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4117:17965",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "background-hover": {
+          "$value": "{color.frost.300}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4117:17966",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "background-pressed": {
+          "$value": "{color.frost.300}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4117:17967",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        }
+      },
+      "ghost": {
+        "background-hover": {
+          "$value": "{color.frost.500}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4157:4500",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "background-pressed": {
+          "$value": "{color.frost.500}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4157:4501",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "foreground": {
+          "$value": "{color.moonrise.650}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4157:4502",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "foreground-disabled": {
+          "$value": "{color.midnight.300}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4157:4503",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        }
+      },
+      "inverse": {
+        "background": {
+          "$value": "{color.moonrise.650}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4112:17783",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "background-hover": {
+          "$value": "{color.moonrise.700}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4112:17784",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "background-pressed": {
+          "$value": "{color.moonrise.700}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4117:17968",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "background-disabled": {
+          "$value": "{color.midnight.150}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4117:17969",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "foreground": {
+          "$value": "{color.frost.50}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4112:17785",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "foreground-disabled": {
+          "$value": "{color.midnight.300}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4117:17970",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "border": {
+          "$value": "{color.moonrise.600}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4117:17971",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "border-hover": {
+          "$value": "{color.moonrise.650}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4117:17972",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "border-disabled": {
+          "$value": "{color.midnight.150}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4117:17973",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        }
+      },
+      "destructive": {
+        "background": {
+          "$value": "{color.red.100}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4119:18958",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "background-hover": {
+          "$value": "{color.red.200}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4119:18959",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "background-pressed": {
+          "$value": "{color.red.200}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4119:18961",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "background-disabled": {
+          "$value": "{color.alpha.red.30}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4119:18962",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "foreground": {
+          "$value": "{color.red.700}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4119:18963",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "foreground-hover": {
+          "$value": "{color.red.800}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4119:18971",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "foreground-disabled": {
+          "$value": "{color.alpha.red.50}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4119:18964",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "border": {
+          "$value": "{color.alpha.black.5}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4119:18954",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "border-hover": {
+          "$value": "{color.alpha.red.30}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4119:18955",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "border-disabled": {
+          "$value": "{color.alpha.black.5}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4119:18957",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "feedback": {
+      "info": {
+        "surface": {
+          "$value": "{color.blue.550}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4051:9297",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "surface-subtle": {
+          "$value": "{color.blue.50}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4051:9298",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "text-on-surface": {
+          "$value": "{color.blue.50}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4121:18979",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "text-on-subtle": {
+          "$value": "{color.blue.500}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4051:9299",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "border": {
+          "$value": "{color.blue.300}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4087:12177",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "border-subtle": {
+          "$value": "{color.blue.100}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4051:9301",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        }
+      },
+      "warning": {
+        "surface": {
+          "$value": "{color.orange.600}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4051:9306",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "surface-subtle": {
+          "$value": "{color.orange.50}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4051:9307",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "text-on-surface": {
+          "$value": "{color.frost.50}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4121:19007",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "text-on-subtle": {
+          "$value": "{color.orange.700}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4051:9308",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "border": {
+          "$value": "{color.orange.300}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4087:12184",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "border-subtle": {
+          "$value": "{color.orange.200}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4051:9309",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        }
+      },
+      "success": {
+        "surface": {
+          "$value": "{color.green.800}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4051:9293",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "surface-subtle": {
+          "$value": "{color.green.50}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4051:9294",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "text-on-surface": {
+          "$value": "{color.green.50}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4121:19006",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "text-on-subtle": {
+          "$value": "{color.green.800}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4051:9295",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "border": {
+          "$value": "{color.green.600}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4087:12181",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "border-subtle": {
+          "$value": "{color.green.200}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4051:9296",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        }
+      },
+      "danger": {
+        "surface": {
+          "$value": "{color.red.600}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4051:9302",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "surface-subtle": {
+          "$value": "{color.red.50}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4051:9303",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "text-on-surface": {
+          "$value": "{color.red.50}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4121:19005",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "text-on-subtle": {
+          "$value": "{color.red.600}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4051:9304",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "border": {
+          "$value": "{color.red.300}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4087:12187",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "border-subtle": {
+          "$value": "{color.red.200}",
+          "$type": "color",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4051:9305",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "overlay": {
+      "scrim": {
+        "$value": "{color.alpha.black.50}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4051:9310",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "FRAME_FILL"
+            ]
+          }
+        }
+      }
+    },
+    "shadow": {
+      "xs": {
+        "$value": "{color.alpha.moonrise.5}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4157:6933",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "s": {
+        "$value": "{color.alpha.moonrise.10}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4051:9311",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "m": {
+        "$value": "{color.alpha.moonrise.15}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4051:9312",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "l": {
+        "$value": "{color.alpha.moonrise.20}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4157:6930",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "xl": {
+        "$value": "{color.alpha.moonrise.30}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4157:6932",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      }
+    },
+    "icon": {
+      "default": {
+        "$value": "{color.moonrise.700}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4116:17810",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "SHAPE_FILL",
+              "TEXT_FILL",
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      },
+      "subtle": {
+        "$value": "{color.moonrise.400}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4116:17842",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "SHAPE_FILL",
+              "TEXT_FILL",
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      },
+      "disabled": {
+        "$value": "{color.midnight.200}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4116:17843",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "SHAPE_FILL",
+              "TEXT_FILL",
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      },
+      "inverse": {
+        "$value": "{color.frost.50}",
+        "$type": "color",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4116:17844",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "SHAPE_FILL",
+              "TEXT_FILL",
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

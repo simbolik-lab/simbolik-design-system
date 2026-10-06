@@ -1,0 +1,24 @@
+/* smbk-icon — a Phosphor glyph in a system icon size.
+ * Phosphor draws through font-size, so the box and the glyph share one size.
+ * Color is inherited so an icon always matches the text it sits beside.
+ * Every rule here is wrapped in :where(), which gives it no weight: the part
+ * rule of the component an icon sits in always wins, whichever stylesheet
+ * loads first. The size axis is for a free-standing icon. */
+:where(.smbk-icon) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  font-size: var(--smbk-size-icon-md);
+  line-height: 1;
+  color: inherit;
+}
+
+:where(.smbk-icon--size-xs) { font-size: var(--smbk-size-icon-xs); }
+:where(.smbk-icon--size-sm) { font-size: var(--smbk-size-icon-sm); }
+:where(.smbk-icon--size-md) { font-size: var(--smbk-size-icon-md); }
+:where(.smbk-icon--size-lg) { font-size: var(--smbk-size-icon-lg); }
+:where(.smbk-icon--size-xl) { font-size: var(--smbk-size-icon-xl); }
+:where(.smbk-icon--size-2xl) { font-size: var(--smbk-size-icon-2xl); }

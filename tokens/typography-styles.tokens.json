@@ -1,0 +1,292 @@
+{
+  "$extensions": {
+    "tokens-bruecke-meta": {
+      "useDTCG": true,
+      "spec": "https://www.designtokens.org/tr/2025.10/format/",
+      "colorMode": "hex",
+      "variableCollections": [
+        "Primitives",
+        "Semantic Color",
+        "Semantic Dimension",
+        "Semantic Typography",
+        "Semantic"
+      ],
+      "createdAt": "2026-09-22T17:39:58.765Z"
+    }
+  },
+  "typography": {
+    "display-1": {
+      "$value": {
+        "fontFamily": "{font.family.display}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{text.display-xl}",
+        "lineHeight": 1,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:3ea55ab98646c527b15ac2e66ba1c22a5198131a"
+        }
+      }
+    },
+    "display-2": {
+      "$value": {
+        "fontFamily": "{font.family.display}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{text.display-lg}",
+        "lineHeight": 1,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:aece2688ac308367be58585d64c7a3263418c0f8"
+        }
+      }
+    },
+    "h1": {
+      "$value": {
+        "fontFamily": "{font.family.display}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{text.heading-xl}",
+        "lineHeight": 1.2,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:496ee34b6f4b2ad60e3105784d79dd8cbfc6bf4b"
+        }
+      }
+    },
+    "h2": {
+      "$value": {
+        "fontFamily": "{font.family.display}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{text.heading-lg}",
+        "lineHeight": 1.2,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:ac0dd1f4b598177af8256ec85487df7f4183a243"
+        }
+      }
+    },
+    "h3": {
+      "$value": {
+        "fontFamily": "{font.family.display}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{text.heading-md}",
+        "lineHeight": 1.2,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:0a4a3b8f1dda8eebbe15e3b99e8dc4d9efd1ae82"
+        }
+      }
+    },
+    "h4": {
+      "$value": {
+        "fontFamily": "{font.family.display}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{text.heading-sm}",
+        "lineHeight": 1.2,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:cc1b703ac8f15dc8d4e25094e09c161e53df72ea"
+        }
+      }
+    },
+    "h5": {
+      "$value": {
+        "fontFamily": "{font.family.display}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{text.heading-xs}",
+        "lineHeight": 1.2,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:1880a036523355ec0a976c6a42807fb4f5602e4e"
+        }
+      }
+    },
+    "h6": {
+      "$value": {
+        "fontFamily": "{font.family.display}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{text.heading-2xs}",
+        "lineHeight": 1.4,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:22a3c09abb961b226a281c7094d24ee989ea1c99"
+        }
+      }
+    },
+    "subtitle": {
+      "$value": {
+        "fontFamily": "{font.family.body}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{text.body-lg}",
+        "lineHeight": 1.4,
+        "letterSpacing": {
+          "value": 0,
+          "unit": "px"
+        }
+      },
+      "$type": "typography",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:240a74adaa3e4a093b9f9e0be12fd8520614613c"
+        }
+      }
+    },
+    "subheading": {
+      "$value": {
+        "fontFamily": "{font.family.body}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{text.body-md}",
+        "lineHeight": 1.4,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:2d5699cfc7a6fbe1d4e5664ff8c30156b2152a8e"
+        }
+      }
+    },
+    "body-l": {
+      "$value": {
+        "fontFamily": "{font.family.body}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{text.body-lg}",
+        "lineHeight": 1.4,
+        "letterSpacing": {
+          "value": 0,
+          "unit": "px"
+        }
+      },
+      "$type": "typography",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:19b6ba19e74dbdf02320f329bb724058b0e18cc8"
+        }
+      }
+    },
+    "body-m": {
+      "$value": {
+        "fontFamily": "{font.family.body}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{text.body-md}",
+        "lineHeight": 1.4,
+        "letterSpacing": {
+          "value": 0,
+          "unit": "px"
+        }
+      },
+      "$type": "typography",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:2d2c92cd9fb9e1a57c64ccb89588d300f8fe2e7c"
+        }
+      }
+    },
+    "body-s": {
+      "$value": {
+        "fontFamily": "{font.family.body}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{text.body-sm}",
+        "lineHeight": 1.4,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:aa9e97bae2870ac564ba77da03dfcc3f70ce5092"
+        }
+      }
+    },
+    "body-t": {
+      "$value": {
+        "fontFamily": "{font.family.body}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{text.body-xs}",
+        "lineHeight": 1.4,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:f0894a6023740ccdcf1e2289991581ce1801cfab"
+        }
+      }
+    },
+    "label-l": {
+      "$value": {
+        "fontFamily": "{font.family.mono}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{text.label-lg}",
+        "lineHeight": 1.4,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$extensions": {
+        "com.simbolik": {
+          "textTransform": "uppercase"
+        },
+        "figma": {
+          "styleId": "S:6ebb71eca09c1b0818c7fc7c67fe1fe6115b1111"
+        }
+      }
+    },
+    "label-m": {
+      "$value": {
+        "fontFamily": "{font.family.mono}",
+        "fontWeight": "{font.weight.medium}",
+        "fontSize": "{text.label-md}",
+        "lineHeight": 1.4,
+        "letterSpacing": "{font.letter-spacing.loose}"
+      },
+      "$type": "typography",
+      "$extensions": {
+        "com.simbolik": {
+          "textTransform": "uppercase"
+        },
+        "figma": {
+          "styleId": "S:61df69368bdec6df6c02bb2f134dfbeaf42c7a1a"
+        }
+      }
+    },
+    "label-s": {
+      "$value": {
+        "fontFamily": "{font.family.mono}",
+        "fontWeight": "{font.weight.medium}",
+        "fontSize": "{text.label-sm}",
+        "lineHeight": 1.4,
+        "letterSpacing": "{font.letter-spacing.loose}"
+      },
+      "$type": "typography",
+      "$extensions": {
+        "com.simbolik": {
+          "textTransform": "uppercase"
+        },
+        "figma": {
+          "styleId": "S:7986fed8b2d45484ff21f9fc8e84ab1402c21f76"
+        }
+      }
+    }
+  }
+}

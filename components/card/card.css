@@ -1,0 +1,147 @@
+/* smbk-card — Card. Figma "Card" 4255:7087 and its header, body and footer.
+ * Content is a column with the container inset; the footer is separated by
+ * the divider's two edge lines. With a background picture the content sits at
+ * the bottom over a frosted overlay and reads in the on-media text color. */
+
+.smbk-card {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  border-radius: var(--smbk-radius-container-md);
+  background: var(--smbk-color-surface-default);
+  color: var(--smbk-color-text-default);
+  box-shadow: var(--smbk-elevation-1);
+}
+
+.smbk-card__media {
+  display: block;
+  flex-shrink: 0;
+  width: 100%;
+  object-fit: cover;
+  background: var(--smbk-color-surface-default-disabled);
+}
+
+.smbk-card__content {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-xl);
+  min-width: 0;
+  padding: var(--smbk-space-inset-2xl);
+}
+
+.smbk-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-inline-xl);
+}
+
+.smbk-card__icon {
+  font-size: var(--smbk-size-icon-xl);
+}
+
+.smbk-card__eyebrow {
+  margin: 0;
+  color: var(--smbk-color-text-brand);
+  font-family: var(--smbk-typography-label-m-font-family);
+  font-size: var(--smbk-typography-label-m-font-size);
+  font-weight: var(--smbk-typography-label-m-font-weight);
+  line-height: var(--smbk-typography-label-m-line-height);
+  letter-spacing: var(--smbk-typography-label-m-letter-spacing);
+  text-box: trim-both cap alphabetic;
+  text-transform: var(--smbk-typography-label-m-text-transform);
+}
+
+.smbk-card__title {
+  margin: 0;
+  font-family: var(--smbk-typography-h5-font-family);
+  font-size: var(--smbk-typography-h5-font-size);
+  font-weight: var(--smbk-typography-h5-font-weight);
+  line-height: var(--smbk-typography-h5-line-height);
+  letter-spacing: var(--smbk-typography-h5-letter-spacing);
+  text-box: trim-both cap alphabetic;
+}
+
+.smbk-card__header .smbk-card__eyebrow + .smbk-card__title {
+  margin-top: calc(var(--smbk-space-inline-lg) - var(--smbk-space-inline-xl));
+}
+
+/* A block, not a flex column, so the trim reaches its words: a flex box does
+   not pass the trim to text inside it. Children keep the same gap as margins. */
+.smbk-card__body {
+  display: block;
+  margin: 0;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-subheading-font-family);
+  font-size: var(--smbk-typography-subheading-font-size);
+  font-weight: var(--smbk-typography-subheading-font-weight);
+  line-height: var(--smbk-typography-subheading-line-height);
+  letter-spacing: var(--smbk-typography-subheading-letter-spacing);
+  text-box: trim-both cap alphabetic;
+}
+.smbk-card__body > * {
+  margin-block: 0;
+}
+
+.smbk-card__body > * + * {
+  margin-block-start: var(--smbk-space-inline-lg);
+}
+
+
+.smbk-card__footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-xl);
+  margin-top: auto;
+  padding-top: var(--smbk-space-stack-xl);
+  border-top: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-top);
+  box-shadow: inset 0 var(--smbk-border-width-hairline) 0 var(--smbk-color-border-edge-bottom);
+}
+
+/* ---- media placements ---- */
+
+/* The picture's own shape. Given its size, the height follows from the width,
+   and the browser holds that shape before the picture loads. */
+.smbk-card--media-top .smbk-card__media {
+  height: auto;
+}
+
+.smbk-card--media-side {
+  flex-direction: row;
+}
+
+.smbk-card--media-side .smbk-card__media {
+  width: var(--smbk-size-content-sm);
+  max-width: 40%;
+  height: auto;
+  align-self: stretch;
+}
+
+.smbk-card--media-background {
+  border: 0;
+  color: var(--smbk-color-text-on-media);
+}
+
+.smbk-card--media-background .smbk-card__media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.smbk-card--media-background .smbk-card__content {
+  position: relative;
+  justify-content: flex-end;
+  min-height: var(--smbk-size-content-sm);
+  background: var(--smbk-color-surface-overlay);
+  backdrop-filter: blur(var(--smbk-blur-8));
+  margin-top: auto;
+}
+
+.smbk-card--media-background .smbk-card__eyebrow,
+.smbk-card--media-background .smbk-card__body {
+  color: var(--smbk-color-text-on-media);
+}

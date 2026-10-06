@@ -1,0 +1,65 @@
+/* smbk-avatar — Avatar. Figma "Avatar" 962:62.
+ * Sizes are bound to primitive size steps in Figma; so here. Initials are set
+ * in the body face at the body size of each step. Figma draws them at the
+ * medium weight, which no text preset carries — recorded in the docs. */
+
+.smbk-avatar {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--smbk-size-88);
+  height: var(--smbk-size-88);
+  overflow: hidden;
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight-subtle);
+  border-radius: var(--smbk-radius-full);
+  background: var(--smbk-color-surface-raised);
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-body-m-medium-font-family);
+  font-weight: var(--smbk-typography-body-m-medium-font-weight);
+  line-height: 1;
+  font-size: var(--smbk-text-heading-md);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.smbk-avatar__icon {
+  font-size: var(--smbk-size-icon-2xl);
+}
+
+.smbk-avatar__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---- scheme ---- */
+
+.smbk-avatar--scheme-brand {
+  background: var(--smbk-color-surface-brand);
+  color: var(--smbk-color-text-on-brand);
+}
+
+.smbk-avatar--scheme-default {
+  background: var(--smbk-color-surface-inverse);
+  color: var(--smbk-color-text-inverse);
+}
+
+/* ---- size ---- */
+
+.smbk-avatar--size-lg { width: var(--smbk-size-64); height: var(--smbk-size-64); font-size: var(--smbk-text-body-lg); }
+.smbk-avatar--size-lg .smbk-avatar__icon { font-size: var(--smbk-size-icon-xl); }
+
+.smbk-avatar--size-md { width: var(--smbk-size-40); height: var(--smbk-size-40); font-size: var(--smbk-text-body-md); }
+.smbk-avatar--size-md .smbk-avatar__icon { font-size: var(--smbk-size-icon-lg); }
+
+.smbk-avatar--size-sm { width: var(--smbk-size-32); height: var(--smbk-size-32); font-size: var(--smbk-text-body-sm); }
+.smbk-avatar--size-sm .smbk-avatar__icon { font-size: var(--smbk-size-icon-md); }
+
+.smbk-avatar--size-xs { width: var(--smbk-size-24); height: var(--smbk-size-24); font-size: var(--smbk-text-body-xs); }
+.smbk-avatar--size-xs .smbk-avatar__icon { font-size: var(--smbk-size-icon-sm); }
+
+.smbk-avatar--size-2xs { width: var(--smbk-size-20); height: var(--smbk-size-20); font-size: var(--smbk-text-body-xs); }
+.smbk-avatar--size-2xs .smbk-avatar__icon { font-size: var(--smbk-size-icon-xs); }

@@ -1,0 +1,177 @@
+/* smbk-accordion — Accordion. Figma "Accordion" 4128:20419 and "AccordionItem" 4128:20300.
+ * Items are native details/summary elements, so opening, closing and keyboard
+ * behavior are the browser's. The caret turns and takes the brand color when open.
+ * The content grows from no height to its own as the item opens (see the motion
+ * rules at the end). */
+
+.smbk-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-inset-md);
+  width: 100%;
+}
+
+.smbk-accordion__item {
+  box-sizing: border-box;
+  padding: var(--smbk-space-inset-2xl) var(--smbk-space-inset-xl);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  border-radius: var(--smbk-radius-control-sm);
+  background: var(--smbk-color-surface-default);
+  color: var(--smbk-color-text-default);
+}
+
+.smbk-accordion__summary {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inset-md);
+  list-style: none;
+  cursor: pointer;
+  font-family: var(--smbk-typography-body-l-font-family);
+  font-size: var(--smbk-typography-body-l-font-size);
+  font-weight: var(--smbk-typography-body-l-font-weight);
+  line-height: var(--smbk-typography-body-l-line-height);
+  letter-spacing: var(--smbk-typography-body-l-letter-spacing);
+  text-box: trim-both cap alphabetic;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+@media (hover: hover) {
+  .smbk-accordion__summary:hover {
+    color: var(--smbk-color-text-brand);
+  }
+}
+
+.smbk-accordion__summary::-webkit-details-marker {
+  display: none;
+}
+
+.smbk-accordion__summary:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+  border-radius: var(--smbk-radius-control-xs);
+}
+
+/* The row is a flex container, which a text-box trim does not reach; the title
+   is the block that holds the text, so it carries the trim, and the row is as
+   tall as Figma draws it: the caret's height, not the line's. */
+.smbk-accordion__title {
+  flex: 1 1 auto;
+  text-box: trim-both cap alphabetic;
+}
+
+.smbk-accordion__caret {
+  flex-shrink: 0;
+  color: var(--smbk-color-text-subtle);
+  font-size: var(--smbk-size-icon-md);
+}
+
+.smbk-accordion__item[open] > .smbk-accordion__summary .smbk-accordion__caret {
+  color: var(--smbk-color-text-brand);
+  transform: rotate(180deg);
+}
+
+.smbk-accordion__content {
+  padding-top: var(--smbk-space-inset-2xl);
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-m-font-family);
+  font-size: var(--smbk-typography-body-m-font-size);
+  font-weight: var(--smbk-typography-body-m-font-weight);
+  line-height: var(--smbk-typography-body-m-line-height);
+  letter-spacing: var(--smbk-typography-body-m-letter-spacing);
+  text-box: trim-both cap alphabetic;
+}
+
+.smbk-accordion__item--disabled {
+  background: var(--smbk-color-surface-default-disabled);
+  border-color: transparent;
+  color: var(--smbk-color-text-disabled);
+}
+
+.smbk-accordion__item--disabled > .smbk-accordion__summary {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.smbk-accordion__item--disabled .smbk-accordion__caret {
+  color: var(--smbk-color-text-disabled);
+}
+
+/* ---- flat: no cards, the divider component after each item (the divider part), which
+   draws its own two lines: the shade over the highlight ---- */
+
+.smbk-accordion--look-flat {
+  gap: 0;
+}
+
+.smbk-accordion--look-flat .smbk-accordion__item {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.smbk-accordion--look-flat .smbk-accordion__summary {
+  padding: var(--smbk-space-inset-2xl) 0;
+}
+
+.smbk-accordion--look-flat .smbk-accordion__content {
+  padding: 0 0 var(--smbk-space-inset-xl);
+}
+
+.smbk-accordion--look-flat .smbk-accordion__item--disabled {
+  background: transparent;
+}
+
+/* ---- motion: the caret turns with the state purpose; the content grows from no height to its
+   own with the enter purpose and shrinks with the exit purpose. While it grows it is clipped,
+   with room to spare for the item's own padding (flat: a focus ring's reach), so the text
+   never spills over the edge. A browser that cannot animate to a natural height opens at once.
+   No movement under reduced motion. ---- */
+
+.smbk-accordion__item {
+  interpolate-size: allow-keywords;
+}
+
+.smbk-accordion__caret {
+  transition: transform var(--smbk-motion-state-duration) var(--smbk-motion-state-easing);
+}
+
+.smbk-accordion__item::details-content {
+  block-size: 0;
+  overflow: clip;
+  overflow-clip-margin: var(--smbk-space-inset-xl);
+  transition-property: block-size, content-visibility;
+  transition-duration: var(--smbk-motion-exit-duration);
+  transition-timing-function: var(--smbk-motion-exit-easing);
+  transition-behavior: allow-discrete;
+}
+
+.smbk-accordion__item[open]::details-content {
+  block-size: auto;
+  transition-duration: var(--smbk-motion-enter-duration);
+  transition-timing-function: var(--smbk-motion-enter-easing);
+}
+
+.smbk-accordion--look-flat .smbk-accordion__item::details-content {
+  overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-accordion__caret,
+  .smbk-accordion__item::details-content {
+    transition: none;
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  .smbk-accordion__item--disabled,
+  .smbk-accordion__item--disabled > .smbk-accordion__summary,
+  .smbk-accordion__item--disabled .smbk-accordion__caret {
+    color: GrayText;
+  }
+}

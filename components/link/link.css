@@ -1,0 +1,97 @@
+/* smbk-link — Link. Figma "Link" 4129:21956.
+ * An inline box, not a flex box: a link inside a sentence wraps across lines
+ * like the words around it. The icon is inline too, so its glyph joins the
+ * word beside it as one more letter would: a line never breaks between them,
+ * and the icon travels with its word.
+ * No cap-height trim, unlike other text parts: trimming does not reach an
+ * inline box, and where a link stands alone in a flex or grid parent a trimmed
+ * box would pull the focus ring through the descenders. */
+
+.smbk-link {
+  display: inline;
+  color: var(--smbk-color-text-link);
+  font-family: var(--smbk-typography-body-l-font-family);
+  font-size: var(--smbk-typography-body-l-font-size);
+  font-weight: var(--smbk-typography-body-l-font-weight);
+  line-height: var(--smbk-typography-body-l-line-height);
+  letter-spacing: var(--smbk-typography-body-l-letter-spacing);
+  text-decoration: none;
+  text-decoration-color: var(--smbk-color-text-link-underline);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+@media (hover: hover) {
+  .smbk-link:hover {
+    color: var(--smbk-color-text-link-hover);
+    text-decoration: underline;
+    text-decoration-color: var(--smbk-color-text-link-underline-hover);
+  }
+}
+
+.smbk-link:active {
+  color: var(--smbk-color-text-link-pressed);
+  text-decoration: underline;
+}
+
+.smbk-link:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+  border-radius: var(--smbk-radius-full);
+}
+
+.smbk-link[aria-disabled="true"] {
+  color: var(--smbk-color-text-link-disabled);
+  text-decoration: none;
+  pointer-events: none;
+}
+
+.smbk-link--underline {
+  text-decoration: underline;
+}
+
+/* Not a box of its own, which would let the line break before it. Sitting on
+   the text baseline centers Phosphor's glyph on the capitals. */
+.smbk-link__icon {
+  display: inline;
+  font-size: var(--smbk-size-icon-sm);
+}
+
+.smbk-link__icon:first-child {
+  margin-inline-end: var(--smbk-space-inset-2xs);
+}
+
+.smbk-link__icon:last-child {
+  margin-inline-start: var(--smbk-space-inset-2xs);
+}
+
+.smbk-link--size-md {
+  font-family: var(--smbk-typography-body-m-font-family);
+  font-size: var(--smbk-typography-body-m-font-size);
+  font-weight: var(--smbk-typography-body-m-font-weight);
+  line-height: var(--smbk-typography-body-m-line-height);
+  letter-spacing: var(--smbk-typography-body-m-letter-spacing);
+}
+
+.smbk-link--size-sm {
+  font-family: var(--smbk-typography-body-s-font-family);
+  font-size: var(--smbk-typography-body-s-font-size);
+  font-weight: var(--smbk-typography-body-s-font-weight);
+  line-height: var(--smbk-typography-body-s-line-height);
+  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
+}
+
+.smbk-link--size-sm .smbk-link__icon {
+  font-size: var(--smbk-size-icon-xs);
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  .smbk-link[aria-disabled="true"] {
+    color: GrayText;
+  }
+}

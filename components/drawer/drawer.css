@@ -1,0 +1,239 @@
+/* smbk-drawer — Drawer. Figma "Drawer" 4212:23947 (Position: Left, Right, Top, Bottom) with "DrawerBody" 4237:27911.
+ * A panel that slides in from one edge over a scrim, built on the native
+ * dialog element. The width is the drawer width token, carried from Figma's frame.
+ * The inline flag shows the panel in place, for previews and documentation.
+ * The panel slides in from its edge over a fading scrim (motion rules at the end). */
+
+.smbk-drawer {
+  box-sizing: border-box;
+  position: fixed;
+  inset: 0 0 0 auto;
+  z-index: var(--smbk-layer-modal);
+  display: none;
+  flex-direction: column;
+  width: var(--smbk-size-drawer-width);
+  max-width: 100%;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  border-radius: var(--smbk-radius-container-md) 0 0 var(--smbk-radius-container-md);
+  background: var(--smbk-color-surface-default);
+  color: var(--smbk-color-text-default);
+  box-shadow: var(--smbk-elevation-3);
+  overflow: hidden;
+}
+
+.smbk-drawer[open] {
+  display: flex;
+}
+
+/* The panel takes focus as it opens, as a container, not a control: no ring of its own. */
+.smbk-drawer:focus {
+  outline: none;
+}
+
+.smbk-drawer::backdrop {
+  background: var(--smbk-color-overlay-scrim);
+}
+
+.smbk-drawer__header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-lg);
+  padding: var(--smbk-space-inset-2xl) var(--smbk-space-inset-2xl) 0;
+}
+
+.smbk-drawer__heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-inline-xl);
+  padding-right: var(--smbk-size-control-md);
+}
+
+.smbk-drawer__title {
+  margin: 0;
+  font-family: var(--smbk-typography-body-l-bold-font-family);
+  font-size: var(--smbk-typography-body-l-bold-font-size);
+  font-weight: var(--smbk-typography-body-l-bold-font-weight);
+  line-height: var(--smbk-typography-body-l-bold-line-height);
+  letter-spacing: var(--smbk-typography-body-l-bold-letter-spacing);
+  text-box: trim-both cap alphabetic;
+}
+
+.smbk-drawer__description {
+  margin: 0;
+  color: var(--smbk-color-text-subtlest);
+  font-family: var(--smbk-typography-body-s-font-family);
+  font-size: var(--smbk-typography-body-s-font-size);
+  font-weight: var(--smbk-typography-body-s-font-weight);
+  line-height: var(--smbk-typography-body-s-line-height);
+  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
+  text-box: trim-both cap alphabetic;
+}
+
+/* Figma sets the close button the large inset from the panel's top and end edges, so it sits on the
+   title's line and clear of the divider under a title alone. */
+.smbk-drawer__close {
+  position: absolute;
+  top: var(--smbk-space-inset-lg);
+  right: var(--smbk-space-inset-lg);
+}
+
+/* The body scrolls, so its text keeps its full line box: a box trimmed to the cap height under clipping cuts off descenders. */
+.smbk-drawer__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: var(--smbk-space-inset-2xl);
+  overflow: auto;
+  /* The scrollbar every scrolling part of the system draws: thin, in the subtle border color, on a clear track. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--smbk-color-border-subtle) transparent;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-s-font-family);
+  font-size: var(--smbk-typography-body-s-font-size);
+  font-weight: var(--smbk-typography-body-s-font-weight);
+  line-height: var(--smbk-typography-body-s-line-height);
+  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
+}
+
+.smbk-drawer__body > :first-child {
+  margin-top: 0;
+}
+
+.smbk-drawer__body > :last-child {
+  margin-bottom: 0;
+}
+
+.smbk-drawer__footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-lg);
+  padding: 0 var(--smbk-space-inset-2xl) var(--smbk-space-inset-2xl);
+}
+
+.smbk-drawer__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--smbk-space-inline-xl);
+}
+
+/* ---- positions: the corners facing the page are rounded ---- */
+
+.smbk-drawer--position-left {
+  inset: 0 auto 0 0;
+  border-radius: 0 var(--smbk-radius-container-md) var(--smbk-radius-container-md) 0;
+}
+
+.smbk-drawer--position-top,
+.smbk-drawer--position-bottom {
+  width: 100%;
+  max-width: none;
+  height: auto;
+  max-height: 100%;
+}
+
+.smbk-drawer--position-top {
+  inset: 0 0 auto 0;
+  border-radius: 0 0 var(--smbk-radius-container-md) var(--smbk-radius-container-md);
+}
+
+.smbk-drawer--position-bottom {
+  inset: auto 0 0 0;
+  border-radius: var(--smbk-radius-container-md) var(--smbk-radius-container-md) 0 0;
+}
+
+/* ---- inline: shown in place, no scrim ---- */
+
+.smbk-drawer--inline {
+  position: relative;
+  inset: auto;
+  z-index: auto;
+  height: auto;
+}
+
+.smbk-drawer--inline.smbk-drawer--position-top,
+.smbk-drawer--inline.smbk-drawer--position-bottom {
+  width: var(--smbk-size-drawer-width);
+}
+
+/* ---- motion: the panel slides in from its own edge by its own size with the enter purpose,
+   over a scrim that fades in, and slides back out with the exit purpose. Its display and its
+   place in the top layer change at the end of the exit, so it stays drawn while it leaves.
+   Inline drawers do not move. No movement under reduced motion. ---- */
+
+.smbk-drawer:not(.smbk-drawer--inline),
+.smbk-drawer:not(.smbk-drawer--inline)::backdrop {
+  transition-property: translate, opacity, display, overlay;
+  transition-duration: var(--smbk-motion-exit-duration);
+  transition-timing-function: var(--smbk-motion-exit-easing);
+  transition-behavior: allow-discrete;
+}
+
+.smbk-drawer[open]:not(.smbk-drawer--inline),
+.smbk-drawer[open]:not(.smbk-drawer--inline)::backdrop {
+  transition-duration: var(--smbk-motion-enter-duration);
+  transition-timing-function: var(--smbk-motion-enter-easing);
+}
+
+/* Closed, and where it starts from as it opens: just past its own edge. */
+.smbk-drawer:not(.smbk-drawer--inline):not([open]) {
+  translate: 100% 0;
+}
+
+.smbk-drawer--position-left:not(.smbk-drawer--inline):not([open]) {
+  translate: -100% 0;
+}
+
+.smbk-drawer--position-top:not(.smbk-drawer--inline):not([open]) {
+  translate: 0 -100%;
+}
+
+.smbk-drawer--position-bottom:not(.smbk-drawer--inline):not([open]) {
+  translate: 0 100%;
+}
+
+.smbk-drawer:not(.smbk-drawer--inline):not([open])::backdrop {
+  opacity: 0;
+}
+
+@starting-style {
+  .smbk-drawer[open]:not(.smbk-drawer--inline) {
+    translate: 100% 0;
+  }
+
+  .smbk-drawer--position-left[open]:not(.smbk-drawer--inline) {
+    translate: -100% 0;
+  }
+
+  .smbk-drawer--position-top[open]:not(.smbk-drawer--inline) {
+    translate: 0 -100%;
+  }
+
+  .smbk-drawer--position-bottom[open]:not(.smbk-drawer--inline) {
+    translate: 0 100%;
+  }
+
+  .smbk-drawer[open]:not(.smbk-drawer--inline)::backdrop {
+    opacity: 0;
+  }
+}
+
+/* As heavy as the rule that sets the transitions, so it wins over it. */
+@media (prefers-reduced-motion: reduce) {
+  .smbk-drawer:not(.smbk-drawer--inline),
+  .smbk-drawer:not(.smbk-drawer--inline)::backdrop {
+    transition: none;
+  }
+}
+
+/* ---- the page behind: while the drawer is open over the page, the page does not scroll under it. Its
+   scrollbar's room is kept, so the page does not shift sideways as the scrollbar goes. An inline
+   drawer is not over the page and changes nothing. ---- */
+
+:root:has(.smbk-drawer:modal) {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+}

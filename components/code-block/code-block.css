@@ -1,0 +1,125 @@
+/* smbk-code — Code block. Figma "CodeBlock" 4255:6452 and "CodeBlockAction" 4255:6264.
+ * Code and the bar label are set in the monospace label face without its
+ * uppercase; Figma draws them in the mono face at the regular weight, which no
+ * preset carries, so the label preset's weight is used. */
+
+.smbk-code {
+  box-sizing: border-box;
+  /* Holds the status line, which is out of sight, inside the block rather than wherever the page would put it. */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  border-radius: var(--smbk-radius-container-sm);
+  color: var(--smbk-color-text-default);
+}
+
+.smbk-code__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--smbk-space-inline-lg);
+  padding: var(--smbk-space-inset-md);
+  border-bottom: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  background: var(--smbk-color-surface-raised);
+}
+
+.smbk-code__label {
+  padding: 0 var(--smbk-space-inset-xs);
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-label-m-font-family);
+  font-size: var(--smbk-typography-label-m-font-size);
+  font-weight: var(--smbk-typography-label-m-font-weight);
+  line-height: var(--smbk-typography-label-m-line-height);
+  letter-spacing: var(--smbk-typography-label-m-letter-spacing);
+  text-box: trim-both cap alphabetic;
+  text-transform: none;
+}
+
+.smbk-code__tabs {
+  display: inline-flex;
+}
+
+/* With tabs the body is their panel, which Tab reaches: its ring is drawn inside its edge, because the block clips what runs past it. */
+.smbk-code__body:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: calc(-1 * var(--smbk-focus-ring-width));
+}
+
+.smbk-code__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-xs);
+}
+
+.smbk-code__action {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--smbk-space-inline-xs);
+  height: var(--smbk-size-control-xs);
+  padding: var(--smbk-space-inset-xs);
+  border: 0;
+  border-radius: var(--smbk-radius-control-sm);
+  background: none;
+  color: var(--smbk-color-text-subtle);
+  font-size: var(--smbk-size-icon-sm);
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@media (hover: hover) {
+  .smbk-code__action:hover {
+    color: var(--smbk-color-text-default);
+  }
+}
+
+.smbk-code__action:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+.smbk-code__body {
+  position: relative;
+  padding: var(--smbk-space-inset-xl);
+  background: var(--smbk-color-surface-sunken);
+  overflow: auto;
+  /* The system's scrollbar: thin, in the subtle border color, on a clear track. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--smbk-color-border-subtle) transparent;
+}
+
+.smbk-code__code {
+  display: block;
+  margin: 0;
+  font-family: var(--smbk-typography-label-m-font-family);
+  font-size: var(--smbk-typography-label-m-font-size);
+  font-weight: var(--smbk-typography-label-m-font-weight);
+  line-height: var(--smbk-typography-body-s-line-height);
+  letter-spacing: var(--smbk-typography-label-m-letter-spacing);
+  text-box: trim-both cap alphabetic;
+  text-transform: none;
+  white-space: pre;
+  tab-size: 2;
+}
+
+/* The status line: what the last action did, for a screen reader only. Out of sight but in the page,
+   so what is put in it is read aloud. */
+.smbk-code__status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}

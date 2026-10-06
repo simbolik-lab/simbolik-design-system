@@ -1,0 +1,427 @@
+/* smbk-table — Table. Figma page "Table" 4312:13783: "Table" 4318:16988 over "TableHeader" 4318:11164,
+ * "TableHeaderCell" 4313:6100, "TableRow" 4318:11168, "TableRowCell" 4313:9290 and "TableFooter" 4318:11163.
+ * A bordered, rounded table: a header row on the default surface with a
+ * control-colored rule under it, hairlines between header cells, rows with
+ * a subtle rule under each that lift on hover, and a foot for the pagination. */
+
+/* Positioned so the visually hidden caption is placed inside the frame; left to the page, it would sit
+   at the far end of a long scrolling area and stretch the document. The frame scrolls a table too wide for it. */
+.smbk-table {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  width: 100%;
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  border-radius: var(--smbk-radius-control-lg);
+  color: var(--smbk-color-text-default);
+  /* A table wider than its place scrolls sideways inside the frame; hiding the overflow would hide data. */
+  overflow-x: auto;
+  /* The system's scrollbar: thin, in the subtle border color, on a clear track. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--smbk-color-border-subtle) transparent;
+}
+
+.smbk-table__table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.smbk-table__caption,
+.smbk-table__header-name {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---- header ---- */
+
+.smbk-table__header-row {
+  background: var(--smbk-color-surface-default);
+}
+
+.smbk-table__header {
+  box-sizing: border-box;
+  height: var(--smbk-size-control-md);
+  padding: var(--smbk-space-inset-md) var(--smbk-space-inset-lg);
+  border-bottom: var(--smbk-border-width-hairline) solid var(--smbk-color-border-control);
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-label-s-font-family);
+  font-size: var(--smbk-typography-label-s-font-size);
+  font-weight: var(--smbk-typography-label-s-font-weight);
+  line-height: var(--smbk-typography-label-s-line-height);
+  letter-spacing: var(--smbk-typography-label-s-letter-spacing);
+  text-transform: var(--smbk-typography-label-s-text-transform);
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.smbk-table__header + .smbk-table__header {
+  border-left: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+}
+
+.smbk-table__header--control {
+  width: var(--smbk-size-icon-sm);
+  padding-right: 0;
+}
+
+.smbk-table__header--control + .smbk-table__header {
+  border-left: 0;
+}
+
+.smbk-table__header-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-md);
+  height: var(--smbk-size-display-md);
+}
+
+.smbk-table__header-text {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-xs);
+}
+
+/* The heading's words, in a part of their own so the trim reaches them: the
+   heading text is a flex row with the info icon, and does not pass it on. */
+.smbk-table__header-label {
+  text-box: trim-both cap alphabetic;
+}
+
+.smbk-table__header-icon {
+  flex-shrink: 0;
+  font-size: var(--smbk-size-icon-xs);
+}
+
+.smbk-table__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-md);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.smbk-table__header--active {
+  color: var(--smbk-color-text-default);
+}
+
+@media (hover: hover) {
+  .smbk-table__sort:hover {
+    color: var(--smbk-color-text-default);
+  }
+}
+
+.smbk-table__sort:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+  border-radius: var(--smbk-radius-control-xs);
+}
+
+/* ---- rows ---- */
+
+.smbk-table__row {
+  border-bottom: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+}
+
+.smbk-table__row:last-child {
+  border-bottom: 0;
+}
+
+@media (hover: hover) {
+  .smbk-table__row:hover {
+    background: var(--smbk-color-surface-overlay);
+  }
+}
+
+.smbk-table__row--disabled {
+  color: var(--smbk-color-text-disabled);
+}
+
+/* Pictures, tags and links inside a disabled row fade with the disabled-media opacity, as Figma dims them. */
+.smbk-table__row--disabled .smbk-table__cell > * {
+  opacity: var(--smbk-opacity-media-disabled);
+}
+
+.smbk-table__cell {
+  box-sizing: border-box;
+  height: var(--smbk-size-control-md);
+  padding: var(--smbk-space-inset-xs) var(--smbk-space-inset-lg);
+  font-family: var(--smbk-typography-body-s-font-family);
+  font-size: var(--smbk-typography-body-s-font-size);
+  font-weight: var(--smbk-typography-body-s-font-weight);
+  line-height: var(--smbk-typography-body-s-line-height);
+  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.smbk-table__cell--control {
+  width: var(--smbk-size-icon-sm);
+  padding-right: 0;
+  color: var(--smbk-color-text-subtlest);
+}
+
+.smbk-table__handle {
+  display: inline-flex;
+  font-size: var(--smbk-size-icon-sm);
+  cursor: grab;
+}
+
+/* The content of a cell: a row of its pieces, the height of the extra-large display size. */
+.smbk-table__content {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-md);
+  min-height: var(--smbk-size-display-xl);
+}
+
+.smbk-table__value {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-xs);
+}
+
+.smbk-table__value-icon {
+  flex-shrink: 0;
+  font-size: var(--smbk-size-icon-sm);
+}
+
+.smbk-table__stack {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-sm);
+  font-family: var(--smbk-typography-body-t-font-family);
+  font-size: var(--smbk-typography-body-t-font-size);
+  font-weight: var(--smbk-typography-body-t-font-weight);
+  line-height: var(--smbk-typography-body-t-line-height);
+  letter-spacing: var(--smbk-typography-body-t-letter-spacing);
+}
+
+/* Both lines are trimmed to their cap height, so the small stack gap between them measures as it does in Figma. */
+.smbk-table__stack > * {
+  text-box: trim-both cap alphabetic;
+}
+
+.smbk-table__description {
+  color: var(--smbk-color-text-subtlest);
+}
+
+.smbk-table__copy {
+  display: inline-flex;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--smbk-color-text-subtle);
+  font-size: var(--smbk-size-icon-sm);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+@media (hover: hover) {
+  .smbk-table__copy:hover {
+    color: var(--smbk-color-text-brand);
+  }
+}
+
+.smbk-table__copy:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+  border-radius: var(--smbk-radius-control-xs);
+}
+
+/* ---- foot ---- */
+
+.smbk-table__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--smbk-space-inline-md);
+  box-sizing: border-box;
+  min-height: var(--smbk-size-control-lg);
+  padding: var(--smbk-space-inset-xs) var(--smbk-space-inset-lg);
+  border-top: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+}
+
+/* ---- a long table: the heading row stays in view ----
+   The consumer limits the frame's height; the frame then scrolls both ways and the headings stick to its top.
+   A collapsed border stays where it was drawn, so a sticking heading carries its rule as a line of its own. */
+
+.smbk-table--sticky-header {
+  overflow-y: auto;
+  isolation: isolate;
+}
+
+/* A frame the keyboard reaches: one that scrolls up and down, or a table too wide for it (the wrapper makes it a region then). */
+.smbk-table:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+.smbk-table--sticky-header .smbk-table__header {
+  position: sticky;
+  top: 0;
+  z-index: var(--smbk-layer-raised);
+  border-bottom-color: transparent;
+  background: var(--smbk-color-surface-default);
+}
+
+/* The rule under a sticking heading, and the hairline between headings, drawn by the heading itself. */
+.smbk-table--sticky-header .smbk-table__header::after,
+.smbk-table--pin-first .smbk-table__header:first-child::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: var(--smbk-border-width-hairline);
+  background: var(--smbk-color-border-control);
+}
+
+.smbk-table--sticky-header .smbk-table__header + .smbk-table__header {
+  border-left-color: transparent;
+}
+
+.smbk-table--sticky-header .smbk-table__header + .smbk-table__header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--smbk-border-width-hairline);
+  background: var(--smbk-color-border-subtle);
+}
+
+.smbk-table--sticky-header .smbk-table__header--control + .smbk-table__header::before {
+  content: none;
+}
+
+/* ---- a wide table: the first column stays in view ----
+   The pinned cells are painted on the page canvas, with the row's hover laid over it, and carry their row's rule themselves. */
+
+.smbk-table--pin-first {
+  isolation: isolate;
+}
+
+.smbk-table--pin-first .smbk-table__header:first-child,
+.smbk-table--pin-first .smbk-table__cell:first-child {
+  position: sticky;
+  left: 0;
+}
+
+.smbk-table--pin-first .smbk-table__header:first-child {
+  z-index: var(--smbk-layer-sticky);
+  border-bottom-color: transparent;
+  background: var(--smbk-color-surface-default);
+}
+
+.smbk-table--pin-first .smbk-table__cell:first-child {
+  z-index: var(--smbk-layer-base);
+  background: var(--smbk-color-surface-canvas);
+}
+
+@media (hover: hover) {
+  .smbk-table--pin-first .smbk-table__row:hover .smbk-table__cell:first-child {
+    background: linear-gradient(var(--smbk-color-surface-overlay), var(--smbk-color-surface-overlay)), var(--smbk-color-surface-canvas);
+  }
+}
+
+.smbk-table--pin-first .smbk-table__cell:first-child::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: var(--smbk-border-width-hairline);
+  background: var(--smbk-color-border-subtle);
+}
+
+.smbk-table--pin-first .smbk-table__row:last-child .smbk-table__cell:first-child::after {
+  content: none;
+}
+
+/* The pinned column's right edge, so the columns sliding under it read as passing behind. */
+.smbk-table--pin-first .smbk-table__header:first-child::before,
+.smbk-table--pin-first .smbk-table__cell:first-child::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: var(--smbk-border-width-hairline);
+  background: var(--smbk-color-border-subtle);
+}
+
+/* ---- the scroll hint: where the table runs past its frame and the browser hides its own scrollbar until
+   the frame scrolls (a phone, a trackpad), the script marks the frame and a thin bar along its foot shows
+   that there is more sideways and how much of it is in view (the wrapper sizes and moves the thumb as the
+   frame scrolls). It holds the frame's visible edges while the table scrolls under it, and its foot in a
+   long table. Decoration: hidden from assistive technology, and it takes no press. ---- */
+
+.smbk-table__scroll-hint {
+  display: none;
+}
+
+.smbk-table[data-scroll-hint] .smbk-table__scroll-hint {
+  position: sticky;
+  left: 0;
+  bottom: 0;
+  z-index: var(--smbk-layer-raised);
+  display: block;
+  padding: var(--smbk-space-inset-xs) var(--smbk-space-inset-sm);
+  pointer-events: none;
+}
+
+/* In a long table the rows scroll under the hint, so it takes the heading row's floor. */
+.smbk-table--sticky-header[data-scroll-hint] .smbk-table__scroll-hint {
+  background: var(--smbk-color-surface-default);
+}
+
+.smbk-table__scroll-track {
+  position: relative;
+  height: var(--smbk-size-4);
+  overflow: hidden;
+  border-radius: var(--smbk-radius-full);
+  background: var(--smbk-color-border-subtle);
+}
+
+.smbk-table__scroll-thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: var(--smbk-radius-full);
+  background: var(--smbk-color-border-strong);
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  /* Everything in the row, links and the components in its cells (a tag, an icon) included:
+     forced colors gives a part that names its own color the palette's text color, not the row's. */
+  .smbk-table__row--disabled,
+  .smbk-table__row--disabled * {
+    color: GrayText;
+  }
+}

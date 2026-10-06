@@ -1,0 +1,151 @@
+/* smbk-badge — Badge. Figma "Badge" 4126:20020.
+ * Heights are bound to the icon size steps in Figma, so they are here too.
+ * The label sits in its own box with a little room on each side, as Figma
+ * draws it at every size.
+ * Soft is the default look, so a badge with no look class draws soft; flat
+ * and the dot draw the type's full surface.
+ * Every badge has an edge, clear unless its look or type draws one (the soft
+ * badges, the default one in the highlight edge color, the sunken one). Figma
+ * draws the edge inside the badge, so each padding gives the edge's width back
+ * and a badge with an edge is the same size as one without. */
+
+.smbk-badge {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--smbk-space-inset-sm);
+  height: var(--smbk-size-icon-xl);
+  padding: calc(var(--smbk-space-inset-sm) - var(--smbk-border-width-hairline));
+  border: var(--smbk-border-width-hairline) solid transparent;
+  border-radius: var(--smbk-radius-full);
+  background: var(--smbk-color-surface-raised);
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-body-s-font-family);
+  font-size: var(--smbk-typography-body-s-font-size);
+  font-weight: var(--smbk-typography-body-s-font-weight);
+  line-height: var(--smbk-typography-body-s-line-height);
+  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
+  text-box: trim-both cap alphabetic;
+  white-space: nowrap;
+}
+
+.smbk-badge__label {
+  padding-inline: var(--smbk-space-inset-2xs);
+  text-box: trim-both cap alphabetic;
+}
+
+.smbk-badge__icon {
+  font-size: var(--smbk-size-icon-md);
+}
+
+/* ---- size ---- */
+
+.smbk-badge--size-md {
+  gap: var(--smbk-space-inset-xs);
+  height: var(--smbk-size-icon-lg);
+  padding: calc(var(--smbk-space-inset-xs) - var(--smbk-border-width-hairline));
+  font-family: var(--smbk-typography-body-t-font-family);
+  font-size: var(--smbk-typography-body-t-font-size);
+  font-weight: var(--smbk-typography-body-t-font-weight);
+  line-height: var(--smbk-typography-body-t-line-height);
+  letter-spacing: var(--smbk-typography-body-t-letter-spacing);
+  text-box: trim-both cap alphabetic;
+}
+
+.smbk-badge--size-md .smbk-badge__icon {
+  font-size: var(--smbk-size-icon-sm);
+}
+
+.smbk-badge--size-sm {
+  gap: var(--smbk-space-inset-2xs);
+  height: var(--smbk-size-icon-sm);
+  padding: calc(var(--smbk-space-inset-2xs) - var(--smbk-border-width-hairline));
+  font-family: var(--smbk-typography-body-t-font-family);
+  font-size: var(--smbk-typography-body-t-font-size);
+  font-weight: var(--smbk-typography-body-t-font-weight);
+  line-height: var(--smbk-typography-body-t-line-height);
+  letter-spacing: var(--smbk-typography-body-t-letter-spacing);
+  text-box: trim-both cap alphabetic;
+}
+
+.smbk-badge--size-sm .smbk-badge__icon {
+  font-size: var(--smbk-size-icon-xs);
+}
+
+/* ---- the neutral types: one look each, whatever the look axis says ---- */
+
+/* The default type draws a highlight edge round its raised surface, as Figma's Default variant does.
+   Without weight, so every type rule after it sets its own edge or clears it. Not on the dot, which
+   Figma does not draw for the default type. */
+.smbk-badge:where(:not(.smbk-badge--look-dot)) {
+  border-color: var(--smbk-color-border-edge-highlight);
+}
+
+.smbk-badge--type-sunken {
+  border-color: var(--smbk-color-border-subtle);
+  background: var(--smbk-color-surface-sunken);
+}
+
+/* ---- soft, the default: the subtle surface inside an edge of the type's own border color ---- */
+
+.smbk-badge--type-success {
+  border-color: var(--smbk-color-feedback-success-border);
+  background: var(--smbk-color-feedback-success-surface-subtle);
+  color: var(--smbk-color-feedback-success-text-on-subtle);
+}
+
+.smbk-badge--type-info {
+  border-color: var(--smbk-color-feedback-info-border);
+  background: var(--smbk-color-feedback-info-surface-subtle);
+  color: var(--smbk-color-feedback-info-text-on-subtle);
+}
+
+.smbk-badge--type-warning {
+  border-color: var(--smbk-color-feedback-warning-border);
+  background: var(--smbk-color-feedback-warning-surface-subtle);
+  color: var(--smbk-color-feedback-warning-text-on-subtle);
+}
+
+.smbk-badge--type-danger {
+  border-color: var(--smbk-color-feedback-danger-border);
+  background: var(--smbk-color-feedback-danger-surface-subtle);
+  color: var(--smbk-color-feedback-danger-text-on-subtle);
+}
+
+/* ---- flat and dot: the type's full surface, with no edge ---- */
+
+:is(.smbk-badge--look-flat, .smbk-badge--look-dot).smbk-badge--type-success {
+  border-color: transparent;
+  background: var(--smbk-color-feedback-success-surface);
+  color: var(--smbk-color-feedback-success-text-on-surface);
+}
+
+:is(.smbk-badge--look-flat, .smbk-badge--look-dot).smbk-badge--type-info {
+  border-color: transparent;
+  background: var(--smbk-color-feedback-info-surface);
+  color: var(--smbk-color-feedback-info-text-on-surface);
+}
+
+:is(.smbk-badge--look-flat, .smbk-badge--look-dot).smbk-badge--type-warning {
+  border-color: transparent;
+  background: var(--smbk-color-feedback-warning-surface);
+  color: var(--smbk-color-feedback-warning-text-on-surface);
+}
+
+:is(.smbk-badge--look-flat, .smbk-badge--look-dot).smbk-badge--type-danger {
+  border-color: transparent;
+  background: var(--smbk-color-feedback-danger-surface);
+  color: var(--smbk-color-feedback-danger-text-on-surface);
+}
+
+/* ---- dot: a bare mark, no label. Its words, if markup gives it any, stay hidden over the
+   type's text color above. ---- */
+
+.smbk-badge.smbk-badge--look-dot {
+  width: var(--smbk-size-8);
+  height: var(--smbk-size-8);
+  padding: 0;
+  gap: 0;
+  overflow: hidden;
+  color: transparent;
+}

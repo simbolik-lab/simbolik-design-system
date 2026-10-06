@@ -1,0 +1,214 @@
+/* smbk-dropdown — Dropdown menu. Figma "Dropdown" 4800:63682 over "DropdownItem" 4210:23371.
+ * A raised list of actions: an optional group label, items with an optional
+ * checkbox, a leading icon, a label, a trailing icon and a key hint, and
+ * dividers between groups. Items come in two heights, the medium and the small
+ * control height (Figma's Items Size), with the medium inset at their sides.
+ * Icons read in the subtlest text color, as Figma binds them.
+ * The width is the dropdown width token, carried from Figma's frame.
+ * With an opener, the anchor holds the opener and the panel, and the panel
+ * hangs under the opener, lined up with its start or end edge, the gap Figma
+ * draws between the select's well and its list below it. */
+
+.smbk-dropdown {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-inline-xs);
+  width: var(--smbk-size-dropdown-width);
+  margin: 0;
+  padding: var(--smbk-space-inset-xs);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  border-radius: var(--smbk-radius-control-lg);
+  background: var(--smbk-color-surface-default);
+  color: var(--smbk-color-text-default);
+  box-shadow: var(--smbk-elevation-3);
+}
+
+/* A label and the items after it, up to the next divider, are one group, named by the label for screen
+   readers. The group is spaced as the panel is, so grouping changes nothing on screen. */
+.smbk-dropdown__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-inline-xs);
+}
+
+/* A block, so the trim reaches its words; the padding makes the row as tall as
+   before, with the cap height centered in it. */
+.smbk-dropdown__label {
+  display: block;
+  box-sizing: border-box;
+  padding: calc((var(--smbk-size-display-lg) - 1cap) / 2) var(--smbk-space-inset-md);
+  color: var(--smbk-color-text-subtlest);
+  font-family: var(--smbk-typography-label-s-font-family);
+  font-size: var(--smbk-typography-label-s-font-size);
+  font-weight: var(--smbk-typography-label-s-font-weight);
+  line-height: var(--smbk-typography-label-s-line-height);
+  letter-spacing: var(--smbk-typography-label-s-letter-spacing);
+  text-box: trim-both cap alphabetic;
+  text-transform: var(--smbk-typography-label-s-text-transform);
+}
+
+.smbk-dropdown__item {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-md);
+  width: 100%;
+  min-height: var(--smbk-size-control-md);
+  margin: 0;
+  padding: var(--smbk-space-inset-md);
+  border: 0;
+  border-radius: var(--smbk-radius-control-sm);
+  background: transparent;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-body-s-font-family);
+  font-size: var(--smbk-typography-body-s-font-size);
+  font-weight: var(--smbk-typography-body-s-font-weight);
+  line-height: var(--smbk-typography-body-s-line-height);
+  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
+  text-box: trim-both cap alphabetic;
+  text-align: left;
+  text-decoration: none;
+  overflow-wrap: break-word;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.smbk-dropdown__item:focus-visible {
+  background: var(--smbk-color-surface-sunken);
+}
+
+@media (hover: hover) {
+  .smbk-dropdown__item:hover {
+    background: var(--smbk-color-surface-sunken);
+  }
+}
+
+.smbk-dropdown__item:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+.smbk-dropdown__item:disabled,
+.smbk-dropdown__item[aria-disabled="true"] {
+  color: var(--smbk-color-text-disabled);
+  background: transparent;
+  cursor: not-allowed;
+}
+
+.smbk-dropdown__item--danger {
+  color: var(--smbk-color-action-destructive-foreground);
+}
+
+.smbk-dropdown__item--danger:disabled,
+.smbk-dropdown__item--danger[aria-disabled="true"] {
+  color: var(--smbk-color-action-destructive-foreground-disabled);
+}
+
+/* One line keeps Figma's fixed height; the block padding only shows when a long label wraps. */
+.smbk-dropdown--size-small .smbk-dropdown__item {
+  min-height: var(--smbk-size-control-sm);
+  padding-block: var(--smbk-space-inset-sm);
+}
+
+.smbk-dropdown__icon {
+  flex-shrink: 0;
+  color: var(--smbk-color-text-subtlest);
+  font-size: var(--smbk-size-icon-md);
+}
+
+.smbk-dropdown__item:disabled .smbk-dropdown__icon,
+.smbk-dropdown__item[aria-disabled="true"] .smbk-dropdown__icon {
+  color: var(--smbk-color-text-disabled);
+}
+
+/* A danger item's icons are its words' color, enabled or disabled. */
+.smbk-dropdown__item--danger .smbk-dropdown__icon,
+.smbk-dropdown__item--danger:disabled .smbk-dropdown__icon,
+.smbk-dropdown__item--danger[aria-disabled="true"] .smbk-dropdown__icon {
+  color: inherit;
+}
+
+/* The checkbox's own box, small, drawn ticked or not (checkbox.css); the item is the control. */
+.smbk-dropdown__checkbox {
+  flex-shrink: 0;
+}
+
+.smbk-dropdown__text {
+  text-box: trim-both cap alphabetic;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.smbk-dropdown__divider {
+  margin: 0;
+}
+
+/* ---- the opener: the anchor holds the opener and the panel hanging under it ---- */
+
+.smbk-dropdown__anchor {
+  position: relative;
+  display: inline-flex;
+}
+
+.smbk-dropdown__anchor > .smbk-dropdown {
+  position: absolute;
+  top: calc(100% + var(--smbk-space-stack-xs));
+  left: 0;
+  z-index: var(--smbk-layer-raised);
+}
+
+.smbk-dropdown__anchor > .smbk-dropdown--align-end {
+  right: 0;
+  left: auto;
+}
+
+/* A closed panel. The panel's own display would otherwise outweigh the hidden attribute. */
+.smbk-dropdown[hidden] {
+  display: none;
+}
+
+/* ---- motion: the panel drops from its opener across the gap and fades in with the enter
+   purpose, and goes back the same way with the exit purpose. Its display changes at the
+   end of the exit, so it stays drawn while it leaves. No movement under reduced motion. ---- */
+
+.smbk-dropdown {
+  transition-property: opacity, translate, display;
+  transition-duration: var(--smbk-motion-enter-duration);
+  transition-timing-function: var(--smbk-motion-enter-easing);
+  transition-behavior: allow-discrete;
+}
+
+.smbk-dropdown[hidden] {
+  opacity: 0;
+  translate: 0 calc(-1 * var(--smbk-space-stack-xs));
+  transition-duration: var(--smbk-motion-exit-duration);
+  transition-timing-function: var(--smbk-motion-exit-easing);
+}
+
+@starting-style {
+  .smbk-dropdown {
+    opacity: 0;
+    translate: 0 calc(-1 * var(--smbk-space-stack-xs));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-dropdown {
+    transition: none;
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  .smbk-dropdown__item:disabled,
+  .smbk-dropdown__item[aria-disabled="true"] {
+    color: GrayText;
+  }
+}
