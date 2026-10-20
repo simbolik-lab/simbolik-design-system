@@ -1,0 +1,1196 @@
+{
+  "version": "0.2.0-alpha",
+  "since": "v0.1.2-alpha",
+  "renamed": [],
+  "leaving": [],
+  "changed": [
+    {
+      "token": "color.red.50",
+      "setting": "every setting",
+      "before": "#fee7e7",
+      "after": "#fef9f8"
+    },
+    {
+      "token": "color.red.100",
+      "setting": "every setting",
+      "before": "#fccfcf",
+      "after": "#fef2f1"
+    },
+    {
+      "token": "color.red.200",
+      "setting": "every setting",
+      "before": "#fa9f9f",
+      "after": "#fee5e1"
+    },
+    {
+      "token": "color.red.300",
+      "setting": "every setting",
+      "before": "#f77070",
+      "after": "#febdb2"
+    },
+    {
+      "token": "color.red.400",
+      "setting": "every setting",
+      "before": "#f54040",
+      "after": "#fe7d6d"
+    },
+    {
+      "token": "color.red.500",
+      "setting": "every setting",
+      "before": "#f21010",
+      "after": "#f34336"
+    },
+    {
+      "token": "color.red.600",
+      "setting": "every setting",
+      "before": "#c20d0d",
+      "after": "#cc0d0d"
+    },
+    {
+      "token": "color.red.700",
+      "setting": "every setting",
+      "before": "#910a0a",
+      "after": "#a51d17"
+    },
+    {
+      "token": "color.red.800",
+      "setting": "every setting",
+      "before": "#610606",
+      "after": "#761812"
+    },
+    {
+      "token": "color.red.900",
+      "setting": "every setting",
+      "before": "#300303",
+      "after": "#4b130e"
+    },
+    {
+      "token": "color.blue.50",
+      "setting": "every setting",
+      "before": "#e9eafc",
+      "after": "#f8faff"
+    },
+    {
+      "token": "color.blue.100",
+      "setting": "every setting",
+      "before": "#d3d6fa",
+      "after": "#f1f5ff"
+    },
+    {
+      "token": "color.blue.200",
+      "setting": "every setting",
+      "before": "#a7adf5",
+      "after": "#e3ebfe"
+    },
+    {
+      "token": "color.blue.300",
+      "setting": "every setting",
+      "before": "#7a84ef",
+      "after": "#b8ccff"
+    },
+    {
+      "token": "color.blue.400",
+      "setting": "every setting",
+      "before": "#4e5bea",
+      "after": "#7fa0ff"
+    },
+    {
+      "token": "color.blue.500",
+      "setting": "every setting",
+      "before": "#2232e5",
+      "after": "#557bff"
+    },
+    {
+      "token": "color.blue.600",
+      "setting": "every setting",
+      "before": "#1b28b7",
+      "after": "#3b5ce3"
+    },
+    {
+      "token": "color.blue.700",
+      "setting": "every setting",
+      "before": "#141e89",
+      "after": "#2f4ab8"
+    },
+    {
+      "token": "color.blue.800",
+      "setting": "every setting",
+      "before": "#0e145c",
+      "after": "#213583"
+    },
+    {
+      "token": "color.blue.900",
+      "setting": "every setting",
+      "before": "#070a2e",
+      "after": "#162352"
+    },
+    {
+      "token": "color.green.50",
+      "setting": "every setting",
+      "before": "#ecfce9",
+      "after": "#effeef"
+    },
+    {
+      "token": "color.green.100",
+      "setting": "every setting",
+      "before": "#dafad3",
+      "after": "#dffddf"
+    },
+    {
+      "token": "color.green.200",
+      "setting": "every setting",
+      "before": "#b5f5a7",
+      "after": "#c1f9c1"
+    },
+    {
+      "token": "color.green.300",
+      "setting": "every setting",
+      "before": "#90ef7a",
+      "after": "#8ddf90"
+    },
+    {
+      "token": "color.green.400",
+      "setting": "every setting",
+      "before": "#6bea4e",
+      "after": "#54b85b"
+    },
+    {
+      "token": "color.green.500",
+      "setting": "every setting",
+      "before": "#46e522",
+      "after": "#269936"
+    },
+    {
+      "token": "color.green.600",
+      "setting": "every setting",
+      "before": "#38b71b",
+      "after": "#037a1f"
+    },
+    {
+      "token": "color.green.700",
+      "setting": "every setting",
+      "before": "#2a8914",
+      "after": "#016317"
+    },
+    {
+      "token": "color.green.800",
+      "setting": "every setting",
+      "before": "#1c5c0e",
+      "after": "#084712"
+    },
+    {
+      "token": "color.green.900",
+      "setting": "every setting",
+      "before": "#0e2e07",
+      "after": "#0a2d0e"
+    },
+    {
+      "token": "color.orange.50",
+      "setting": "every setting",
+      "before": "#feeee6",
+      "after": "#fff9f6"
+    },
+    {
+      "token": "color.orange.100",
+      "setting": "every setting",
+      "before": "#fcddcd",
+      "after": "#fff2ed"
+    },
+    {
+      "token": "color.orange.200",
+      "setting": "every setting",
+      "before": "#fabc9b",
+      "after": "#ffe6db"
+    },
+    {
+      "token": "color.orange.300",
+      "setting": "every setting",
+      "before": "#f79a68",
+      "after": "#febea2"
+    },
+    {
+      "token": "color.orange.400",
+      "setting": "every setting",
+      "before": "#f57936",
+      "after": "#fa8349"
+    },
+    {
+      "token": "color.orange.500",
+      "setting": "every setting",
+      "before": "#f25704",
+      "after": "#da601a"
+    },
+    {
+      "token": "color.orange.600",
+      "setting": "every setting",
+      "before": "#c24603",
+      "after": "#b14904"
+    },
+    {
+      "token": "color.orange.700",
+      "setting": "every setting",
+      "before": "#913402",
+      "after": "#913900"
+    },
+    {
+      "token": "color.orange.800",
+      "setting": "every setting",
+      "before": "#612302",
+      "after": "#692903"
+    },
+    {
+      "token": "color.orange.900",
+      "setting": "every setting",
+      "before": "#301101",
+      "after": "#431b07"
+    },
+    {
+      "token": "color.yellow.50",
+      "setting": "every setting",
+      "before": "#fefce8",
+      "after": "#fdfbe8"
+    },
+    {
+      "token": "color.yellow.100",
+      "setting": "every setting",
+      "before": "#fcf9d0",
+      "after": "#fcf6d1"
+    },
+    {
+      "token": "color.yellow.200",
+      "setting": "every setting",
+      "before": "#faf3a1",
+      "after": "#f7eca7"
+    },
+    {
+      "token": "color.yellow.300",
+      "setting": "every setting",
+      "before": "#f7ec73",
+      "after": "#dfce64"
+    },
+    {
+      "token": "color.yellow.400",
+      "setting": "every setting",
+      "before": "#f5e644",
+      "after": "#b9a405"
+    },
+    {
+      "token": "color.yellow.500",
+      "setting": "every setting",
+      "before": "#f2e015",
+      "after": "#968507"
+    },
+    {
+      "token": "color.yellow.600",
+      "setting": "every setting",
+      "before": "#c2b311",
+      "after": "#776906"
+    },
+    {
+      "token": "color.yellow.700",
+      "setting": "every setting",
+      "before": "#91860d",
+      "after": "#615502"
+    },
+    {
+      "token": "color.yellow.800",
+      "setting": "every setting",
+      "before": "#615a08",
+      "after": "#453c00"
+    },
+    {
+      "token": "color.yellow.900",
+      "setting": "every setting",
+      "before": "#302d04",
+      "after": "#2d2700"
+    },
+    {
+      "token": "font.family.display",
+      "setting": "every setting",
+      "before": "Funnel Display",
+      "after": "Funnel Display, Funnel Display Fallback, system-ui, sans-serif"
+    },
+    {
+      "token": "font.family.body",
+      "setting": "every setting",
+      "before": "Geist",
+      "after": "Geist, Geist Fallback, system-ui, sans-serif"
+    },
+    {
+      "token": "font.family.mono",
+      "setting": "every setting",
+      "before": "Geist Mono",
+      "after": "Geist Mono, Geist Mono Fallback, ui-monospace, monospace"
+    },
+    {
+      "token": "typography.subtitle (fontFamily)",
+      "setting": "every setting",
+      "before": "Geist",
+      "after": "Geist, Geist Fallback, system-ui, sans-serif"
+    },
+    {
+      "token": "elevation.inset",
+      "setting": "theme light",
+      "before": "inset 0px 0px 1px 0px #3248604d",
+      "after": "inset 0px 0px 1px 0px #373d434d"
+    },
+    {
+      "token": "color.surface.default",
+      "setting": "theme dark",
+      "before": "#16181a",
+      "after": "#181a1c"
+    },
+    {
+      "token": "color.surface.raised",
+      "setting": "theme dark",
+      "before": "#222326",
+      "after": "#232527"
+    },
+    {
+      "token": "color.surface.brand",
+      "setting": "theme dark",
+      "before": "#f21010",
+      "after": "#cc0d0d"
+    },
+    {
+      "token": "color.surface.inverse",
+      "setting": "theme light",
+      "before": "#243445",
+      "after": "#2d3237"
+    },
+    {
+      "token": "color.surface.overlay",
+      "setting": "theme light",
+      "before": "#ffffff66",
+      "after": "#ffffff"
+    },
+    {
+      "token": "color.surface.overlay",
+      "setting": "theme dark",
+      "before": "#00000066",
+      "after": "#2d3237"
+    },
+    {
+      "token": "color.text.default",
+      "setting": "theme light",
+      "before": "#1e2b3a",
+      "after": "#232527"
+    },
+    {
+      "token": "color.text.default",
+      "setting": "theme dark",
+      "before": "#cedae0",
+      "after": "#e7ebf0"
+    },
+    {
+      "token": "color.text.subtle",
+      "setting": "theme light",
+      "before": "#52667b",
+      "after": "#4e555e"
+    },
+    {
+      "token": "color.text.subtle",
+      "setting": "theme dark",
+      "before": "#a4b4bb",
+      "after": "#9ba5b1"
+    },
+    {
+      "token": "color.text.subtlest",
+      "setting": "theme light",
+      "before": "#5a6a72",
+      "after": "#606a75"
+    },
+    {
+      "token": "color.text.subtlest",
+      "setting": "theme dark",
+      "before": "#86969e",
+      "after": "#7c8692"
+    },
+    {
+      "token": "color.text.disabled",
+      "setting": "theme light",
+      "before": "#88898c",
+      "after": "#7c8692"
+    },
+    {
+      "token": "color.text.disabled",
+      "setting": "theme dark",
+      "before": "#88898c",
+      "after": "#606a75"
+    },
+    {
+      "token": "color.text.brand",
+      "setting": "theme dark",
+      "before": "#f21010",
+      "after": "#f34336"
+    },
+    {
+      "token": "color.text.inverse",
+      "setting": "theme dark",
+      "before": "#1e2b3a",
+      "after": "#232527"
+    },
+    {
+      "token": "color.text.link",
+      "setting": "theme light",
+      "before": "#1e2b3a",
+      "after": "#232527"
+    },
+    {
+      "token": "color.text.link",
+      "setting": "theme dark",
+      "before": "#cedae0",
+      "after": "#e7ebf0"
+    },
+    {
+      "token": "color.text.link-hover",
+      "setting": "theme light",
+      "before": "#0f161d",
+      "after": "#111213"
+    },
+    {
+      "token": "color.text.link-hover",
+      "setting": "theme dark",
+      "before": "#ebebec",
+      "after": "#f3f5f8"
+    },
+    {
+      "token": "color.text.link-pressed",
+      "setting": "theme light",
+      "before": "#324860",
+      "after": "#373d43"
+    },
+    {
+      "token": "color.text.link-pressed",
+      "setting": "theme dark",
+      "before": "#c2d1d8",
+      "after": "#c4cdd8"
+    },
+    {
+      "token": "color.text.link-underline",
+      "setting": "theme light",
+      "before": "#52667b",
+      "after": "#606a75"
+    },
+    {
+      "token": "color.text.link-underline",
+      "setting": "theme dark",
+      "before": "#a4b4bb",
+      "after": "#9ba5b1"
+    },
+    {
+      "token": "color.text.link-underline-hover",
+      "setting": "theme light",
+      "before": "#1e2b3a",
+      "after": "#232527"
+    },
+    {
+      "token": "color.text.link-underline-hover",
+      "setting": "theme dark",
+      "before": "#cedae0",
+      "after": "#e7ebf0"
+    },
+    {
+      "token": "color.text.link-disabled",
+      "setting": "theme light",
+      "before": "#52667b",
+      "after": "#606a75"
+    },
+    {
+      "token": "color.text.link-disabled",
+      "setting": "theme dark",
+      "before": "#a4b4bb",
+      "after": "#9ba5b1"
+    },
+    {
+      "token": "color.border.subtle",
+      "setting": "theme light",
+      "before": "#ced7e1",
+      "after": "#c4cdd8"
+    },
+    {
+      "token": "color.border.subtle",
+      "setting": "theme dark",
+      "before": "#2d2f33",
+      "after": "#2d3237"
+    },
+    {
+      "token": "color.border.strong",
+      "setting": "theme light",
+      "before": "#99abc0",
+      "after": "#9ba5b1"
+    },
+    {
+      "token": "color.border.strong",
+      "setting": "theme dark",
+      "before": "#383b40",
+      "after": "#373d43"
+    },
+    {
+      "token": "color.border.control",
+      "setting": "theme light",
+      "before": "#7088a5",
+      "after": "#7c8692"
+    },
+    {
+      "token": "color.border.control",
+      "setting": "theme dark",
+      "before": "#88898c",
+      "after": "#7c8692"
+    },
+    {
+      "token": "color.border.control-hover",
+      "setting": "theme light",
+      "before": "#5c7798",
+      "after": "#606a75"
+    },
+    {
+      "token": "color.border.control-hover",
+      "setting": "theme dark",
+      "before": "#383b40",
+      "after": "#9ba5b1"
+    },
+    {
+      "token": "color.border.control-disabled",
+      "setting": "theme light",
+      "before": "#d7d8d9",
+      "after": "#c4cdd8"
+    },
+    {
+      "token": "color.border.control-disabled",
+      "setting": "theme dark",
+      "before": "#606266",
+      "after": "#606a75"
+    },
+    {
+      "token": "color.border.focus",
+      "setting": "theme dark",
+      "before": "#f21010",
+      "after": "#f34336"
+    },
+    {
+      "token": "color.border.focus-field",
+      "setting": "theme light",
+      "before": "#1f2ed4",
+      "after": "#2f4ab8"
+    },
+    {
+      "token": "color.border.focus-field",
+      "setting": "theme dark",
+      "before": "#f5e644",
+      "after": "#dfce64"
+    },
+    {
+      "token": "color.border.brand",
+      "setting": "theme dark",
+      "before": "#f21010",
+      "after": "#cc0d0d"
+    },
+    {
+      "token": "color.border.inverse",
+      "setting": "theme light",
+      "before": "#1e2b3a",
+      "after": "#232527"
+    },
+    {
+      "token": "color.action.brand.background-hover",
+      "setting": "every setting",
+      "before": "#910a0a",
+      "after": "#a51d17"
+    },
+    {
+      "token": "color.action.brand.background-pressed",
+      "setting": "every setting",
+      "before": "#910a0a",
+      "after": "#761812"
+    },
+    {
+      "token": "color.action.default.background",
+      "setting": "theme dark",
+      "before": "#2d2f33",
+      "after": "#2d3237"
+    },
+    {
+      "token": "color.action.default.background-hover",
+      "setting": "theme light",
+      "before": "#dae1e9",
+      "after": "#e7ebf0"
+    },
+    {
+      "token": "color.action.default.background-hover",
+      "setting": "theme dark",
+      "before": "#383b40",
+      "after": "#373d43"
+    },
+    {
+      "token": "color.action.default.background-pressed",
+      "setting": "theme light",
+      "before": "#dae1e9",
+      "after": "#c4cdd8"
+    },
+    {
+      "token": "color.action.default.background-pressed",
+      "setting": "theme dark",
+      "before": "#383b40",
+      "after": "#4e555e"
+    },
+    {
+      "token": "color.action.default.foreground",
+      "setting": "theme light",
+      "before": "#243445",
+      "after": "#2d3237"
+    },
+    {
+      "token": "color.action.default.foreground",
+      "setting": "theme dark",
+      "before": "#c2d1d8",
+      "after": "#e7ebf0"
+    },
+    {
+      "token": "color.action.default.border",
+      "setting": "theme dark",
+      "before": "#383b40",
+      "after": "#373d43"
+    },
+    {
+      "token": "color.action.default.border-hover",
+      "setting": "theme light",
+      "before": "#aebccd",
+      "after": "#9ba5b1"
+    },
+    {
+      "token": "color.action.default.border-hover",
+      "setting": "theme dark",
+      "before": "#606266",
+      "after": "#606a75"
+    },
+    {
+      "token": "color.action.secondary.background",
+      "setting": "theme light",
+      "before": "#32486026",
+      "after": "#373d4326"
+    },
+    {
+      "token": "color.action.secondary.background",
+      "setting": "theme dark",
+      "before": "#5c779833",
+      "after": "#606a7533"
+    },
+    {
+      "token": "color.action.secondary.background-hover",
+      "setting": "theme light",
+      "before": "#32486040",
+      "after": "#373d4333"
+    },
+    {
+      "token": "color.action.secondary.background-hover",
+      "setting": "theme dark",
+      "before": "#5c779859",
+      "after": "#606a754d"
+    },
+    {
+      "token": "color.action.secondary.background-pressed",
+      "setting": "theme light",
+      "before": "#32486033",
+      "after": "#373d4340"
+    },
+    {
+      "token": "color.action.secondary.background-pressed",
+      "setting": "theme dark",
+      "before": "#5c779840",
+      "after": "#606a7566"
+    },
+    {
+      "token": "color.action.secondary.foreground",
+      "setting": "theme light",
+      "before": "#243445",
+      "after": "#2d3237"
+    },
+    {
+      "token": "color.action.secondary.foreground",
+      "setting": "theme dark",
+      "before": "#c2cdda",
+      "after": "#c4cdd8"
+    },
+    {
+      "token": "color.action.outline.border",
+      "setting": "theme light",
+      "before": "#b2becd",
+      "after": "#c4cdd8"
+    },
+    {
+      "token": "color.action.outline.border",
+      "setting": "theme dark",
+      "before": "#383b40",
+      "after": "#373d43"
+    },
+    {
+      "token": "color.action.outline.border-hover",
+      "setting": "theme light",
+      "before": "#92a1b2",
+      "after": "#9ba5b1"
+    },
+    {
+      "token": "color.action.outline.border-hover",
+      "setting": "theme dark",
+      "before": "#606266",
+      "after": "#4e555e"
+    },
+    {
+      "token": "color.action.outline.border-pressed",
+      "setting": "theme light",
+      "before": "#92a1b2",
+      "after": "#7c8692"
+    },
+    {
+      "token": "color.action.outline.border-pressed",
+      "setting": "theme dark",
+      "before": "#606266",
+      "after": "#606a75"
+    },
+    {
+      "token": "color.action.outline.foreground",
+      "setting": "theme light",
+      "before": "#243445",
+      "after": "#2d3237"
+    },
+    {
+      "token": "color.action.outline.foreground",
+      "setting": "theme dark",
+      "before": "#cedae0",
+      "after": "#c4cdd8"
+    },
+    {
+      "token": "color.action.outline.foreground-disabled",
+      "setting": "theme light",
+      "before": "#afb1b3",
+      "after": "#9ba5b1"
+    },
+    {
+      "token": "color.action.outline.foreground-disabled",
+      "setting": "theme dark",
+      "before": "#606266",
+      "after": "#606a75"
+    },
+    {
+      "token": "color.action.outline.background-hover",
+      "setting": "theme light",
+      "before": "#dae1e9",
+      "after": "#373d431a"
+    },
+    {
+      "token": "color.action.outline.background-hover",
+      "setting": "theme dark",
+      "before": "#222326",
+      "after": "#606a751a"
+    },
+    {
+      "token": "color.action.outline.background-pressed",
+      "setting": "theme light",
+      "before": "#dae1e9",
+      "after": "#c4cdd8"
+    },
+    {
+      "token": "color.action.outline.background-pressed",
+      "setting": "theme dark",
+      "before": "#222326",
+      "after": "#2d3237"
+    },
+    {
+      "token": "color.action.ghost.background-hover",
+      "setting": "theme light",
+      "before": "#c2cdda",
+      "after": "#373d4326"
+    },
+    {
+      "token": "color.action.ghost.background-hover",
+      "setting": "theme dark",
+      "before": "#383b40",
+      "after": "#606a754d"
+    },
+    {
+      "token": "color.action.ghost.background-pressed",
+      "setting": "theme light",
+      "before": "#c2cdda",
+      "after": "#c4cdd8"
+    },
+    {
+      "token": "color.action.ghost.background-pressed",
+      "setting": "theme dark",
+      "before": "#383b40",
+      "after": "#2d3237"
+    },
+    {
+      "token": "color.action.ghost.foreground",
+      "setting": "theme light",
+      "before": "#243445",
+      "after": "#2d3237"
+    },
+    {
+      "token": "color.action.ghost.foreground",
+      "setting": "theme dark",
+      "before": "#c2cdda",
+      "after": "#c4cdd8"
+    },
+    {
+      "token": "color.action.inverse.background",
+      "setting": "theme light",
+      "before": "#243445",
+      "after": "#2d3237"
+    },
+    {
+      "token": "color.action.inverse.background-hover",
+      "setting": "theme light",
+      "before": "#1e2b3a",
+      "after": "#232527"
+    },
+    {
+      "token": "color.action.inverse.background-hover",
+      "setting": "theme dark",
+      "before": "#dae1e9",
+      "after": "#e7ebf0"
+    },
+    {
+      "token": "color.action.inverse.background-pressed",
+      "setting": "theme light",
+      "before": "#1e2b3a",
+      "after": "#181a1c"
+    },
+    {
+      "token": "color.action.inverse.background-pressed",
+      "setting": "theme dark",
+      "before": "#dae1e9",
+      "after": "#c4cdd8"
+    },
+    {
+      "token": "color.action.inverse.foreground",
+      "setting": "theme dark",
+      "before": "#1e2b3a",
+      "after": "#232527"
+    },
+    {
+      "token": "color.action.inverse.border",
+      "setting": "theme light",
+      "before": "#283a4d",
+      "after": "#373d43"
+    },
+    {
+      "token": "color.action.inverse.border-hover",
+      "setting": "theme light",
+      "before": "#243445",
+      "after": "#2d3237"
+    },
+    {
+      "token": "color.action.inverse.border-hover",
+      "setting": "theme dark",
+      "before": "#aebccd",
+      "after": "#9ba5b1"
+    },
+    {
+      "token": "color.feedback.success.surface",
+      "setting": "theme light",
+      "before": "#1c5c0e",
+      "after": "#037a1f"
+    },
+    {
+      "token": "color.feedback.success.surface",
+      "setting": "theme dark",
+      "before": "#38b71b",
+      "after": "#037a1f"
+    },
+    {
+      "token": "color.feedback.success.surface-subtle",
+      "setting": "theme light",
+      "before": "#ecfce9",
+      "after": "#dffddf"
+    },
+    {
+      "token": "color.feedback.success.surface-subtle",
+      "setting": "theme dark",
+      "before": "#15450a",
+      "after": "#0a2d0e"
+    },
+    {
+      "token": "color.feedback.success.text-on-surface",
+      "setting": "theme light",
+      "before": "#ecfce9",
+      "after": "#f9fafb"
+    },
+    {
+      "token": "color.feedback.success.text-on-surface",
+      "setting": "theme dark",
+      "before": "#0e2e07",
+      "after": "#f9fafb"
+    },
+    {
+      "token": "color.feedback.success.text-on-subtle",
+      "setting": "theme light",
+      "before": "#1c5c0e",
+      "after": "#016317"
+    },
+    {
+      "token": "color.feedback.success.text-on-subtle",
+      "setting": "theme dark",
+      "before": "#b5f5a7",
+      "after": "#8ddf90"
+    },
+    {
+      "token": "color.feedback.success.border",
+      "setting": "theme light",
+      "before": "#38b71b",
+      "after": "#269936"
+    },
+    {
+      "token": "color.feedback.success.border",
+      "setting": "theme dark",
+      "before": "#2a8914",
+      "after": "#269936"
+    },
+    {
+      "token": "color.feedback.success.border-subtle",
+      "setting": "theme light",
+      "before": "#b5f5a7",
+      "after": "#8ddf90"
+    },
+    {
+      "token": "color.feedback.success.border-subtle",
+      "setting": "theme dark",
+      "before": "#1c5c0e",
+      "after": "#084712"
+    },
+    {
+      "token": "color.feedback.warning.surface",
+      "setting": "theme light",
+      "before": "#c24603",
+      "after": "#b14904"
+    },
+    {
+      "token": "color.feedback.warning.surface",
+      "setting": "theme dark",
+      "before": "#f57936",
+      "after": "#b14904"
+    },
+    {
+      "token": "color.feedback.warning.surface-subtle",
+      "setting": "theme light",
+      "before": "#feeee6",
+      "after": "#ffe6db"
+    },
+    {
+      "token": "color.feedback.warning.surface-subtle",
+      "setting": "theme dark",
+      "before": "#491a01",
+      "after": "#431b07"
+    },
+    {
+      "token": "color.feedback.warning.text-on-surface",
+      "setting": "theme dark",
+      "before": "#301101",
+      "after": "#f9fafb"
+    },
+    {
+      "token": "color.feedback.warning.text-on-subtle",
+      "setting": "theme light",
+      "before": "#913402",
+      "after": "#913900"
+    },
+    {
+      "token": "color.feedback.warning.text-on-subtle",
+      "setting": "theme dark",
+      "before": "#fabc9b",
+      "after": "#febea2"
+    },
+    {
+      "token": "color.feedback.warning.border",
+      "setting": "theme light",
+      "before": "#f79a68",
+      "after": "#da601a"
+    },
+    {
+      "token": "color.feedback.warning.border",
+      "setting": "theme dark",
+      "before": "#f25704",
+      "after": "#da601a"
+    },
+    {
+      "token": "color.feedback.danger.surface",
+      "setting": "theme light",
+      "before": "#c20d0d",
+      "after": "#cc0d0d"
+    },
+    {
+      "token": "color.feedback.danger.surface",
+      "setting": "theme dark",
+      "before": "#f54040",
+      "after": "#cc0d0d"
+    },
+    {
+      "token": "color.feedback.danger.surface-subtle",
+      "setting": "theme light",
+      "before": "#fee7e7",
+      "after": "#fee5e1"
+    },
+    {
+      "token": "color.feedback.danger.surface-subtle",
+      "setting": "theme dark",
+      "before": "#610606",
+      "after": "#4b130e"
+    },
+    {
+      "token": "color.feedback.danger.text-on-surface",
+      "setting": "theme light",
+      "before": "#fee7e7",
+      "after": "#f9fafb"
+    },
+    {
+      "token": "color.feedback.danger.text-on-surface",
+      "setting": "theme dark",
+      "before": "#300303",
+      "after": "#f9fafb"
+    },
+    {
+      "token": "color.feedback.danger.text-on-subtle",
+      "setting": "theme light",
+      "before": "#c20d0d",
+      "after": "#a51d17"
+    },
+    {
+      "token": "color.feedback.danger.text-on-subtle",
+      "setting": "theme dark",
+      "before": "#fccfcf",
+      "after": "#febdb2"
+    },
+    {
+      "token": "color.feedback.danger.border",
+      "setting": "theme light",
+      "before": "#f77070",
+      "after": "#f34336"
+    },
+    {
+      "token": "color.feedback.danger.border",
+      "setting": "theme dark",
+      "before": "#f21010",
+      "after": "#f34336"
+    },
+    {
+      "token": "color.feedback.danger.border-subtle",
+      "setting": "theme light",
+      "before": "#fa9f9f",
+      "after": "#febdb2"
+    },
+    {
+      "token": "color.feedback.danger.border-subtle",
+      "setting": "theme dark",
+      "before": "#910a0a",
+      "after": "#761812"
+    },
+    {
+      "token": "color.feedback.info.surface",
+      "setting": "theme light",
+      "before": "#1f2ed4",
+      "after": "#3b5ce3"
+    },
+    {
+      "token": "color.feedback.info.surface",
+      "setting": "theme dark",
+      "before": "#4e5bea",
+      "after": "#3b5ce3"
+    },
+    {
+      "token": "color.feedback.info.surface-subtle",
+      "setting": "theme light",
+      "before": "#e9eafc",
+      "after": "#e3ebfe"
+    },
+    {
+      "token": "color.feedback.info.surface-subtle",
+      "setting": "theme dark",
+      "before": "#0e145c",
+      "after": "#162352"
+    },
+    {
+      "token": "color.feedback.info.text-on-surface",
+      "setting": "theme light",
+      "before": "#e9eafc",
+      "after": "#f9fafb"
+    },
+    {
+      "token": "color.feedback.info.text-on-subtle",
+      "setting": "theme light",
+      "before": "#2232e5",
+      "after": "#2f4ab8"
+    },
+    {
+      "token": "color.feedback.info.text-on-subtle",
+      "setting": "theme dark",
+      "before": "#d3d6fa",
+      "after": "#b8ccff"
+    },
+    {
+      "token": "color.feedback.info.border",
+      "setting": "theme light",
+      "before": "#7a84ef",
+      "after": "#557bff"
+    },
+    {
+      "token": "color.feedback.info.border",
+      "setting": "theme dark",
+      "before": "#4e5bea",
+      "after": "#557bff"
+    },
+    {
+      "token": "color.shadow.xs",
+      "setting": "theme light",
+      "before": "#3248600d",
+      "after": "#373d430d"
+    },
+    {
+      "token": "color.shadow.xl",
+      "setting": "theme light",
+      "before": "#3248604d",
+      "after": "#373d434d"
+    },
+    {
+      "token": "color.icon.default",
+      "setting": "theme light",
+      "before": "#1e2b3a",
+      "after": "#232527"
+    },
+    {
+      "token": "color.icon.default",
+      "setting": "theme dark",
+      "before": "#cedae0",
+      "after": "#e7ebf0"
+    },
+    {
+      "token": "color.icon.subtle",
+      "setting": "theme light",
+      "before": "#52667b",
+      "after": "#4e555e"
+    },
+    {
+      "token": "color.icon.subtle",
+      "setting": "theme dark",
+      "before": "#a4b4bb",
+      "after": "#c4cdd8"
+    },
+    {
+      "token": "color.icon.disabled",
+      "setting": "theme light",
+      "before": "#afb1b3",
+      "after": "#9ba5b1"
+    },
+    {
+      "token": "color.icon.disabled",
+      "setting": "theme dark",
+      "before": "#606266",
+      "after": "#606a75"
+    },
+    {
+      "token": "text.heading-2xs",
+      "setting": "text-size min",
+      "before": "20px",
+      "after": "18px"
+    }
+  ]
+}

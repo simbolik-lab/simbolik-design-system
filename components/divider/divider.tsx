@@ -1,5 +1,6 @@
 import type { HTMLAttributes } from 'react';
 import { divider } from './divider.manifest.js';
+import { cx } from '../variants.js';
 import type { VariantProps } from '../variants.js';
 
 export interface DividerProps extends HTMLAttributes<HTMLElement>, VariantProps<typeof divider.manifest> {
@@ -14,7 +15,7 @@ export interface DividerProps extends HTMLAttributes<HTMLElement>, VariantProps<
  */
 export function Divider({ orientation, label, labelled: _labelled, className, ...rest }: DividerProps) {
   const labelled = label !== undefined;
-  const classes = [divider({ orientation, labelled }), className].filter(Boolean).join(' ');
+  const classes = cx(divider({ orientation, labelled }), className);
   if (labelled) {
     return (
       <div className={classes} {...rest}>

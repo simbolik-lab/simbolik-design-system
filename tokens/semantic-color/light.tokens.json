@@ -3,22 +3,24 @@
     "tokens-bruecke-meta": {
       "useDTCG": true,
       "spec": "https://www.designtokens.org/tr/2025.10/format/",
-      "colorMode": "hex",
+      "colorMode": "srgb-dtcg",
       "variableCollections": [
         "Primitives",
         "Semantic Color",
         "Semantic Dimension",
         "Semantic Typography",
-        "Semantic"
+        "Semantic",
+        "Semantic Layout"
       ],
-      "createdAt": "2026-09-22T17:39:58.765Z"
+      "createdAt": "2026-10-13T11:06:03.073Z"
     }
   },
   "color": {
     "surface": {
       "canvas": {
-        "$value": "{color.frost.200}",
+        "$value": "{color.grey.200}",
         "$type": "color",
+        "$description": "Page background.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4046:9255",
@@ -35,8 +37,9 @@
         }
       },
       "default": {
-        "$value": "{color.frost.100}",
+        "$value": "{color.grey.100}",
         "$type": "color",
+        "$description": "Standard surface: cards, panels, the header.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4047:9258",
@@ -52,9 +55,10 @@
           }
         }
       },
-      "default-disabled": {
-        "$value": "{color.midnight.50}",
+      "disabled": {
+        "$value": "{color.grey.200}",
         "$type": "color",
+        "$description": "Surface of a disabled card or field.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4086:11190",
@@ -71,8 +75,9 @@
         }
       },
       "raised": {
-        "$value": "{color.frost.50}",
+        "$value": "{color.grey.50}",
         "$type": "color",
+        "$description": "One floor above default: popovers, raised panels.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4047:9260",
@@ -89,8 +94,9 @@
         }
       },
       "brand": {
-        "$value": "{color.red.550}",
+        "$value": "{color.red.600}",
         "$type": "color",
+        "$description": "Brand-red surface: closers, highlights.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4047:9261",
@@ -107,8 +113,9 @@
         }
       },
       "inverse": {
-        "$value": "{color.moonrise.650}",
+        "$value": "{color.grey.850}",
         "$type": "color",
+        "$description": "The opposite surface: tooltips, dark chips.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4065:9776",
@@ -125,8 +132,9 @@
         }
       },
       "sunken": {
-        "$value": "{color.frost.200}",
+        "$value": "{color.grey.200}",
         "$type": "color",
+        "$description": "Recessed wells: fields, tracks, code.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4115:17808",
@@ -142,9 +150,10 @@
           }
         }
       },
-      "overlay": {
+      "translucent": {
         "$value": "{color.alpha.white.40}",
         "$type": "color",
+        "$description": "See-through glass over pictures and busy backgrounds.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4047:9263",
@@ -160,12 +169,184 @@
           }
         }
       },
-      "overlay-subtle": {
+      "translucent-subtle": {
         "$value": "{color.alpha.white.15}",
         "$type": "color",
+        "$description": "Fainter see-through glass.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4047:9264",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ]
+          }
+        }
+      },
+      "overlay": {
+        "$value": "{color.alpha.white.100}",
+        "$type": "color",
+        "$description": "Floating panels opened from a control: the dropdown and select list, the combobox list, the date picker and the popover. One step above surface/raised, so a menu opened in a modal, a drawer or on a card stands apart. Dialogs (modal, drawer, command palette) stay on surface/default. Not see-through (that is surface/translucent).",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7071:3",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ]
+          }
+        }
+      },
+      "track": {
+        "$value": "{color.grey.500}",
+        "$type": "color",
+        "$description": "The filled track of a switch that is off: 3:1 against the page so the switch shows where it is (decision C).",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7071:4",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ]
+          }
+        }
+      },
+      "skeleton": {
+        "$value": "{color.alpha.grey-800.10}",
+        "$type": "color",
+        "$description": "Skeleton shapes: translucent, so they show by the same step on the canvas, default, raised and sunken surfaces in both themes.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7283:2",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ]
+          }
+        }
+      },
+      "hover": {
+        "$value": "{color.alpha.grey-800.15}",
+        "$type": "color",
+        "$description": "A row or option under the pointer or the keyboard highlight: menu options, table rows. Translucent, so it works on any surface.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7293:2",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ]
+          }
+        }
+      },
+      "track-subtle": {
+        "$value": "{color.grey.300}",
+        "$type": "color",
+        "$description": "The empty part of a progress track: light enough that the fill stands out by lightness, not only by hue.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7293:3",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ]
+          }
+        }
+      },
+      "neutral-subtle": {
+        "$value": "{color.alpha.grey-800.10}",
+        "$type": "color",
+        "$description": "A quiet neutral fill for small marks and their resting state (default badge, tag, chip): translucent, so it shows by the same step on the default, raised and sunken surfaces. Hover steps up to color/surface/hover.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7304:2",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ]
+          }
+        }
+      },
+      "thumb": {
+        "$value": "{color.grey.50}",
+        "$type": "color",
+        "$description": "The knob of a switch: the same near-white in the light and the dark theme, so it reads as one knob on the red on-track (5.5:1) and on the grey off-track (3.5:1 light, 7.2:1 dark), above the 3:1 a control’s state needs. Used by: Switch. Falls back to color/surface/raised. Remove it if the thumb is to follow the theme again.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7700:15",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ]
+          }
+        }
+      },
+      "selected": {
+        "$value": "{color.alpha.grey-800.10}",
+        "$type": "color",
+        "$description": "The current or chosen item, such as the current page in the sidebar. Translucent, so it shows by the same step on the default, raised, sunken and canvas surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7773:8",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL"
+            ]
+          }
+        }
+      },
+      "scrim": {
+        "$value": "{color.alpha.grey-950.80}",
+        "$type": "color",
+        "$description": "A dark band under light text over a picture, such as the words on a picture card. The same in both themes, so the text stays readable on any photo.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7805:9",
             "collection": {
               "id": "VariableCollectionId:4046:9254",
               "name": "Semantic Color",
@@ -181,8 +362,9 @@
     },
     "text": {
       "default": {
-        "$value": "{color.moonrise.700}",
+        "$value": "{color.grey.900}",
         "$type": "color",
+        "$description": "Main text.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4048:9265",
@@ -198,8 +380,9 @@
         }
       },
       "subtle": {
-        "$value": "{color.moonrise.400}",
+        "$value": "{color.grey.700}",
         "$type": "color",
+        "$description": "Secondary text: descriptions, metadata.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4048:9266",
@@ -215,8 +398,9 @@
         }
       },
       "subtlest": {
-        "$value": "{color.steel.850}",
+        "$value": "{color.grey.600}",
         "$type": "color",
+        "$description": "Quietest text: hints, captions, placeholders.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4048:9267",
@@ -232,8 +416,9 @@
         }
       },
       "disabled": {
-        "$value": "{color.midnight.300}",
+        "$value": "{color.grey.500}",
         "$type": "color",
+        "$description": "Text in unavailable controls.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4048:9268",
@@ -249,8 +434,9 @@
         }
       },
       "brand": {
-        "$value": "{color.red.550}",
+        "$value": "{color.red.600}",
         "$type": "color",
+        "$description": "Brand-red text.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4048:9269",
@@ -265,60 +451,10 @@
           }
         }
       },
-      "brand-hover": {
-        "$value": "{color.red.700}",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4129:21540",
-            "collection": {
-              "id": "VariableCollectionId:4046:9254",
-              "name": "Semantic Color",
-              "defaultModeId": "4046:2"
-            },
-            "scopes": [
-              "TEXT_FILL"
-            ]
-          }
-        }
-      },
-      "accent": {
-        "$value": "{color.blue.800}",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4129:21541",
-            "collection": {
-              "id": "VariableCollectionId:4046:9254",
-              "name": "Semantic Color",
-              "defaultModeId": "4046:2"
-            },
-            "scopes": [
-              "TEXT_FILL"
-            ]
-          }
-        }
-      },
-      "accent-hover": {
-        "$value": "{color.blue.550}",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4129:21542",
-            "collection": {
-              "id": "VariableCollectionId:4046:9254",
-              "name": "Semantic Color",
-              "defaultModeId": "4046:2"
-            },
-            "scopes": [
-              "TEXT_FILL"
-            ]
-          }
-        }
-      },
       "inverse": {
-        "$value": "{color.frost.50}",
+        "$value": "{color.grey.50}",
         "$type": "color",
+        "$description": "Text on the opposite surface.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4048:9270",
@@ -334,8 +470,9 @@
         }
       },
       "on-brand": {
-        "$value": "{color.frost.50}",
+        "$value": "{color.grey.50}",
         "$type": "color",
+        "$description": "Text on the brand surface.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4087:12219",
@@ -351,8 +488,9 @@
         }
       },
       "on-media": {
-        "$value": "{color.frost.50}",
+        "$value": "{color.grey.50}",
         "$type": "color",
+        "$description": "Text over pictures.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4048:9271",
@@ -367,26 +505,10 @@
           }
         }
       },
-      "selected": {
-        "$value": "{color.frost.50}",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4051:9316",
-            "collection": {
-              "id": "VariableCollectionId:4046:9254",
-              "name": "Semantic Color",
-              "defaultModeId": "4046:2"
-            },
-            "scopes": [
-              "TEXT_FILL"
-            ]
-          }
-        }
-      },
       "link": {
-        "$value": "{color.moonrise.700}",
+        "$value": "{color.grey.900}",
         "$type": "color",
+        "$description": "Link text.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4116:17811",
@@ -402,8 +524,9 @@
         }
       },
       "link-hover": {
-        "$value": "{color.moonrise.850}",
+        "$value": "{color.grey.950}",
         "$type": "color",
+        "$description": "Link text on hover.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4116:17812",
@@ -419,8 +542,9 @@
         }
       },
       "link-pressed": {
-        "$value": "{color.moonrise.500}",
+        "$value": "{color.grey.800}",
         "$type": "color",
+        "$description": "Link text while pressed.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4129:21361",
@@ -436,8 +560,9 @@
         }
       },
       "link-underline": {
-        "$value": "{color.moonrise.400}",
+        "$value": "{color.grey.600}",
         "$type": "color",
+        "$description": "The line under a link.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4129:21362",
@@ -453,8 +578,9 @@
         }
       },
       "link-underline-hover": {
-        "$value": "{color.moonrise.700}",
+        "$value": "{color.grey.900}",
         "$type": "color",
+        "$description": "The line under a link, on hover.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4129:21363",
@@ -470,8 +596,9 @@
         }
       },
       "link-disabled": {
-        "$value": "{color.moonrise.400}",
+        "$value": "{color.grey.600}",
         "$type": "color",
+        "$description": "An unavailable link.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4116:17814",
@@ -489,8 +616,9 @@
     },
     "border": {
       "subtle": {
-        "$value": "{color.frost.400}",
+        "$value": "{color.grey.300}",
         "$type": "color",
+        "$description": "Dividers and quiet edges.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4049:9272",
@@ -506,8 +634,9 @@
         }
       },
       "strong": {
-        "$value": "{color.frost.700}",
+        "$value": "{color.grey.400}",
         "$type": "color",
+        "$description": "Stronger edges and separators.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4049:9274",
@@ -523,8 +652,9 @@
         }
       },
       "control": {
-        "$value": "{color.frost.900}",
+        "$value": "{color.grey.500}",
         "$type": "color",
+        "$description": "The edge that marks a control: a checkbox, a radio (must reach 3:1).",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4049:9273",
@@ -540,8 +670,9 @@
         }
       },
       "control-hover": {
-        "$value": "{color.frost.1000}",
+        "$value": "{color.grey.600}",
         "$type": "color",
+        "$description": "A control’s edge on hover.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4116:17918",
@@ -557,8 +688,9 @@
         }
       },
       "control-disabled": {
-        "$value": "{color.midnight.100}",
+        "$value": "{color.grey.300}",
         "$type": "color",
+        "$description": "A disabled control’s edge.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4049:9276",
@@ -576,6 +708,7 @@
       "control-selected": {
         "$value": "{color.alpha.white.10}",
         "$type": "color",
+        "$description": "A selected control’s edge.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4051:9318",
@@ -591,8 +724,9 @@
         }
       },
       "focus": {
-        "$value": "{color.red.550}",
+        "$value": "{color.red.600}",
         "$type": "color",
+        "$description": "Keyboard focus ring on controls.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4050:9278",
@@ -609,8 +743,9 @@
         }
       },
       "focus-field": {
-        "$value": "{color.blue.550}",
+        "$value": "{color.blue.700}",
         "$type": "color",
+        "$description": "Keyboard focus ring on fields.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4168:7525",
@@ -627,8 +762,9 @@
         }
       },
       "brand": {
-        "$value": "{color.red.550}",
+        "$value": "{color.red.600}",
         "$type": "color",
+        "$description": "Brand-red edge; also the logo’s mark.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4050:9277",
@@ -644,8 +780,9 @@
         }
       },
       "inverse": {
-        "$value": "{color.moonrise.700}",
+        "$value": "{color.grey.900}",
         "$type": "color",
+        "$description": "Edge on the opposite surface.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4086:11085",
@@ -660,9 +797,10 @@
           }
         }
       },
-      "edge-top": {
-        "$value": "{color.frost.400}",
+      "groove-top": {
+        "$value": "{color.grey.300}",
         "$type": "color",
+        "$description": "Upper line of an engraved divider or rim.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4050:9279",
@@ -677,9 +815,10 @@
           }
         }
       },
-      "edge-bottom": {
+      "groove-bottom": {
         "$value": "{color.alpha.white.100}",
         "$type": "color",
+        "$description": "Lower line of an engraved divider or rim.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4050:9280",
@@ -694,9 +833,10 @@
           }
         }
       },
-      "edge-highlight": {
+      "rim": {
         "$value": "{color.alpha.white.90}",
         "$type": "color",
+        "$description": "The light rim that makes a surface look lit: fields, chosen pills, cards.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4050:9281",
@@ -711,9 +851,10 @@
           }
         }
       },
-      "edge-highlight-subtle": {
+      "rim-subtle": {
         "$value": "{color.alpha.white.20}",
         "$type": "color",
+        "$description": "A fainter light rim.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4087:12188",
@@ -728,12 +869,13 @@
           }
         }
       },
-      "edge-shade": {
-        "$value": "{color.alpha.black.20}",
+      "edge-shade-subtle": {
+        "$value": "{color.alpha.black.10}",
         "$type": "color",
+        "$description": "A faint see-through dark edge inside a colour sample (swatches, colour sliders and areas, contrast samples), so any colour stands apart from the surface behind it.",
         "$extensions": {
           "figma": {
-            "variableId": "VariableID:4050:9282",
+            "variableId": "VariableID:4116:17919",
             "collection": {
               "id": "VariableCollectionId:4046:9254",
               "name": "Semantic Color",
@@ -745,12 +887,32 @@
           }
         }
       },
-      "edge-shade-subtle": {
-        "$value": "{color.alpha.black.10}",
+      "focus-inverse": {
+        "$value": "{color.grey.50}",
         "$type": "color",
+        "$description": "The focus ring on brand surfaces (a brand chip or tag’s remove button), where the brand-red ring would vanish. Decision F.",
         "$extensions": {
           "figma": {
-            "variableId": "VariableID:4116:17919",
+            "variableId": "VariableID:7071:2",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "STROKE_COLOR",
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "on-media": {
+        "$value": "{color.grey.50}",
+        "$type": "color",
+        "$description": "A light edge that stays light in both themes, for a ring drawn over any colour, such as the colour picker’s thumb.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7406:2",
             "collection": {
               "id": "VariableCollectionId:4046:9254",
               "name": "Semantic Color",
@@ -766,8 +928,9 @@
     "action": {
       "brand": {
         "background": {
-          "$value": "{color.red.550}",
+          "$value": "{color.red.600}",
           "$type": "color",
+          "$description": "Brand button and chip: fill at rest.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4050:9283",
@@ -786,6 +949,7 @@
         "background-hover": {
           "$value": "{color.red.700}",
           "$type": "color",
+          "$description": "Brand button and chip: fill on hover.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4050:9284",
@@ -802,8 +966,9 @@
           }
         },
         "background-pressed": {
-          "$value": "{color.red.700}",
+          "$value": "{color.red.800}",
           "$type": "color",
+          "$description": "Brand button and chip: fill while pressed, one step past hover.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4116:17920",
@@ -822,6 +987,7 @@
         "background-disabled": {
           "$value": "{color.alpha.red.40}",
           "$type": "color",
+          "$description": "Brand button and chip: fill when disabled.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4117:17927",
@@ -838,8 +1004,9 @@
           }
         },
         "foreground": {
-          "$value": "{color.frost.50}",
+          "$value": "{color.grey.50}",
           "$type": "color",
+          "$description": "Brand button and chip: label and icon at rest.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4050:9287",
@@ -857,6 +1024,7 @@
         "foreground-disabled": {
           "$value": "{color.alpha.white.30}",
           "$type": "color",
+          "$description": "Brand button and chip: label and icon when disabled.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4117:17928",
@@ -874,6 +1042,7 @@
         "border": {
           "$value": "{color.alpha.white.10}",
           "$type": "color",
+          "$description": "Brand button and chip: edge at rest.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4117:17929",
@@ -891,6 +1060,7 @@
         "border-hover": {
           "$value": "{color.alpha.black.5}",
           "$type": "color",
+          "$description": "Brand button and chip: edge on hover.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4117:17930",
@@ -908,6 +1078,7 @@
         "border-disabled": {
           "$value": "{color.alpha.black.5}",
           "$type": "color",
+          "$description": "Brand button and chip: edge when disabled.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4117:17931",
@@ -925,8 +1096,9 @@
       },
       "default": {
         "background": {
-          "$value": "{color.frost.100}",
+          "$value": "{color.grey.100}",
           "$type": "color",
+          "$description": "Neutral chip: fill at rest.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4050:9285",
@@ -943,8 +1115,9 @@
           }
         },
         "background-hover": {
-          "$value": "{color.frost.300}",
+          "$value": "{color.grey.200}",
           "$type": "color",
+          "$description": "Neutral chip: fill on hover.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4050:9286",
@@ -961,8 +1134,9 @@
           }
         },
         "background-pressed": {
-          "$value": "{color.frost.300}",
+          "$value": "{color.grey.300}",
           "$type": "color",
+          "$description": "Neutral chip: fill while pressed or selected, one step past hover.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4116:17921",
@@ -978,27 +1152,10 @@
             }
           }
         },
-        "background-disabled": {
-          "$value": "{color.midnight.150}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4117:17932",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "FRAME_FILL",
-                "SHAPE_FILL"
-              ]
-            }
-          }
-        },
         "foreground": {
-          "$value": "{color.moonrise.650}",
+          "$value": "{color.grey.850}",
           "$type": "color",
+          "$description": "Neutral chip: label and icon at rest.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4050:9288",
@@ -1013,43 +1170,10 @@
             }
           }
         },
-        "foreground-hover": {
-          "$value": "{color.red.550}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4136:3268",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "TEXT_FILL"
-              ]
-            }
-          }
-        },
-        "foreground-disabled": {
-          "$value": "{color.midnight.300}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4117:17954",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "TEXT_FILL"
-              ]
-            }
-          }
-        },
         "border": {
-          "$value": "{color.frost.50}",
+          "$value": "{color.grey.50}",
           "$type": "color",
+          "$description": "Neutral chip: edge at rest.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4117:17953",
@@ -1065,28 +1189,12 @@
           }
         },
         "border-hover": {
-          "$value": "{color.frost.600}",
+          "$value": "{color.grey.400}",
           "$type": "color",
+          "$description": "Neutral chip: edge on hover.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4117:17952",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "STROKE_COLOR"
-              ]
-            }
-          }
-        },
-        "border-disabled": {
-          "$value": "{color.midnight.150}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4117:17951",
               "collection": {
                 "id": "VariableCollectionId:4046:9254",
                 "name": "Semantic Color",
@@ -1101,8 +1209,9 @@
       },
       "secondary": {
         "background": {
-          "$value": "{color.alpha.moonrise.15}",
+          "$value": "{color.alpha.grey-800.15}",
           "$type": "color",
+          "$description": "Secondary button: fill at rest.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4127:20052",
@@ -1119,8 +1228,9 @@
           }
         },
         "background-hover": {
-          "$value": "{color.alpha.moonrise.25}",
+          "$value": "{color.alpha.grey-800.20}",
           "$type": "color",
+          "$description": "Secondary button: fill on hover.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4127:20053",
@@ -1137,8 +1247,9 @@
           }
         },
         "background-pressed": {
-          "$value": "{color.alpha.moonrise.20}",
+          "$value": "{color.alpha.grey-800.25}",
           "$type": "color",
+          "$description": "Secondary button: fill while pressed, one step past hover.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4127:20054",
@@ -1154,27 +1265,10 @@
             }
           }
         },
-        "background-disabled": {
-          "$value": "{color.midnight.150}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4127:20055",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "FRAME_FILL",
-                "SHAPE_FILL"
-              ]
-            }
-          }
-        },
         "foreground": {
-          "$value": "{color.moonrise.650}",
+          "$value": "{color.grey.850}",
           "$type": "color",
+          "$description": "Secondary button: label and icon at rest.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4127:20056",
@@ -1188,239 +1282,13 @@
               ]
             }
           }
-        },
-        "foreground-disabled": {
-          "$value": "{color.midnight.300}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4127:20057",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "TEXT_FILL"
-              ]
-            }
-          }
-        },
-        "border": {
-          "$value": "{color.alpha.white.30}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4127:20058",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "STROKE_COLOR"
-              ]
-            }
-          }
-        },
-        "border-hover": {
-          "$value": "{color.alpha.white.30}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4127:20059",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "STROKE_COLOR"
-              ]
-            }
-          }
-        },
-        "border-disabled": {
-          "$value": "{color.midnight.150}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4127:20060",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "STROKE_COLOR"
-              ]
-            }
-          }
-        }
-      },
-      "tertiary": {
-        "background": {
-          "$value": "{color.frost.50}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4157:6111",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "FRAME_FILL",
-                "SHAPE_FILL"
-              ]
-            }
-          }
-        },
-        "background-hover": {
-          "$value": "{color.frost.500}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4157:6112",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "FRAME_FILL",
-                "SHAPE_FILL"
-              ]
-            }
-          }
-        },
-        "background-pressed": {
-          "$value": "{color.frost.500}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4157:6113",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "FRAME_FILL",
-                "SHAPE_FILL"
-              ]
-            }
-          }
-        },
-        "background-disabled": {
-          "$value": "{color.midnight.150}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4157:6114",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "FRAME_FILL",
-                "SHAPE_FILL"
-              ]
-            }
-          }
-        },
-        "foreground": {
-          "$value": "{color.moonrise.650}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4157:6115",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "TEXT_FILL"
-              ]
-            }
-          }
-        },
-        "foreground-disabled": {
-          "$value": "{color.midnight.300}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4157:6116",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "TEXT_FILL"
-              ]
-            }
-          }
-        },
-        "border": {
-          "$value": "{color.alpha.white.90}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4157:6117",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "STROKE_COLOR"
-              ]
-            }
-          }
-        },
-        "border-hover": {
-          "$value": "{color.frost.500}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4157:6118",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "STROKE_COLOR"
-              ]
-            }
-          }
-        },
-        "border-disabled": {
-          "$value": "{color.midnight.150}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4157:6119",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "STROKE_COLOR"
-              ]
-            }
-          }
         }
       },
       "outline": {
         "border": {
-          "$value": "{color.moonrise.100}",
+          "$value": "{color.grey.300}",
           "$type": "color",
+          "$description": "Outline button: edge at rest.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4092:14039",
@@ -1436,8 +1304,9 @@
           }
         },
         "border-hover": {
-          "$value": "{color.moonrise.200}",
+          "$value": "{color.grey.400}",
           "$type": "color",
+          "$description": "Outline button: edge on hover.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4092:14040",
@@ -1453,8 +1322,9 @@
           }
         },
         "border-pressed": {
-          "$value": "{color.moonrise.200}",
+          "$value": "{color.grey.500}",
           "$type": "color",
+          "$description": "Outline button: edge while pressed.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4116:17922",
@@ -1469,26 +1339,10 @@
             }
           }
         },
-        "border-disabled": {
-          "$value": "{color.midnight.150}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4117:17955",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "STROKE_COLOR"
-              ]
-            }
-          }
-        },
         "foreground": {
-          "$value": "{color.moonrise.650}",
+          "$value": "{color.grey.850}",
           "$type": "color",
+          "$description": "Outline button: label and icon at rest.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4116:17923",
@@ -1504,8 +1358,9 @@
           }
         },
         "foreground-disabled": {
-          "$value": "{color.midnight.200}",
+          "$value": "{color.grey.400}",
           "$type": "color",
+          "$description": "Outline button: label and icon when disabled.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4117:17965",
@@ -1521,8 +1376,9 @@
           }
         },
         "background-hover": {
-          "$value": "{color.frost.300}",
+          "$value": "{color.alpha.grey-800.10}",
           "$type": "color",
+          "$description": "Outline button: fill on hover.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4117:17966",
@@ -1539,8 +1395,9 @@
           }
         },
         "background-pressed": {
-          "$value": "{color.frost.300}",
+          "$value": "{color.grey.300}",
           "$type": "color",
+          "$description": "Outline button: fill while pressed, one step past hover.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4117:17967",
@@ -1559,8 +1416,9 @@
       },
       "ghost": {
         "background-hover": {
-          "$value": "{color.frost.500}",
+          "$value": "{color.alpha.grey-800.15}",
           "$type": "color",
+          "$description": "Ghost button: fill on hover.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4157:4500",
@@ -1577,8 +1435,9 @@
           }
         },
         "background-pressed": {
-          "$value": "{color.frost.500}",
+          "$value": "{color.action.outline.background-pressed}",
           "$type": "color",
+          "$description": "Ghost button: fill while pressed, one step past hover; also the current page in pagination.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4157:4501",
@@ -1595,28 +1454,12 @@
           }
         },
         "foreground": {
-          "$value": "{color.moonrise.650}",
+          "$value": "{color.grey.850}",
           "$type": "color",
+          "$description": "Ghost button: label and icon at rest.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4157:4502",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "TEXT_FILL"
-              ]
-            }
-          }
-        },
-        "foreground-disabled": {
-          "$value": "{color.midnight.300}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4157:4503",
               "collection": {
                 "id": "VariableCollectionId:4046:9254",
                 "name": "Semantic Color",
@@ -1631,8 +1474,9 @@
       },
       "inverse": {
         "background": {
-          "$value": "{color.moonrise.650}",
+          "$value": "{color.grey.850}",
           "$type": "color",
+          "$description": "Dark chip and radio: fill at rest.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4112:17783",
@@ -1649,8 +1493,9 @@
           }
         },
         "background-hover": {
-          "$value": "{color.moonrise.700}",
+          "$value": "{color.grey.900}",
           "$type": "color",
+          "$description": "Dark chip and radio: fill on hover.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4112:17784",
@@ -1667,8 +1512,9 @@
           }
         },
         "background-pressed": {
-          "$value": "{color.moonrise.700}",
+          "$value": "{color.grey.925}",
           "$type": "color",
+          "$description": "Dark chip and radio: fill while pressed, one step past hover.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4117:17968",
@@ -1684,27 +1530,10 @@
             }
           }
         },
-        "background-disabled": {
-          "$value": "{color.midnight.150}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4117:17969",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "FRAME_FILL",
-                "SHAPE_FILL"
-              ]
-            }
-          }
-        },
         "foreground": {
-          "$value": "{color.frost.50}",
+          "$value": "{color.grey.50}",
           "$type": "color",
+          "$description": "Dark chip and radio: label and icon at rest.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4112:17785",
@@ -1719,26 +1548,10 @@
             }
           }
         },
-        "foreground-disabled": {
-          "$value": "{color.midnight.300}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4117:17970",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "TEXT_FILL"
-              ]
-            }
-          }
-        },
         "border": {
-          "$value": "{color.moonrise.600}",
+          "$value": "{color.grey.800}",
           "$type": "color",
+          "$description": "Dark chip and radio: edge at rest.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4117:17971",
@@ -1754,8 +1567,9 @@
           }
         },
         "border-hover": {
-          "$value": "{color.moonrise.650}",
+          "$value": "{color.grey.850}",
           "$type": "color",
+          "$description": "Dark chip and radio: edge on hover.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4117:17972",
@@ -1769,29 +1583,13 @@
               ]
             }
           }
-        },
-        "border-disabled": {
-          "$value": "{color.midnight.150}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4117:17973",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "STROKE_COLOR"
-              ]
-            }
-          }
         }
       },
-      "destructive": {
+      "danger": {
         "background": {
-          "$value": "{color.red.100}",
+          "$value": "{color.red.300}",
           "$type": "color",
+          "$description": "Danger button and menu item: fill at rest.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4119:18958",
@@ -1808,8 +1606,9 @@
           }
         },
         "background-hover": {
-          "$value": "{color.red.200}",
+          "$value": "{color.red.400}",
           "$type": "color",
+          "$description": "Danger button and menu item: fill on hover.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4119:18959",
@@ -1826,8 +1625,9 @@
           }
         },
         "background-pressed": {
-          "$value": "{color.red.200}",
+          "$value": "{color.red.500}",
           "$type": "color",
+          "$description": "Danger button and menu item: fill while pressed, one step past hover.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4119:18961",
@@ -1846,6 +1646,7 @@
         "background-disabled": {
           "$value": "{color.alpha.red.30}",
           "$type": "color",
+          "$description": "Danger button and menu item: fill when disabled.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4119:18962",
@@ -1862,8 +1663,9 @@
           }
         },
         "foreground": {
-          "$value": "{color.red.700}",
+          "$value": "{color.red.800}",
           "$type": "color",
+          "$description": "Danger button and menu item: label and icon at rest.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4119:18963",
@@ -1879,8 +1681,9 @@
           }
         },
         "foreground-hover": {
-          "$value": "{color.red.800}",
+          "$value": "{color.red.950}",
           "$type": "color",
+          "$description": "Danger button and menu item: label and icon on hover and while pressed.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4119:18971",
@@ -1898,6 +1701,7 @@
         "foreground-disabled": {
           "$value": "{color.alpha.red.50}",
           "$type": "color",
+          "$description": "Danger button and menu item: label and icon when disabled.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4119:18964",
@@ -1915,6 +1719,7 @@
         "border": {
           "$value": "{color.alpha.black.5}",
           "$type": "color",
+          "$description": "Danger button and menu item: edge at rest.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4119:18954",
@@ -1932,6 +1737,7 @@
         "border-hover": {
           "$value": "{color.alpha.red.30}",
           "$type": "color",
+          "$description": "Danger button and menu item: edge on hover.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4119:18955",
@@ -1949,6 +1755,7 @@
         "border-disabled": {
           "$value": "{color.alpha.black.5}",
           "$type": "color",
+          "$description": "Danger button and menu item: edge when disabled.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4119:18957",
@@ -1963,16 +1770,76 @@
             }
           }
         }
+      },
+      "disabled": {
+        "background": {
+          "$value": "{color.alpha.grey-800.8}",
+          "$type": "color",
+          "$description": "Background of a disabled button, in every tone: a faint see-through grey, always fainter than an enabled button. Not for tracks: a disabled switch or slider part uses color/surface/track-subtle.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7071:5",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "foreground": {
+          "$value": "{color.grey.500}",
+          "$type": "color",
+          "$description": "The label and icon of every disabled action, shared by every kind of button.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7071:6",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "SHAPE_FILL",
+                "TEXT_FILL",
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "border": {
+          "$value": "{color.grey.300}",
+          "$type": "color",
+          "$description": "The edge of every disabled action, shared by every kind of button.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7071:7",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        }
       }
     },
     "feedback": {
-      "info": {
+      "success": {
         "surface": {
-          "$value": "{color.blue.550}",
+          "$value": "{color.green.600}",
           "$type": "color",
+          "$description": "Success messages: strong fill.",
           "$extensions": {
             "figma": {
-              "variableId": "VariableID:4051:9297",
+              "variableId": "VariableID:4051:9293",
               "collection": {
                 "id": "VariableCollectionId:4046:9254",
                 "name": "Semantic Color",
@@ -1986,11 +1853,12 @@
           }
         },
         "surface-subtle": {
-          "$value": "{color.blue.50}",
+          "$value": "{color.green.100}",
           "$type": "color",
+          "$description": "Success messages: pale fill.",
           "$extensions": {
             "figma": {
-              "variableId": "VariableID:4051:9298",
+              "variableId": "VariableID:4051:9294",
               "collection": {
                 "id": "VariableCollectionId:4046:9254",
                 "name": "Semantic Color",
@@ -2004,11 +1872,12 @@
           }
         },
         "text-on-surface": {
-          "$value": "{color.blue.50}",
+          "$value": "{color.grey.50}",
           "$type": "color",
+          "$description": "Success messages: text on the strong fill.",
           "$extensions": {
             "figma": {
-              "variableId": "VariableID:4121:18979",
+              "variableId": "VariableID:4121:19006",
               "collection": {
                 "id": "VariableCollectionId:4046:9254",
                 "name": "Semantic Color",
@@ -2021,11 +1890,12 @@
           }
         },
         "text-on-subtle": {
-          "$value": "{color.blue.500}",
+          "$value": "{color.green.700}",
           "$type": "color",
+          "$description": "Success messages: text on the pale fill.",
           "$extensions": {
             "figma": {
-              "variableId": "VariableID:4051:9299",
+              "variableId": "VariableID:4051:9295",
               "collection": {
                 "id": "VariableCollectionId:4046:9254",
                 "name": "Semantic Color",
@@ -2038,11 +1908,12 @@
           }
         },
         "border": {
-          "$value": "{color.blue.300}",
+          "$value": "{color.green.500}",
           "$type": "color",
+          "$description": "Success messages: edge.",
           "$extensions": {
             "figma": {
-              "variableId": "VariableID:4087:12177",
+              "variableId": "VariableID:4087:12181",
               "collection": {
                 "id": "VariableCollectionId:4046:9254",
                 "name": "Semantic Color",
@@ -2055,11 +1926,12 @@
           }
         },
         "border-subtle": {
-          "$value": "{color.blue.100}",
+          "$value": "{color.green.300}",
           "$type": "color",
+          "$description": "Success messages: pale edge.",
           "$extensions": {
             "figma": {
-              "variableId": "VariableID:4051:9301",
+              "variableId": "VariableID:4051:9296",
               "collection": {
                 "id": "VariableCollectionId:4046:9254",
                 "name": "Semantic Color",
@@ -2070,12 +1942,33 @@
               ]
             }
           }
+        },
+        "icon": {
+          "$value": "{color.green.600}",
+          "$type": "color",
+          "$description": "The success tone’s own icon (a check), so the tone is never shown by colour alone.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7071:11",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "SHAPE_FILL",
+                "TEXT_FILL",
+                "STROKE_COLOR"
+              ]
+            }
+          }
         }
       },
       "warning": {
         "surface": {
           "$value": "{color.orange.600}",
           "$type": "color",
+          "$description": "Warning messages: strong fill.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4051:9306",
@@ -2092,8 +1985,9 @@
           }
         },
         "surface-subtle": {
-          "$value": "{color.orange.50}",
+          "$value": "{color.orange.200}",
           "$type": "color",
+          "$description": "Warning messages: pale fill.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4051:9307",
@@ -2110,8 +2004,9 @@
           }
         },
         "text-on-surface": {
-          "$value": "{color.frost.50}",
+          "$value": "{color.grey.50}",
           "$type": "color",
+          "$description": "Warning messages: text on the strong fill.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4121:19007",
@@ -2129,6 +2024,7 @@
         "text-on-subtle": {
           "$value": "{color.orange.700}",
           "$type": "color",
+          "$description": "Warning messages: text on the pale fill.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4051:9308",
@@ -2144,8 +2040,9 @@
           }
         },
         "border": {
-          "$value": "{color.orange.300}",
+          "$value": "{color.orange.500}",
           "$type": "color",
+          "$description": "Warning messages: edge.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4087:12184",
@@ -2160,124 +2057,21 @@
             }
           }
         },
-        "border-subtle": {
-          "$value": "{color.orange.200}",
+        "icon": {
+          "$value": "{color.orange.600}",
           "$type": "color",
+          "$description": "The warning tone’s own icon (a warning sign), so the tone is never shown by colour alone.",
           "$extensions": {
             "figma": {
-              "variableId": "VariableID:4051:9309",
+              "variableId": "VariableID:7071:12",
               "collection": {
                 "id": "VariableCollectionId:4046:9254",
                 "name": "Semantic Color",
                 "defaultModeId": "4046:2"
               },
               "scopes": [
-                "STROKE_COLOR"
-              ]
-            }
-          }
-        }
-      },
-      "success": {
-        "surface": {
-          "$value": "{color.green.800}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4051:9293",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "FRAME_FILL",
-                "SHAPE_FILL"
-              ]
-            }
-          }
-        },
-        "surface-subtle": {
-          "$value": "{color.green.50}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4051:9294",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "FRAME_FILL",
-                "SHAPE_FILL"
-              ]
-            }
-          }
-        },
-        "text-on-surface": {
-          "$value": "{color.green.50}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4121:19006",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "TEXT_FILL"
-              ]
-            }
-          }
-        },
-        "text-on-subtle": {
-          "$value": "{color.green.800}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4051:9295",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "TEXT_FILL"
-              ]
-            }
-          }
-        },
-        "border": {
-          "$value": "{color.green.600}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4087:12181",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
-                "STROKE_COLOR"
-              ]
-            }
-          }
-        },
-        "border-subtle": {
-          "$value": "{color.green.200}",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4051:9296",
-              "collection": {
-                "id": "VariableCollectionId:4046:9254",
-                "name": "Semantic Color",
-                "defaultModeId": "4046:2"
-              },
-              "scopes": [
+                "SHAPE_FILL",
+                "TEXT_FILL",
                 "STROKE_COLOR"
               ]
             }
@@ -2288,6 +2082,7 @@
         "surface": {
           "$value": "{color.red.600}",
           "$type": "color",
+          "$description": "Danger messages: strong fill.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4051:9302",
@@ -2304,8 +2099,9 @@
           }
         },
         "surface-subtle": {
-          "$value": "{color.red.50}",
+          "$value": "{color.red.200}",
           "$type": "color",
+          "$description": "Danger messages: pale fill.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4051:9303",
@@ -2322,8 +2118,9 @@
           }
         },
         "text-on-surface": {
-          "$value": "{color.red.50}",
+          "$value": "{color.grey.50}",
           "$type": "color",
+          "$description": "Danger messages: text on the strong fill.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4121:19005",
@@ -2339,8 +2136,9 @@
           }
         },
         "text-on-subtle": {
-          "$value": "{color.red.600}",
+          "$value": "{color.red.700}",
           "$type": "color",
+          "$description": "Danger messages: text on the pale fill.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4051:9304",
@@ -2356,8 +2154,9 @@
           }
         },
         "border": {
-          "$value": "{color.red.300}",
+          "$value": "{color.red.500}",
           "$type": "color",
+          "$description": "Danger messages: edge; the edge of a field in error (3:1).",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4087:12187",
@@ -2373,8 +2172,9 @@
           }
         },
         "border-subtle": {
-          "$value": "{color.red.200}",
+          "$value": "{color.red.300}",
           "$type": "color",
+          "$description": "Danger messages: pale edge.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4051:9305",
@@ -2388,32 +2188,148 @@
               ]
             }
           }
+        },
+        "icon": {
+          "$value": "{color.red.600}",
+          "$type": "color",
+          "$description": "The danger tone’s own icon (an alert sign), so the tone is never shown by colour alone.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7071:13",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "SHAPE_FILL",
+                "TEXT_FILL",
+                "STROKE_COLOR"
+              ]
+            }
+          }
         }
-      }
-    },
-    "overlay": {
-      "scrim": {
-        "$value": "{color.alpha.black.50}",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4051:9310",
-            "collection": {
-              "id": "VariableCollectionId:4046:9254",
-              "name": "Semantic Color",
-              "defaultModeId": "4046:2"
-            },
-            "scopes": [
-              "FRAME_FILL"
-            ]
+      },
+      "info": {
+        "surface": {
+          "$value": "{color.blue.600}",
+          "$type": "color",
+          "$description": "Info messages: strong fill.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4051:9297",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "surface-subtle": {
+          "$value": "{color.blue.200}",
+          "$type": "color",
+          "$description": "Info messages: pale fill.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4051:9298",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL"
+              ]
+            }
+          }
+        },
+        "text-on-surface": {
+          "$value": "{color.grey.50}",
+          "$type": "color",
+          "$description": "Info messages: text on the strong fill.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4121:18979",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "text-on-subtle": {
+          "$value": "{color.blue.700}",
+          "$type": "color",
+          "$description": "Info messages: text on the pale fill.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4051:9299",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "TEXT_FILL"
+              ]
+            }
+          }
+        },
+        "border": {
+          "$value": "{color.blue.500}",
+          "$type": "color",
+          "$description": "Info messages: edge.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4087:12177",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "icon": {
+          "$value": "{color.blue.600}",
+          "$type": "color",
+          "$description": "The info tone’s own icon (an info sign), so the tone is never shown by colour alone.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7071:14",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "SHAPE_FILL",
+                "TEXT_FILL",
+                "STROKE_COLOR"
+              ]
+            }
           }
         }
       }
     },
     "shadow": {
       "xs": {
-        "$value": "{color.alpha.moonrise.5}",
+        "$value": "{color.alpha.grey-800.5}",
         "$type": "color",
+        "$description": "Shadow colour, xs: used inside the shadow styles.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4157:6933",
@@ -2428,9 +2344,10 @@
           }
         }
       },
-      "s": {
-        "$value": "{color.alpha.moonrise.10}",
+      "sm": {
+        "$value": "{color.alpha.grey-800.10}",
         "$type": "color",
+        "$description": "Shadow colour, sm: used inside the shadow styles.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4051:9311",
@@ -2445,9 +2362,10 @@
           }
         }
       },
-      "m": {
-        "$value": "{color.alpha.moonrise.15}",
+      "md": {
+        "$value": "{color.alpha.grey-800.15}",
         "$type": "color",
+        "$description": "Shadow colour, md: used inside the shadow styles.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4051:9312",
@@ -2462,9 +2380,10 @@
           }
         }
       },
-      "l": {
-        "$value": "{color.alpha.moonrise.20}",
+      "lg": {
+        "$value": "{color.alpha.grey-800.20}",
         "$type": "color",
+        "$description": "Shadow colour, lg: used inside the shadow styles.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4157:6930",
@@ -2480,8 +2399,9 @@
         }
       },
       "xl": {
-        "$value": "{color.alpha.moonrise.30}",
+        "$value": "{color.alpha.grey-800.30}",
         "$type": "color",
+        "$description": "Shadow colour, xl: used inside the shadow styles.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4157:6932",
@@ -2497,10 +2417,31 @@
         }
       }
     },
+    "overlay": {
+      "scrim": {
+        "$value": "{color.alpha.black.50}",
+        "$type": "color",
+        "$description": "Dimmed backdrop behind dialogs and drawers.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4051:9310",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "FRAME_FILL"
+            ]
+          }
+        }
+      }
+    },
     "icon": {
       "default": {
-        "$value": "{color.moonrise.700}",
+        "$value": "{color.grey.900}",
         "$type": "color",
+        "$description": "Icons.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4116:17810",
@@ -2518,8 +2459,9 @@
         }
       },
       "subtle": {
-        "$value": "{color.moonrise.400}",
+        "$value": "{color.grey.700}",
         "$type": "color",
+        "$description": "Quiet icons.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4116:17842",
@@ -2537,8 +2479,9 @@
         }
       },
       "disabled": {
-        "$value": "{color.midnight.200}",
+        "$value": "{color.grey.400}",
         "$type": "color",
+        "$description": "Icons in unavailable controls.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4116:17843",
@@ -2555,12 +2498,13 @@
           }
         }
       },
-      "inverse": {
-        "$value": "{color.frost.50}",
+      "brand": {
+        "$value": "{color.red.600}",
         "$type": "color",
+        "$description": "Brand-red icons, at the same contrast as brand text.",
         "$extensions": {
           "figma": {
-            "variableId": "VariableID:4116:17844",
+            "variableId": "VariableID:7071:8",
             "collection": {
               "id": "VariableCollectionId:4046:9254",
               "name": "Semantic Color",
@@ -2570,6 +2514,676 @@
               "SHAPE_FILL",
               "TEXT_FILL",
               "STROKE_COLOR"
+            ]
+          }
+        }
+      },
+      "on-brand": {
+        "$value": "{color.grey.50}",
+        "$type": "color",
+        "$description": "Icons on a brand-red fill.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7071:9",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "SHAPE_FILL",
+              "TEXT_FILL",
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      },
+      "subtlest": {
+        "$value": "{color.grey.600}",
+        "$type": "color",
+        "$description": "The quietest icons: hints and decorations beside placeholder text.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7071:10",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "SHAPE_FILL",
+              "TEXT_FILL",
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      },
+      "on-thumb": {
+        "$value": "{color.grey.700}",
+        "$type": "color",
+        "$description": "The tick or cross inside a switch’s thumb: the same dark grey in both themes, 7.2:1 on color/surface/thumb. Used by: Switch (Icon on). Falls back to color/icon/subtle. Remove it together with color/surface/thumb.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7700:16",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "SHAPE_FILL",
+              "TEXT_FILL",
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      }
+    },
+    "data": {
+      "series": {
+        "$value": "{color.blue.600}",
+        "$type": "color",
+        "$description": "The single series colour; the same as categorical 1, so one series and the first of many agree. Light blue/600, dark blue/400. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7119:172",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL",
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      },
+      "series-hover": {
+        "$value": "{color.blue.700}",
+        "$type": "color",
+        "$description": "The single series, one step stronger, when pointed at or focused. Light blue/700, dark blue/300. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7119:173",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL",
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      },
+      "categorical": {
+        "1": {
+          "$value": "{color.blue.600}",
+          "$type": "color",
+          "$description": "Categorical position 1 (blue). Fixed order, never cycled. Light blue/600, dark blue/400. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7119:174",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "2": {
+          "$value": "{color.orange.500}",
+          "$type": "color",
+          "$description": "Categorical position 2 (orange). Light orange/500, dark orange/400. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7119:175",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "3": {
+          "$value": "{color.grey.700}",
+          "$type": "color",
+          "$description": "Categorical position 3 (neutral). Light grey/700, dark grey/300. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7119:176",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "4": {
+          "$value": "{color.green.500}",
+          "$type": "color",
+          "$description": "Categorical position 4 (green). Light green/500, dark green/400. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7119:177",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "5": {
+          "$value": "{color.purple.500}",
+          "$type": "color",
+          "$description": "Categorical position 5 (purple). Light purple/500, dark purple/300. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8003:41",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "6": {
+          "$value": "{color.teal.600}",
+          "$type": "color",
+          "$description": "Categorical position 6 (teal). Light teal/600, dark teal/500. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8003:42",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "7": {
+          "$value": "{color.yellow.500}",
+          "$type": "color",
+          "$description": "Categorical position 7 (yellow). Light yellow/500, dark yellow/500. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8003:43",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "8": {
+          "$value": "{color.pink.600}",
+          "$type": "color",
+          "$description": "Categorical position 8 (pink). Light pink/600, dark pink/300. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8003:44",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        }
+      },
+      "sequential": {
+        "1": {
+          "$value": "{color.blue.300}",
+          "$type": "color",
+          "$description": "Sequential scale, low end (faint cells are outlined and carry their number). Light blue/300, dark blue/800. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7119:178",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "2": {
+          "$value": "{color.blue.400}",
+          "$type": "color",
+          "$description": "Light blue/400, dark blue/700. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7119:179",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "3": {
+          "$value": "{color.blue.500}",
+          "$type": "color",
+          "$description": "Sequential scale, step 3. Light blue/500, dark blue/600. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7119:180",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "4": {
+          "$value": "{color.blue.600}",
+          "$type": "color",
+          "$description": "Sequential scale, step 4. Light blue/600, dark blue/500. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7119:181",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "5": {
+          "$value": "{color.blue.700}",
+          "$type": "color",
+          "$description": "Sequential scale, high end: stands out most in both themes. Light blue/700, dark blue/300. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7119:182",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        }
+      },
+      "diverging": {
+        "low-2": {
+          "$value": "{color.orange.700}",
+          "$type": "color",
+          "$description": "Diverging scale, far low end. Light orange/700, dark orange/300. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7119:183",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "low-1": {
+          "$value": "{color.orange.500}",
+          "$type": "color",
+          "$description": "Diverging scale, low. Light orange/500, dark orange/500. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7119:184",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "mid": {
+          "$value": "{color.grey.500}",
+          "$type": "color",
+          "$description": "Diverging scale, the neutral middle (3:1 on both themes). Light grey/500, dark grey/500. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7119:185",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "high-1": {
+          "$value": "{color.blue.500}",
+          "$type": "color",
+          "$description": "Diverging scale, high. Light blue/500, dark blue/500. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7119:186",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "high-2": {
+          "$value": "{color.blue.700}",
+          "$type": "color",
+          "$description": "Diverging scale, far high end. Light blue/700, dark blue/300. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7119:187",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        }
+      },
+      "reference-line": {
+        "$value": "{color.grey.800}",
+        "$type": "color",
+        "$description": "A threshold or target line across a chart. Light grey/800, dark grey/200. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7119:188",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL",
+              "STROKE_COLOR"
+            ]
+          }
+        }
+      }
+    },
+    "code": {
+      "keyword": {
+        "$value": "{color.purple.600}",
+        "$type": "color",
+        "$description": "Code: control flow and modules, such as import, export, from, return, if and await, and CSS at-rules such as @media. Light purple/600, dark purple/400. Text: 4.5:1 or more on the code block's well, in both themes; color is never the only sign of what a piece of code is.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:45",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "string": {
+        "$value": "{color.orange.600}",
+        "$type": "color",
+        "$description": "Code: text in quotes. Light orange/600, dark orange/400. Text: 4.5:1 or more on the code block's well, in both themes; color is never the only sign of what a piece of code is.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:46",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "number": {
+        "$value": "{color.green.600}",
+        "$type": "color",
+        "$description": "Code: numbers, CSS lengths and colors, and true, false and null. Light green/600, dark green/300. Text: 4.5:1 or more on the code block's well, in both themes; color is never the only sign of what a piece of code is.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:47",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "function": {
+        "$value": "{color.yellow.600}",
+        "$type": "color",
+        "$description": "Code: function names, CSS functions such as var(), and the command a shell line runs. Light yellow/600, dark yellow/300. Text: 4.5:1 or more on the code block's well, in both themes; color is never the only sign of what a piece of code is.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:48",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "type": {
+        "$value": "{color.teal.600}",
+        "$type": "color",
+        "$description": "Code: type, class and component names. Light teal/600, dark teal/400. Text: 4.5:1 or more on the code block's well, in both themes; color is never the only sign of what a piece of code is.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:49",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "property": {
+        "$value": "{color.blue.800}",
+        "$type": "color",
+        "$description": "Code: keys and properties, such as object and JSON keys, CSS properties and custom properties, HTML and JSX attributes, and command flags. Light blue/800, dark blue/300. Text: 4.5:1 or more on the code block's well, in both themes; color is never the only sign of what a piece of code is.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:50",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "comment": {
+        "$value": "{color.grey.600}",
+        "$type": "color",
+        "$description": "Code: comments, the quietest part of the code. Light grey/600, dark grey/400. Text: 4.5:1 or more on the code block's well, in both themes; color is never the only sign of what a piece of code is.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:51",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "punctuation": {
+        "$value": "{color.grey.700}",
+        "$type": "color",
+        "$description": "Code: brackets, commas, colons and operators. Light grey/700, dark grey/300. Text: 4.5:1 or more on the code block's well, in both themes; color is never the only sign of what a piece of code is.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:52",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "declaration": {
+        "$value": "{color.blue.600}",
+        "$type": "color",
+        "$description": "Code: words that declare or name, such as const, let, function, class, interface, type, new and this. Light blue/600, dark blue/400. Text: 4.5:1 or more on the code block's well, in both themes; color is never the only sign of what a piece of code is.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8008:8",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "tag": {
+        "$value": "{color.blue.600}",
+        "$type": "color",
+        "$description": "Code: HTML and JSX tags, and CSS selectors. Light blue/600, dark blue/400. Text: 4.5:1 or more on the code block's well, in both themes; color is never the only sign of what a piece of code is.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8008:9",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
             ]
           }
         }

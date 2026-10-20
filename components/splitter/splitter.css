@@ -1,0 +1,161 @@
+/* smbk-splitter — Splitter. Figma "Splitter" 7117:70.
+ * A handle between two panes: a hit area 24 across and as long as the panes, holding a line in two halves and,
+ * between them, an optional grip, a raised pill with six dots. Dragging it, or the arrow keys, give one pane more
+ * room; the wrapper keeps the value and the page sizes its panes from it. Under the pointer the hit area takes the
+ * ghost fill and the line the strong border; while it is dragged the line turns brand and twice as thick, so the
+ * change is not shown by color alone. Focus draws the system's ring around the hit area. Where the layout is narrow
+ * the page stacks its panes and the splitter is not shown, which also takes it out of the Tab order. */
+
+.smbk-splitter {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+  width: var(--smbk-size-control-xs);
+  border-radius: var(--smbk-radius-control-xs);
+  cursor: col-resize;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.smbk-splitter--orientation-horizontal {
+  flex-direction: row;
+  width: auto;
+  height: var(--smbk-size-control-xs);
+  cursor: row-resize;
+}
+
+/* The line: two halves, one either side of the grip, meeting where there is none. */
+.smbk-splitter__line {
+  flex: 1 1 0;
+  width: var(--smbk-border-width-hairline);
+  background: var(--smbk-color-border-groove-top);
+}
+
+.smbk-splitter--orientation-horizontal .smbk-splitter__line {
+  width: auto;
+  height: var(--smbk-border-width-hairline);
+}
+
+.smbk-splitter__grip {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--smbk-size-16);
+  height: var(--smbk-size-24);
+  border-radius: var(--smbk-radius-full);
+  background: var(--smbk-color-surface-raised);
+  box-shadow: var(--smbk-elevation-control);
+}
+
+.smbk-splitter--orientation-horizontal .smbk-splitter__grip {
+  width: var(--smbk-size-24);
+  height: var(--smbk-size-16);
+}
+
+.smbk-splitter__icon {
+  font-size: var(--smbk-size-icon-sm);
+  color: var(--smbk-color-icon-subtle);
+}
+
+/* ---- states: hover, focus, dragging, disabled ---- */
+
+@media (hover: hover) {
+  .smbk-splitter:not([aria-disabled='true']):hover {
+    background: var(--smbk-color-action-ghost-background-hover);
+  }
+
+  .smbk-splitter:not([aria-disabled='true']):hover .smbk-splitter__line {
+    background: var(--smbk-color-border-strong);
+  }
+}
+
+.smbk-splitter:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+.smbk-splitter[data-dragging]:not([aria-disabled='true']) {
+  background: transparent;
+}
+
+.smbk-splitter[data-dragging]:not([aria-disabled='true']) .smbk-splitter__line {
+  width: var(--smbk-border-width-emphasis);
+  background: var(--smbk-color-border-brand);
+}
+
+.smbk-splitter--orientation-horizontal[data-dragging]:not([aria-disabled='true']) .smbk-splitter__line {
+  width: auto;
+  height: var(--smbk-border-width-emphasis);
+}
+
+.smbk-splitter[data-dragging]:not([aria-disabled='true']) .smbk-splitter__icon {
+  color: var(--smbk-color-icon-brand);
+}
+
+.smbk-splitter[aria-disabled='true'] {
+  cursor: default;
+}
+
+.smbk-splitter[aria-disabled='true'] .smbk-splitter__line {
+  background: var(--smbk-color-border-control-disabled);
+}
+
+.smbk-splitter[aria-disabled='true'] .smbk-splitter__grip {
+  background: transparent;
+  box-shadow: none;
+}
+
+.smbk-splitter[aria-disabled='true'] .smbk-splitter__icon {
+  color: var(--smbk-color-icon-disabled);
+}
+
+/* ---- touch: the hit area reaches the comfortable target without widening the gap between the panes ---- */
+
+@media (pointer: coarse) {
+  .smbk-splitter::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline: calc((var(--smbk-size-control-xs) - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  .smbk-splitter--orientation-horizontal::before {
+    inset-block: calc((var(--smbk-size-control-xs) - var(--smbk-size-target-comfortable)) / 2);
+    inset-inline: 0;
+  }
+}
+
+/* ---- narrow: the page stacks its panes, and the splitter is not shown ---- */
+
+@container style(--smbk-layout: narrow) {
+  .smbk-splitter {
+    display: none;
+  }
+}
+
+/* ---- forced colors: the line and the grip's edge in the text color ---- */
+
+@media (forced-colors: active) {
+  .smbk-splitter__line {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
+
+  .smbk-splitter__grip {
+    border: var(--smbk-border-width-hairline) solid CanvasText;
+  }
+
+  .smbk-splitter[aria-disabled='true'] .smbk-splitter__line {
+    background: GrayText;
+  }
+
+  .smbk-splitter:focus-visible {
+    outline-color: CanvasText;
+  }
+}

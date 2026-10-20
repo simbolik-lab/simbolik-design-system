@@ -1,0 +1,75 @@
+/* smbk-diff-stat — Diff stat. Figma "Diff stat" 7580:1825 (Balance: Adds, Mixed, Removes).
+ * How much a change touched: the lines added in the success text color and the lines removed in the danger
+ * text color, each with its sign, in the small code style, then five small squares that show the balance.
+ * The signs and the numbers carry the meaning, so the colors are never the only sign; a hidden sentence says
+ * it all to a screen reader. */
+
+.smbk-diff-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--smbk-space-6);
+  vertical-align: middle;
+  font-family: var(--smbk-typography-code-sm-font-family);
+  font-size: var(--smbk-typography-code-sm-font-size);
+  font-weight: var(--smbk-typography-code-sm-font-weight);
+  line-height: var(--smbk-typography-code-sm-line-height);
+  letter-spacing: var(--smbk-typography-code-sm-letter-spacing);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* The block frames the words it hides for screen readers, so they stay inside it wherever it is placed: without a
+   frame they hang from the page itself and stretch it, past the end of an area that scrolls. No weight, so a parent
+   that places the block keeps its say. */
+:where(.smbk-diff-stat) {
+  position: relative;
+}
+
+.smbk-diff-stat__added {
+  color: var(--smbk-color-feedback-success-text-on-subtle);
+}
+
+.smbk-diff-stat__removed {
+  color: var(--smbk-color-feedback-danger-text-on-subtle);
+}
+
+.smbk-diff-stat__blocks {
+  display: inline-flex;
+  flex-shrink: 0;
+  gap: var(--smbk-space-2);
+}
+
+.smbk-diff-stat__block {
+  display: block;
+  width: var(--smbk-size-8);
+  height: var(--smbk-size-8);
+  border-radius: var(--smbk-radius-2);
+  background: var(--smbk-color-surface-track-subtle);
+}
+
+.smbk-diff-stat__block--added {
+  background: var(--smbk-color-feedback-success-icon);
+}
+
+.smbk-diff-stat__block--removed {
+  background: var(--smbk-color-feedback-danger-icon);
+}
+
+/* The sentence a screen reader hears; the signs and the squares are hidden from it. */
+/* .smbk-diff-stat__hidden: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
+/* ---- high contrast (forced colors) ---- */
+/* The browser drops the fills: every square is outlined in the text color and the ones with lines are filled
+   with it, so the balance still shows; the numbers keep their signs. */
+
+@media (forced-colors: active) {
+  .smbk-diff-stat__block {
+    outline: var(--smbk-border-width-hairline) solid CanvasText;
+    outline-offset: calc(-1 * var(--smbk-border-width-hairline));
+  }
+
+  .smbk-diff-stat__block--added,
+  .smbk-diff-stat__block--removed {
+    background: CanvasText;
+  }
+}

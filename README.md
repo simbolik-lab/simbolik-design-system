@@ -2,15 +2,31 @@
 
 Design tokens, CSS components and React components for the web, free to use under the MIT License. The design is drawn in Figma; this repository is the design system as code. It comes with a site that shows every piece, and a checker for the projects built on it.
 
+## Quick start
+
+Download `simbolik-<version>.zip` from the [latest Release](https://github.com/simbolik-lab/simbolik-design-system/releases/latest) and unzip it into your site. It makes a `design-system/` folder. Then put this in a page beside it:
+
+```html
+<link rel="stylesheet" href="design-system/assets/fonts/fonts.css">
+<link rel="stylesheet" href="design-system/assets/phosphor/regular/style.css">
+<link rel="stylesheet" href="design-system/css/simbolik.css">
+<body data-theme="dark">
+<button type="button" class="smbk-btn smbk-btn--tone-brand smbk-btn--size-md"><span class="smbk-btn__label">Create project</span></button>
+```
+
+The three links bring the fonts, the icons and the design system. `data-theme` fixes the theme to `light` or `dark`; leave it out and the page follows the reader's setting. The page's own background and text color are yours (`design-system/foundations/` says which tokens to use).
+
 - **The Showroom**, https://design.simbolik.ai/: every foundation and component, with a live preview, the code to copy and the design tokens it reads.
 - **The Figma file**, https://www.figma.com/community/file/1688324308358870630: the design the code is built from, on Figma Community, free to open and copy.
 - **What each version holds, and what it's missing**: the [release notes](release-notes/), also on the Showroom's Releases page, https://design.simbolik.ai/releases/.
 
 It's an alpha. Names and behavior can still change between versions, and each version's release notes say what changed and what breaks.
 
-## Try it
+## Use it in a site
 
-You need git and Node 22 or later.
+The folders a site copies are `assets/`, `css/`, `components/`, `conformance/`, `output/`, `package.json` and `LICENSE`, into one folder of your site called `design-system/`: the name every site built on the system gives it, and the one the checker and the code on the Showroom's Docs page use. The Release zip holds them already, in a `design-system/` folder.
+
+To build them yourself, from a clone, you need git and Node 22 or later:
 
 ```sh
 git clone https://github.com/simbolik-lab/simbolik-design-system.git
@@ -19,11 +35,12 @@ npm ci
 npm run css:bundle
 ```
 
-That writes `css/simbolik.css`, the design tokens and every component in one stylesheet, and `assets/`, the fonts and the icon font with their licenses. Copy `assets/`, `css/` and, for React, `components/` into your site, then:
+That writes `css/simbolik.css`, the design tokens and every component in one stylesheet, and `assets/`, the fonts and the icon font with their licenses. Copy the folders above into your site, then:
 
-1. Link `assets/fonts/fonts.css` (every font the system uses, in one stylesheet), `assets/phosphor/regular/style.css` and `css/simbolik.css`.
+1. Link `assets/fonts/fonts.css` (every font the system uses, in one stylesheet, with the stand-in face each family's backups name first), `assets/phosphor/regular/style.css` and `css/simbolik.css`. A site that builds its own font sheet from the families' folders adds `assets/fonts/fallback.css`, the stand-in faces alone, so text drawn before a face arrives keeps its layout.
 2. Write the markup with the `smbk-` classes. Every component's page in the Showroom has its markup to copy.
-3. In React, use the wrappers in `components/` instead (`components/button/button.tsx`). A wrapper sets the classes and adds behavior; the stylesheet still draws everything, so link it as above. The wrappers are written for React 19 and TypeScript.
+3. In React, use the wrappers in `components/` instead (`components/button/button.tsx`). A wrapper sets the classes and adds behavior; the stylesheet still draws everything, so link it as above. The wrappers are written for React 19 and TypeScript, and the harder behavior, such as placing a menu beside its button, comes from React Aria: install `react-aria` beside `react` and `react-dom`, at the version `package.json` names. It brings `react-stately`, its state half, which the number field also uses, and `@internationalized/date`, for the calendar and the date picker. If this folder sits outside your project, or your project reaches it through a link, tell your build to take `react`, `react-dom`, `react-aria`, `react-stately` and `@internationalized/date` from your project's own packages (in Vite, `resolve.dedupe`): an import in a file outside your project never finds your packages by itself.
+4. The Tailwind theme (`css/tailwind.css`) and the token files in `output/` (a TypeScript module and JSON) are shown in use on the Docs page, https://design.simbolik.ai/docs/.
 
 ## What's in it
 
@@ -59,7 +76,7 @@ Each one moves on its own, when its checks pass and I'm sure of it, whatever the
 
 **Theme, density and layout.** A page follows the reader's light or dark setting. Set `data-theme="light"` or `data-theme="dark"` on any element to fix its theme, and `data-density="compact"` for the tighter spacing. Components with a phone form switch to it by the window's width; `data-layout="narrow"` or `"wide"` on a wrapper forces one form inside it.
 
-**Check a project.** `npm run conformance -- path/to/project` lists every raw color, size or font where a design token belongs. It also lists every component the project rebuilds by hand. Add `--json` for a report a script can read. The checker reads the project's settings from `"simbolik"` in its `package.json`: `prefix`, the start of the project's own class names (`"site-"`); `allowClasses`, classes from elsewhere the project needs; and `ignore`, the folders and files it shouldn't read, such as notes or drafts (`"ignore": ["notes"]`). It never reads `node_modules`, dot folders, or `site`, `dist`, `public` and `design-system` at the project's top. A finding the project keeps on purpose goes in `conformance-exceptions.json`, with the file, the rule, the text it matches and the reason, and is printed on every run: each entry once, with its count and first places, or every finding with `--explained`.
+**Check a project.** `npm run conformance -- path/to/project` lists every raw color, size or font where a design token belongs. It also lists every component the project rebuilds by hand. Add `--json` for a report a script can read. The checker reads the project's settings from `"simbolik"` in its `package.json`: `prefix`, the start of the project's own class names (`"site-"`); `allowClasses`, classes from elsewhere the project needs; and `ignore`, the folders and files it shouldn't read, such as notes or drafts (`"ignore": ["notes"]`). It never reads `node_modules`, dot folders, or `site`, `dist`, `public` and `design-system` at the project's top. A finding the project keeps on purpose goes in `conformance-exceptions.json`, with the file, the rule, the text it matches and the reason, and is printed on every run: each entry once, with its count and first places, or every finding with `--explained`. The checker also lists every design token the project still uses that is on its way out, with the name to use instead; that list is not a finding, and the project passes, until a Release removes the old name.
 
 ## Work on it
 
@@ -76,7 +93,7 @@ In this folder, after `npm ci`:
 
 ## How it's built
 
-**The token build.** `npm run tokens:build` checks the design tokens before it writes a file, and it won't guess what someone meant. It stops on two token paths that make the same name, a reference to a design token that doesn't exist, a value that leads back to itself, and an alias to a design token of another type. Then it writes `css/tokens.css`, `css/tailwind.css`, `output/tokens.ts`, and `output/tokens.json`. Theme and density reach CSS as attributes, and text size as a media query on the window's width. The layout switch is one inherited custom property, `--smbk-layout`, which components read with a style container query.
+**The token build.** `npm run tokens:build` checks the design tokens before it writes a file, and it won't guess what someone meant. It stops on two token paths that make the same name, a reference to a design token that doesn't exist, a value that leads back to itself, an alias to a design token of another type, and a color not written as the standard's color object. Then it writes `css/tokens.css`, `css/tailwind.css`, `output/tokens.ts`, and `output/tokens.json`, each giving a color as hex. Theme and density reach CSS as attributes, and text size as a media query on the window's width. The layout switch is one inherited custom property, `--smbk-layout`, which components read with a style container query; the layout tokens (a page's section spacing, text spacing, container widths and section corners) take their phone or desktop values at the same width, and the same `data-layout` attribute forces either. A token that Figma marks as on its way out stays, marked with the standard's `$deprecated`, which `output/tokens.json` and `output/tokens.ts` carry.
 
 [`docs/naming.md`](docs/naming.md) says how a design token's path becomes a custom property or a class, and [`GLOSSARY.md`](GLOSSARY.md) which words mean what.
 

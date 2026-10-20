@@ -17,7 +17,7 @@ A rule that separates content. It is drawn as two hairlines, a shade over a high
 ## Anatomy
 
 - The block: a horizontal rule, or a vertical one that stretches to its row.
-- Labeled: two line parts with a label part between them, a short uppercase word such as "or".
+- Labeled: two line parts with a label part between them, a short word such as "or", in a small label style.
 
 ## When to use
 
@@ -36,7 +36,19 @@ None.
 
 ## Accessibility
 
-A horizontal divider is a real horizontal-rule element, which assistive technology announces as a separator. A vertical divider carries the separator role explicitly. A labeled divider is not a separator as a whole, because a separator's contents are hidden from screen readers and its word would be lost: its first line carries the separator role, and the word follows as plain text, which is read.
+### What it does for you
+
+- A horizontal divider is a real horizontal-rule element, which assistive technology announces as a separator. A vertical divider carries the separator role explicitly.
+- A labeled divider is not a separator as a whole, because a separator's contents are hidden from screen readers and its word would be lost: its first line carries the separator role, and the word follows as plain text, which is read.
+
+### What you must do
+
+- Choose a labeled divider's word so it reads on its own, since a screen reader reads it as plain text.
+
+### How to test
+
+- With a screen reader, a plain divider is announced as a separator, and a labeled divider as a separator followed by its word.
+- In a forced-color mode, the line is still visible.
 
 ## Composition
 
@@ -55,4 +67,4 @@ Contains nothing, or two lines and a label. May sit in any flow or flex containe
 
 ## Related
 
-- Card and dropdown use dividers between their regions.
+- [Card](../card/card.md) and [dropdown](../dropdown/dropdown.md) use dividers between their regions.

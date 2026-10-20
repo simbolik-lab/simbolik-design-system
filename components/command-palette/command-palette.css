@@ -1,7 +1,7 @@
 /* smbk-command-palette — Command palette. Figma "Command Palette" 4336:22996, built from
  * "CommandHeader" 4333:22019, "CommandBody" 4336:22171, "CommandItem" 4333:21975 and
  * "CommandFooter" 4336:22098.
- * A search row over groups of commands, each group under a mono label with an
+ * A search row over groups of commands, each group under a small label with an
  * optional "See all" button, and a footer of key hints. The pieces Figma
  * builds from other components are those components here: the chips, the
  * labels, the See all button, the keycaps and the dividers. Shown in place,
@@ -9,17 +9,18 @@
 
 .smbk-command-palette {
   box-sizing: border-box;
+  position: relative;
   display: flex;
   flex-direction: column;
   width: var(--smbk-size-command-palette-width);
   max-width: 100%;
   max-height: 100%;
   overflow: hidden;
-  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim);
   border-radius: var(--smbk-radius-container-md);
   background: var(--smbk-color-surface-default);
   color: var(--smbk-color-text-default);
-  box-shadow: var(--smbk-elevation-3);
+  box-shadow: var(--smbk-elevation-overlay);
 }
 
 /* ---- the search row ---- */
@@ -31,6 +32,14 @@
   gap: var(--smbk-space-inline-md);
   height: var(--smbk-size-target-comfortable);
   padding: 0 var(--smbk-space-inset-xl);
+  border-radius: calc(var(--smbk-radius-container-md) - var(--smbk-border-width-hairline)) calc(var(--smbk-radius-container-md) - var(--smbk-border-width-hairline)) 0 0;
+}
+
+/* The search box is where the keyboard is, so it keeps a focus mark: the focus ring just inside the row's
+   edge, following the panel's corners. With no results it is the only mark there is. */
+.smbk-command-palette__search:has(> .smbk-command-palette__input:focus-visible) {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: calc(-1 * var(--smbk-focus-ring-width));
 }
 
 .smbk-command-palette__search-icon {
@@ -47,11 +56,12 @@
   border: 0;
   background: transparent;
   color: var(--smbk-color-text-default);
-  font-family: var(--smbk-typography-body-m-font-family);
-  font-size: var(--smbk-typography-body-m-font-size);
-  font-weight: var(--smbk-typography-body-m-font-weight);
-  line-height: var(--smbk-typography-body-m-line-height);
-  letter-spacing: var(--smbk-typography-body-m-letter-spacing);
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
+  /* The search row draws the focus ring around the field instead (above). */
   outline: none;
   appearance: none;
 }
@@ -66,11 +76,15 @@
   appearance: none;
 }
 
+/* The cross in a box big enough to press, the glyph at the medium icon size in its middle. */
 .smbk-command-palette__clear {
+  box-sizing: border-box;
   display: inline-flex;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
+  width: var(--smbk-size-target-min);
+  height: var(--smbk-size-target-min);
   padding: 0;
   border: 0;
   background: none;
@@ -118,15 +132,18 @@
   flex-direction: column;
 }
 
+/* The group's label and its See all button share a row the small control height; the label is set in from
+   the side as the commands are, so it lines up with their icons. */
 .smbk-command-palette__group-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--smbk-space-inline-md);
+  min-height: var(--smbk-size-control-sm);
 }
 
 .smbk-command-palette__group-label {
-  padding: var(--smbk-space-inset-lg);
+  padding: 0 var(--smbk-space-inset-lg);
 }
 
 .smbk-command-palette__list {
@@ -139,7 +156,7 @@
   display: flex;
   align-items: center;
   gap: var(--smbk-space-inline-md);
-  height: var(--smbk-size-icon-2xl);
+  height: var(--smbk-size-control-md);
   padding: 0 var(--smbk-space-inset-lg);
   border-radius: var(--smbk-radius-control-sm);
   cursor: pointer;
@@ -149,27 +166,89 @@
   user-select: none;
 }
 
-/* The highlighted command, by pointer or by arrow key: Figma's Hover state. */
-.smbk-command-palette__item[aria-selected="true"] {
-  background: var(--smbk-color-surface-canvas);
-}
-
+/* Under the pointer: Figma's Hover state. With the wrapper the pointer's fill is the glide part instead
+   (below), so a command's own hover is drawn only in markup without it. */
 @media (hover: hover) {
-  .smbk-command-palette__item:hover {
+  .smbk-command-palette__item:hover:where(:not([data-glide] *)) {
     background: var(--smbk-color-surface-canvas);
   }
 }
 
-/* While the search has focus, the command Enter runs is where focus is: it carries the focus ring, drawn
-   just inside its edge, because the fill alone is too faint to find. */
-.smbk-command-palette:focus-within .smbk-command-palette__item[aria-selected="true"] {
-  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
-  outline-offset: calc(-1 * var(--smbk-focus-ring-width));
+/* The highlighted command, the one Enter runs, reached by arrow key or by pointer: Figma's Highlighted
+   state, the sunken fill and its label one weight step bolder, so it shows without color too. Drawn only
+   while the search box has focus, where the keys are: a palette shown on a page that nobody is using
+   marks no command, as nothing else at rest looks focused. */
+.smbk-command-palette:has(.smbk-command-palette__input:focus) .smbk-command-palette__item[aria-selected="true"] {
+  background: var(--smbk-color-surface-sunken);
+}
+
+.smbk-command-palette:has(.smbk-command-palette__input:focus) .smbk-command-palette__item[aria-selected="true"] .smbk-command-palette__item-label {
+  font-family: var(--smbk-typography-body-md-medium-font-family);
+  font-weight: var(--smbk-typography-body-md-medium-font-weight);
 }
 
 .smbk-command-palette__item[aria-disabled="true"] {
   color: var(--smbk-color-text-disabled);
   cursor: not-allowed;
+}
+
+/* ---- the glide: with the wrapper, one fill slides to the command under the mouse (glide.ts) instead of
+   each command lighting up on its own, so a pointer in the gap between groups or in the padding still
+   lights the nearest command; the command it lights is the highlighted one. The wrapper adds it as the
+   body's first child and marks the body data-glide ("lit" while it shows); the groups are lifted over it.
+   It is Figma's Hover fill, and the Highlighted fill while the search box has focus, which the lit command
+   then does not draw again; its label keeps the bolder weight. It fades in where it lands and out as the
+   pointer leaves, and slides with the feedback purpose; under reduced motion it lands at once and only
+   fades. A touch screen draws none. ---- */
+
+:where(.smbk-command-palette__body[data-glide]) {
+  position: relative;
+}
+
+:where(.smbk-command-palette__body[data-glide] > :not(.smbk-command-palette__glide)) {
+  position: relative;
+}
+
+.smbk-command-palette__glide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  border-radius: var(--smbk-radius-control-sm);
+  background: var(--smbk-color-surface-canvas);
+  opacity: 0;
+  pointer-events: none;
+  transition-property: translate, width, height, opacity;
+  transition-duration: var(--smbk-motion-feedback-duration);
+  transition-timing-function: var(--smbk-motion-feedback-easing);
+}
+
+.smbk-command-palette:has(.smbk-command-palette__input:focus) .smbk-command-palette__glide {
+  background: var(--smbk-color-surface-sunken);
+}
+
+.smbk-command-palette__body[data-glide="lit"] > .smbk-command-palette__glide {
+  opacity: 1;
+}
+
+.smbk-command-palette .smbk-command-palette__body[data-glide="lit"] .smbk-command-palette__item[aria-selected="true"] {
+  background: transparent;
+}
+
+.smbk-command-palette__glide[data-instant] {
+  transition-property: opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-command-palette__glide {
+    transition-property: opacity;
+  }
+}
+
+@media (hover: none) {
+  .smbk-command-palette__glide {
+    display: none;
+  }
 }
 
 .smbk-command-palette__item-icon {
@@ -178,18 +257,34 @@
   font-size: var(--smbk-size-icon-md);
 }
 
-/* The label keeps its full line box: a trimmed box under overflow clipping would cut ascenders and descenders. */
 .smbk-command-palette__item-label {
   flex: 1 1 auto;
   min-width: 0;
   overflow: hidden;
-  font-family: var(--smbk-typography-body-m-font-family);
-  font-size: var(--smbk-typography-body-m-font-size);
-  font-weight: var(--smbk-typography-body-m-font-weight);
-  line-height: var(--smbk-typography-body-m-line-height);
-  letter-spacing: var(--smbk-typography-body-m-letter-spacing);
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* The label is always as wide as its bolder self: an invisible copy of its words (`data-label`, which the wrapper
+   writes) at the highlighted command's weight lies under it with no height, so a label that turns bold as the
+   arrow keys move never pushes anything beside it. The copy is generated content, hidden, with empty words for
+   assistive technology, so the label is read once. */
+.smbk-command-palette__item-label[data-label]::after {
+  content: attr(data-label);
+  content: attr(data-label) / "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-family: var(--smbk-typography-body-md-medium-font-family);
+  font-weight: var(--smbk-typography-body-md-medium-font-weight);
+  pointer-events: none;
+  user-select: none;
 }
 
 .smbk-command-palette__item-meta,
@@ -197,16 +292,54 @@
   flex-shrink: 0;
 }
 
+/* A command with a description: the label over a second line in Body SM and the subtle text color,
+   the item growing to hold both (Figma's Description toggle). Words marked as matching the search
+   show one weight bolder, never by color alone. */
+.smbk-command-palette__item:has(> .smbk-command-palette__item-text) {
+  height: auto;
+  min-height: var(--smbk-size-control-md);
+  padding-block: var(--smbk-space-inset-sm);
+}
+
+.smbk-command-palette__item-text {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-xs);
+  min-width: 0;
+}
+
+.smbk-command-palette__item-description {
+  overflow: hidden;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.smbk-command-palette__item-description mark {
+  background: none;
+  color: inherit;
+  font-family: var(--smbk-typography-body-sm-medium-font-family);
+  font-weight: var(--smbk-typography-body-sm-medium-font-weight);
+}
+
+/* The number of results, for screen readers only: announced as the query changes. */
+/* .smbk-command-palette__status: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
 .smbk-command-palette__empty {
   margin: 0;
   padding: var(--smbk-space-inset-lg);
   color: var(--smbk-color-text-subtle);
-  font-family: var(--smbk-typography-body-m-font-family);
-  font-size: var(--smbk-typography-body-m-font-size);
-  font-weight: var(--smbk-typography-body-m-font-weight);
-  line-height: var(--smbk-typography-body-m-line-height);
-  letter-spacing: var(--smbk-typography-body-m-letter-spacing);
-  text-box: trim-both cap alphabetic;
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
 }
 
 /* ---- the footer: key hints on the canvas surface ---- */
@@ -229,16 +362,12 @@
   align-items: center;
   gap: var(--smbk-space-inline-sm);
   color: var(--smbk-color-text-subtlest);
-  font-family: var(--smbk-typography-body-t-font-family);
-  font-size: var(--smbk-typography-body-t-font-size);
-  font-weight: var(--smbk-typography-body-t-font-weight);
-  line-height: var(--smbk-typography-body-t-line-height);
-  letter-spacing: var(--smbk-typography-body-t-letter-spacing);
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
   white-space: nowrap;
-}
-
-.smbk-command-palette__hint-text {
-  text-box: trim-both cap alphabetic;
 }
 
 /* ---- over the page: a native modal dialog on the scrim, the panel near the top, centered ---- */
@@ -253,61 +382,71 @@
   padding: var(--smbk-space-stack-4xl) var(--smbk-space-inset-xl);
   border: 0;
   background: transparent;
-}
-
-.smbk-command-palette__dialog[open] {
-  display: flex;
+  /* Placed here, not with the open state, so the panel keeps its place while the dialog fades out. */
   align-items: flex-start;
   justify-content: center;
 }
 
-.smbk-command-palette__dialog::backdrop {
-  background: var(--smbk-color-overlay-scrim);
+.smbk-command-palette__dialog[open] {
+  display: flex;
 }
 
-/* ---- motion: over the page, the palette fades in and rises a spacing step into place with the
-   enter purpose, over a scrim that fades in, and fades out dropping a smaller step with the exit
-   purpose, as the modal does. Its display and its place in the top layer change at the end of
-   the exit. In place, it does not move. No movement under reduced motion. ---- */
+/* ---- over the page: the scrim, the motion (the palette fades in and rises a spacing step into place over a scrim
+   that fades in, and fades out dropping a smaller step, as the modal does; under reduced motion it fades in place) and
+   the page held still behind it are the dialogs' own, shared with the modal and the drawer: dialog/dialog.css. In
+   place, it does not move. ---- */
 
-.smbk-command-palette__dialog,
-.smbk-command-palette__dialog::backdrop {
-  transition-property: translate, opacity, display, overlay;
-  transition-duration: var(--smbk-motion-exit-duration);
-  transition-timing-function: var(--smbk-motion-exit-easing);
-  transition-behavior: allow-discrete;
-}
+/* ---- touch: the search box, the clear cross, the See all buttons and every command take invisible press areas ----
+   On a touch screen the search box reaches over the search row's full height, the comfortable target, with padding
+   that takes the press and margins that give the room back. The clear cross takes an invisible area, centred on it,
+   out to the target, toward the box only halfway into the row's gap. Each command takes an area out to the target,
+   except where two touch, and toward a group's See all button, which touches the first command; a See all button
+   reaches only halfway into the gap to the group above. Nothing drawn moves. */
 
-.smbk-command-palette__dialog[open],
-.smbk-command-palette__dialog[open]::backdrop {
-  transition-duration: var(--smbk-motion-enter-duration);
-  transition-timing-function: var(--smbk-motion-enter-easing);
-}
-
-.smbk-command-palette__dialog:not([open]) {
-  opacity: 0;
-  translate: 0 var(--smbk-space-8);
-}
-
-.smbk-command-palette__dialog:not([open])::backdrop {
-  opacity: 0;
-}
-
-@starting-style {
-  .smbk-command-palette__dialog[open] {
-    opacity: 0;
-    translate: 0 var(--smbk-space-16);
+@media (pointer: coarse) {
+  .smbk-command-palette__input {
+    padding-block: max(0%, (var(--smbk-size-target-comfortable) - 1lh) / 2);
+    margin-block: min(0%, (1lh - var(--smbk-size-target-comfortable)) / 2);
   }
 
-  .smbk-command-palette__dialog[open]::backdrop {
-    opacity: 0;
+  .smbk-command-palette__clear,
+  .smbk-command-palette__item {
+    position: relative;
   }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .smbk-command-palette__dialog,
-  .smbk-command-palette__dialog::backdrop {
-    transition: none;
+  .smbk-command-palette__clear::after,
+  .smbk-command-palette__item::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  .smbk-command-palette__clear::after {
+    inset-inline-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-md) / -2);
+  }
+
+  .smbk-command-palette__item + .smbk-command-palette__item::after,
+  .smbk-command-palette__group-header:has(.smbk-btn) + .smbk-command-palette__list > .smbk-command-palette__item:first-child::after {
+    inset-block-start: 0;
+  }
+
+  .smbk-command-palette__item:has(+ .smbk-command-palette__item)::after {
+    inset-block-end: 0;
+  }
+
+  .smbk-command-palette__group-header .smbk-btn::after {
+    inset-block-end: 0;
+  }
+
+  /* The filter chips' remove crosses reach only halfway into their row's padding above and below, and halfway into
+     its gap between chips. */
+  .smbk-command-palette__filters .smbk-chip__remove::after {
+    inset-block: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inset-sm) / -2);
+    inset-inline: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-md) / -2);
+  }
+
+  .smbk-command-palette__group + .smbk-command-palette__group .smbk-command-palette__group-header .smbk-btn::after {
+    inset-block-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-xs) / -2);
   }
 }
 
@@ -318,7 +457,7 @@
 @media (forced-colors: active) {
   /* The highlighted command, by pointer or arrow key. A key cap in it keeps its own Canvas cap,
      so its key stays CanvasText. */
-  .smbk-command-palette__item[aria-selected="true"] {
+  .smbk-command-palette:has(.smbk-command-palette__input:focus) .smbk-command-palette__item[aria-selected="true"] {
     forced-color-adjust: none;
     background: Highlight;
     color: HighlightText;
@@ -332,7 +471,7 @@
     }
   }
 
-  .smbk-command-palette__item[aria-selected="true"] :is(.smbk-command-palette__item-icon, .smbk-command-palette__item-meta) {
+  .smbk-command-palette:has(.smbk-command-palette__input:focus) .smbk-command-palette__item[aria-selected="true"] :is(.smbk-command-palette__item-icon, .smbk-command-palette__item-meta) {
     color: inherit;
   }
 
@@ -342,7 +481,7 @@
     }
   }
 
-  .smbk-command-palette__item[aria-selected="true"] .smbk-kbd {
+  .smbk-command-palette:has(.smbk-command-palette__input:focus) .smbk-command-palette__item[aria-selected="true"] .smbk-kbd {
     forced-color-adjust: auto;
     color: CanvasText;
   }

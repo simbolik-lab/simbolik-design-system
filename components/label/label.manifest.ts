@@ -1,6 +1,6 @@
 import { defineVariants } from '../variants.js';
 
-/** Label. Figma "Label" 4255:6252: two tones × two types; required mark and tooltip icon are content. */
+/** Label. Figma "Label" 4255:6252: two tones × two types (Default, Small); required mark and tooltip icon are content. */
 export const label = defineVariants({
   name: 'label',
   block: 'smbk-label',
@@ -13,9 +13,9 @@ export const label = defineVariants({
       description: 'Default text or subtle text. Figma calls this "Variant".',
     },
     type: {
-      values: ['default', 'mono'],
+      values: ['default', 'small'],
       default: 'default',
-      description: 'The body preset, or the small label preset in mono capitals, as used over groups in the command palette.',
+      description: 'The body style, or the small label style, as used over groups in the command palette.',
     },
   },
   flags: {},

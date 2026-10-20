@@ -3,1427 +3,58 @@
     "tokens-bruecke-meta": {
       "useDTCG": true,
       "spec": "https://www.designtokens.org/tr/2025.10/format/",
-      "colorMode": "hex",
+      "colorMode": "srgb-dtcg",
       "variableCollections": [
         "Primitives",
         "Semantic Color",
         "Semantic Dimension",
         "Semantic Typography",
-        "Semantic"
+        "Semantic",
+        "Semantic Layout"
       ],
-      "createdAt": "2026-09-22T17:39:58.765Z"
+      "createdAt": "2026-10-13T11:06:03.073Z"
     }
   },
   "color": {
-    "frost": {
-      "50": {
-        "$value": "#f9fafb",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8034",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "100": {
-        "$value": "#f3f5f8",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8031",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "200": {
-        "$value": "#e7ebf0",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8026",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "300": {
-        "$value": "#dae1e9",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8028",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "400": {
-        "$value": "#ced7e1",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8027",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "500": {
-        "$value": "#c2cdda",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8033",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "600": {
-        "$value": "#aebccd",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8025",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "700": {
-        "$value": "#99abc0",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8024",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "800": {
-        "$value": "#8599b2",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8032",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "900": {
-        "$value": "#7088a5",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8030",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "1000": {
-        "$value": "#5c7798",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8029",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      }
-    },
-    "moonrise": {
-      "100": {
-        "$value": "#b2becd",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8066",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "200": {
-        "$value": "#92a1b2",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8069",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "300": {
-        "$value": "#728396",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8067",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "400": {
-        "$value": "#52667b",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8070",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "500": {
-        "$value": "#324860",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8068",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "600": {
-        "$value": "#283a4d",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8065",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "650": {
-        "$value": "#243445",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8063",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "700": {
-        "$value": "#1e2b3a",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8062",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "800": {
-        "$value": "#141d26",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8061",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "850": {
-        "$value": "#0f161d",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8060",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "900": {
-        "$value": "#0a0e13",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8064",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      }
-    },
-    "midnight": {
-      "50": {
-        "$value": "#ebebec",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8108",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "100": {
-        "$value": "#d7d8d9",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8100",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "150": {
-        "$value": "#c3c4c6",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8102",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "200": {
-        "$value": "#afb1b3",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8105",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "300": {
-        "$value": "#88898c",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8107",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "400": {
-        "$value": "#606266",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8106",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "500": {
-        "$value": "#383b40",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8104",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "600": {
-        "$value": "#2d2f33",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8101",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "700": {
-        "$value": "#222326",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8099",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "800": {
-        "$value": "#16181a",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8098",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "850": {
-        "$value": "#111213",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8103",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "900": {
-        "$value": "#0b0c0d",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8097",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      }
-    },
-    "steel": {
-      "400": {
-        "$value": "#cedae0",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8137",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "500": {
-        "$value": "#c2d1d8",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8136",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "600": {
-        "$value": "#a4b4bb",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8133",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "700": {
-        "$value": "#86969e",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8135",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "800": {
-        "$value": "#697980",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8134",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "850": {
-        "$value": "#5a6a72",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8132",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "900": {
-        "$value": "#4b5b63",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8131",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "950": {
-        "$value": "#3c4d55",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8130",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "1000": {
-        "$value": "#2d3e46",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8129",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      }
-    },
-    "red": {
-      "50": {
-        "$value": "#fee7e7",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8172",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "100": {
-        "$value": "#fccfcf",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8168",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "200": {
-        "$value": "#fa9f9f",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8169",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "300": {
-        "$value": "#f77070",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8165",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "400": {
-        "$value": "#f54040",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8171",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "500": {
-        "$value": "#f21010",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8167",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "550": {
-        "$value": "#cc0d0d",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8164",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "600": {
-        "$value": "#c20d0d",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8163",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "700": {
-        "$value": "#910a0a",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8162",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "800": {
-        "$value": "#610606",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8166",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "900": {
-        "$value": "#300303",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4039:8170",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      }
-    },
-    "blue": {
-      "50": {
-        "$value": "#e9eafc",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8207",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "100": {
-        "$value": "#d3d6fa",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8206",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "200": {
-        "$value": "#a7adf5",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8205",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "300": {
-        "$value": "#7a84ef",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8204",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "400": {
-        "$value": "#4e5bea",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8203",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "500": {
-        "$value": "#2232e5",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8202",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "550": {
-        "$value": "#1f2ed4",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8200",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "600": {
-        "$value": "#1b28b7",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8199",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "700": {
-        "$value": "#141e89",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8201",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "800": {
-        "$value": "#0e145c",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8198",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "900": {
-        "$value": "#070a2e",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8197",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      }
-    },
-    "green": {
-      "50": {
-        "$value": "#ecfce9",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8242",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "100": {
-        "$value": "#dafad3",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8239",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "200": {
-        "$value": "#b5f5a7",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8238",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "300": {
-        "$value": "#90ef7a",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8237",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "400": {
-        "$value": "#6bea4e",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8240",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "500": {
-        "$value": "#46e522",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8241",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "600": {
-        "$value": "#38b71b",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8234",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "700": {
-        "$value": "#2a8914",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8233",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "800": {
-        "$value": "#1c5c0e",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8232",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "850": {
-        "$value": "#15450a",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8236",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "900": {
-        "$value": "#0e2e07",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8235",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      }
-    },
-    "orange": {
-      "50": {
-        "$value": "#feeee6",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8277",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "100": {
-        "$value": "#fcddcd",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8275",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "200": {
-        "$value": "#fabc9b",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8273",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "300": {
-        "$value": "#f79a68",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8271",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "400": {
-        "$value": "#f57936",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8270",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "500": {
-        "$value": "#f25704",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8269",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "600": {
-        "$value": "#c24603",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8268",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "700": {
-        "$value": "#913402",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8274",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "800": {
-        "$value": "#612302",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8272",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "850": {
-        "$value": "#491a01",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8267",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "900": {
-        "$value": "#301101",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8276",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      }
-    },
-    "yellow": {
-      "50": {
-        "$value": "#fefce8",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8316",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "100": {
-        "$value": "#fcf9d0",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8323",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "200": {
-        "$value": "#faf3a1",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8325",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "300": {
-        "$value": "#f7ec73",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8321",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "400": {
-        "$value": "#f5e644",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8318",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "500": {
-        "$value": "#f2e015",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8317",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "550": {
-        "$value": "#e5d414",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8320",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "600": {
-        "$value": "#c2b311",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8326",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "700": {
-        "$value": "#91860d",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8324",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "800": {
-        "$value": "#615a08",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8319",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "850": {
-        "$value": "#494306",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8327",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      },
-      "900": {
-        "$value": "#302d04",
-        "$type": "color",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4040:8322",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            }
-          }
-        }
-      }
-    },
     "alpha": {
       "white": {
-        "5": {
-          "$value": "#ffffff0d",
+        "3": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              1,
+              1,
+              1
+            ],
+            "alpha": 0.03,
+            "hex": "#ffffff"
+          },
           "$type": "color",
+          "$description": "White at 3% opacity.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7993:8",
+              "collection": {
+                "id": "VariableCollectionId:4005:5458",
+                "name": "Primitives",
+                "defaultModeId": "4005:0"
+              }
+            }
+          }
+        },
+        "5": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              1,
+              1,
+              1
+            ],
+            "alpha": 0.05,
+            "hex": "#ffffff"
+          },
+          "$type": "color",
+          "$description": "White at 5% opacity.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:8362",
@@ -1436,8 +67,18 @@
           }
         },
         "10": {
-          "$value": "#ffffff1a",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              1,
+              1,
+              1
+            ],
+            "alpha": 0.1,
+            "hex": "#ffffff"
+          },
           "$type": "color",
+          "$description": "White at 10% opacity.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:8360",
@@ -1450,8 +91,18 @@
           }
         },
         "15": {
-          "$value": "#ffffff26",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              1,
+              1,
+              1
+            ],
+            "alpha": 0.15,
+            "hex": "#ffffff"
+          },
           "$type": "color",
+          "$description": "White at 15% opacity.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:8414",
@@ -1464,8 +115,18 @@
           }
         },
         "20": {
-          "$value": "#ffffff33",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              1,
+              1,
+              1
+            ],
+            "alpha": 0.2,
+            "hex": "#ffffff"
+          },
           "$type": "color",
+          "$description": "White at 20% opacity.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:8358",
@@ -1478,8 +139,18 @@
           }
         },
         "30": {
-          "$value": "#ffffff4d",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              1,
+              1,
+              1
+            ],
+            "alpha": 0.3,
+            "hex": "#ffffff"
+          },
           "$type": "color",
+          "$description": "White at 30% opacity.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:8357",
@@ -1492,8 +163,18 @@
           }
         },
         "40": {
-          "$value": "#ffffff66",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              1,
+              1,
+              1
+            ],
+            "alpha": 0.4,
+            "hex": "#ffffff"
+          },
           "$type": "color",
+          "$description": "White at 40% opacity.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:8354",
@@ -1506,8 +187,18 @@
           }
         },
         "50": {
-          "$value": "#ffffff80",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              1,
+              1,
+              1
+            ],
+            "alpha": 0.5,
+            "hex": "#ffffff"
+          },
           "$type": "color",
+          "$description": "White at 50% opacity.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:8356",
@@ -1519,51 +210,19 @@
             }
           }
         },
-        "60": {
-          "$value": "#ffffff99",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4040:8361",
-              "collection": {
-                "id": "VariableCollectionId:4005:5458",
-                "name": "Primitives",
-                "defaultModeId": "4005:0"
-              }
-            }
-          }
-        },
-        "70": {
-          "$value": "#ffffffb3",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4040:8355",
-              "collection": {
-                "id": "VariableCollectionId:4005:5458",
-                "name": "Primitives",
-                "defaultModeId": "4005:0"
-              }
-            }
-          }
-        },
-        "80": {
-          "$value": "#ffffffcc",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4040:8352",
-              "collection": {
-                "id": "VariableCollectionId:4005:5458",
-                "name": "Primitives",
-                "defaultModeId": "4005:0"
-              }
-            }
-          }
-        },
         "90": {
-          "$value": "#ffffffe6",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              1,
+              1,
+              1
+            ],
+            "alpha": 0.9,
+            "hex": "#ffffff"
+          },
           "$type": "color",
+          "$description": "White at 90% opacity.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:8353",
@@ -1576,8 +235,18 @@
           }
         },
         "100": {
-          "$value": "#ffffff",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              1,
+              1,
+              1
+            ],
+            "alpha": 1,
+            "hex": "#ffffff"
+          },
           "$type": "color",
+          "$description": "White at 100% opacity.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:8359",
@@ -1592,8 +261,18 @@
       },
       "black": {
         "5": {
-          "$value": "#0000000d",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0,
+              0,
+              0
+            ],
+            "alpha": 0.05,
+            "hex": "#000000"
+          },
           "$type": "color",
+          "$description": "Black at 5% opacity.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:8412",
@@ -1606,8 +285,18 @@
           }
         },
         "10": {
-          "$value": "#0000001a",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0,
+              0,
+              0
+            ],
+            "alpha": 0.1,
+            "hex": "#000000"
+          },
           "$type": "color",
+          "$description": "Black at 10% opacity.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:8410",
@@ -1620,8 +309,18 @@
           }
         },
         "15": {
-          "$value": "#00000026",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0,
+              0,
+              0
+            ],
+            "alpha": 0.15,
+            "hex": "#000000"
+          },
           "$type": "color",
+          "$description": "Black at 15% opacity.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:8411",
@@ -1634,8 +333,18 @@
           }
         },
         "20": {
-          "$value": "#00000033",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0,
+              0,
+              0
+            ],
+            "alpha": 0.2,
+            "hex": "#000000"
+          },
           "$type": "color",
+          "$description": "Black at 20% opacity.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:8407",
@@ -1648,8 +357,18 @@
           }
         },
         "30": {
-          "$value": "#0000004d",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0,
+              0,
+              0
+            ],
+            "alpha": 0.3,
+            "hex": "#000000"
+          },
           "$type": "color",
+          "$description": "Black at 30% opacity.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:8404",
@@ -1662,8 +381,18 @@
           }
         },
         "40": {
-          "$value": "#00000066",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0,
+              0,
+              0
+            ],
+            "alpha": 0.4,
+            "hex": "#000000"
+          },
           "$type": "color",
+          "$description": "Black at 40% opacity.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:8409",
@@ -1676,8 +405,18 @@
           }
         },
         "50": {
-          "$value": "#00000080",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0,
+              0,
+              0
+            ],
+            "alpha": 0.5,
+            "hex": "#000000"
+          },
           "$type": "color",
+          "$description": "Black at 50% opacity.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:8408",
@@ -1690,8 +429,18 @@
           }
         },
         "60": {
-          "$value": "#00000099",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0,
+              0,
+              0
+            ],
+            "alpha": 0.6,
+            "hex": "#000000"
+          },
           "$type": "color",
+          "$description": "Black at 60% opacity.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:8402",
@@ -1703,37 +452,19 @@
             }
           }
         },
-        "70": {
-          "$value": "#000000b3",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4040:8406",
-              "collection": {
-                "id": "VariableCollectionId:4005:5458",
-                "name": "Primitives",
-                "defaultModeId": "4005:0"
-              }
-            }
-          }
-        },
-        "80": {
-          "$value": "#000000cc",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4040:8403",
-              "collection": {
-                "id": "VariableCollectionId:4005:5458",
-                "name": "Primitives",
-                "defaultModeId": "4005:0"
-              }
-            }
-          }
-        },
         "90": {
-          "$value": "#000000e6",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0,
+              0,
+              0
+            ],
+            "alpha": 0.9,
+            "hex": "#000000"
+          },
           "$type": "color",
+          "$description": "Black at 90% opacity.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:8401",
@@ -1744,40 +475,22 @@
               }
             }
           }
-        },
-        "100": {
-          "$value": "#000000",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4040:8405",
-              "collection": {
-                "id": "VariableCollectionId:4005:5458",
-                "name": "Primitives",
-                "defaultModeId": "4005:0"
-              }
-            }
-          }
         }
       },
       "red": {
-        "20": {
-          "$value": "#cc0d0d33",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4136:4232",
-              "collection": {
-                "id": "VariableCollectionId:4005:5458",
-                "name": "Primitives",
-                "defaultModeId": "4005:0"
-              }
-            }
-          }
-        },
         "30": {
-          "$value": "#cc0d0d4d",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.8,
+              0.050980392156862744,
+              0.050980392156862744
+            ],
+            "alpha": 0.3,
+            "hex": "#cc0d0d"
+          },
           "$type": "color",
+          "$description": "The brand red (#cc0d0d) at 30% opacity.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4119:18978",
@@ -1790,8 +503,18 @@
           }
         },
         "40": {
-          "$value": "#cc0d0d66",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.8,
+              0.050980392156862744,
+              0.050980392156862744
+            ],
+            "alpha": 0.4,
+            "hex": "#cc0d0d"
+          },
           "$type": "color",
+          "$description": "The brand red (#cc0d0d) at 40% opacity.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4117:18703",
@@ -1804,8 +527,18 @@
           }
         },
         "50": {
-          "$value": "#cc0d0d80",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.8,
+              0.050980392156862744,
+              0.050980392156862744
+            ],
+            "alpha": 0.5,
+            "hex": "#cc0d0d"
+          },
           "$type": "color",
+          "$description": "The brand red (#cc0d0d) at 50% opacity.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4117:18701",
@@ -1816,43 +549,25 @@
               }
             }
           }
-        },
-        "60": {
-          "$value": "#cc0d0d99",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4117:18702",
-              "collection": {
-                "id": "VariableCollectionId:4005:5458",
-                "name": "Primitives",
-                "defaultModeId": "4005:0"
-              }
-            }
-          }
         }
       },
-      "frost": {
+      "grey-600": {
         "10": {
-          "$value": "#5c77981a",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3764705882352941,
+              0.41568627450980394,
+              0.4588235294117647
+            ],
+            "alpha": 0.1,
+            "hex": "#606a75"
+          },
           "$type": "color",
+          "$description": "Grey 600 at 10% opacity, for the faint fill of a disabled button on dark surfaces.",
           "$extensions": {
             "figma": {
-              "variableId": "VariableID:4040:9078",
-              "collection": {
-                "id": "VariableCollectionId:4005:5458",
-                "name": "Primitives",
-                "defaultModeId": "4005:0"
-              }
-            }
-          }
-        },
-        "15": {
-          "$value": "#5c779826",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4040:9079",
+              "variableId": "VariableID:7426:3",
               "collection": {
                 "id": "VariableCollectionId:4005:5458",
                 "name": "Primitives",
@@ -1862,8 +577,18 @@
           }
         },
         "20": {
-          "$value": "#5c779833",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3764705882352941,
+              0.41568627450980394,
+              0.4588235294117647
+            ],
+            "alpha": 0.2,
+            "hex": "#606a75"
+          },
           "$type": "color",
+          "$description": "Grey 600 at 20% opacity, for tints on dark surfaces (the secondary button).",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:9080",
@@ -1876,8 +601,18 @@
           }
         },
         "25": {
-          "$value": "#5c779840",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3764705882352941,
+              0.41568627450980394,
+              0.4588235294117647
+            ],
+            "alpha": 0.25,
+            "hex": "#606a75"
+          },
           "$type": "color",
+          "$description": "Grey 600 at 25% opacity, for tints on dark surfaces (the secondary button).",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:9082",
@@ -1890,11 +625,20 @@
           }
         },
         "30": {
-          "$value": "#5c77984d",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3764705882352941,
+              0.41568627450980394,
+              0.4588235294117647
+            ],
+            "alpha": 0.3,
+            "hex": "#606a75"
+          },
           "$type": "color",
           "$extensions": {
             "figma": {
-              "variableId": "VariableID:4040:9083",
+              "variableId": "VariableID:7190:2",
               "collection": {
                 "id": "VariableCollectionId:4005:5458",
                 "name": "Primitives",
@@ -1904,8 +648,18 @@
           }
         },
         "35": {
-          "$value": "#5c779859",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3764705882352941,
+              0.41568627450980394,
+              0.4588235294117647
+            ],
+            "alpha": 0.35,
+            "hex": "#606a75"
+          },
           "$type": "color",
+          "$description": "Grey 600 at 35% opacity, for tints on dark surfaces (the secondary button).",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:9084",
@@ -1918,39 +672,20 @@
           }
         },
         "40": {
-          "$value": "#5c779866",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3764705882352941,
+              0.41568627450980394,
+              0.4588235294117647
+            ],
+            "alpha": 0.4,
+            "hex": "#606a75"
+          },
           "$type": "color",
           "$extensions": {
             "figma": {
-              "variableId": "VariableID:4040:9085",
-              "collection": {
-                "id": "VariableCollectionId:4005:5458",
-                "name": "Primitives",
-                "defaultModeId": "4005:0"
-              }
-            }
-          }
-        },
-        "45": {
-          "$value": "#5c779873",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4040:9086",
-              "collection": {
-                "id": "VariableCollectionId:4005:5458",
-                "name": "Primitives",
-                "defaultModeId": "4005:0"
-              }
-            }
-          }
-        },
-        "50": {
-          "$value": "#5c779880",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4040:9087",
+              "variableId": "VariableID:7190:3",
               "collection": {
                 "id": "VariableCollectionId:4005:5458",
                 "name": "Primitives",
@@ -1960,10 +695,20 @@
           }
         }
       },
-      "moonrise": {
+      "grey-800": {
         "5": {
-          "$value": "#3248600d",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.21568627450980393,
+              0.23921568627450981,
+              0.2627450980392157
+            ],
+            "alpha": 0.05,
+            "hex": "#373d43"
+          },
           "$type": "color",
+          "$description": "Grey 800 at 5% opacity, for tints and shadows on light surfaces.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4157:6934",
@@ -1975,9 +720,43 @@
             }
           }
         },
-        "10": {
-          "$value": "#3248601a",
+        "8": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.21568627450980393,
+              0.23921568627450981,
+              0.2627450980392157
+            ],
+            "alpha": 0.08,
+            "hex": "#373d43"
+          },
           "$type": "color",
+          "$description": "Grey 800 at 8% opacity, for the faint fill of a disabled button on light surfaces.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7426:2",
+              "collection": {
+                "id": "VariableCollectionId:4005:5458",
+                "name": "Primitives",
+                "defaultModeId": "4005:0"
+              }
+            }
+          }
+        },
+        "10": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.21568627450980393,
+              0.23921568627450981,
+              0.2627450980392157
+            ],
+            "alpha": 0.1,
+            "hex": "#373d43"
+          },
+          "$type": "color",
+          "$description": "Grey 800 at 10% opacity, for tints and shadows on light surfaces.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:9115",
@@ -1990,8 +769,18 @@
           }
         },
         "15": {
-          "$value": "#32486026",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.21568627450980393,
+              0.23921568627450981,
+              0.2627450980392157
+            ],
+            "alpha": 0.15,
+            "hex": "#373d43"
+          },
           "$type": "color",
+          "$description": "Grey 800 at 15% opacity, for tints and shadows on light surfaces.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:9112",
@@ -2004,8 +793,18 @@
           }
         },
         "20": {
-          "$value": "#32486033",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.21568627450980393,
+              0.23921568627450981,
+              0.2627450980392157
+            ],
+            "alpha": 0.2,
+            "hex": "#373d43"
+          },
           "$type": "color",
+          "$description": "Grey 800 at 20% opacity, for tints and shadows on light surfaces.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:9111",
@@ -2018,8 +817,18 @@
           }
         },
         "25": {
-          "$value": "#32486040",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.21568627450980393,
+              0.23921568627450981,
+              0.2627450980392157
+            ],
+            "alpha": 0.25,
+            "hex": "#373d43"
+          },
           "$type": "color",
+          "$description": "Grey 800 at 25% opacity, for tints and shadows on light surfaces.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:9110",
@@ -2032,8 +841,18 @@
           }
         },
         "30": {
-          "$value": "#3248604d",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.21568627450980393,
+              0.23921568627450981,
+              0.2627450980392157
+            ],
+            "alpha": 0.3,
+            "hex": "#373d43"
+          },
           "$type": "color",
+          "$description": "Grey 800 at 30% opacity, for tints and shadows on light surfaces.",
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:9113",
@@ -2044,13 +863,25 @@
               }
             }
           }
-        },
-        "35": {
-          "$value": "#32486059",
+        }
+      },
+      "grey-950": {
+        "80": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.06666666666666667,
+              0.07058823529411765,
+              0.07450980392156863
+            ],
+            "alpha": 0.8,
+            "hex": "#111213"
+          },
           "$type": "color",
+          "$description": "Grey 950 at 80% opacity, for a dark band that keeps light text readable over pictures.",
           "$extensions": {
             "figma": {
-              "variableId": "VariableID:4040:9114",
+              "variableId": "VariableID:7805:8",
               "collection": {
                 "id": "VariableCollectionId:4005:5458",
                 "name": "Primitives",
@@ -2058,46 +889,2446 @@
               }
             }
           }
+        }
+      }
+    },
+    "grey": {
+      "50": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9764705882352941,
+            0.9803921568627451,
+            0.984313725490196
+          ],
+          "alpha": 1,
+          "hex": "#f9fafb"
         },
-        "40": {
-          "$value": "#32486066",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4040:9109",
-              "collection": {
-                "id": "VariableCollectionId:4005:5458",
-                "name": "Primitives",
-                "defaultModeId": "4005:0"
-              }
+        "$type": "color",
+        "$description": "Grey 50, on the one contrast ladder every family shares: 1.05:1 against white, 17.95:1 against the dark page #111213. oklch(98.5% 0.002 248). The raised light surface (panels above a card).",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:2",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
             }
           }
+        }
+      },
+      "100": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9529411764705882,
+            0.9607843137254902,
+            0.9725490196078431
+          ],
+          "alpha": 1,
+          "hex": "#f3f5f8"
         },
-        "45": {
-          "$value": "#32486073",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4040:9108",
-              "collection": {
-                "id": "VariableCollectionId:4005:5458",
-                "name": "Primitives",
-                "defaultModeId": "4005:0"
-              }
+        "$type": "color",
+        "$description": "Grey 100, on the one contrast ladder every family shares: 1.09:1 against white, 17.17:1 against the dark page #111213. oklch(96.9% 0.005 258). The light card surface.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:3",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
             }
           }
+        }
+      },
+      "200": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9058823529411765,
+            0.9215686274509803,
+            0.9411764705882353
+          ],
+          "alpha": 1,
+          "hex": "#e7ebf0"
         },
-        "50": {
-          "$value": "#32486080",
-          "$type": "color",
-          "$extensions": {
-            "figma": {
-              "variableId": "VariableID:4040:9107",
-              "collection": {
-                "id": "VariableCollectionId:4005:5458",
-                "name": "Primitives",
-                "defaultModeId": "4005:0"
-              }
+        "$type": "color",
+        "$description": "Grey 200, on the one contrast ladder every family shares: 1.20:1 against white, 15.66:1 against the dark page #111213. oklch(93.8% 0.008 254). The light page (canvas and sunken).",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:4",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "300": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.7686274509803922,
+            0.803921568627451,
+            0.8470588235294118
+          ],
+          "alpha": 1,
+          "hex": "#c4cdd8"
+        },
+        "$type": "color",
+        "$description": "Grey 300, on the one contrast ladder every family shares: 1.61:1 against white, 11.67:1 against the dark page #111213. oklch(84.5% 0.018 253). Edges on light; text and icons on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:5",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "400": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.6078431372549019,
+            0.6470588235294118,
+            0.6941176470588235
+          ],
+          "alpha": 1,
+          "hex": "#9ba5b1"
+        },
+        "$type": "color",
+        "$description": "Grey 400, on the one contrast ladder every family shares: 2.50:1 against white, 7.51:1 against the dark page #111213. oklch(71.8% 0.021 253). Edges on light; text and icons on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:6",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "500": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.48627450980392156,
+            0.5254901960784314,
+            0.5725490196078431
+          ],
+          "alpha": 1,
+          "hex": "#7c8692"
+        },
+        "$type": "color",
+        "$description": "Grey 500, on the one contrast ladder every family shares: 3.70:1 against white, 5.07:1 against the dark page #111213. oklch(61.6% 0.022 253). Icons, control edges and focus, in both modes.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:7",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "600": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.3764705882352941,
+            0.41568627450980394,
+            0.4588235294117647
+          ],
+          "alpha": 1,
+          "hex": "#606a75"
+        },
+        "$type": "color",
+        "$description": "Grey 600, on the one contrast ladder every family shares: 5.50:1 against white, 3.41:1 against the dark page #111213. oklch(52.0% 0.021 251). Text and filled buttons on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:8",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.3058823529411765,
+            0.3333333333333333,
+            0.3686274509803922
+          ],
+          "alpha": 1,
+          "hex": "#4e555e"
+        },
+        "$type": "color",
+        "$description": "Grey 700, on the one contrast ladder every family shares: 7.54:1 against white, 2.49:1 against the dark page #111213. oklch(44.7% 0.017 255). Text and filled buttons on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:9",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.21568627450980393,
+            0.23921568627450981,
+            0.2627450980392157
+          ],
+          "alpha": 1,
+          "hex": "#373d43"
+        },
+        "$type": "color",
+        "$description": "Grey 800, on the one contrast ladder every family shares: 10.99:1 against white, 1.71:1 against the dark page #111213. oklch(35.7% 0.013 248). Text on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:10",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "850": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.17647058823529413,
+            0.19607843137254902,
+            0.21568627450980393
+          ],
+          "alpha": 1,
+          "hex": "#2d3237"
+        },
+        "$type": "color",
+        "$description": "Grey 850, on the one contrast ladder every family shares: 12.94:1 against white, 1.45:1 against the dark page #111213. oklch(31.4% 0.011 248). Dark surfaces: controls on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:11",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "900": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.13725490196078433,
+            0.1450980392156863,
+            0.15294117647058825
+          ],
+          "alpha": 1,
+          "hex": "#232527"
+        },
+        "$type": "color",
+        "$description": "Grey 900, on the one contrast ladder every family shares: 15.38:1 against white, 1.22:1 against the dark page #111213. oklch(26.3% 0.005 248). The dark raised surface.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:12",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "925": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.09411764705882353,
+            0.10196078431372549,
+            0.10980392156862745
+          ],
+          "alpha": 1,
+          "hex": "#181a1c"
+        },
+        "$type": "color",
+        "$description": "Grey 925, on the one contrast ladder every family shares: 17.45:1 against white, 1.07:1 against the dark page #111213. oklch(21.6% 0.005 248). The dark card surface.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:13",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "950": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.06666666666666667,
+            0.07058823529411765,
+            0.07450980392156863
+          ],
+          "alpha": 1,
+          "hex": "#111213"
+        },
+        "$type": "color",
+        "$description": "Grey 950, on the one contrast ladder every family shares: 18.75:1 against white, 1.00:1 against the dark page #111213. oklch(18.2% 0.003 248). The dark page.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:14",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      }
+    },
+    "red": {
+      "50": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.996078431372549,
+            0.9764705882352941,
+            0.9725490196078431
+          ],
+          "alpha": 1,
+          "hex": "#fef9f8"
+        },
+        "$type": "color",
+        "$description": "Red (the brand, and danger) 50, on the one contrast ladder every family shares: 1.04:1 against white, 17.97:1 against the dark page #111213. oklch(98.6% 0.006 31). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:15",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "100": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.996078431372549,
+            0.9490196078431372,
+            0.9450980392156862
+          ],
+          "alpha": 1,
+          "hex": "#fef2f1"
+        },
+        "$type": "color",
+        "$description": "Red (the brand, and danger) 100, on the one contrast ladder every family shares: 1.09:1 against white, 17.13:1 against the dark page #111213. oklch(97.0% 0.013 23). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:16",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "200": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.996078431372549,
+            0.8980392156862745,
+            0.8823529411764706
+          ],
+          "alpha": 1,
+          "hex": "#fee5e1"
+        },
+        "$type": "color",
+        "$description": "Red (the brand, and danger) 200, on the one contrast ladder every family shares: 1.20:1 against white, 15.64:1 against the dark page #111213. oklch(94.1% 0.028 29). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:17",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "300": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.996078431372549,
+            0.7411764705882353,
+            0.6980392156862745
+          ],
+          "alpha": 1,
+          "hex": "#febdb2"
+        },
+        "$type": "color",
+        "$description": "Red (the brand, and danger) 300, on the one contrast ladder every family shares: 1.60:1 against white, 11.73:1 against the dark page #111213. oklch(85.5% 0.077 30). Edges on light; text and icons on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:18",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "400": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.996078431372549,
+            0.49019607843137253,
+            0.42745098039215684
+          ],
+          "alpha": 1,
+          "hex": "#fe7d6d"
+        },
+        "$type": "color",
+        "$description": "Red (the brand, and danger) 400, on the one contrast ladder every family shares: 2.51:1 against white, 7.47:1 against the dark page #111213. oklch(73.5% 0.160 29). Edges on light; text and icons on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:19",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "500": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9529411764705882,
+            0.2627450980392157,
+            0.21176470588235294
+          ],
+          "alpha": 1,
+          "hex": "#f34336"
+        },
+        "$type": "color",
+        "$description": "Red (the brand, and danger) 500, on the one contrast ladder every family shares: 3.71:1 against white, 5.06:1 against the dark page #111213. oklch(64.1% 0.214 29). Icons, control edges and focus, in both modes.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:20",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "600": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.8,
+            0.050980392156862744,
+            0.050980392156862744
+          ],
+          "alpha": 1,
+          "hex": "#cc0d0d"
+        },
+        "$type": "color",
+        "$description": "Red (the brand, and danger) 600, on the one contrast ladder every family shares: 5.78:1 against white, 3.24:1 against the dark page #111213. oklch(53.4% 0.214 29). Text and filled buttons on light. The brand red, kept exactly.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:21",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.6470588235294118,
+            0.11372549019607843,
+            0.09019607843137255
+          ],
+          "alpha": 1,
+          "hex": "#a51d17"
+        },
+        "$type": "color",
+        "$description": "Red (the brand, and danger) 700, on the one contrast ladder every family shares: 7.53:1 against white, 2.49:1 against the dark page #111213. oklch(46.8% 0.172 29). Text and filled buttons on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:22",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.4627450980392157,
+            0.09411764705882353,
+            0.07058823529411765
+          ],
+          "alpha": 1,
+          "hex": "#761812"
+        },
+        "$type": "color",
+        "$description": "Red (the brand, and danger) 800, on the one contrast ladder every family shares: 11.00:1 against white, 1.71:1 against the dark page #111213. oklch(37.2% 0.129 29). Text on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:23",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "900": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.29411764705882354,
+            0.07450980392156863,
+            0.054901960784313725
+          ],
+          "alpha": 1,
+          "hex": "#4b130e"
+        },
+        "$type": "color",
+        "$description": "Red (the brand, and danger) 900, on the one contrast ladder every family shares: 15.01:1 against white, 1.25:1 against the dark page #111213. oklch(28.1% 0.086 29). Text on light; tinted surfaces on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:24",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "950": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.16470588235294117,
+            0.01568627450980392,
+            0.011764705882352941
+          ],
+          "alpha": 1,
+          "hex": "#2a0403"
+        },
+        "$type": "color",
+        "$description": "Red (the brand, and danger) 950, on the one contrast ladder every family shares: 18.80:1 against white, 1.00:1 against the dark page #111213. oklch(18.8% 0.065 28). Text on light; the darkest surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:25",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      }
+    },
+    "blue": {
+      "50": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9725490196078431,
+            0.9803921568627451,
+            1
+          ],
+          "alpha": 1,
+          "hex": "#f8faff"
+        },
+        "$type": "color",
+        "$description": "Blue (info) 50, on the one contrast ladder every family shares: 1.04:1 against white, 17.96:1 against the dark page #111213. oklch(98.5% 0.007 269). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:26",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "100": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9450980392156862,
+            0.9607843137254902,
+            1
+          ],
+          "alpha": 1,
+          "hex": "#f1f5ff"
+        },
+        "$type": "color",
+        "$description": "Blue (info) 100, on the one contrast ladder every family shares: 1.09:1 against white, 17.19:1 against the dark page #111213. oklch(97.0% 0.014 268). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:27",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "200": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.8901960784313725,
+            0.9215686274509803,
+            0.996078431372549
+          ],
+          "alpha": 1,
+          "hex": "#e3ebfe"
+        },
+        "$type": "color",
+        "$description": "Blue (info) 200, on the one contrast ladder every family shares: 1.19:1 against white, 15.70:1 against the dark page #111213. oklch(94.0% 0.027 268). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:28",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "300": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.7215686274509804,
+            0.8,
+            1
+          ],
+          "alpha": 1,
+          "hex": "#b8ccff"
+        },
+        "$type": "color",
+        "$description": "Blue (info) 300, on the one contrast ladder every family shares: 1.60:1 against white, 11.72:1 against the dark page #111213. oklch(84.8% 0.075 268). Edges on light; text and icons on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:29",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "400": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.4980392156862745,
+            0.6274509803921569,
+            1
+          ],
+          "alpha": 1,
+          "hex": "#7fa0ff"
+        },
+        "$type": "color",
+        "$description": "Blue (info) 400, on the one contrast ladder every family shares: 2.51:1 against white, 7.48:1 against the dark page #111213. oklch(72.2% 0.143 268). Edges on light; text and icons on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:30",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "500": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.3333333333333333,
+            0.4823529411764706,
+            1
+          ],
+          "alpha": 1,
+          "hex": "#557bff"
+        },
+        "$type": "color",
+        "$description": "Blue (info) 500, on the one contrast ladder every family shares: 3.71:1 against white, 5.06:1 against the dark page #111213. oklch(62.6% 0.200 268). Icons, control edges and focus, in both modes.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:31",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "600": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.23137254901960785,
+            0.3607843137254902,
+            0.8901960784313725
+          ],
+          "alpha": 1,
+          "hex": "#3b5ce3"
+        },
+        "$type": "color",
+        "$description": "Blue (info) 600, on the one contrast ladder every family shares: 5.49:1 against white, 3.42:1 against the dark page #111213. oklch(53.4% 0.208 268). Text and filled buttons on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:32",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1843137254901961,
+            0.2901960784313726,
+            0.7215686274509804
+          ],
+          "alpha": 1,
+          "hex": "#2f4ab8"
+        },
+        "$type": "color",
+        "$description": "Blue (info) 700, on the one contrast ladder every family shares: 7.52:1 against white, 2.49:1 against the dark page #111213. oklch(45.9% 0.176 268). Text and filled buttons on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:33",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.12941176470588237,
+            0.20784313725490197,
+            0.5137254901960784
+          ],
+          "alpha": 1,
+          "hex": "#213583"
+        },
+        "$type": "color",
+        "$description": "Blue (info) 800, on the one contrast ladder every family shares: 11.04:1 against white, 1.70:1 against the dark page #111213. oklch(36.4% 0.133 268). Text on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:34",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "900": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.08627450980392157,
+            0.13725490196078433,
+            0.3215686274509804
+          ],
+          "alpha": 1,
+          "hex": "#162352"
+        },
+        "$type": "color",
+        "$description": "Blue (info) 900, on the one contrast ladder every family shares: 15.04:1 against white, 1.25:1 against the dark page #111213. oklch(27.5% 0.088 268). Text on light; tinted surfaces on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:35",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "950": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.027450980392156862,
+            0.058823529411764705,
+            0.18823529411764706
+          ],
+          "alpha": 1,
+          "hex": "#070f30"
+        },
+        "$type": "color",
+        "$description": "Blue (info) 950, on the one contrast ladder every family shares: 18.75:1 against white, 1.00:1 against the dark page #111213. oklch(18.6% 0.067 268). Text on light; the darkest surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:36",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      }
+    },
+    "green": {
+      "50": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9372549019607843,
+            0.996078431372549,
+            0.9372549019607843
+          ],
+          "alpha": 1,
+          "hex": "#effeef"
+        },
+        "$type": "color",
+        "$description": "Green (success) 50, on the one contrast ladder every family shares: 1.05:1 against white, 17.94:1 against the dark page #111213. oklch(98.2% 0.025 145). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:37",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "100": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.8745098039215686,
+            0.9921568627450981,
+            0.8745098039215686
+          ],
+          "alpha": 1,
+          "hex": "#dffddf"
+        },
+        "$type": "color",
+        "$description": "Green (success) 100, on the one contrast ladder every family shares: 1.09:1 against white, 17.19:1 against the dark page #111213. oklch(96.4% 0.051 145). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:38",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "200": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.7568627450980392,
+            0.9764705882352941,
+            0.7568627450980392
+          ],
+          "alpha": 1,
+          "hex": "#c1f9c1"
+        },
+        "$type": "color",
+        "$description": "Green (success) 200, on the one contrast ladder every family shares: 1.19:1 against white, 15.71:1 against the dark page #111213. oklch(92.9% 0.094 145). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:39",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "300": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.5529411764705883,
+            0.8745098039215686,
+            0.5647058823529412
+          ],
+          "alpha": 1,
+          "hex": "#8ddf90"
+        },
+        "$type": "color",
+        "$description": "Green (success) 300, on the one contrast ladder every family shares: 1.60:1 against white, 11.69:1 against the dark page #111213. oklch(83.1% 0.135 145). Edges on light; text and icons on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:40",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "400": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.32941176470588235,
+            0.7215686274509804,
+            0.3568627450980392
+          ],
+          "alpha": 1,
+          "hex": "#54b85b"
+        },
+        "$type": "color",
+        "$description": "Green (success) 400, on the one contrast ladder every family shares: 2.50:1 against white, 7.49:1 against the dark page #111213. oklch(70.1% 0.161 145). Edges on light; text and icons on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:41",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "500": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.14901960784313725,
+            0.6,
+            0.21176470588235294
+          ],
+          "alpha": 1,
+          "hex": "#269936"
+        },
+        "$type": "color",
+        "$description": "Green (success) 500, on the one contrast ladder every family shares: 3.69:1 against white, 5.08:1 against the dark page #111213. oklch(60.0% 0.170 145). Icons, control edges and focus, in both modes.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:42",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "600": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.011764705882352941,
+            0.47843137254901963,
+            0.12156862745098039
+          ],
+          "alpha": 1,
+          "hex": "#037a1f"
+        },
+        "$type": "color",
+        "$description": "Green (success) 600, on the one contrast ladder every family shares: 5.52:1 against white, 3.40:1 against the dark page #111213. oklch(50.4% 0.157 145). Text and filled buttons on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:43",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.00392156862745098,
+            0.38823529411764707,
+            0.09019607843137255
+          ],
+          "alpha": 1,
+          "hex": "#016317"
+        },
+        "$type": "color",
+        "$description": "Green (success) 700, on the one contrast ladder every family shares: 7.50:1 against white, 2.50:1 against the dark page #111213. oklch(43.4% 0.136 145). Text and filled buttons on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:44",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.03137254901960784,
+            0.2784313725490196,
+            0.07058823529411765
+          ],
+          "alpha": 1,
+          "hex": "#084712"
+        },
+        "$type": "color",
+        "$description": "Green (success) 800, on the one contrast ladder every family shares: 10.94:1 against white, 1.71:1 against the dark page #111213. oklch(34.8% 0.103 145). Text on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:45",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "900": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0392156862745098,
+            0.17647058823529413,
+            0.054901960784313725
+          ],
+          "alpha": 1,
+          "hex": "#0a2d0e"
+        },
+        "$type": "color",
+        "$description": "Green (success) 900, on the one contrast ladder every family shares: 15.06:1 against white, 1.25:1 against the dark page #111213. oklch(26.3% 0.068 145). Text on light; tinted surfaces on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:46",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "950": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.00392156862745098,
+            0.08627450980392157,
+            0.011764705882352941
+          ],
+          "alpha": 1,
+          "hex": "#011603"
+        },
+        "$type": "color",
+        "$description": "Green (success) 950, on the one contrast ladder every family shares: 18.79:1 against white, 1.00:1 against the dark page #111213. oklch(17.5% 0.051 146). Text on light; the darkest surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:47",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      }
+    },
+    "orange": {
+      "50": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            0.9764705882352941,
+            0.9647058823529412
+          ],
+          "alpha": 1,
+          "hex": "#fff9f6"
+        },
+        "$type": "color",
+        "$description": "Orange (warning) 50, on the one contrast ladder every family shares: 1.04:1 against white, 17.98:1 against the dark page #111213. oklch(98.6% 0.008 49). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:48",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "100": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            0.9490196078431372,
+            0.9294117647058824
+          ],
+          "alpha": 1,
+          "hex": "#fff2ed"
+        },
+        "$type": "color",
+        "$description": "Orange (warning) 100, on the one contrast ladder every family shares: 1.10:1 against white, 17.12:1 against the dark page #111213. oklch(97.0% 0.016 42). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:49",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "200": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            0.9019607843137255,
+            0.8588235294117647
+          ],
+          "alpha": 1,
+          "hex": "#ffe6db"
+        },
+        "$type": "color",
+        "$description": "Orange (warning) 200, on the one contrast ladder every family shares: 1.19:1 against white, 15.71:1 against the dark page #111213. oklch(94.2% 0.031 45). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:50",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "300": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.996078431372549,
+            0.7450980392156863,
+            0.6352941176470588
+          ],
+          "alpha": 1,
+          "hex": "#febea2"
+        },
+        "$type": "color",
+        "$description": "Orange (warning) 300, on the one contrast ladder every family shares: 1.60:1 against white, 11.70:1 against the dark page #111213. oklch(85.3% 0.083 45). Edges on light; text and icons on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:51",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "400": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9803921568627451,
+            0.5137254901960784,
+            0.28627450980392155
+          ],
+          "alpha": 1,
+          "hex": "#fa8349"
+        },
+        "$type": "color",
+        "$description": "Orange (warning) 400, on the one contrast ladder every family shares: 2.50:1 against white, 7.51:1 against the dark page #111213. oklch(73.4% 0.162 45). Edges on light; text and icons on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:52",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "500": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.8549019607843137,
+            0.3764705882352941,
+            0.10196078431372549
+          ],
+          "alpha": 1,
+          "hex": "#da601a"
+        },
+        "$type": "color",
+        "$description": "Orange (warning) 500, on the one contrast ladder every family shares: 3.70:1 against white, 5.06:1 against the dark page #111213. oklch(63.2% 0.170 45). Icons, control edges and focus, in both modes.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:53",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "600": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.6941176470588235,
+            0.28627450980392155,
+            0.01568627450980392
+          ],
+          "alpha": 1,
+          "hex": "#b14904"
+        },
+        "$type": "color",
+        "$description": "Orange (warning) 600, on the one contrast ladder every family shares: 5.49:1 against white, 3.42:1 against the dark page #111213. oklch(53.6% 0.151 45). Text and filled buttons on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:54",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.5686274509803921,
+            0.2235294117647059,
+            0
+          ],
+          "alpha": 1,
+          "hex": "#913900"
+        },
+        "$type": "color",
+        "$description": "Orange (warning) 700, on the one contrast ladder every family shares: 7.53:1 against white, 2.49:1 against the dark page #111213. oklch(46.0% 0.132 45). Text and filled buttons on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:55",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.4117647058823529,
+            0.1607843137254902,
+            0.011764705882352941
+          ],
+          "alpha": 1,
+          "hex": "#692903"
+        },
+        "$type": "color",
+        "$description": "Orange (warning) 800, on the one contrast ladder every family shares: 10.94:1 against white, 1.71:1 against the dark page #111213. oklch(36.8% 0.102 45). Text on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:56",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "900": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.2627450980392157,
+            0.10588235294117647,
+            0.027450980392156862
+          ],
+          "alpha": 1,
+          "hex": "#431b07"
+        },
+        "$type": "color",
+        "$description": "Orange (warning) 900, on the one contrast ladder every family shares: 15.02:1 against white, 1.25:1 against the dark page #111213. oklch(27.8% 0.069 45). Text on light; tinted surfaces on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:57",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "950": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1450980392156863,
+            0.0392156862745098,
+            0.00392156862745098
+          ],
+          "alpha": 1,
+          "hex": "#250a01"
+        },
+        "$type": "color",
+        "$description": "Orange (warning) 950, on the one contrast ladder every family shares: 18.71:1 against white, 1.00:1 against the dark page #111213. oklch(18.8% 0.051 44). Text on light; the darkest surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:58",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      }
+    },
+    "yellow": {
+      "50": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9921568627450981,
+            0.984313725490196,
+            0.9098039215686274
+          ],
+          "alpha": 1,
+          "hex": "#fdfbe8"
+        },
+        "$type": "color",
+        "$description": "Yellow (charts) 50, on the one contrast ladder every family shares: 1.04:1 against white, 17.99:1 against the dark page #111213. oklch(98.5% 0.025 102). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:59",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "100": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9882352941176471,
+            0.9647058823529412,
+            0.8196078431372549
+          ],
+          "alpha": 1,
+          "hex": "#fcf6d1"
+        },
+        "$type": "color",
+        "$description": "Yellow (charts) 100, on the one contrast ladder every family shares: 1.09:1 against white, 17.18:1 against the dark page #111213. oklch(96.8% 0.048 100). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:60",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "200": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9686274509803922,
+            0.9254901960784314,
+            0.6549019607843137
+          ],
+          "alpha": 1,
+          "hex": "#f7eca7"
+        },
+        "$type": "color",
+        "$description": "Yellow (charts) 200, on the one contrast ladder every family shares: 1.20:1 against white, 15.64:1 against the dark page #111213. oklch(93.6% 0.088 100). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:61",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "300": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.8745098039215686,
+            0.807843137254902,
+            0.39215686274509803
+          ],
+          "alpha": 1,
+          "hex": "#dfce64"
+        },
+        "$type": "color",
+        "$description": "Yellow (charts) 300, on the one contrast ladder every family shares: 1.60:1 against white, 11.74:1 against the dark page #111213. oklch(84.4% 0.128 100). Edges on light; text and icons on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:62",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "400": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.7254901960784313,
+            0.6431372549019608,
+            0.0196078431372549
+          ],
+          "alpha": 1,
+          "hex": "#b9a405"
+        },
+        "$type": "color",
+        "$description": "Yellow (charts) 400, on the one contrast ladder every family shares: 2.51:1 against white, 7.48:1 against the dark page #111213. oklch(71.5% 0.148 100). Edges on light; text and icons on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:63",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "500": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.5882352941176471,
+            0.5215686274509804,
+            0.027450980392156862
+          ],
+          "alpha": 1,
+          "hex": "#968507"
+        },
+        "$type": "color",
+        "$description": "Yellow (charts) 500, on the one contrast ladder every family shares: 3.71:1 against white, 5.05:1 against the dark page #111213. oklch(61.3% 0.126 100). Icons, control edges and focus, in both modes.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:64",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "600": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.4666666666666667,
+            0.4117647058823529,
+            0.023529411764705882
+          ],
+          "alpha": 1,
+          "hex": "#776906"
+        },
+        "$type": "color",
+        "$description": "Yellow (charts) 600, on the one contrast ladder every family shares: 5.52:1 against white, 3.40:1 against the dark page #111213. oklch(51.8% 0.106 100). Text and filled buttons on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:65",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.3803921568627451,
+            0.3333333333333333,
+            0.00784313725490196
+          ],
+          "alpha": 1,
+          "hex": "#615502"
+        },
+        "$type": "color",
+        "$description": "Yellow (charts) 700, on the one contrast ladder every family shares: 7.48:1 against white, 2.51:1 against the dark page #111213. oklch(44.8% 0.092 100). Text and filled buttons on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:66",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.27058823529411763,
+            0.23529411764705882,
+            0
+          ],
+          "alpha": 1,
+          "hex": "#453c00"
+        },
+        "$type": "color",
+        "$description": "Yellow (charts) 800, on the one contrast ladder every family shares: 11.06:1 against white, 1.70:1 against the dark page #111213. oklch(35.5% 0.074 100). Text on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:67",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "900": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.17647058823529413,
+            0.15294117647058825,
+            0
+          ],
+          "alpha": 1,
+          "hex": "#2d2700"
+        },
+        "$type": "color",
+        "$description": "Yellow (charts) 900, on the one contrast ladder every family shares: 14.98:1 against white, 1.25:1 against the dark page #111213. oklch(27.1% 0.056 101). Text on light; tinted surfaces on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:68",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "950": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.08627450980392157,
+            0.07058823529411765,
+            0
+          ],
+          "alpha": 1,
+          "hex": "#161200"
+        },
+        "$type": "color",
+        "$description": "Yellow (charts) 950, on the one contrast ladder every family shares: 18.74:1 against white, 1.00:1 against the dark page #111213. oklch(18.2% 0.038 100). Text on light; the darkest surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:69",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      }
+    },
+    "purple": {
+      "50": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.984313725490196,
+            0.9764705882352941,
+            0.996078431372549
+          ],
+          "alpha": 1,
+          "hex": "#fbf9fe"
+        },
+        "$type": "color",
+        "$description": "Purple (charts and code) 50, on the one contrast ladder every family shares: 1.05:1 against white, 17.94:1 against the dark page #111213. oklch(98.5% 0.007 304). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:8",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "100": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9725490196078431,
+            0.9529411764705882,
+            0.996078431372549
+          ],
+          "alpha": 1,
+          "hex": "#f8f3fe"
+        },
+        "$type": "color",
+        "$description": "Purple (charts and code) 100, on the one contrast ladder every family shares: 1.09:1 against white, 17.18:1 against the dark page #111213. oklch(97.1% 0.015 306). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:9",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "200": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9411764705882353,
+            0.9058823529411765,
+            0.9882352941176471
+          ],
+          "alpha": 1,
+          "hex": "#f0e7fc"
+        },
+        "$type": "color",
+        "$description": "Purple (charts and code) 200, on the one contrast ladder every family shares: 1.20:1 against white, 15.67:1 against the dark page #111213. oklch(94.1% 0.030 305). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:10",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "300": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.8549019607843137,
+            0.7647058823529411,
+            0.9686274509803922
+          ],
+          "alpha": 1,
+          "hex": "#dac3f7"
+        },
+        "$type": "color",
+        "$description": "Purple (charts and code) 300, on the one contrast ladder every family shares: 1.60:1 against white, 11.73:1 against the dark page #111213. oklch(85.3% 0.075 305). Edges on light; text and icons on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:11",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "400": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.7568627450980392,
+            0.5490196078431373,
+            0.9764705882352941
+          ],
+          "alpha": 1,
+          "hex": "#c18cf9"
+        },
+        "$type": "color",
+        "$description": "Purple (charts and code) 400, on the one contrast ladder every family shares: 2.50:1 against white, 7.49:1 against the dark page #111213. oklch(73.4% 0.161 305). Edges on light; text and icons on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:12",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "500": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.6823529411764706,
+            0.3568627450980392,
+            0.9764705882352941
+          ],
+          "alpha": 1,
+          "hex": "#ae5bf9"
+        },
+        "$type": "color",
+        "$description": "Purple (charts and code) 500, on the one contrast ladder every family shares: 3.71:1 against white, 5.06:1 against the dark page #111213. oklch(64.2% 0.228 305). Icons, control edges and focus, in both modes.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:13",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "600": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.6078431372549019,
+            0.10980392156862745,
+            0.9372549019607843
+          ],
+          "alpha": 1,
+          "hex": "#9b1cef"
+        },
+        "$type": "color",
+        "$description": "Purple (charts and code) 600, on the one contrast ladder every family shares: 5.52:1 against white, 3.40:1 against the dark page #111213. oklch(55.6% 0.274 305). Text and filled buttons on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:14",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.4823529411764706,
+            0.12941176470588237,
+            0.7411764705882353
+          ],
+          "alpha": 1,
+          "hex": "#7b21bd"
+        },
+        "$type": "color",
+        "$description": "Purple (charts and code) 700, on the one contrast ladder every family shares: 7.51:1 against white, 2.50:1 against the dark page #111213. oklch(47.7% 0.221 305). Text and filled buttons on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:15",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.34509803921568627,
+            0.09803921568627451,
+            0.5333333333333333
+          ],
+          "alpha": 1,
+          "hex": "#581988"
+        },
+        "$type": "color",
+        "$description": "Purple (charts and code) 800, on the one contrast ladder every family shares: 11.00:1 against white, 1.71:1 against the dark page #111213. oklch(37.9% 0.170 305). Text on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:16",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "900": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.2196078431372549,
+            0.07450980392156863,
+            0.3411764705882353
+          ],
+          "alpha": 1,
+          "hex": "#381357"
+        },
+        "$type": "color",
+        "$description": "Purple (charts and code) 900, on the one contrast ladder every family shares: 15.01:1 against white, 1.25:1 against the dark page #111213. oklch(28.6% 0.116 305). Text on light; tinted surfaces on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:17",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "950": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.11764705882352941,
+            0.0196078431372549,
+            0.19607843137254902
+          ],
+          "alpha": 1,
+          "hex": "#1e0532"
+        },
+        "$type": "color",
+        "$description": "Purple (charts and code) 950, on the one contrast ladder every family shares: 18.70:1 against white, 1.00:1 against the dark page #111213. oklch(19.4% 0.085 305). Text on light; the darkest surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:18",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      }
+    },
+    "pink": {
+      "50": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.996078431372549,
+            0.9764705882352941,
+            0.984313725490196
+          ],
+          "alpha": 1,
+          "hex": "#fef9fb"
+        },
+        "$type": "color",
+        "$description": "Pink (charts and code) 50, on the one contrast ladder every family shares: 1.04:1 against white, 18.00:1 against the dark page #111213. oklch(98.7% 0.006 351). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:19",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "100": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.996078431372549,
+            0.9490196078431372,
+            0.9686274509803922
+          ],
+          "alpha": 1,
+          "hex": "#fef2f7"
+        },
+        "$type": "color",
+        "$description": "Pink (charts and code) 100, on the one contrast ladder every family shares: 1.09:1 against white, 17.20:1 against the dark page #111213. oklch(97.2% 0.014 350). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:20",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "200": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9882352941176471,
+            0.8980392156862745,
+            0.9372549019607843
+          ],
+          "alpha": 1,
+          "hex": "#fce5ef"
+        },
+        "$type": "color",
+        "$description": "Pink (charts and code) 200, on the one contrast ladder every family shares: 1.19:1 against white, 15.71:1 against the dark page #111213. oklch(94.3% 0.028 349). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:21",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "300": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9725490196078431,
+            0.7333333333333333,
+            0.8431372549019608
+          ],
+          "alpha": 1,
+          "hex": "#f8bbd7"
+        },
+        "$type": "color",
+        "$description": "Pink (charts and code) 300, on the one contrast ladder every family shares: 1.61:1 against white, 11.68:1 against the dark page #111213. oklch(85.5% 0.078 350). Edges on light; text and icons on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:22",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "400": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9803921568627451,
+            0.4627450980392157,
+            0.7294117647058823
+          ],
+          "alpha": 1,
+          "hex": "#fa76ba"
+        },
+        "$type": "color",
+        "$description": "Pink (charts and code) 400, on the one contrast ladder every family shares: 2.51:1 against white, 7.47:1 against the dark page #111213. oklch(74.0% 0.177 350). Edges on light; text and icons on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:23",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "500": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9607843137254902,
+            0.1411764705882353,
+            0.6431372549019608
+          ],
+          "alpha": 1,
+          "hex": "#f524a4"
+        },
+        "$type": "color",
+        "$description": "Pink (charts and code) 500, on the one contrast ladder every family shares: 3.70:1 against white, 5.06:1 against the dark page #111213. oklch(65.0% 0.255 350). Icons, control edges and focus, in both modes.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:24",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "600": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.7686274509803922,
+            0.09411764705882353,
+            0.5137254901960784
+          ],
+          "alpha": 1,
+          "hex": "#c41883"
+        },
+        "$type": "color",
+        "$description": "Pink (charts and code) 600, on the one contrast ladder every family shares: 5.52:1 against white, 3.40:1 against the dark page #111213. oklch(54.9% 0.217 350). Text and filled buttons on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:25",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.611764705882353,
+            0.11372549019607843,
+            0.4117647058823529
+          ],
+          "alpha": 1,
+          "hex": "#9c1d69"
+        },
+        "$type": "color",
+        "$description": "Pink (charts and code) 700, on the one contrast ladder every family shares: 7.52:1 against white, 2.49:1 against the dark page #111213. oklch(47.1% 0.175 350). Text and filled buttons on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:26",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.44313725490196076,
+            0.08627450980392157,
+            0.29411764705882354
+          ],
+          "alpha": 1,
+          "hex": "#71164b"
+        },
+        "$type": "color",
+        "$description": "Pink (charts and code) 800, on the one contrast ladder every family shares: 10.95:1 against white, 1.71:1 against the dark page #111213. oklch(37.6% 0.135 350). Text on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:27",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "900": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.28627450980392155,
+            0.06274509803921569,
+            0.18823529411764706
+          ],
+          "alpha": 1,
+          "hex": "#491030"
+        },
+        "$type": "color",
+        "$description": "Pink (charts and code) 900, on the one contrast ladder every family shares: 15.00:1 against white, 1.25:1 against the dark page #111213. oklch(28.4% 0.093 350). Text on light; tinted surfaces on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:28",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "950": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1568627450980392,
+            0.01568627450980392,
+            0.09411764705882353
+          ],
+          "alpha": 1,
+          "hex": "#280418"
+        },
+        "$type": "color",
+        "$description": "Pink (charts and code) 950, on the one contrast ladder every family shares: 18.74:1 against white, 1.00:1 against the dark page #111213. oklch(19.1% 0.067 350). Text on light; the darkest surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:29",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      }
+    },
+    "teal": {
+      "50": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9176470588235294,
+            0.996078431372549,
+            0.996078431372549
+          ],
+          "alpha": 1,
+          "hex": "#eafefe"
+        },
+        "$type": "color",
+        "$description": "Teal (charts and code) 50, on the one contrast ladder every family shares: 1.04:1 against white, 17.96:1 against the dark page #111213. oklch(98.2% 0.021 197). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:30",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "100": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.8156862745098039,
+            0.996078431372549,
+            0.9921568627450981
+          ],
+          "alpha": 1,
+          "hex": "#d0fefd"
+        },
+        "$type": "color",
+        "$description": "Teal (charts and code) 100, on the one contrast ladder every family shares: 1.09:1 against white, 17.22:1 against the dark page #111213. oklch(96.5% 0.047 195). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:31",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "200": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.5882352941176471,
+            0.9882352941176471,
+            0.984313725490196
+          ],
+          "alpha": 1,
+          "hex": "#96fcfb"
+        },
+        "$type": "color",
+        "$description": "Teal (charts and code) 200, on the one contrast ladder every family shares: 1.19:1 against white, 15.73:1 against the dark page #111213. oklch(92.9% 0.096 195). Light surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:32",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "300": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.3254901960784314,
+            0.8784313725490196,
+            0.8784313725490196
+          ],
+          "alpha": 1,
+          "hex": "#53e0e0"
+        },
+        "$type": "color",
+        "$description": "Teal (charts and code) 300, on the one contrast ladder every family shares: 1.60:1 against white, 11.70:1 against the dark page #111213. oklch(83.2% 0.119 195). Edges on light; text and icons on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:33",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "400": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.16470588235294117,
+            0.7098039215686275,
+            0.7098039215686275
+          ],
+          "alpha": 1,
+          "hex": "#2ab5b5"
+        },
+        "$type": "color",
+        "$description": "Teal (charts and code) 400, on the one contrast ladder every family shares: 2.51:1 against white, 7.48:1 against the dark page #111213. oklch(70.4% 0.112 195). Edges on light; text and icons on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:34",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "500": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.11372549019607843,
+            0.5764705882352941,
+            0.5764705882352941
+          ],
+          "alpha": 1,
+          "hex": "#1d9393"
+        },
+        "$type": "color",
+        "$description": "Teal (charts and code) 500, on the one contrast ladder every family shares: 3.72:1 against white, 5.04:1 against the dark page #111213. oklch(60.3% 0.097 195). Icons, control edges and focus, in both modes.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:35",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "600": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.07450980392156863,
+            0.4588235294117647,
+            0.4588235294117647
+          ],
+          "alpha": 1,
+          "hex": "#137575"
+        },
+        "$type": "color",
+        "$description": "Teal (charts and code) 600, on the one contrast ladder every family shares: 5.48:1 against white, 3.42:1 against the dark page #111213. oklch(51.1% 0.083 195). Text and filled buttons on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:36",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.09019607843137255,
+            0.3686274509803922,
+            0.3686274509803922
+          ],
+          "alpha": 1,
+          "hex": "#175e5e"
+        },
+        "$type": "color",
+        "$description": "Teal (charts and code) 700, on the one contrast ladder every family shares: 7.50:1 against white, 2.50:1 against the dark page #111213. oklch(44.0% 0.067 195). Text and filled buttons on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:37",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.06666666666666667,
+            0.2627450980392157,
+            0.2627450980392157
+          ],
+          "alpha": 1,
+          "hex": "#114343"
+        },
+        "$type": "color",
+        "$description": "Teal (charts and code) 800, on the one contrast ladder every family shares: 11.01:1 against white, 1.70:1 against the dark page #111213. oklch(35.1% 0.052 195). Text on light.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:38",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "900": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.050980392156862744,
+            0.16862745098039217,
+            0.16862745098039217
+          ],
+          "alpha": 1,
+          "hex": "#0d2b2b"
+        },
+        "$type": "color",
+        "$description": "Teal (charts and code) 900, on the one contrast ladder every family shares: 15.03:1 against white, 1.25:1 against the dark page #111213. oklch(26.7% 0.035 195). Text on light; tinted surfaces on dark.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:39",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "950": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.011764705882352941,
+            0.08235294117647059,
+            0.08235294117647059
+          ],
+          "alpha": 1,
+          "hex": "#031515"
+        },
+        "$type": "color",
+        "$description": "Teal (charts and code) 950, on the one contrast ladder every family shares: 18.72:1 against white, 1.00:1 against the dark page #111213. oklch(18.0% 0.026 195). Text on light; the darkest surfaces.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8003:40",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
             }
           }
         }
@@ -2111,6 +3342,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw space step, 0 px. Only for fixed distances inside a component; spacing that follows density uses space/inset, stack or inline.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9116",
@@ -2118,10 +3350,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "FONT_VARIATIONS"
-          ]
+          }
         }
       }
     },
@@ -2131,6 +3360,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw space step, 2 px. Only for fixed distances inside a component; spacing that follows density uses space/inset, stack or inline.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4055:9523",
@@ -2138,10 +3368,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "FONT_VARIATIONS"
-          ]
+          }
         }
       }
     },
@@ -2151,6 +3378,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw space step, 4 px. Only for fixed distances inside a component; spacing that follows density uses space/inset, stack or inline.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9170",
@@ -2158,10 +3386,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "FONT_VARIATIONS"
-          ]
+          }
         }
       }
     },
@@ -2171,6 +3396,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw space step, 6 px. Only for fixed distances inside a component; spacing that follows density uses space/inset, stack or inline.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9160",
@@ -2178,10 +3404,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "FONT_VARIATIONS"
-          ]
+          }
         }
       }
     },
@@ -2191,6 +3414,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw space step, 8 px. Only for fixed distances inside a component; spacing that follows density uses space/inset, stack or inline.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9158",
@@ -2198,10 +3422,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "FONT_VARIATIONS"
-          ]
+          }
         }
       }
     },
@@ -2211,6 +3432,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw space step, 12 px. Only for fixed distances inside a component; spacing that follows density uses space/inset, stack or inline.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9157",
@@ -2218,10 +3440,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "FONT_VARIATIONS"
-          ]
+          }
         }
       }
     },
@@ -2231,6 +3450,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw space step, 16 px. Only for fixed distances inside a component; spacing that follows density uses space/inset, stack or inline.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9167",
@@ -2238,10 +3458,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "FONT_VARIATIONS"
-          ]
+          }
         }
       }
     },
@@ -2251,6 +3468,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw space step, 20 px. Only for fixed distances inside a component; spacing that follows density uses space/inset, stack or inline.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9156",
@@ -2258,10 +3476,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "FONT_VARIATIONS"
-          ]
+          }
         }
       }
     },
@@ -2271,6 +3486,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw space step, 24 px. Only for fixed distances inside a component; spacing that follows density uses space/inset, stack or inline.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9169",
@@ -2278,30 +3494,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "FONT_VARIATIONS"
-          ]
-        }
-      }
-    },
-    "28": {
-      "$value": {
-        "value": 28,
-        "unit": "px"
-      },
-      "$type": "dimension",
-      "$extensions": {
-        "figma": {
-          "variableId": "VariableID:4054:9349",
-          "collection": {
-            "id": "VariableCollectionId:4005:5458",
-            "name": "Primitives",
-            "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "FONT_VARIATIONS"
-          ]
+          }
         }
       }
     },
@@ -2311,6 +3504,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw space step, 32 px. Only for fixed distances inside a component; spacing that follows density uses space/inset, stack or inline.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9154",
@@ -2318,30 +3512,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "FONT_VARIATIONS"
-          ]
-        }
-      }
-    },
-    "36": {
-      "$value": {
-        "value": 36,
-        "unit": "px"
-      },
-      "$type": "dimension",
-      "$extensions": {
-        "figma": {
-          "variableId": "VariableID:4040:9155",
-          "collection": {
-            "id": "VariableCollectionId:4005:5458",
-            "name": "Primitives",
-            "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "FONT_VARIATIONS"
-          ]
+          }
         }
       }
     },
@@ -2351,6 +3522,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw space step, 40 px. Only for fixed distances inside a component; spacing that follows density uses space/inset, stack or inline.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9168",
@@ -2358,10 +3530,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "FONT_VARIATIONS"
-          ]
+          }
         }
       }
     },
@@ -2371,6 +3540,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw space step, 48 px. Only for fixed distances inside a component; spacing that follows density uses space/inset, stack or inline.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9171",
@@ -2378,10 +3548,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "FONT_VARIATIONS"
-          ]
+          }
         }
       }
     },
@@ -2391,6 +3558,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw space step, 56 px. Only for fixed distances inside a component; spacing that follows density uses space/inset, stack or inline.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9166",
@@ -2398,10 +3566,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "FONT_VARIATIONS"
-          ]
+          }
         }
       }
     },
@@ -2411,6 +3576,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw space step, 64 px. Only for fixed distances inside a component; spacing that follows density uses space/inset, stack or inline.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9165",
@@ -2418,10 +3584,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "FONT_VARIATIONS"
-          ]
+          }
         }
       }
     },
@@ -2431,6 +3594,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw space step, 72 px. Only for fixed distances inside a component; spacing that follows density uses space/inset, stack or inline.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9162",
@@ -2438,50 +3602,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "FONT_VARIATIONS"
-          ]
-        }
-      }
-    },
-    "80": {
-      "$value": {
-        "value": 80,
-        "unit": "px"
-      },
-      "$type": "dimension",
-      "$extensions": {
-        "figma": {
-          "variableId": "VariableID:4040:9161",
-          "collection": {
-            "id": "VariableCollectionId:4005:5458",
-            "name": "Primitives",
-            "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "FONT_VARIATIONS"
-          ]
-        }
-      }
-    },
-    "88": {
-      "$value": {
-        "value": 88,
-        "unit": "px"
-      },
-      "$type": "dimension",
-      "$extensions": {
-        "figma": {
-          "variableId": "VariableID:4040:9159",
-          "collection": {
-            "id": "VariableCollectionId:4005:5458",
-            "name": "Primitives",
-            "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "FONT_VARIATIONS"
-          ]
+          }
         }
       }
     },
@@ -2491,6 +3612,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw space step, 96 px. Only for fixed distances inside a component; spacing that follows density uses space/inset, stack or inline.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9163",
@@ -2498,10 +3620,25 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "FONT_VARIATIONS"
-          ]
+          }
+        }
+      }
+    },
+    "128": {
+      "$value": {
+        "value": 128,
+        "unit": "px"
+      },
+      "$type": "dimension",
+      "$description": "128 px of space. Raw step: use a semantic space.",
+      "$extensions": {
+        "figma": {
+          "variableId": "VariableID:7140:20",
+          "collection": {
+            "id": "VariableCollectionId:4005:5458",
+            "name": "Primitives",
+            "defaultModeId": "4005:0"
+          }
         }
       }
     }
@@ -2513,6 +3650,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw size step, 4 px. Only for fixed sizes inside a component; semantic sizes (size/control, icon, mark) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4112:17793",
@@ -2520,10 +3658,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ]
+          }
         }
       }
     },
@@ -2533,6 +3668,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw size step, 6 px. Only for fixed sizes inside a component; semantic sizes (size/control, icon, mark) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4112:17794",
@@ -2540,10 +3676,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ]
+          }
         }
       }
     },
@@ -2553,6 +3686,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw size step, 8 px. Only for fixed sizes inside a component; semantic sizes (size/control, icon, mark) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4112:17792",
@@ -2560,10 +3694,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ]
+          }
         }
       }
     },
@@ -2573,6 +3704,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw size step, 12 px. Only for fixed sizes inside a component; semantic sizes (size/control, icon, mark) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9172",
@@ -2580,10 +3712,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ]
+          }
         }
       }
     },
@@ -2593,6 +3722,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw size step, 16 px. Only for fixed sizes inside a component; semantic sizes (size/control, icon, mark) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9176",
@@ -2600,10 +3730,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ]
+          }
         }
       }
     },
@@ -2613,6 +3740,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw size step, 20 px. Only for fixed sizes inside a component; semantic sizes (size/control, icon, mark) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9179",
@@ -2620,10 +3748,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ]
+          }
         }
       }
     },
@@ -2633,6 +3758,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw size step, 24 px. Only for fixed sizes inside a component; semantic sizes (size/control, icon, mark) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9182",
@@ -2640,10 +3766,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ]
+          }
         }
       }
     },
@@ -2653,6 +3776,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw size step, 28 px. Only for fixed sizes inside a component; semantic sizes (size/control, icon, mark) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4054:9350",
@@ -2660,10 +3784,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ]
+          }
         }
       }
     },
@@ -2673,6 +3794,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw size step, 32 px. Only for fixed sizes inside a component; semantic sizes (size/control, icon, mark) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9185",
@@ -2680,10 +3802,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ]
+          }
         }
       }
     },
@@ -2693,6 +3812,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw size step, 40 px. Only for fixed sizes inside a component; semantic sizes (size/control, icon, mark) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9189",
@@ -2700,10 +3820,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ]
+          }
         }
       }
     },
@@ -2713,6 +3830,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw size step, 44 px. Only for fixed sizes inside a component; semantic sizes (size/control, icon, mark) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9199",
@@ -2720,10 +3838,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ]
+          }
         }
       }
     },
@@ -2733,6 +3848,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw size step, 48 px. Only for fixed sizes inside a component; semantic sizes (size/control, icon, mark) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9202",
@@ -2740,10 +3856,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ]
+          }
         }
       }
     },
@@ -2753,6 +3866,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw size step, 56 px. Only for fixed sizes inside a component; semantic sizes (size/control, icon, mark) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4110:17761",
@@ -2760,10 +3874,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ]
+          }
         }
       }
     },
@@ -2773,6 +3884,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw size step, 64 px. Only for fixed sizes inside a component; semantic sizes (size/control, icon, mark) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4110:17762",
@@ -2780,10 +3892,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ]
+          }
         }
       }
     },
@@ -2793,6 +3902,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw size step, 72 px. Only for fixed sizes inside a component; semantic sizes (size/control, icon, mark) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4110:17763",
@@ -2800,10 +3910,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ]
+          }
         }
       }
     },
@@ -2813,6 +3920,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw size step, 80 px. Only for fixed sizes inside a component; semantic sizes (size/control, icon, mark) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4110:17764",
@@ -2820,10 +3928,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ]
+          }
         }
       }
     },
@@ -2833,6 +3938,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw size step, 88 px. Only for fixed sizes inside a component; semantic sizes (size/control, icon, mark) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4110:17765",
@@ -2840,10 +3946,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ]
+          }
         }
       }
     },
@@ -2853,6 +3956,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw size step, 96 px. Only for fixed sizes inside a component; semantic sizes (size/control, icon, mark) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4110:17766",
@@ -2860,10 +3964,7 @@
             "id": "VariableCollectionId:4005:5458",
             "name": "Primitives",
             "defaultModeId": "4005:0"
-          },
-          "scopes": [
-            "WIDTH_HEIGHT"
-          ]
+          }
         }
       }
     },
@@ -2874,6 +3975,7 @@
           "unit": "px"
         },
         "$type": "dimension",
+        "$description": "Raw screen width, 320 px: the breakpoints point here.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9356",
@@ -2881,10 +3983,7 @@
               "id": "VariableCollectionId:4005:5458",
               "name": "Primitives",
               "defaultModeId": "4005:0"
-            },
-            "scopes": [
-              "WIDTH_HEIGHT"
-            ]
+            }
           }
         }
       },
@@ -2894,6 +3993,7 @@
           "unit": "px"
         },
         "$type": "dimension",
+        "$description": "Raw screen width, 640 px: the breakpoints point here.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9357",
@@ -2901,10 +4001,7 @@
               "id": "VariableCollectionId:4005:5458",
               "name": "Primitives",
               "defaultModeId": "4005:0"
-            },
-            "scopes": [
-              "WIDTH_HEIGHT"
-            ]
+            }
           }
         }
       },
@@ -2914,6 +4011,7 @@
           "unit": "px"
         },
         "$type": "dimension",
+        "$description": "Raw screen width, 768 px: the breakpoints point here.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9358",
@@ -2921,10 +4019,7 @@
               "id": "VariableCollectionId:4005:5458",
               "name": "Primitives",
               "defaultModeId": "4005:0"
-            },
-            "scopes": [
-              "WIDTH_HEIGHT"
-            ]
+            }
           }
         }
       },
@@ -2934,6 +4029,7 @@
           "unit": "px"
         },
         "$type": "dimension",
+        "$description": "Raw screen width, 1024 px: the breakpoints point here.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9359",
@@ -2941,10 +4037,189 @@
               "id": "VariableCollectionId:4005:5458",
               "name": "Primitives",
               "defaultModeId": "4005:0"
-            },
-            "scopes": [
-              "WIDTH_HEIGHT"
-            ]
+            }
+          }
+        }
+      },
+      "1280": {
+        "$value": {
+          "value": 1280,
+          "unit": "px"
+        },
+        "$type": "dimension",
+        "$description": "Raw screen width, 1280 px: the breakpoints point here.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4055:9360",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "1440": {
+        "$value": {
+          "value": 1440,
+          "unit": "px"
+        },
+        "$type": "dimension",
+        "$description": "Raw screen width, 1440 px: the breakpoints point here.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4055:9361",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      }
+    },
+    "width": {
+      "240": {
+        "$value": {
+          "value": 240,
+          "unit": "px"
+        },
+        "$type": "dimension",
+        "$description": "A fixed width of 240 px: a narrow column, a list’s greatest height. Semantic sizes point here.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:70",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "320": {
+        "$value": {
+          "value": 320,
+          "unit": "px"
+        },
+        "$type": "dimension",
+        "$description": "A fixed width of 320 px: a narrow column, a list’s greatest height. Semantic sizes point here.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:71",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "400": {
+        "$value": {
+          "value": 400,
+          "unit": "px"
+        },
+        "$type": "dimension",
+        "$description": "A fixed width of 400 px: a narrow column, a list’s greatest height. Semantic sizes point here.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:72",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "480": {
+        "$value": {
+          "value": 480,
+          "unit": "px"
+        },
+        "$type": "dimension",
+        "$description": "A fixed width of 480 px. size/content points here.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4055:9352",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "640": {
+        "$value": {
+          "value": 640,
+          "unit": "px"
+        },
+        "$type": "dimension",
+        "$description": "A fixed width of 640 px. Raw step: use a semantic size.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7140:18",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "720": {
+        "$value": {
+          "value": 720,
+          "unit": "px"
+        },
+        "$type": "dimension",
+        "$description": "A fixed width of 720 px. size/content points here.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4055:9353",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "960": {
+        "$value": {
+          "value": 960,
+          "unit": "px"
+        },
+        "$type": "dimension",
+        "$description": "A fixed width of 960 px. size/content points here.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4055:9354",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
+          }
+        }
+      },
+      "1200": {
+        "$value": {
+          "value": 1200,
+          "unit": "px"
+        },
+        "$type": "dimension",
+        "$description": "A fixed width of 1200 px. Raw step: use a semantic size.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7140:19",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
           }
         }
       },
@@ -2956,15 +4231,30 @@
         "$type": "dimension",
         "$extensions": {
           "figma": {
-            "variableId": "VariableID:4055:9360",
+            "variableId": "VariableID:7190:4",
             "collection": {
               "id": "VariableCollectionId:4005:5458",
               "name": "Primitives",
               "defaultModeId": "4005:0"
-            },
-            "scopes": [
-              "WIDTH_HEIGHT"
-            ]
+            }
+          }
+        }
+      },
+      "1360": {
+        "$value": {
+          "value": 1360,
+          "unit": "px"
+        },
+        "$type": "dimension",
+        "$description": "A fixed width of 1360 px. size/content points here.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4055:9355",
+            "collection": {
+              "id": "VariableCollectionId:4005:5458",
+              "name": "Primitives",
+              "defaultModeId": "4005:0"
+            }
           }
         }
       },
@@ -2976,97 +4266,29 @@
         "$type": "dimension",
         "$extensions": {
           "figma": {
-            "variableId": "VariableID:4055:9361",
+            "variableId": "VariableID:7190:5",
             "collection": {
               "id": "VariableCollectionId:4005:5458",
               "name": "Primitives",
               "defaultModeId": "4005:0"
-            },
-            "scopes": [
-              "WIDTH_HEIGHT"
-            ]
-          }
-        }
-      }
-    },
-    "content": {
-      "480": {
-        "$value": {
-          "value": 480,
-          "unit": "px"
-        },
-        "$type": "dimension",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4055:9352",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            },
-            "scopes": [
-              "WIDTH_HEIGHT"
-            ]
+            }
           }
         }
       },
-      "720": {
+      "1920": {
         "$value": {
-          "value": 720,
+          "value": 1920,
           "unit": "px"
         },
         "$type": "dimension",
         "$extensions": {
           "figma": {
-            "variableId": "VariableID:4055:9353",
+            "variableId": "VariableID:7190:6",
             "collection": {
               "id": "VariableCollectionId:4005:5458",
               "name": "Primitives",
               "defaultModeId": "4005:0"
-            },
-            "scopes": [
-              "WIDTH_HEIGHT"
-            ]
-          }
-        }
-      },
-      "960": {
-        "$value": {
-          "value": 960,
-          "unit": "px"
-        },
-        "$type": "dimension",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4055:9354",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            },
-            "scopes": [
-              "WIDTH_HEIGHT"
-            ]
-          }
-        }
-      },
-      "1360": {
-        "$value": {
-          "value": 1360,
-          "unit": "px"
-        },
-        "$type": "dimension",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4055:9355",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            },
-            "scopes": [
-              "WIDTH_HEIGHT"
-            ]
+            }
           }
         }
       }
@@ -3079,6 +4301,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw corner step, 2 px. Semantic corners (radius/control, container) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9203",
@@ -3096,6 +4319,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw corner step, 4 px. Semantic corners (radius/control, container) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9207",
@@ -3113,6 +4337,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw corner step, 6 px. Semantic corners (radius/control, container) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9210",
@@ -3130,6 +4355,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw corner step, 8 px. Semantic corners (radius/control, container) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9213",
@@ -3147,6 +4373,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw corner step, 12 px. Semantic corners (radius/control, container) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9216",
@@ -3164,6 +4391,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw corner step, 16 px. Semantic corners (radius/control, container) point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9219",
@@ -3181,6 +4409,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw corner, a capsule. radius/full points here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9223",
@@ -3200,6 +4429,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw line thickness, 1 px. border-width/hairline, emphasis and accent point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9224",
@@ -3217,6 +4447,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw line thickness, 2 px. border-width/hairline, emphasis and accent point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9225",
@@ -3234,6 +4465,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw line thickness, 3 px. border-width/hairline, emphasis and accent point here.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4040:9226",
@@ -3251,6 +4483,7 @@
       "display": {
         "$value": "Funnel Display",
         "$type": "fontFamily",
+        "$description": "Typeface for display text and headings: Funnel Display.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4005:5493",
@@ -3268,6 +4501,7 @@
       "body": {
         "$value": "Geist",
         "$type": "fontFamily",
+        "$description": "Typeface for body text and labels: Geist.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4005:5490",
@@ -3285,6 +4519,7 @@
       "mono": {
         "$value": "Geist Mono",
         "$type": "fontFamily",
+        "$description": "Typeface for code and keys: Geist Mono.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4005:5494",
@@ -3307,6 +4542,7 @@
           "unit": "px"
         },
         "$type": "dimension",
+        "$description": "Raw font size, 12 px. Text styles read it through Semantic Typography; never bind it directly.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4005:5691",
@@ -3324,6 +4560,7 @@
           "unit": "px"
         },
         "$type": "dimension",
+        "$description": "Raw font size, 14 px. Text styles read it through Semantic Typography; never bind it directly.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4005:5690",
@@ -3341,6 +4578,7 @@
           "unit": "px"
         },
         "$type": "dimension",
+        "$description": "Raw font size, 16 px. Text styles read it through Semantic Typography; never bind it directly.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4005:5689",
@@ -3358,6 +4596,7 @@
           "unit": "px"
         },
         "$type": "dimension",
+        "$description": "Raw font size, 18 px. Text styles read it through Semantic Typography; never bind it directly.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4005:5693",
@@ -3375,6 +4614,7 @@
           "unit": "px"
         },
         "$type": "dimension",
+        "$description": "Raw font size, 20 px. Text styles read it through Semantic Typography; never bind it directly.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4005:5688",
@@ -3392,6 +4632,7 @@
           "unit": "px"
         },
         "$type": "dimension",
+        "$description": "Raw font size, 24 px. Text styles read it through Semantic Typography; never bind it directly.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4005:5687",
@@ -3409,6 +4650,7 @@
           "unit": "px"
         },
         "$type": "dimension",
+        "$description": "Raw font size, 28 px. Text styles read it through Semantic Typography; never bind it directly.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4005:5686",
@@ -3426,6 +4668,7 @@
           "unit": "px"
         },
         "$type": "dimension",
+        "$description": "Raw font size, 32 px. Text styles read it through Semantic Typography; never bind it directly.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4005:5685",
@@ -3443,6 +4686,7 @@
           "unit": "px"
         },
         "$type": "dimension",
+        "$description": "Raw font size, 40 px. Text styles read it through Semantic Typography; never bind it directly.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4005:5684",
@@ -3460,6 +4704,7 @@
           "unit": "px"
         },
         "$type": "dimension",
+        "$description": "Raw font size, 48 px. Text styles read it through Semantic Typography; never bind it directly.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4005:5683",
@@ -3477,6 +4722,7 @@
           "unit": "px"
         },
         "$type": "dimension",
+        "$description": "Raw font size, 56 px. Text styles read it through Semantic Typography; never bind it directly.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4005:5682",
@@ -3494,6 +4740,7 @@
           "unit": "px"
         },
         "$type": "dimension",
+        "$description": "Raw font size, 64 px. Text styles read it through Semantic Typography; never bind it directly.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4006:5699",
@@ -3511,6 +4758,7 @@
           "unit": "px"
         },
         "$type": "dimension",
+        "$description": "Raw font size, 72 px. Text styles read it through Semantic Typography; never bind it directly.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4005:5698",
@@ -3528,6 +4776,7 @@
           "unit": "px"
         },
         "$type": "dimension",
+        "$description": "Raw font size, 88 px. Text styles read it through Semantic Typography; never bind it directly.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4005:5697",
@@ -3544,6 +4793,7 @@
       "light": {
         "$value": 300,
         "$type": "fontWeight",
+        "$description": "Font weight: light (300).",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4468:6406",
@@ -3561,6 +4811,7 @@
       "regular": {
         "$value": 400,
         "$type": "fontWeight",
+        "$description": "Font weight: regular (400).",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4005:5460",
@@ -3578,6 +4829,7 @@
       "medium": {
         "$value": 500,
         "$type": "fontWeight",
+        "$description": "Font weight: medium (500).",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4012:6921",
@@ -3595,6 +4847,7 @@
       "semibold": {
         "$value": 600,
         "$type": "fontWeight",
+        "$description": "Font weight: semibold (600).",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4005:5461",
@@ -3611,72 +4864,13 @@
       }
     },
     "letter-spacing": {
-      "tighter": {
-        "$value": {
-          "value": -3,
-          "unit": "px"
-        },
-        "$type": "dimension",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4043:9245",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            },
-            "scopes": [
-              "LETTER_SPACING"
-            ]
-          }
-        }
-      },
-      "tight": {
-        "$value": {
-          "value": -2,
-          "unit": "px"
-        },
-        "$type": "dimension",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4043:9240",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            },
-            "scopes": [
-              "LETTER_SPACING"
-            ]
-          }
-        }
-      },
-      "snug": {
-        "$value": {
-          "value": -1,
-          "unit": "px"
-        },
-        "$type": "dimension",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4043:9241",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            },
-            "scopes": [
-              "LETTER_SPACING"
-            ]
-          }
-        }
-      },
       "none": {
         "$value": {
           "value": 0,
           "unit": "px"
         },
         "$type": "dimension",
+        "$description": "Letter spacing: none.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4043:9242",
@@ -3684,10 +4878,7 @@
               "id": "VariableCollectionId:4005:5458",
               "name": "Primitives",
               "defaultModeId": "4005:0"
-            },
-            "scopes": [
-              "LETTER_SPACING"
-            ]
+            }
           }
         }
       },
@@ -3697,6 +4888,7 @@
           "unit": "px"
         },
         "$type": "dimension",
+        "$description": "Letter spacing: loose.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4043:9246",
@@ -3704,72 +4896,100 @@
               "id": "VariableCollectionId:4005:5458",
               "name": "Primitives",
               "defaultModeId": "4005:0"
-            },
-            "scopes": [
-              "LETTER_SPACING"
-            ]
-          }
-        }
-      },
-      "looser": {
-        "$value": {
-          "value": 1,
-          "unit": "px"
-        },
-        "$type": "dimension",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4043:9247",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            },
-            "scopes": [
-              "LETTER_SPACING"
-            ]
-          }
-        }
-      },
-      "caps": {
-        "$value": {
-          "value": 4,
-          "unit": "px"
-        },
-        "$type": "dimension",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4043:9248",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            },
-            "scopes": [
-              "LETTER_SPACING"
-            ]
+            }
           }
         }
       }
     }
   },
   "opacity": {
-    "media": {
-      "disabled": {
-        "$value": 0.5,
-        "$type": "number",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4043:9243",
-            "collection": {
-              "id": "VariableCollectionId:4005:5458",
-              "name": "Primitives",
-              "defaultModeId": "4005:0"
-            },
-            "scopes": [
-              "OPACITY"
-            ]
-          }
+    "disabled": {
+      "$value": 0.5,
+      "$type": "number",
+      "$description": "Fade for disabled pictures and media (50%).",
+      "$extensions": {
+        "figma": {
+          "variableId": "VariableID:4043:9243",
+          "collection": {
+            "id": "VariableCollectionId:4005:5458",
+            "name": "Primitives",
+            "defaultModeId": "4005:0"
+          },
+          "scopes": [
+            "OPACITY"
+          ]
+        }
+      }
+    },
+    "ghost": {
+      "$value": 0.1,
+      "$type": "number",
+      "$description": "The faintest see-through level: a hint of a fill. 10%.",
+      "$extensions": {
+        "figma": {
+          "variableId": "VariableID:7070:73",
+          "collection": {
+            "id": "VariableCollectionId:4005:5458",
+            "name": "Primitives",
+            "defaultModeId": "4005:0"
+          },
+          "scopes": [
+            "OPACITY"
+          ]
+        }
+      }
+    },
+    "dim": {
+      "$value": 0.2,
+      "$type": "number",
+      "$description": "A light see-through level: dimmed media, a soft tint. 20%.",
+      "$extensions": {
+        "figma": {
+          "variableId": "VariableID:7070:74",
+          "collection": {
+            "id": "VariableCollectionId:4005:5458",
+            "name": "Primitives",
+            "defaultModeId": "4005:0"
+          },
+          "scopes": [
+            "OPACITY"
+          ]
+        }
+      }
+    },
+    "muted": {
+      "$value": 0.7,
+      "$type": "number",
+      "$description": "A strong see-through level: content set back but still readable. 70%.",
+      "$extensions": {
+        "figma": {
+          "variableId": "VariableID:7070:75",
+          "collection": {
+            "id": "VariableCollectionId:4005:5458",
+            "name": "Primitives",
+            "defaultModeId": "4005:0"
+          },
+          "scopes": [
+            "OPACITY"
+          ]
+        }
+      }
+    },
+    "faded": {
+      "$value": 0.5,
+      "$type": "number",
+      "$description": "Half see-through: the parts of a chart not pointed at, set back so the one pointed at stands out. 50%.",
+      "$extensions": {
+        "figma": {
+          "variableId": "VariableID:8008:10",
+          "collection": {
+            "id": "VariableCollectionId:4005:5458",
+            "name": "Primitives",
+            "defaultModeId": "4005:0"
+          },
+          "scopes": [
+            "OPACITY"
+          ]
         }
       }
     }
@@ -3781,6 +5001,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw blur, 4 px.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4043:9251",
@@ -3801,6 +5022,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw blur, 8 px.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4043:9252",
@@ -3821,6 +5043,7 @@
         "unit": "px"
       },
       "$type": "dimension",
+      "$description": "Raw blur, 14 px.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4043:9253",

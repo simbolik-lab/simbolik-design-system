@@ -4,7 +4,7 @@
  * which axis (if any) changes it. Both Style Dictionary formats read this;
  * nothing else re-derives it.
  */
-import { isPureReference, referenceTarget, isDimensionValue, isDurationValue, isCubicBezierShape, type DimensionValue } from './dtcg.js';
+import { isPureReference, referenceTarget, isDimensionValue, isDurationValue, isCubicBezierShape, colorProblem, colorToHex, type ColorValue, type DimensionValue } from './dtcg.js';
 import { combinations, combinationKey, defaultCombination, tokensFor, type Combination, type LoadedToken, type TokenSource } from './load.js';
 import { Resolver } from './resolve.js';
 import { cssName, cssPartName, TYPOGRAPHY_PARTS } from './naming.js';
@@ -36,6 +36,8 @@ export interface ModelToken {
   dependent: Record<string, string[]>;
   /** Extensions carried on the token (e.g. the text transform pulled out of a typography composite). */
   extensions?: Record<string, unknown>;
+  /** The standard's $deprecated: the token is on its way out, and the text says what to use instead. */
+  deprecated?: string | boolean;
 }
 
 export interface Model {
@@ -57,8 +59,11 @@ export function literalToCss(type: string, value: unknown): string {
     case 'dimension':
       if (isDimensionValue(value)) return `${value.value}${value.unit}`;
       throw new Error(`dimension value is not { value, unit }: ${JSON.stringify(value)}`);
-    case 'color':
-      return String(value);
+    case 'color': {
+      const problem = colorProblem(value);
+      if (problem) throw new Error(`color value cannot be written as CSS: ${problem}: ${JSON.stringify(value)}`);
+      return colorToHex(value as ColorValue);
+    }
     case 'number':
     case 'fontWeight':
       return String(value);
@@ -66,7 +71,7 @@ export function literalToCss(type: string, value: unknown): string {
       return quoteFontFamily(value);
     case 'shadow': {
       const layers = Array.isArray(value) ? value : [value];
-      return layers.map((l) => shadowLayerToCss(l as Record<string, unknown>, (c) => String(c))).join(', ');
+      return layers.map((l) => shadowLayerToCss(l as Record<string, unknown>, (c) => literalToCss('color', c))).join(', ');
     }
     case 'duration':
       if (isDurationValue(value)) return `${value.value}${value.unit}`;
@@ -120,6 +125,7 @@ export function buildModel(source: TokenSource): Model {
       axis: null,
       dependent: {},
       extensions: t.token.$extensions,
+      ...(t.token.$deprecated !== undefined ? { deprecated: t.token.$deprecated as string | boolean } : {}),
     });
   }
   const byPath = new Map(tokens.map((t) => [t.path, t]));
@@ -150,7 +156,12 @@ export function buildModel(source: TokenSource): Model {
       t.resolved[key] = resolver.resolvedValue(t.path);
       if (!t.emitted) continue;
       const decls: Record<string, string> = {};
-      if (t.type === 'typography') {
+      if (t.type === 'typography' && isPureReference(live.token.$value)) {
+        // A text style that points at another (an old name kept as a pointer): each part points at the other's part.
+        const target = byPath.get(referenceTarget(live.token.$value));
+        if (!target?.emitted || target.type !== 'typography') throw new Error(`"${t.path}" points at "${referenceTarget(live.token.$value)}", which is not a text style that reaches CSS.`);
+        for (const [part, name] of Object.entries(t.cssNames)) decls[name] = `var(${target.cssNames[part]})`;
+      } else if (t.type === 'typography') {
         const value = live.token.$value as Record<string, unknown>;
         for (const [part, name] of Object.entries(t.cssNames)) {
           if (part === 'textTransform') {
@@ -186,11 +197,12 @@ export function buildModel(source: TokenSource): Model {
 
   // A declaration that references (via var) a token on an attribute axis is repeated inside
   // that axis's scoped blocks, so that it re-resolves against the scoped value rather than
-  // the one inherited from the root. Media axes need none of this: they only ever apply to :root.
+  // the one inherited from the root. Media axes need none of this, since they only ever apply
+  // to :root, unless an attribute can also force them (the layout tokens).
   const varRef = /var\((--[a-z0-9-]+)\)/g;
   const nameToToken = new Map<string, ModelToken>();
   for (const t of tokens) for (const n of Object.values(t.cssNames)) nameToToken.set(n, t);
-  const attributeAxes = new Set(Object.keys(axes).filter((a) => CONTEXT_CSS[a]?.kind === 'attribute'));
+  const attributeAxes = new Set(Object.keys(axes).filter((a) => { const c = CONTEXT_CSS[a]; return c?.kind === 'attribute' || (c?.kind === 'media' && !!c.attribute); }));
   const axesOf = (t: ModelToken): Set<string> => new Set([...(t.axis ? [t.axis] : []), ...Object.keys(t.dependent)]);
   let changed = true;
   while (changed) {
@@ -283,16 +295,16 @@ export function valueByContext(model: Model, t: ModelToken): unknown {
     for (const part of Object.keys(base)) {
       const perCombo = new Map<string, string | number>();
       for (const combo of model.combos) perCombo.set(combinationKey(combo), (literal(combinationKey(combo)) as Record<string, string | number>)[part]!);
-      out[part] = collapse(model, perCombo);
+      out[part] = collapse(model, perCombo, t.axis);
     }
     return out;
   }
   const perCombo = new Map<string, string | number>();
   for (const combo of model.combos) perCombo.set(combinationKey(combo), literal(combinationKey(combo)) as string | number);
-  return collapse(model, perCombo);
+  return collapse(model, perCombo, t.axis);
 }
 
-function collapse(model: Model, perCombo: Map<string, string | number>): unknown {
+function collapse(model: Model, perCombo: Map<string, string | number>, own: string | null = null): unknown {
   const defaultKey = combinationKey(model.defaults);
   const baseline = perCombo.get(defaultKey);
   const changing = new Set<string>();
@@ -302,6 +314,16 @@ function collapse(model: Model, perCombo: Map<string, string | number>): unknown
     }
   }
   if (changing.size === 0) return baseline;
-  const axis = [...changing][0]!;
-  return Object.fromEntries(model.axes[axis]!.values.map((ctx) => [ctx, perCombo.get(combinationKey(comboFor(model, axis, ctx)))]));
+  if (changing.size === 1) {
+    const axis = [...changing][0]!;
+    return Object.fromEntries(model.axes[axis]!.values.map((ctx) => [ctx, perCombo.get(combinationKey(comboFor(model, axis, ctx)))]));
+  }
+  // A value that changes on two axes: a token on one axis pointing at a token on another (a layout token at one of
+  // density's spacing roles). Keyed by the token's own axis first, then by the other.
+  if (changing.size > 2) throw new Error(`A value changes on ${[...changing].join(', ')}; the outputs show at most two axes.`);
+  const outer = own && changing.has(own) ? own : [...changing][0]!;
+  const inner = [...changing].find((a) => a !== outer)!;
+  return Object.fromEntries(
+    model.axes[outer]!.values.map((o) => [o, Object.fromEntries(model.axes[inner]!.values.map((i) => [i, perCombo.get(combinationKey({ ...model.defaults, [outer]: o, [inner]: i }))]))]),
+  );
 }

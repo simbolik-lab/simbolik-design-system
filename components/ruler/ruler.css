@@ -1,0 +1,280 @@
+/* smbk-ruler — Ruler. Figma "Ruler" 7417:374 (State: Default, Focus; Widths switch).
+ * A width ruler for a preview: one band from nothing to the widest width, 24 tall on the sunken surface inside a subtle
+ * edge, shaded by layout state (the first state plain, each later one on the subtle neutral surface, named inside it in
+ * Label SM), the breakpoints as full strong hairlines and the screen widths as short ticks at its foot. Under it, the
+ * widths in Body XS. The handle is the width now, a 4 px brand bar standing 4 px out of the band at both ends; when it
+ * has keyboard focus it draws the focus ring. Beside the band: the width now in Label MD, then the Fit and Hide icon
+ * buttons. Places along the band are the wrapper's, as percentages of its length, set with logical properties so a
+ * right-to-left page reads it from the right. In a narrow space the band takes the whole row, the width and the buttons
+ * go under it, and only the screen widths keep their numbers. */
+
+.smbk-ruler {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-md);
+  min-width: 0;
+}
+
+.smbk-ruler__scale {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-xs);
+  min-width: 0;
+}
+
+.smbk-ruler__band {
+  position: relative;
+  box-sizing: border-box;
+  height: var(--smbk-size-24);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  border-radius: var(--smbk-radius-control-sm);
+  background: var(--smbk-color-surface-sunken);
+  touch-action: none;
+  cursor: pointer;
+}
+
+/* A layout state's stretch of the band; each after the first is shaded. Its name sits inside it and is cut off at its
+   end rather than running into the next. */
+.smbk-ruler__zone {
+  position: absolute;
+  inset-block: 0;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding-inline-start: var(--smbk-space-inset-sm);
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-label-sm-font-family);
+  font-size: var(--smbk-typography-label-sm-font-size);
+  font-weight: var(--smbk-typography-label-sm-font-weight);
+  line-height: var(--smbk-typography-label-sm-line-height);
+  letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.smbk-ruler__zone + .smbk-ruler__zone {
+  background: var(--smbk-color-surface-neutral-subtle);
+}
+
+/* The last stretch takes the band's own corner at its end. */
+.smbk-ruler__zone:last-of-type:not(:first-of-type) {
+  border-start-end-radius: var(--smbk-radius-control-sm);
+  border-end-end-radius: var(--smbk-radius-control-sm);
+}
+
+/* A breakpoint: a full strong hairline. A screen width: a short tick at the band's foot. */
+.smbk-ruler__break,
+.smbk-ruler__tick {
+  position: absolute;
+  width: var(--smbk-border-width-hairline);
+  background: var(--smbk-color-border-strong);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.smbk-ruler__break {
+  inset-block: 0;
+}
+
+.smbk-ruler__tick {
+  bottom: 0;
+  height: var(--smbk-size-6);
+}
+
+[dir="rtl"] .smbk-ruler__break,
+[dir="rtl"] .smbk-ruler__tick,
+[dir="rtl"] .smbk-ruler__handle,
+[dir="rtl"] .smbk-ruler__width {
+  transform: translateX(50%);
+}
+
+/* The handle: a brand bar standing out of the band at both ends, inside a 24 px wide target. */
+.smbk-ruler__handle {
+  position: absolute;
+  inset-block: calc((var(--smbk-size-24) - var(--smbk-size-32)) / 2 - var(--smbk-border-width-hairline));
+  box-sizing: border-box;
+  width: var(--smbk-size-4);
+  border-radius: var(--smbk-radius-full);
+  background: var(--smbk-color-action-brand-background);
+  transform: translateX(-50%);
+  cursor: ew-resize;
+  outline: none;
+}
+
+.smbk-ruler__handle::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline: calc((var(--smbk-size-4) - var(--smbk-size-24)) / 2);
+}
+
+/* Figma's focus style: the default surface in a gap, then the focus ring. The transparent outline is what forced colors
+   mode paints, since it drops shadows. */
+.smbk-ruler__handle:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid transparent;
+  outline-offset: var(--smbk-focus-ring-offset);
+  box-shadow:
+    0 0 0 var(--smbk-focus-ring-offset) var(--smbk-color-surface-default),
+    0 0 0 calc(var(--smbk-focus-ring-offset) + var(--smbk-focus-ring-width)) var(--smbk-color-border-focus);
+}
+
+/* The widths under the band, each centred under its place. */
+.smbk-ruler__widths {
+  position: relative;
+  height: calc(var(--smbk-typography-body-xs-font-size) * var(--smbk-typography-body-xs-line-height));
+}
+
+.smbk-ruler__width {
+  position: absolute;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--smbk-color-text-subtlest);
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+button.smbk-ruler__width {
+  cursor: pointer;
+  border-radius: var(--smbk-radius-control-xs);
+  outline: none;
+}
+
+/* A 24 px tall target round a width's figures. */
+button.smbk-ruler__width::before {
+  content: '';
+  position: absolute;
+  inset-block: calc((var(--smbk-typography-body-xs-font-size) * var(--smbk-typography-body-xs-line-height) - var(--smbk-size-24)) / 2);
+  inset-inline: calc(-1 * var(--smbk-space-inline-xs));
+}
+
+@media (hover: hover) {
+  button.smbk-ruler__width:hover {
+    color: var(--smbk-color-text-default);
+  }
+}
+
+button.smbk-ruler__width[aria-pressed="true"] {
+  color: var(--smbk-color-text-default);
+}
+
+button.smbk-ruler__width:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+.smbk-ruler__now {
+  flex-shrink: 0;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-label-md-font-family);
+  font-size: var(--smbk-typography-label-md-font-size);
+  font-weight: var(--smbk-typography-label-md-font-weight);
+  line-height: var(--smbk-typography-label-md-line-height);
+  letter-spacing: var(--smbk-typography-label-md-letter-spacing);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.smbk-ruler__controls {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--smbk-space-inline-md);
+}
+
+/* ---- the narrow form: the band takes the row; the width and the buttons go under it; the breakpoints keep their lines
+   but not their numbers, which would run into the screen widths' ---- */
+@container style(--smbk-layout: narrow) {
+  .smbk-ruler {
+    flex-wrap: wrap;
+    row-gap: var(--smbk-space-stack-sm);
+  }
+
+  .smbk-ruler__scale {
+    flex-basis: 100%;
+  }
+
+  .smbk-ruler__width[data-breakpoint] {
+    display: none;
+  }
+}
+
+/* ---- touch: the band, the widths and the buttons take invisible press areas ----
+   On a touch screen the band, which a finger drags along, takes an invisible area out to the comfortable target above
+   it, and below it only halfway to the widths; each width takes one out to the target, toward the band only halfway;
+   the buttons take theirs, side to side only halfway to each other. In the narrow form, where the widths and the
+   buttons wrap under the band, each reaches only halfway into the gaps between them. What is drawn stays as it is. */
+
+@media (pointer: coarse) {
+  .smbk-ruler__band::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  .smbk-ruler__scale:has(button.smbk-ruler__width) .smbk-ruler__band::before {
+    inset-block-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-xs) / -2);
+  }
+
+  button.smbk-ruler__width::before {
+    inset-inline: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+    inset-block-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-xs) / -2);
+    inset-block-end: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  .smbk-ruler__controls .smbk-btn::after {
+    inset-inline: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-md) / -2);
+  }
+}
+
+@container style(--smbk-layout: narrow) {
+  @media (pointer: coarse) {
+    .smbk-ruler__band::before {
+      inset-block: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-sm) / -2);
+    }
+
+    .smbk-ruler__scale:has(button.smbk-ruler__width) .smbk-ruler__band::before {
+      inset-block-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-xs) / -2);
+    }
+
+    button.smbk-ruler__width::before {
+      inset-inline: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-md) / -2);
+      inset-block-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-sm) / -2);
+    }
+
+    .smbk-ruler__controls .smbk-btn::after {
+      inset-block: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-sm) / -2);
+    }
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+@media (forced-colors: active) {
+  .smbk-ruler__band {
+    border-color: CanvasText;
+  }
+
+  .smbk-ruler__break,
+  .smbk-ruler__tick {
+    background: CanvasText;
+  }
+
+  .smbk-ruler__handle {
+    background: Highlight;
+  }
+
+  .smbk-ruler__handle:focus-visible {
+    outline-color: CanvasText;
+  }
+}

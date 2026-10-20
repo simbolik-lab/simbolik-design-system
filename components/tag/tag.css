@@ -1,94 +1,82 @@
-/* smbk-tag — Tag. Figma "Tag" 4088:12242. */
+/* smbk-tag — Tag. Figma "Tag" 4088:12242.
+ * 24 tall on the pill scale, Label SM in sentence case, a 12 icon and cross.
+ * The default tone is a see-through gray with no edge and no shadow, so it
+ * shows on every surface. Figma draws the edge inside the tag, so the padding
+ * gives the edge's width back, and every tag draws one, clear where its tone
+ * has none, so all are the same size. */
 
 .smbk-tag {
+  /* The default tone; each feedback tone sets these again below (the tone recipe). */
+  --smbk-tone-surface: var(--smbk-color-surface-neutral-subtle);
+  --smbk-tone-border: transparent;
+  --smbk-tone-text: var(--smbk-color-text-subtle);
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
-  gap: var(--smbk-space-inline-sm);
-  height: var(--smbk-size-display-lg);
-  padding: 0 var(--smbk-space-inset-sm);
-  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  gap: var(--smbk-space-inline-xs);
+  height: var(--smbk-size-mark-lg);
+  padding: 0 calc(var(--smbk-space-inset-md) - var(--smbk-border-width-hairline));
+  border: var(--smbk-border-width-hairline) solid var(--smbk-tone-border);
   border-radius: var(--smbk-radius-control-sm);
-  background: var(--smbk-color-surface-raised);
-  color: var(--smbk-color-text-subtle);
-  box-shadow: var(--smbk-elevation-0);
-  font-family: var(--smbk-typography-label-s-font-family);
-  font-size: var(--smbk-typography-label-s-font-size);
-  font-weight: var(--smbk-typography-label-s-font-weight);
-  line-height: var(--smbk-typography-label-s-line-height);
-  letter-spacing: var(--smbk-typography-label-s-letter-spacing);
-  text-box: trim-both cap alphabetic;
-  text-transform: var(--smbk-typography-label-s-text-transform);
+  background: var(--smbk-tone-surface);
+  color: var(--smbk-tone-text);
+  font-family: var(--smbk-typography-label-sm-font-family);
+  font-size: var(--smbk-typography-label-sm-font-size);
+  font-weight: var(--smbk-typography-label-sm-font-weight);
+  line-height: var(--smbk-typography-label-sm-line-height);
+  letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
+  text-transform: var(--smbk-typography-label-sm-text-transform);
   white-space: nowrap;
 }
 
 .smbk-tag__icon {
-  font-size: var(--smbk-size-icon-sm);
-}
-
-.smbk-tag__remove {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: inherit;
   font-size: var(--smbk-size-icon-xs);
-  cursor: pointer;
-  appearance: none;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
 }
 
-.smbk-tag__remove:focus-visible {
-  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
-  outline-offset: var(--smbk-focus-ring-offset);
+/* The cross sits inside a 24 px box, the least a press needs; the box reaches past the cross into the gap
+   and the padding, so it adds no width and the cross sits where Figma draws it. The focus ring is drawn
+   on the cross's own edge.
+   The box is the small press box, with its press area on a touch screen, shared in press-box/press-box.css. */
+.smbk-tag__remove {
+  margin: calc((var(--smbk-size-icon-xs) - var(--smbk-size-target-min)) / 2);
+}
+
+.smbk-tag__remove > .smbk-icon {
+  font-size: var(--smbk-size-icon-xs);
   border-radius: var(--smbk-radius-full);
 }
 
-.smbk-tag--scheme-brand {
-  background: var(--smbk-color-surface-brand);
-  border-color: var(--smbk-color-border-edge-highlight-subtle);
-  color: var(--smbk-color-text-on-brand);
-  box-shadow: var(--smbk-elevation-1);
+.smbk-tag__remove:focus-visible {
+  outline: none;
 }
 
-.smbk-tag--scheme-outline {
+.smbk-tag__remove:focus-visible > .smbk-icon {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: 0;
+}
+
+/* ---- tone ---- */
+
+.smbk-tag--tone-brand {
+  background: var(--smbk-color-surface-brand);
+  border-color: var(--smbk-color-border-rim-subtle);
+  color: var(--smbk-color-text-on-brand);
+  box-shadow: var(--smbk-elevation-raised);
+}
+
+/* The focus color would not show on the brand fill, so the ring there takes the inverse focus color. */
+.smbk-tag--tone-brand .smbk-tag__remove:focus-visible > .smbk-icon {
+  outline-color: var(--smbk-color-border-focus-inverse);
+}
+
+.smbk-tag--tone-outline {
   background: transparent;
   border-color: var(--smbk-color-border-strong);
-  box-shadow: none;
 }
 
-.smbk-tag--scheme-info {
-  background: var(--smbk-color-feedback-info-surface-subtle);
-  border-color: var(--smbk-color-feedback-info-border);
-  color: var(--smbk-color-feedback-info-text-on-subtle);
-  box-shadow: none;
-}
+/* The feedback tones: the tone recipe, each family's subtle surface inside an edge of its border color. */
 
-.smbk-tag--scheme-positive {
-  background: var(--smbk-color-feedback-success-surface-subtle);
-  border-color: var(--smbk-color-feedback-success-border);
-  color: var(--smbk-color-feedback-success-text-on-subtle);
-  box-shadow: none;
-}
-
-.smbk-tag--scheme-negative {
-  background: var(--smbk-color-feedback-danger-surface-subtle);
-  border-color: var(--smbk-color-feedback-danger-border);
-  color: var(--smbk-color-feedback-danger-text-on-subtle);
-  box-shadow: none;
-}
-
-.smbk-tag--scheme-warning {
-  background: var(--smbk-color-feedback-warning-surface-subtle);
-  border-color: var(--smbk-color-feedback-warning-border);
-  color: var(--smbk-color-feedback-warning-text-on-subtle);
-  box-shadow: none;
-}
-
-/* The words carry the trim: the tag is a flex row, and a flex row does not pass the trim to its items. */
-.smbk-tag__label {
-  text-box: trim-both cap alphabetic;
-}
+.smbk-tag--tone-info { --smbk-tone-surface: var(--smbk-color-feedback-info-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-info-border); --smbk-tone-text: var(--smbk-color-feedback-info-text-on-subtle); }
+.smbk-tag--tone-success { --smbk-tone-surface: var(--smbk-color-feedback-success-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-success-border); --smbk-tone-text: var(--smbk-color-feedback-success-text-on-subtle); }
+.smbk-tag--tone-danger { --smbk-tone-surface: var(--smbk-color-feedback-danger-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-danger-border); --smbk-tone-text: var(--smbk-color-feedback-danger-text-on-subtle); }
+.smbk-tag--tone-warning { --smbk-tone-surface: var(--smbk-color-feedback-warning-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-warning-border); --smbk-tone-text: var(--smbk-color-feedback-warning-text-on-subtle); }

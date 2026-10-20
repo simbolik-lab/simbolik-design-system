@@ -1,0 +1,60 @@
+/* smbk-button-note — Button note. Figma "Button note" 7115:2068: Layout × Disabled × Size, 18 variants; the note's
+ * words and its info icon are content. A button and a line of quiet words that says what pressing it will do, or
+ * why it cannot be pressed now. The size is the button's own: nothing here changes with it. The note stays the
+ * secondary text color when the button is disabled, so the reason is always readable. */
+
+.smbk-button-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--smbk-space-stack-sm) var(--smbk-space-inline-lg);
+}
+
+.smbk-button-note__note {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-xs);
+  margin: 0;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+.smbk-button-note__icon {
+  font-size: var(--smbk-size-icon-sm);
+  color: var(--smbk-color-icon-subtle);
+}
+
+.smbk-button-note__text {
+  min-width: 0;
+}
+
+/* ---- beside (the default): the note sits beside the button, centered on it, at the note width, and moves
+   under the button when that much room is not left. ---- */
+
+.smbk-button-note--layout-beside > .smbk-button-note__note {
+  flex: 0 1 var(--smbk-size-button-note-width);
+}
+
+/* ---- below, and at the end of a page header: the note under the button, never wider than the note width;
+   at the header's end both line up with its end edge. ---- */
+
+.smbk-button-note--layout-below,
+.smbk-button-note--layout-header-end {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+}
+
+.smbk-button-note--layout-below > .smbk-button-note__note,
+.smbk-button-note--layout-header-end > .smbk-button-note__note {
+  max-width: var(--smbk-size-button-note-width);
+}
+
+.smbk-button-note--layout-header-end {
+  align-items: flex-end;
+  text-align: end;
+}

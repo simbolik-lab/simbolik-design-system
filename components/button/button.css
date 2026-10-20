@@ -1,6 +1,9 @@
 /* smbk-btn — Button.
  * Figma "Button" 4136:5058. Semantic tokens only; states are pseudo-classes.
- * The focus ring is the system rule. Hover and press change at once. */
+ * The focus ring is the system rule. Hover and press change at once.
+ * The loading flag draws the spinner's ring over the hidden label; hover and press do not apply then.
+ * A label drawn as a button round a native input, as the file upload's is, takes that input's focus ring and
+ * disabled look. */
 
 .smbk-btn {
   box-sizing: border-box;
@@ -8,20 +11,19 @@
   align-items: center;
   justify-content: center;
   gap: var(--smbk-space-inline-md);
-  height: var(--smbk-size-control-lg);
-  padding: 0 var(--smbk-space-inset-lg);
+  height: var(--smbk-size-control-md);
+  padding: 0 var(--smbk-space-inset-xl);
   border: var(--smbk-border-width-hairline) solid transparent;
-  border-radius: var(--smbk-radius-control-md);
+  border-radius: var(--smbk-radius-control-sm);
   background: var(--smbk-color-action-brand-background);
   border-color: var(--smbk-color-action-brand-border);
   color: var(--smbk-color-action-brand-foreground);
-  font-family: var(--smbk-typography-body-m-semibold-font-family);
-  font-size: var(--smbk-typography-body-m-semibold-font-size);
-  font-weight: var(--smbk-typography-body-m-semibold-font-weight);
-  line-height: var(--smbk-typography-body-m-semibold-line-height);
-  letter-spacing: var(--smbk-typography-body-m-semibold-letter-spacing);
-  text-box: trim-both cap alphabetic;
-  text-transform: var(--smbk-typography-body-m-semibold-text-transform);
+  font-family: var(--smbk-typography-label-lg-font-family);
+  font-size: var(--smbk-typography-label-lg-font-size);
+  font-weight: var(--smbk-typography-label-lg-font-weight);
+  line-height: var(--smbk-typography-label-lg-line-height);
+  letter-spacing: var(--smbk-typography-label-lg-letter-spacing);
+  text-transform: var(--smbk-typography-label-lg-text-transform);
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
@@ -32,13 +34,15 @@
   touch-action: manipulation;
 }
 
-.smbk-btn:focus-visible {
+.smbk-btn:focus-visible,
+.smbk-btn:has(> input:focus-visible) {
   outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
   outline-offset: var(--smbk-focus-ring-offset);
 }
 
 .smbk-btn:disabled,
-.smbk-btn[aria-disabled="true"] {
+.smbk-btn[aria-disabled="true"],
+.smbk-btn:has(> input:disabled) {
   cursor: not-allowed;
   pointer-events: none;
 }
@@ -46,7 +50,7 @@
 /* ---- parts ---- */
 
 .smbk-btn__icon {
-  font-size: var(--smbk-size-icon-lg);
+  font-size: var(--smbk-size-icon-md);
 }
 
 .smbk-btn__label {
@@ -56,25 +60,18 @@
 /* ---- tone: brand (the default) ---- */
 
 @media (hover: hover) {
-  .smbk-btn--tone-brand:hover {
+  .smbk-btn--tone-brand:hover:where(:not(.smbk-btn--loading)) {
     background: var(--smbk-color-action-brand-background-hover);
     border-color: var(--smbk-color-action-brand-border-hover);
     box-shadow: var(--smbk-elevation-inset);
   }
 }
 
-.smbk-btn--tone-brand:active {
+.smbk-btn--tone-brand:active:where(:not(.smbk-btn--loading)) {
   background: var(--smbk-color-action-brand-background-pressed);
   border-color: var(--smbk-color-action-brand-border-hover);
   box-shadow: var(--smbk-elevation-inset);
-}
-
-.smbk-btn--tone-brand:disabled,
-.smbk-btn--tone-brand[aria-disabled="true"] {
-  background: var(--smbk-color-action-brand-background-disabled);
-  border-color: var(--smbk-color-action-brand-border-disabled);
-  color: var(--smbk-color-action-brand-foreground-disabled);
-  box-shadow: none;
+  --smbk-btn-pressed-edge: var(--smbk-color-action-brand-border-hover);
 }
 
 /* ---- tone: secondary — a filled button with no border ---- */
@@ -86,19 +83,13 @@
 }
 
 @media (hover: hover) {
-  .smbk-btn--tone-secondary:hover {
+  .smbk-btn--tone-secondary:hover:where(:not(.smbk-btn--loading)) {
     background: var(--smbk-color-action-secondary-background-hover);
   }
 }
 
-.smbk-btn--tone-secondary:active {
+.smbk-btn--tone-secondary:active:where(:not(.smbk-btn--loading)) {
   background: var(--smbk-color-action-secondary-background-pressed);
-}
-
-.smbk-btn--tone-secondary:disabled,
-.smbk-btn--tone-secondary[aria-disabled="true"] {
-  background: var(--smbk-color-action-secondary-background-disabled);
-  color: var(--smbk-color-action-secondary-foreground-disabled);
 }
 
 /* ---- tone: outline — transparent with a visible border ---- */
@@ -110,22 +101,16 @@
 }
 
 @media (hover: hover) {
-  .smbk-btn--tone-outline:hover {
+  .smbk-btn--tone-outline:hover:where(:not(.smbk-btn--loading)) {
     background: var(--smbk-color-action-outline-background-hover);
     border-color: var(--smbk-color-action-outline-border-hover);
   }
 }
 
-.smbk-btn--tone-outline:active {
+.smbk-btn--tone-outline:active:where(:not(.smbk-btn--loading)) {
   background: var(--smbk-color-action-outline-background-pressed);
   border-color: var(--smbk-color-action-outline-border-pressed);
-}
-
-.smbk-btn--tone-outline:disabled,
-.smbk-btn--tone-outline[aria-disabled="true"] {
-  background: transparent;
-  border-color: var(--smbk-color-action-outline-border-disabled);
-  color: var(--smbk-color-action-outline-foreground-disabled);
+  --smbk-btn-pressed-edge: var(--smbk-color-action-outline-border-pressed);
 }
 
 /* ---- tone: ghost — no chrome at rest, keeps the full hit area ---- */
@@ -137,110 +122,235 @@
 }
 
 @media (hover: hover) {
-  .smbk-btn--tone-ghost:hover {
+  .smbk-btn--tone-ghost:hover:where(:not(.smbk-btn--loading)) {
     background: var(--smbk-color-action-ghost-background-hover);
   }
 }
 
-.smbk-btn--tone-ghost:active {
+.smbk-btn--tone-ghost:active:where(:not(.smbk-btn--loading)) {
   background: var(--smbk-color-action-ghost-background-pressed);
-}
-
-.smbk-btn--tone-ghost:disabled,
-.smbk-btn--tone-ghost[aria-disabled="true"] {
-  background: transparent;
-  color: var(--smbk-color-action-ghost-foreground-disabled);
 }
 
 /* ---- tone: danger — the destructive family ---- */
 
 .smbk-btn--tone-danger {
-  background: var(--smbk-color-action-destructive-background);
-  border-color: var(--smbk-color-action-destructive-border);
-  color: var(--smbk-color-action-destructive-foreground);
+  background: var(--smbk-color-action-danger-background);
+  border-color: var(--smbk-color-action-danger-border);
+  color: var(--smbk-color-action-danger-foreground);
 }
 
 @media (hover: hover) {
-  .smbk-btn--tone-danger:hover {
-    background: var(--smbk-color-action-destructive-background-hover);
-    border-color: var(--smbk-color-action-destructive-border-hover);
-    color: var(--smbk-color-action-destructive-foreground-hover);
+  .smbk-btn--tone-danger:hover:where(:not(.smbk-btn--loading)) {
+    background: var(--smbk-color-action-danger-background-hover);
+    border-color: var(--smbk-color-action-danger-border-hover);
+    color: var(--smbk-color-action-danger-foreground-hover);
   }
 }
 
-.smbk-btn--tone-danger:active {
-  background: var(--smbk-color-action-destructive-background-pressed);
-  border-color: var(--smbk-color-action-destructive-border-hover);
-  color: var(--smbk-color-action-destructive-foreground-hover);
+.smbk-btn--tone-danger:active:where(:not(.smbk-btn--loading)) {
+  background: var(--smbk-color-action-danger-background-pressed);
+  border-color: var(--smbk-color-action-danger-border-hover);
+  color: var(--smbk-color-action-danger-foreground-hover);
+  --smbk-btn-pressed-edge: var(--smbk-color-action-danger-border-hover);
 }
 
-.smbk-btn--tone-danger:disabled,
-.smbk-btn--tone-danger[aria-disabled="true"] {
-  background: var(--smbk-color-action-destructive-background-disabled);
-  border-color: var(--smbk-color-action-destructive-border-disabled);
-  color: var(--smbk-color-action-destructive-foreground-disabled);
+/* ---- pressed: the surface draws in a hairline on every side ----
+   While pressed, the fill, the edge and the brand tone's inset shadow are drawn a hairline inside the button's
+   box on every side, so the button reads as pushed in, whatever its width (a scale would shrink a wide button
+   far more across than down). The fill stops at the inside of the button's own edge and the edge goes clear;
+   the tone's pressed edge, carried by --smbk-btn-pressed-edge, is drawn again as an inset ring just inside, with
+   the corners rounded one hairline less. The box, the layout, the focus ring and the press area do not change.
+   Like every other change of the button's look, it comes and goes at once (no fade, so a theme change or a
+   hover never fades either). Not while loading or disabled, not for a toggle button that is on, which is
+   already drawn pressed in, and not in a segmented or merged bar (the split button is one): the bar is one
+   surface, its hairlines between buttons stay where they are, and a button drawn in would leave a stray
+   line beside them. */
+
+.smbk-btn:active:where(:not(.smbk-btn--loading, :disabled, [aria-disabled="true"], [aria-pressed="true"], .smbk-btn-group--type-segmented > *, .smbk-btn-group--type-segmented > * > *)) {
+  border-color: transparent;
+  background-clip: padding-box;
 }
 
-/* ---- size ---- */
-
-.smbk-btn--size-md {
-  gap: var(--smbk-space-inline-sm);
-  height: var(--smbk-size-control-md);
-  padding: 0 var(--smbk-space-inset-md);
-  border-radius: var(--smbk-radius-control-sm);
+.smbk-btn:active:where(:not(.smbk-btn--loading, :disabled, [aria-disabled="true"], [aria-pressed="true"], .smbk-btn-group--type-segmented > *, .smbk-btn-group--type-segmented > * > *)):where(.smbk-btn--tone-outline, .smbk-btn--tone-danger) {
+  box-shadow: inset 0 0 0 var(--smbk-border-width-hairline) var(--smbk-btn-pressed-edge);
 }
 
-.smbk-btn--size-md .smbk-btn__icon {
-  font-size: var(--smbk-size-icon-md);
+.smbk-btn--tone-brand:active:where(:not(.smbk-btn--loading, :disabled, [aria-disabled="true"], [aria-pressed="true"], .smbk-btn-group--type-segmented > *, .smbk-btn-group--type-segmented > * > *)) {
+  box-shadow: inset 0 0 0 var(--smbk-border-width-hairline) var(--smbk-btn-pressed-edge), var(--smbk-elevation-inset);
+}
+
+/* ---- disabled: one look in every tone ----
+   The shared disabled fill, edge and label, fainter than any enabled button. The secondary tone has no edge
+   and the ghost tone no fill, disabled as at rest. */
+
+.smbk-btn:disabled,
+.smbk-btn[aria-disabled="true"],
+.smbk-btn:has(> input:disabled) {
+  background: var(--smbk-color-action-disabled-background);
+  border-color: var(--smbk-color-action-disabled-border);
+  color: var(--smbk-color-action-disabled-foreground);
+  box-shadow: none;
+}
+
+.smbk-btn--tone-secondary:disabled,
+.smbk-btn--tone-secondary[aria-disabled="true"],
+.smbk-btn--tone-secondary:has(> input:disabled) {
+  border-color: transparent;
+}
+
+.smbk-btn--tone-ghost:disabled,
+.smbk-btn--tone-ghost[aria-disabled="true"],
+.smbk-btn--tone-ghost:has(> input:disabled) {
+  background: transparent;
+  border-color: transparent;
+}
+
+/* ---- on: a toggle button that is pressed (Figma "Toggle button" 7125:4263) ----
+   A toggle button is this button with aria-pressed: the outline button, or the ghost button for a toolbar's tool,
+   when off, and sunken into the page when on. On is the button's own aria-pressed, never a class, so the look and
+   what a screen reader hears cannot disagree. For now the on look also asks for the toggle button's mark,
+   smbk-toggle-button, so a plain button a page marks pressed keeps its own look; a later Release draws it from
+   aria-pressed alone.
+   On: the sunken fill, the rim for its edge and the strong inset shadow over both, in every state, as Figma draws
+   it: the shadow falls across the rim at the top and the trailing side, so the rim shows only along the bottom and
+   the leading side and the button reads as pressed in, not outlined. A box shadow is drawn inside the border, so
+   the shadow is a layer of its own laid over the whole button, edge included. The edge keeps its width, so the
+   button is the same size on and off. A native button's on look outweighs the button group's merged and segmented
+   edges (button-group.css), which come later in the bundle; markup that is not a native button keeps the class
+   rule's weight. */
+
+:where(.smbk-btn.smbk-toggle-button) {
+  position: relative;
+}
+
+button.smbk-btn.smbk-toggle-button[aria-pressed="true"],
+button.smbk-btn.smbk-toggle-button[aria-pressed="true"]:is(:hover, :active),
+.smbk-btn.smbk-toggle-button[aria-pressed="true"],
+.smbk-btn.smbk-toggle-button[aria-pressed="true"]:is(:hover, :active) {
+  background: var(--smbk-color-surface-sunken);
+  border-color: var(--smbk-color-border-rim);
+  box-shadow: none;
+}
+
+button.smbk-btn.smbk-toggle-button[aria-pressed="true"]::before,
+.smbk-btn.smbk-toggle-button[aria-pressed="true"]::before {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * var(--smbk-border-width-hairline));
+  border-radius: inherit;
+  box-shadow: var(--smbk-elevation-inset-strong);
+  pointer-events: none;
+}
+
+/* On and disabled: the shared disabled fill and label, the rim kept, no shadow. */
+button.smbk-btn.smbk-toggle-button[aria-pressed="true"]:is(:disabled, [aria-disabled="true"]),
+.smbk-btn.smbk-toggle-button[aria-pressed="true"]:is(:disabled, [aria-disabled="true"]) {
+  background: var(--smbk-color-action-disabled-background);
+  border-color: var(--smbk-color-border-rim);
+  box-shadow: none;
+}
+
+button.smbk-btn.smbk-toggle-button[aria-pressed="true"]:is(:disabled, [aria-disabled="true"])::before,
+.smbk-btn.smbk-toggle-button[aria-pressed="true"]:is(:disabled, [aria-disabled="true"])::before {
+  box-shadow: none;
+}
+
+/* ---- size: md is the base above; one recipe per height ---- */
+
+.smbk-btn--size-lg {
+  height: var(--smbk-size-control-lg);
+  padding: 0 var(--smbk-space-inset-2xl);
+  border-radius: var(--smbk-radius-control-md);
 }
 
 .smbk-btn--size-sm {
-  gap: var(--smbk-space-inline-xs);
+  gap: var(--smbk-space-inline-sm);
   height: var(--smbk-size-control-sm);
-  padding: 0 var(--smbk-space-inset-sm);
-  border-radius: var(--smbk-radius-control-sm);
-  font-family: var(--smbk-typography-body-s-semibold-font-family);
-  font-size: var(--smbk-typography-body-s-semibold-font-size);
-  font-weight: var(--smbk-typography-body-s-semibold-font-weight);
-  line-height: var(--smbk-typography-body-s-semibold-line-height);
-  letter-spacing: var(--smbk-typography-body-s-semibold-letter-spacing);
-  text-box: trim-both cap alphabetic;
+  padding: 0 var(--smbk-space-inset-lg);
+  font-family: var(--smbk-typography-label-md-font-family);
+  font-size: var(--smbk-typography-label-md-font-size);
+  font-weight: var(--smbk-typography-label-md-font-weight);
+  line-height: var(--smbk-typography-label-md-line-height);
+  letter-spacing: var(--smbk-typography-label-md-letter-spacing);
+  text-transform: var(--smbk-typography-label-md-text-transform);
 }
 
 .smbk-btn--size-sm .smbk-btn__icon {
   font-size: var(--smbk-size-icon-sm);
 }
 
-/* ---- icon only: a square, with the icon one size step larger ---- */
+/* ---- icon only: a square, with the same icon as a labeled button of its size ---- */
 
 .smbk-btn--icon-only {
-  width: var(--smbk-size-control-lg);
+  width: var(--smbk-size-control-md);
   padding: 0;
   gap: 0;
 }
 
-.smbk-btn--icon-only .smbk-btn__icon {
-  font-size: var(--smbk-size-icon-xl);
-}
-
-.smbk-btn--icon-only.smbk-btn--size-md {
-  width: var(--smbk-size-control-md);
-}
-
-.smbk-btn--icon-only.smbk-btn--size-md .smbk-btn__icon {
-  font-size: var(--smbk-size-icon-lg);
+.smbk-btn--icon-only.smbk-btn--size-lg {
+  width: var(--smbk-size-control-lg);
 }
 
 .smbk-btn--icon-only.smbk-btn--size-sm {
   width: var(--smbk-size-control-sm);
 }
 
-.smbk-btn--icon-only.smbk-btn--size-sm .smbk-btn__icon {
-  font-size: var(--smbk-size-icon-md);
+/* ---- size xs: the ghost icon button only, a 24 square with a 12 icon ----
+   Figma's Icon button draws xs in the ghost tone alone; the wrapper refuses it on any other tone or with a
+   label. The box is the smallest target size; on a touch screen it takes a press area round it (below). */
+
+.smbk-btn--size-xs {
+  gap: var(--smbk-space-inline-xs);
+  height: var(--smbk-size-control-xs);
+  padding: 0 var(--smbk-space-inset-md);
+  border-radius: var(--smbk-radius-control-sm);
 }
 
-/* Figma trims every text box to its cap height (leading trim); the label part does the same
-   so a label centers in its control exactly as it does in the frame. */
-.smbk-btn__label {
-  text-box: trim-both cap alphabetic;
+.smbk-btn--size-xs .smbk-btn__icon {
+  font-size: var(--smbk-size-icon-xs);
+}
+
+.smbk-btn--icon-only.smbk-btn--size-xs {
+  width: var(--smbk-size-control-xs);
+  padding: 0;
+}
+
+/* ---- loading: the action is running ----
+   The spinner's ring turns in the middle of the button, in the tone's own foreground, at the button's icon
+   size. The label and icons stay in place, unseen, so the button keeps its width and its name. It keeps the
+   tone's resting look: no hover or pressed look, and a waiting pointer. It is never disabled, so focus stays
+   on it; the wrapper makes a press do nothing. */
+
+.smbk-btn--loading {
+  position: relative;
+  cursor: progress;
+}
+
+.smbk-btn--loading > :not(.smbk-btn__spinner) {
+  opacity: 0;
+}
+
+.smbk-btn--loading > .smbk-btn__spinner {
+  position: absolute;
+  inset: 0;
+  justify-content: center;
+  color: inherit;
+}
+
+/* ---- touch: every size keeps its look and takes an invisible press area ----
+   On a touch screen an invisible area, centred on the button, takes the press out to the comfortable target in
+   each direction the button falls short of it; the button, its focus ring and its place stay as drawn. A component
+   that sets buttons closer together than that stops their areas halfway to the next one. The position is
+   written with no weight, so a component that places a button absolutely keeps doing so. */
+
+@media (pointer: coarse) {
+  :where(.smbk-btn) {
+    position: relative;
+  }
+
+  .smbk-btn::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
 }

@@ -1,0 +1,97 @@
+/* smbk-color-picker — Color picker. Figma "Color picker" 7411:823 and "Color picker panel" 7411:824.
+ * The trigger is a button that is the input's well, built as the select's is: it carries smbk-input and the
+ * select's well part, so its chrome, hover, focus, disabled and two sizes are the input's and its button rules
+ * the select's. Field holds a swatch, the code (the select's value part) and the caret (the input's icon part);
+ * Swatch holds a swatch alone and hugs it. The panel is the popover's panel at its own width, holding the color
+ * area, the sliders, the code row and the swatches, the medium stack step apart. This stylesheet only adds the
+ * picker's own widths and rows. */
+
+.smbk-color-picker {
+  display: inline-flex;
+  width: 100%;
+}
+
+/* Swatch: a square as tall as the input, the swatch in its middle, the medium inset round it at md. */
+.smbk-color-picker--type-swatch {
+  width: auto;
+}
+
+/* Field: the trigger fills the picker's width, as a field does; the popover's anchor around it does too. */
+.smbk-color-picker--type-field > .smbk-popover__anchor {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.smbk-input.smbk-color-picker__trigger {
+  flex: 1 1 auto;
+}
+
+.smbk-color-picker--type-swatch .smbk-input.smbk-color-picker__trigger {
+  flex: none;
+  justify-content: center;
+  width: var(--smbk-size-control-md);
+  padding: 0;
+}
+
+.smbk-color-picker--type-swatch .smbk-input--size-sm.smbk-color-picker__trigger {
+  width: var(--smbk-size-control-sm);
+}
+
+/* The code and the color in words, which name the trigger for screen readers only. */
+/* .smbk-color-picker__name: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
+/* ---- the panel: the popover's, at the picker's width and the medium stack step ---- */
+
+.smbk-popover.smbk-color-picker__panel {
+  width: var(--smbk-size-color-picker-width);
+  gap: var(--smbk-space-stack-md);
+}
+
+/* The area fills the panel's width. */
+.smbk-color-area.smbk-color-picker__area {
+  max-width: none;
+}
+
+/* The format, the code and the eyedropper in one row: the code takes what the others leave. */
+.smbk-color-picker__code {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+}
+
+.smbk-select.smbk-color-picker__format {
+  flex: none;
+  width: auto;
+}
+
+.smbk-input.smbk-color-picker__field {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.smbk-color-picker__eyedropper {
+  flex: none;
+}
+
+.smbk-color-picker__swatches {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+}
+
+/* ---- touch: the last strip and the code row stop halfway to each other ----
+   The last strip takes an invisible press area on a touch screen, and the code row's text box reaches above its line
+   to take the press; over a row that holds the format's select, the strip's area stops halfway into the panel's gap,
+   and the text's reach stops halfway to the strip (the panel's gap and the room over the line in the small well). Nothing drawn moves. */
+
+@media (pointer: coarse) {
+  .smbk-color-slider:has(+ .smbk-color-picker__code .smbk-select__well) .smbk-color-slider__track::after {
+    inset-block-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-md) / -2);
+  }
+
+  .smbk-color-picker__code .smbk-input__control {
+    padding-block-start: max(0%, min((var(--smbk-size-target-comfortable) - 1lh) / 2, (var(--smbk-space-stack-md) + (var(--smbk-size-control-sm) - 1lh) / 2) / 2));
+    margin-block-start: min(0%, max((1lh - var(--smbk-size-target-comfortable)) / 2, (var(--smbk-space-stack-md) + (var(--smbk-size-control-sm) - 1lh) / 2) / -2));
+  }
+}
+

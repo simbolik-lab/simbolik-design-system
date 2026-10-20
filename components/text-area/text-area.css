@@ -1,44 +1,52 @@
 /* smbk-text-area — Text area. Figma "TextArea" 4800:64744.
  * Built on the input: the block always sits on an smbk-input well and the
- * textarea is the input's control, so the well's chrome and its hover, focus,
- * error and disabled looks are the input's own and follow any change to it.
- * Figma binds the same fills, borders and shadows in every state. This
- * stylesheet adds only what several lines need: the well grows with the
- * control instead of keeping the control height, the text is the small body
- * preset, and a grip at the corner shows the box can be made taller. */
+ * textarea is the input's control, so the well's chrome, its text style and
+ * its hover, focus, error, read-only and disabled looks are the input's own
+ * and follow any change to it. Figma binds the same fills, borders, shadows
+ * and text in every state. This stylesheet adds only what several lines need:
+ * the well grows with the control instead of keeping the control height, the
+ * error icon sits at the top end, and a grip at the corner shows the box can
+ * be made taller. */
 
 .smbk-input.smbk-text-area {
   position: relative;
   align-items: stretch;
   height: auto;
   padding: 0;
-  font-family: var(--smbk-typography-body-s-font-family);
-  font-size: var(--smbk-typography-body-s-font-size);
-  font-weight: var(--smbk-typography-body-s-font-weight);
-  line-height: var(--smbk-typography-body-s-line-height);
-  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
 }
 
 /* The padding is on the control, so the browser's own resize handle sits in
-   the well's corner. A textarea's lines cannot be trimmed to the cap height,
-   so the block padding gives back the space above and below the capitals,
-   putting the first line's capitals where Figma's trimmed text sits. Three
-   rows at that padding are the height Figma draws. */
+   the well's corner. */
 .smbk-text-area__control {
   box-sizing: border-box;
   display: block;
   width: 100%;
-  min-height: calc(1lh + 2 * var(--smbk-space-inset-lg) - (1lh - 1cap));
+  min-height: calc(1lh + 2 * var(--smbk-space-inset-lg));
   margin: 0;
-  padding: calc(var(--smbk-space-inset-lg) - (1lh - 1cap) / 2) var(--smbk-space-inline-lg);
+  padding: var(--smbk-space-inset-lg);
   resize: vertical;
   /* The system's scrollbar: thin, in the subtle border color, on a clear track. */
   scrollbar-width: thin;
   scrollbar-color: var(--smbk-color-border-subtle) transparent;
 }
 
-.smbk-text-area__control:disabled {
+.smbk-text-area__control:disabled,
+.smbk-text-area__control[readonly] {
   resize: none;
+}
+
+/* In error the text stops short of the icon at the top end, which stays on the first line's middle
+   while the text scrolls under it. */
+.smbk-input--error .smbk-text-area__control {
+  padding-inline-end: calc(var(--smbk-space-inset-lg) + var(--smbk-size-icon-md));
+}
+
+.smbk-text-area .smbk-input__error-icon {
+  position: absolute;
+  inset-block-start: var(--smbk-space-inset-lg);
+  inset-inline-end: var(--smbk-space-inset-lg);
+  height: calc(var(--smbk-typography-body-md-font-size) * var(--smbk-typography-body-md-line-height));
+  pointer-events: none;
 }
 
 /* Figma's grip, the notches icon, a hairline step in from the corner. It only
@@ -66,4 +74,9 @@
 
 .smbk-text-area:has(.smbk-input__control:disabled) .smbk-text-area__grip {
   color: var(--smbk-color-text-disabled);
+}
+
+/* A read-only text area cannot be made taller, so it has no grip, as Figma draws it. */
+.smbk-text-area:has(.smbk-input__control[readonly]) .smbk-text-area__grip {
+  display: none;
 }

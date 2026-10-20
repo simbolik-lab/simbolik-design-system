@@ -25,8 +25,8 @@ One element, the keycap, holding the key's symbol or name. Its height is fixed b
 
 ## When not to use
 
-- For a badge or a tag that happens to be small. Those have their own components.
-- For a button. A keycap is not pressed.
+- For a [badge](../badge/badge.md) or a [tag](../tag/tag.md) that happens to be small. Those have their own components.
+- For a [button](../button/button.md). A keycap is not pressed.
 
 ## Behavior
 
@@ -34,7 +34,20 @@ None.
 
 ## Accessibility
 
-It is a real keyboard element, which assistive technology announces as keyboard input. Symbols such as the command glyph should be given a readable name through a title or surrounding text, because a symbol alone may be read as nothing.
+### What it does for you
+
+- It is a real keyboard element, which assistive technology announces as keyboard input.
+- It takes no focus and no keys, since a keycap is not pressed.
+
+### What you must do
+
+- Give a symbol such as the command glyph a readable name through a `title` or surrounding text, because a symbol alone may be read as nothing.
+
+### How to test
+
+- With a screen reader, read a shortcut: each key is read as keyboard input, and a symbol is read by its name.
+- With text at 200% and the page 320 pixels wide, each keycap's text stays whole.
+- In a forced-color mode, the key's text stays visible.
 
 ## Composition
 
@@ -53,4 +66,4 @@ Contains text only. Sits inline in text or in a row of keycaps.
 
 ## Related
 
-- Tooltip and dropdown show shortcuts with it.
+- [Tooltip](../tooltip/tooltip.md) and [dropdown](../dropdown/dropdown.md) show shortcuts with it.

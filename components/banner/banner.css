@@ -1,54 +1,102 @@
 /* smbk-banner — Banner. Figma "Banner" 4381:2200. */
 
 .smbk-banner {
+  /* The neutral tone; each feedback tone sets these again below (the tone recipe). */
+  --smbk-tone-surface: var(--smbk-color-surface-default);
+  --smbk-tone-border: var(--smbk-color-border-subtle);
+  --smbk-tone-text: var(--smbk-color-text-subtle);
+  --smbk-tone-icon: var(--smbk-color-icon-subtle);
   box-sizing: border-box;
   display: flex;
   align-items: center;
   gap: var(--smbk-space-inline-xl);
   width: 100%;
   min-height: var(--smbk-size-control-md);
-  padding: var(--smbk-space-inset-xs);
-  background: var(--smbk-color-surface-default);
+  padding: var(--smbk-space-inset-xs) var(--smbk-space-inset-md);
+  background: var(--smbk-tone-surface);
   /* The line along the bottom edge. Figma strokes it inside the frame, over the padding, so it takes
      no room: drawn as an inner shadow, as the accordion draws its own, the strip stays one control tall. */
-  box-shadow: inset 0 calc(-1 * var(--smbk-border-width-hairline)) 0 var(--smbk-color-border-subtle);
-  color: var(--smbk-color-text-subtle);
+  box-shadow: inset 0 calc(-1 * var(--smbk-border-width-hairline)) 0 var(--smbk-tone-border);
+  color: var(--smbk-tone-text);
 }
 
-/* The message and the link, centered in the room the dismiss control leaves. A
-   message too long for one line wraps, centered, and the link follows it or
-   drops beneath it. Figma draws one line only; the padding here shows only
-   once the text wraps, so the lines never touch the strip's edges. */
+/* The lead (the icon and the message) and the link, centered in the room the dismiss control
+   leaves. A message too long for one line wraps beside its icon, centered, and the link follows
+   it or drops beneath it. Figma draws one line only in a wide space. */
 .smbk-banner__content {
   display: flex;
   flex: 1 1 auto;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   justify-content: center;
   column-gap: var(--smbk-space-inline-xl);
   row-gap: var(--smbk-space-stack-xs);
   min-width: 0;
-  padding-block: var(--smbk-space-inset-xs);
   text-align: center;
+}
+
+/* The icon beside the message, its box as tall as the message's line so it sits on the first line's middle. */
+.smbk-banner__lead {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--smbk-space-inline-md);
+  min-width: 0;
+}
+
+.smbk-banner__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  height: calc(var(--smbk-typography-body-sm-font-size) * var(--smbk-typography-body-sm-line-height));
+  color: var(--smbk-tone-icon);
+  font-size: var(--smbk-size-icon-md);
 }
 
 .smbk-banner__message {
   margin: 0;
-  font-family: var(--smbk-typography-body-s-font-family);
-  font-size: var(--smbk-typography-body-s-font-size);
-  font-weight: var(--smbk-typography-body-s-font-weight);
-  line-height: var(--smbk-typography-body-s-line-height);
-  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
-  text-box: trim-both cap alphabetic;
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
 }
 
 .smbk-banner__dismiss {
   flex-shrink: 0;
 }
 
-/* ---- feedback tones: subtle surface, their border color on the line beneath, their text ---- */
+/* ---- feedback tones: the tone recipe, each family's subtle surface, its border on the line beneath, its text and
+   its icon ---- */
 
-.smbk-banner--tone-info { background: var(--smbk-color-feedback-info-surface-subtle); box-shadow: inset 0 calc(-1 * var(--smbk-border-width-hairline)) 0 var(--smbk-color-feedback-info-border); color: var(--smbk-color-feedback-info-text-on-subtle); }
-.smbk-banner--tone-success { background: var(--smbk-color-feedback-success-surface-subtle); box-shadow: inset 0 calc(-1 * var(--smbk-border-width-hairline)) 0 var(--smbk-color-feedback-success-border); color: var(--smbk-color-feedback-success-text-on-subtle); }
-.smbk-banner--tone-warning { background: var(--smbk-color-feedback-warning-surface-subtle); box-shadow: inset 0 calc(-1 * var(--smbk-border-width-hairline)) 0 var(--smbk-color-feedback-warning-border); color: var(--smbk-color-feedback-warning-text-on-subtle); }
-.smbk-banner--tone-danger { background: var(--smbk-color-feedback-danger-surface-subtle); box-shadow: inset 0 calc(-1 * var(--smbk-border-width-hairline)) 0 var(--smbk-color-feedback-danger-border); color: var(--smbk-color-feedback-danger-text-on-subtle); }
+.smbk-banner--tone-info { --smbk-tone-surface: var(--smbk-color-feedback-info-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-info-border); --smbk-tone-text: var(--smbk-color-feedback-info-text-on-subtle); --smbk-tone-icon: var(--smbk-color-feedback-info-icon); }
+.smbk-banner--tone-success { --smbk-tone-surface: var(--smbk-color-feedback-success-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-success-border); --smbk-tone-text: var(--smbk-color-feedback-success-text-on-subtle); --smbk-tone-icon: var(--smbk-color-feedback-success-icon); }
+.smbk-banner--tone-warning { --smbk-tone-surface: var(--smbk-color-feedback-warning-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-warning-border); --smbk-tone-text: var(--smbk-color-feedback-warning-text-on-subtle); --smbk-tone-icon: var(--smbk-color-feedback-warning-icon); }
+.smbk-banner--tone-danger { --smbk-tone-surface: var(--smbk-color-feedback-danger-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-danger-border); --smbk-tone-text: var(--smbk-color-feedback-danger-text-on-subtle); --smbk-tone-icon: var(--smbk-color-feedback-danger-icon); }
+
+/* ---- the narrow form (Figma's Platform=Mobile): the strip grows to hold its words; the message
+   wraps beside its icon and the link sits under them, all from the start edge. ---- */
+
+@container style(--smbk-layout: narrow) {
+  .smbk-banner__content {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    text-align: start;
+  }
+}
+
+/* ---- touch: the link takes an invisible press area ----
+   On a touch screen an invisible area, centred on it, takes the press out to the comfortable target in each direction
+   it falls short of it; its look, its focus ring and its place stay as drawn. */
+
+@media (pointer: coarse) {
+  .smbk-banner__link {
+    position: relative;
+  }
+
+  .smbk-banner__link::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+}

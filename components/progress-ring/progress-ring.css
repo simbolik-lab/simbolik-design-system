@@ -1,0 +1,145 @@
+/* smbk-progress-ring — Progress ring. Figma "Progress ring" 7580:184 (Value × Size).
+ * A ring in the subtle track color with the done part laid over it from the top, clockwise, in the
+ * chart series color, its two ends round; at the end the whole ring turns to the success color. The
+ * value in the middle in Label MD at the medium size; the small ring has no room for it.
+ * The ring is one box: a conic gradient paints the done part over the track and a radial mask cuts
+ * the hole, so its size and thickness come from tokens alone. The round ends are the box's two
+ * pseudo-elements, dots as wide as the ring: one at the top, one turned round the center to where the
+ * done part ends. The wrapper sets --smbk-progress-ring-value inline, from 0 to 100; that is data,
+ * not a design value. */
+
+@property --smbk-progress-ring-value {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+.smbk-progress-ring {
+  box-sizing: border-box;
+  display: inline-grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: var(--smbk-size-progress-ring-md);
+  height: var(--smbk-size-progress-ring-md);
+  vertical-align: middle;
+}
+
+.smbk-progress-ring__track {
+  position: relative;
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--smbk-radius-full);
+  background: conic-gradient(
+    var(--smbk-color-data-series) calc(var(--smbk-progress-ring-value) * 1%),
+    var(--smbk-color-surface-track-subtle) 0
+  );
+  mask-image: radial-gradient(
+    farthest-side,
+    transparent calc(100% - var(--smbk-size-6)),
+    currentcolor calc(100% - var(--smbk-size-6))
+  );
+}
+
+.smbk-progress-ring__track::before,
+.smbk-progress-ring__track::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: calc(50% - var(--smbk-size-6) / 2);
+  width: var(--smbk-size-6);
+  height: var(--smbk-size-6);
+  border-radius: var(--smbk-radius-full);
+  background: var(--smbk-color-data-series);
+  /* Nothing is drawn at zero, as Figma draws it. */
+  opacity: clamp(0, var(--smbk-progress-ring-value), 1);
+}
+
+.smbk-progress-ring__track::after {
+  transform-origin: 50% calc(var(--smbk-size-progress-ring-md) / 2);
+  transform: rotate(calc(var(--smbk-progress-ring-value) * 3.6deg));
+}
+
+.smbk-progress-ring__value {
+  grid-area: 1 / 1;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-label-md-font-family);
+  font-size: var(--smbk-typography-label-md-font-size);
+  font-weight: var(--smbk-typography-label-md-font-weight);
+  line-height: var(--smbk-typography-label-md-line-height);
+  letter-spacing: var(--smbk-typography-label-md-letter-spacing);
+  text-transform: var(--smbk-typography-label-md-text-transform);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- complete: the whole ring in the success color ---- */
+
+.smbk-progress-ring--complete .smbk-progress-ring__track {
+  background: var(--smbk-color-feedback-success-icon);
+}
+
+.smbk-progress-ring--complete .smbk-progress-ring__track::before,
+.smbk-progress-ring--complete .smbk-progress-ring__track::after {
+  background: var(--smbk-color-feedback-success-icon);
+}
+
+/* ---- small: a smaller, thinner ring with no value in it ---- */
+
+.smbk-progress-ring--size-sm {
+  width: var(--smbk-size-progress-ring-sm);
+  height: var(--smbk-size-progress-ring-sm);
+}
+
+.smbk-progress-ring--size-sm .smbk-progress-ring__track {
+  mask-image: radial-gradient(
+    farthest-side,
+    transparent calc(100% - var(--smbk-size-4)),
+    currentcolor calc(100% - var(--smbk-size-4))
+  );
+}
+
+.smbk-progress-ring--size-sm .smbk-progress-ring__track::before,
+.smbk-progress-ring--size-sm .smbk-progress-ring__track::after {
+  left: calc(50% - var(--smbk-size-4) / 2);
+  width: var(--smbk-size-4);
+  height: var(--smbk-size-4);
+}
+
+.smbk-progress-ring--size-sm .smbk-progress-ring__track::after {
+  transform-origin: 50% calc(var(--smbk-size-progress-ring-sm) / 2);
+}
+
+.smbk-progress-ring--size-sm .smbk-progress-ring__value {
+  display: none;
+}
+
+/* ---- motion: when the value changes, the done part grows or shrinks to it with the state purpose,
+   so the change can be followed. No movement under reduced motion. ---- */
+
+.smbk-progress-ring {
+  transition: --smbk-progress-ring-value var(--smbk-motion-state-duration) var(--smbk-motion-state-easing);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-progress-ring {
+    transition: none;
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills; this puts the meaning back with the user's own
+   colors, as the progress bar does: the done part in Highlight over a track in the text color. Nothing
+   here applies outside that mode. */
+
+@media (forced-colors: active) {
+  .smbk-progress-ring .smbk-progress-ring__track {
+    forced-color-adjust: none;
+    background: conic-gradient(Highlight calc(var(--smbk-progress-ring-value) * 1%), CanvasText 0);
+  }
+
+  .smbk-progress-ring .smbk-progress-ring__track::before,
+  .smbk-progress-ring .smbk-progress-ring__track::after {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+}

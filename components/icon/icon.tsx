@@ -1,5 +1,6 @@
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes, Ref } from 'react';
 import { icon } from './icon.manifest.js';
+import { cx } from '../variants.js';
 import type { VariantProps } from '../variants.js';
 
 export interface IconProps extends Omit<HTMLAttributes<HTMLElement>, 'children'>, VariantProps<typeof icon.manifest> {
@@ -7,6 +8,8 @@ export interface IconProps extends Omit<HTMLAttributes<HTMLElement>, 'children'>
   name: string;
   /** Accessible name. Omit for a decorative icon, which is then hidden from assistive technology. */
   label?: string;
+  /** The icon element, for a component that places something beside it (a label's help tooltip). */
+  ref?: Ref<HTMLElement>;
 }
 
 /** "ArrowCircleRight" -> "arrow-circle-right". Phosphor's font class is derived from it. */
@@ -20,7 +23,7 @@ export function phosphorClass(name: string): string {
 }
 
 export function Icon({ name, label, size, className, ...rest }: IconProps) {
-  const classes = [phosphorClass(name), icon({ size }), className].filter(Boolean).join(' ');
+  const classes = cx(phosphorClass(name), icon({ size }), className);
   return label ? (
     <i className={classes} role="img" aria-label={label} {...rest} />
   ) : (

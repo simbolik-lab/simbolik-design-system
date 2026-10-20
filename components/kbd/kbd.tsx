@@ -1,5 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 import { kbd } from './kbd.manifest.js';
+import { cx } from '../variants.js';
 import type { VariantProps } from '../variants.js';
 
 export interface KbdProps extends Omit<HTMLAttributes<HTMLElement>, 'children'>, VariantProps<typeof kbd.manifest> {
@@ -8,7 +9,7 @@ export interface KbdProps extends Omit<HTMLAttributes<HTMLElement>, 'children'>,
 
 export function Kbd({ size, className, children, ...rest }: KbdProps) {
   return (
-    <kbd className={[kbd({ size }), className].filter(Boolean).join(' ')} {...rest}>
+    <kbd className={cx(kbd({ size }), className)} {...rest}>
       {children}
     </kbd>
   );

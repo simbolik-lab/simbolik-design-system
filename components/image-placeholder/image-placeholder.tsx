@@ -1,5 +1,6 @@
 import type { HTMLAttributes } from 'react';
 import { imagePlaceholder } from './image-placeholder.manifest.js';
+import { cx } from '../variants.js';
 
 export interface ImagePlaceholderProps extends HTMLAttributes<HTMLSpanElement> {
   /** Width over height of the picture it stands for, e.g. [1, 1]. */
@@ -12,7 +13,7 @@ export function ImagePlaceholder({ ratio, label, className, style, ...rest }: Im
   const aspect = ratio ? { aspectRatio: `${ratio[0]} / ${ratio[1]}` } : undefined;
   return (
     <span
-      className={[imagePlaceholder(), className].filter(Boolean).join(' ')}
+      className={cx(imagePlaceholder(), className)}
       role={label ? 'img' : undefined}
       aria-label={label}
       aria-hidden={label ? undefined : 'true'}

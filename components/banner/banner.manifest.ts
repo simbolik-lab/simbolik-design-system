@@ -1,6 +1,9 @@
 import { defineVariants } from '../variants.js';
 
-/** Banner. Figma "Banner" 4381:2200: five variants; the link and the dismiss control are content (Figma's Link and Discard booleans). */
+/**
+ * Banner. Figma "Banner" 4381:2200: five tones; the icon, the link and the dismiss control are content (Figma's Icon,
+ * Link and Discard booleans), and Figma's Platform is the layout switch.
+ */
 export const banner = defineVariants({
   name: 'banner',
   block: 'smbk-banner',
@@ -10,10 +13,10 @@ export const banner = defineVariants({
     tone: {
       values: ['default', 'info', 'success', 'warning', 'danger'],
       default: 'default',
-      description: 'Neutral, or one of the four feedback families on their subtle surface with their border beneath. Figma calls this "Variant".',
+      description: 'Neutral, or one of the four feedback families on their subtle surface with their border beneath, each with its own icon.',
     },
   },
   flags: {},
-  parts: ['content', 'message', 'link', 'dismiss'],
+  parts: ['content', 'lead', 'icon', 'message', 'link', 'dismiss'],
   figmaNodeId: '4381:2200',
 });

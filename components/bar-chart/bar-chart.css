@@ -1,0 +1,235 @@
+/* smbk-bar-chart — Bar chart. Figma "Bar chart" 7580:947.
+ * The legend over the chart; then the value labels at the left and the plot beside them, light grid lines at the
+ * round values and the baseline at zero; a label under each bar, or under some of them. Plain bars are in the
+ * series color, the bar still counting (today's) a step darker; stacked bars hold up to eight series in the
+ * categorical colors, the first at the foot, and the rest gathered in the muted gray. Each bar has small top
+ * corners. Many bars, such as a month's, sit closer together. A narrow layout drops every second label under the
+ * bars. The first time the chart comes into view its bars grow in, one after another; pointing at a bar fades the
+ * others. Nothing takes focus. */
+
+.smbk-bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+  min-width: 0;
+}
+
+/* The block frames the words it hides for screen readers, so they stay inside it wherever it is placed: without a
+   frame they hang from the page itself and stretch it, past the end of an area that scrolls. No weight, so a parent
+   that places the block keeps its say. */
+:where(.smbk-bar-chart) {
+  position: relative;
+}
+
+.smbk-bar-chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--smbk-space-stack-xs) var(--smbk-space-inline-xl);
+  margin: 0;
+  padding: 0;
+}
+
+/* The value labels, the plot and, under the plot, its labels. */
+.smbk-bar-chart__body {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--smbk-space-stack-md) var(--smbk-space-inline-md);
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
+  text-transform: var(--smbk-typography-body-xs-text-transform);
+}
+
+/* The value labels, highest first, spread from the top of the plot to its foot, so each is centred on its line. */
+.smbk-bar-chart__y-axis {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: var(--smbk-size-chart-plot-height);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.smbk-bar-chart__plot {
+  position: relative;
+  height: var(--smbk-size-chart-plot-height);
+}
+
+/* The scale runs between the middles of the top and bottom value labels: half a line of their text in. */
+.smbk-bar-chart__grid {
+  position: absolute;
+  inset: calc(var(--smbk-typography-body-xs-font-size) * var(--smbk-typography-body-xs-line-height) / 2) 0;
+}
+
+.smbk-bar-chart__gridline,
+.smbk-bar-chart__baseline {
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: var(--smbk-border-width-hairline);
+  background: var(--smbk-color-border-subtle);
+  translate: 0 -50%;
+}
+
+.smbk-bar-chart__baseline {
+  z-index: 1;
+  background: var(--smbk-color-data-reference-line);
+}
+
+.smbk-bar-chart__bars {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: var(--smbk-space-16);
+}
+
+/* Many bars, such as a month's, sit closer together; their labels keep the same spacing. */
+.smbk-bar-chart__body--close .smbk-bar-chart__bars,
+.smbk-bar-chart__body--close .smbk-bar-chart__x-axis {
+  gap: var(--smbk-space-4);
+}
+
+/* A bar as tall as its total, its series stacked from the foot, each as tall as its share of the total. */
+.smbk-bar-chart__bar {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column-reverse;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: var(--smbk-radius-2) var(--smbk-radius-2) 0 0;
+}
+
+.smbk-bar-chart__segment {
+  flex-basis: 0;
+  min-height: 0;
+  background: var(--smbk-color-data-categorical-1);
+}
+
+/* ---- each series' color ---- */
+
+.smbk-bar-chart__segment--swatch-2 { background: var(--smbk-color-data-categorical-2); }
+.smbk-bar-chart__segment--swatch-3 { background: var(--smbk-color-data-categorical-3); }
+.smbk-bar-chart__segment--swatch-4 { background: var(--smbk-color-data-categorical-4); }
+.smbk-bar-chart__segment--swatch-5 { background: var(--smbk-color-data-categorical-5); }
+.smbk-bar-chart__segment--swatch-6 { background: var(--smbk-color-data-categorical-6); }
+.smbk-bar-chart__segment--swatch-7 { background: var(--smbk-color-data-categorical-7); }
+.smbk-bar-chart__segment--swatch-8 { background: var(--smbk-color-data-categorical-8); }
+.smbk-bar-chart__segment--swatch-series { background: var(--smbk-color-data-series); }
+.smbk-bar-chart__segment--swatch-muted { background: var(--smbk-color-surface-track); }
+.smbk-bar-chart__segment--current { background: var(--smbk-color-data-series-hover); }
+
+/* ---- the labels under the bars: each centred under its bar; among close bars the first and last kept inside ---- */
+
+.smbk-bar-chart__x-axis {
+  grid-column: 2;
+  display: flex;
+  gap: var(--smbk-space-16);
+}
+
+.smbk-bar-chart__x-cell {
+  display: flex;
+  flex: 1 1 0;
+  justify-content: center;
+  min-width: 0;
+  min-height: calc(var(--smbk-typography-body-xs-font-size) * var(--smbk-typography-body-xs-line-height));
+  white-space: nowrap;
+}
+
+.smbk-bar-chart__body--close .smbk-bar-chart__x-cell:first-child {
+  justify-content: flex-start;
+}
+
+.smbk-bar-chart__body--close .smbk-bar-chart__x-cell:last-child {
+  justify-content: flex-end;
+}
+
+/* The table, for screen readers only, unless the page shows it in the disclosure under the chart. */
+/* .smbk-bar-chart__table: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
+/* A table takes the room its rows need whatever width and height it is given, so the hidden one is full size, only
+   unseen. It hangs from the block's end corner, reaching back and up, the way a page never scrolls: it adds no room
+   to the block or to any area that scrolls around it, and stays a table for screen readers. */
+.smbk-bar-chart__table {
+  inset-block-end: 0;
+  inset-inline-end: 0;
+}
+
+/* A narrow space shows every second label under the bars, keeping the last. */
+@container style(--smbk-layout: narrow) {
+  .smbk-bar-chart__x-label--minor {
+    display: none;
+  }
+}
+
+/* ---- pointing at a bar ----
+   Where there is a mouse, pointing at a bar (a stacked bar whole, every series in it) fades every other bar to the
+   faded opacity, half, so the one pointed at stands out; the fade moves with the feedback purpose, under reduced
+   motion too, since nothing moves. The wrapper marks the bar whose column the pointer is in, gaps and the room above
+   a short bar included (`data-active`), so moving from bar to bar never brings every bar back in between; markup
+   written by hand fades by the bar's own hover. Nothing is told by the fade alone: every value is in the table. Bars
+   take no focus, so the keyboard has nothing to point with. At rest every bar is whole. */
+
+@media (hover: hover) {
+  .smbk-bar-chart__bars:has(> .smbk-bar-chart__bar:hover) > .smbk-bar-chart__bar:not(:hover),
+  .smbk-bar-chart__bars[data-active] > .smbk-bar-chart__bar:not([data-active]) {
+    opacity: var(--smbk-opacity-faded);
+    transition-delay: 0s;
+  }
+
+  /* The bar pointed at comes back at once; with nothing pointed at, every bar waits the hover close delay first. */
+  .smbk-bar-chart__bars:has(> .smbk-bar-chart__bar:hover) > .smbk-bar-chart__bar:hover,
+  .smbk-bar-chart__bars[data-active] > .smbk-bar-chart__bar[data-active] {
+    transition-delay: 0s;
+  }
+
+  .smbk-bar-chart__bar {
+    transition: opacity var(--smbk-motion-feedback-duration) var(--smbk-motion-feedback-easing) var(--smbk-motion-hover-close-delay);
+  }
+}
+
+/* ---- motion: the entrance ----
+   The wrapper marks the chart `data-entrance` the first time it comes into view (simbolik/components/entrance.ts):
+   waiting while it is out of view, every bar flat on the baseline; playing once it is seen, each bar growing up
+   from the baseline with the chart entrance purpose, each starting a stagger step after the one before it, the
+   step shrinking with many bars so the last still starts within the stagger span. The wrapper writes each bar's
+   place (--smbk-bar-chart-order) and the number of bars (--smbk-bar-chart-count) inline: data, not design values.
+   Without the mark (markup written by hand, the rendered pictures, after the entrance) the bars stand at their
+   height, and under reduced motion nothing moves. Only the bars' scale changes, so nothing around them shifts. */
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  .smbk-bar-chart[data-entrance] .smbk-bar-chart__bar {
+    transform-origin: bottom;
+  }
+
+  .smbk-bar-chart[data-entrance="waiting"] .smbk-bar-chart__bar {
+    scale: 1 0;
+  }
+
+  .smbk-bar-chart:is([data-entrance="load"], [data-entrance="playing"]) .smbk-bar-chart__bar {
+    animation: smbk-bar-chart-grow var(--smbk-motion-chart-entrance-grow-duration) var(--smbk-motion-chart-entrance-easing) backwards;
+    animation-delay: min(
+      calc(var(--smbk-bar-chart-order, 0) * var(--smbk-motion-chart-entrance-stagger)),
+      calc(var(--smbk-bar-chart-order, 0) / max(1, var(--smbk-bar-chart-count, 1) - 1) * var(--smbk-motion-chart-entrance-stagger-span))
+    );
+  }
+}
+
+@keyframes smbk-bar-chart-grow {
+  from {
+    scale: 1 0;
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* The plot keeps its colors, so each segment still matches its legend swatch. */
+
+@media (forced-colors: active) {
+  .smbk-bar-chart__plot {
+    forced-color-adjust: none;
+  }
+}

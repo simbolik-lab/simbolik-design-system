@@ -13,7 +13,7 @@ export const divider = defineVariants({
     },
   },
   flags: {
-    labelled: { description: 'A short uppercase word interrupts the line. Horizontal only.' },
+    labelled: { description: 'A short word, such as "or", interrupts the line. Horizontal only.' },
   },
   parts: ['line', 'label'],
   figmaNodeId: '1924:9',

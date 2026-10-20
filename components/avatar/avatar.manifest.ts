@@ -1,6 +1,9 @@
 import { defineVariants } from '../variants.js';
 
-/** Avatar. Figma "Avatar" 962:62: Size × Scheme × Type, 42 variants. */
+/**
+ * Avatar. Figma "Avatar" 962:62: Size × Scheme × Type, 42 variants. Figma's Scheme is the tone axis, with Figma's
+ * Neutral as default and Figma's Default as inverse.
+ */
 export const avatar = defineVariants({
   name: 'avatar',
   block: 'smbk-avatar',
@@ -11,10 +14,10 @@ export const avatar = defineVariants({
       values: ['2xs', 'xs', 'sm', 'md', 'lg', 'xl'],
       default: 'xl',
     },
-    scheme: {
-      values: ['neutral', 'brand', 'default'],
-      default: 'neutral',
-      description: 'Neutral sits on the raised surface; brand on the brand fill; default on the inverse fill. Figma\'s names.',
+    tone: {
+      values: ['default', 'brand', 'inverse'],
+      default: 'default',
+      description: 'Default sits on the raised surface; brand on the brand fill; inverse on the inverse fill.',
     },
     type: {
       values: ['initials', 'icon', 'image'],

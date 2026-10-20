@@ -1,0 +1,57 @@
+/* smbk-status-dot — Status dot. Figma "Status dot" 7096:77 (Tone × Label).
+ * A round 8 dot in its tone's feedback icon color (the default tone: the subtle
+ * icon color, the block's own), then, when given, the status in words in Label SM and the default
+ * text color, the small inline step apart. The words are the status; the dot
+ * is a cue beside them, never the only one. */
+
+.smbk-status-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+  vertical-align: middle;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-label-sm-font-family);
+  font-size: var(--smbk-typography-label-sm-font-size);
+  font-weight: var(--smbk-typography-label-sm-font-weight);
+  line-height: var(--smbk-typography-label-sm-line-height);
+  letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
+}
+
+.smbk-status-dot__dot {
+  flex-shrink: 0;
+  width: var(--smbk-size-8);
+  height: var(--smbk-size-8);
+  border-radius: var(--smbk-radius-full);
+  background: var(--smbk-color-icon-subtle);
+}
+
+/* ---- tone. The default tone is the block's own look above. ---- */
+
+.smbk-status-dot--tone-success .smbk-status-dot__dot {
+  background: var(--smbk-color-feedback-success-icon);
+}
+
+.smbk-status-dot--tone-info .smbk-status-dot__dot {
+  background: var(--smbk-color-feedback-info-icon);
+}
+
+.smbk-status-dot--tone-warning .smbk-status-dot__dot {
+  background: var(--smbk-color-feedback-warning-icon);
+}
+
+.smbk-status-dot--tone-danger .smbk-status-dot__dot {
+  background: var(--smbk-color-feedback-danger-icon);
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  /* The dot is a fill and nothing else, so it would vanish. It takes the palette's text color; the words
+     beside it, or its name, say which status it is. */
+  .smbk-status-dot__dot {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
+}

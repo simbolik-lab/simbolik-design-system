@@ -1,23 +1,27 @@
 /* smbk-chip — Chip. Figma "Chip" 4253:1311.
- * A capsule with an optional avatar, a label and an optional remove control.
- * The label's own frame carries the horizontal inset. */
+ * A capsule with an optional avatar or tick, a label and an optional remove control, a gap between them.
+ * The label's own frame carries a further inset on both sides, as Figma's label frame does. Figma draws
+ * the edge inside the chip, so the padding gives the edge's width back; the default tone has no edge of
+ * its own, and draws a clear one so it keeps the same size.
+ * On is the toggle chip's aria-pressed, as the toggle button's is, so the look and what a screen reader hears
+ * agree; the selected class draws the same, for markup that sets it. */
 
 .smbk-chip {
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
+  gap: var(--smbk-space-inline-sm);
   height: var(--smbk-size-32);
-  padding: var(--smbk-space-inset-xs);
+  padding: 0 calc(var(--smbk-space-inset-xs) - var(--smbk-border-width-hairline));
   border: var(--smbk-border-width-hairline) solid var(--smbk-color-action-brand-border);
   border-radius: var(--smbk-radius-full);
   background: var(--smbk-color-action-brand-background);
   color: var(--smbk-color-action-brand-foreground);
-  font-family: var(--smbk-typography-body-s-font-family);
-  font-size: var(--smbk-typography-body-s-font-size);
-  font-weight: var(--smbk-typography-body-s-font-weight);
-  line-height: var(--smbk-typography-body-s-line-height);
-  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
-  text-box: trim-both cap alphabetic;
+  font-family: var(--smbk-typography-label-md-font-family);
+  font-size: var(--smbk-typography-label-md-font-size);
+  font-weight: var(--smbk-typography-label-md-font-weight);
+  line-height: var(--smbk-typography-label-md-line-height);
+  letter-spacing: var(--smbk-typography-label-md-letter-spacing);
   white-space: nowrap;
   text-decoration: none;
   cursor: pointer;
@@ -40,7 +44,6 @@
 }
 
 .smbk-chip__label {
-  text-box: trim-both cap alphabetic;
   display: block;
   padding: 0 var(--smbk-space-inset-sm);
 }
@@ -51,49 +54,87 @@
 
 .smbk-chip:disabled .smbk-chip__avatar,
 .smbk-chip[aria-disabled="true"] .smbk-chip__avatar {
-  opacity: var(--smbk-opacity-media-disabled);
+  opacity: var(--smbk-opacity-disabled);
 }
 
+/* A selected chip shows a tick where the avatar would be, so the choice shows by more than its fill, and
+   a little more room before it. */
+.smbk-chip__tick {
+  font-size: var(--smbk-size-icon-sm);
+}
+
+.smbk-chip:has(> .smbk-chip__tick) {
+  padding-inline-start: calc(var(--smbk-space-inset-md) - var(--smbk-border-width-hairline));
+}
+
+/* The cross is the chip's icon size, inside a 24 px box, the least a press needs; the box reaches past the
+   cross into the gap and the padding, so the cross sits where Figma draws it. The focus ring is drawn on
+   the cross's own edge. */
 .smbk-chip__remove {
+  box-sizing: border-box;
   display: inline-flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
+  width: var(--smbk-size-target-min);
+  height: var(--smbk-size-target-min);
+  margin: calc((var(--smbk-size-icon-sm) - var(--smbk-size-target-min)) / 2);
   padding: 0;
   border: 0;
   background: none;
   color: inherit;
-  font-size: var(--smbk-size-icon-lg);
   cursor: pointer;
   appearance: none;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
 
-.smbk-chip__remove:focus-visible {
-  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
-  outline-offset: var(--smbk-focus-ring-offset);
+.smbk-chip__remove > .smbk-icon {
+  font-size: var(--smbk-size-icon-sm);
   border-radius: var(--smbk-radius-full);
 }
 
-/* ---- size small ---- */
-
-.smbk-chip--size-small {
-  height: var(--smbk-size-24);
-  padding: var(--smbk-space-inset-2xs);
-  font-family: var(--smbk-typography-body-t-font-family);
-  font-size: var(--smbk-typography-body-t-font-size);
-  font-weight: var(--smbk-typography-body-t-font-weight);
-  line-height: var(--smbk-typography-body-t-line-height);
-  letter-spacing: var(--smbk-typography-body-t-letter-spacing);
-  text-box: trim-both cap alphabetic;
+.smbk-chip__remove:focus-visible {
+  outline: none;
 }
 
-.smbk-chip--size-small .smbk-chip__label {
+.smbk-chip__remove:focus-visible > .smbk-icon {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: 0;
+}
+
+/* On the brand and inverse fills the focus color would not show, so the ring takes the chip's own text color. */
+.smbk-chip--tone-brand .smbk-chip__remove:focus-visible > .smbk-icon,
+.smbk-chip--tone-inverse .smbk-chip__remove:focus-visible > .smbk-icon {
+  outline-color: currentColor;
+}
+
+/* ---- size sm ---- */
+
+.smbk-chip--size-sm {
+  height: var(--smbk-size-24);
+  font-family: var(--smbk-typography-label-sm-font-family);
+  font-size: var(--smbk-typography-label-sm-font-size);
+  font-weight: var(--smbk-typography-label-sm-font-weight);
+  line-height: var(--smbk-typography-label-sm-line-height);
+  letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
+}
+
+.smbk-chip--size-sm .smbk-chip__label {
   padding: 0 var(--smbk-space-inset-xs);
 }
 
-.smbk-chip--size-small .smbk-chip__remove {
-  font-size: var(--smbk-size-icon-md);
+.smbk-chip--size-sm .smbk-chip__tick,
+.smbk-chip--size-sm .smbk-chip__remove > .smbk-icon {
+  font-size: var(--smbk-size-icon-xs);
+}
+
+.smbk-chip--size-sm:has(> .smbk-chip__tick) {
+  padding-inline-start: calc(var(--smbk-space-inset-sm) - var(--smbk-border-width-hairline));
+}
+
+.smbk-chip--size-sm .smbk-chip__remove {
+  margin: calc((var(--smbk-size-icon-xs) - var(--smbk-size-target-min)) / 2);
 }
 
 /* ---- tone: brand (default) ---- */
@@ -102,15 +143,16 @@
   .smbk-chip--tone-brand:hover {
     background: var(--smbk-color-action-brand-background-hover);
     border-color: var(--smbk-color-action-brand-border-hover);
-    box-shadow: var(--smbk-elevation-1);
+    box-shadow: var(--smbk-elevation-raised);
   }
 }
 
 .smbk-chip--tone-brand:active,
+.smbk-chip--tone-brand[aria-pressed="true"],
 .smbk-chip--tone-brand.smbk-chip--selected {
   background: var(--smbk-color-action-brand-background-pressed);
   border-color: var(--smbk-color-action-brand-border-hover);
-  box-shadow: var(--smbk-elevation-1);
+  box-shadow: var(--smbk-elevation-inset-strong);
 }
 
 .smbk-chip--tone-brand:disabled,
@@ -121,34 +163,31 @@
   box-shadow: none;
 }
 
-/* ---- tone: default ---- */
+/* ---- tone: default, the see-through gray with no edge ---- */
 
 .smbk-chip--tone-default {
-  background: var(--smbk-color-action-default-background);
-  border-color: var(--smbk-color-action-default-border);
+  background: var(--smbk-color-surface-neutral-subtle);
+  border-color: transparent;
   color: var(--smbk-color-action-default-foreground);
 }
 
 @media (hover: hover) {
   .smbk-chip--tone-default:hover {
-    background: var(--smbk-color-action-default-background-hover);
-    border-color: var(--smbk-color-action-default-border-hover);
-    box-shadow: var(--smbk-elevation-1);
+    background: var(--smbk-color-surface-hover);
   }
 }
 
 .smbk-chip--tone-default:active,
+.smbk-chip--tone-default[aria-pressed="true"],
 .smbk-chip--tone-default.smbk-chip--selected {
   background: var(--smbk-color-action-default-background-pressed);
-  border-color: var(--smbk-color-action-default-border-hover);
-  box-shadow: var(--smbk-elevation-1);
+  box-shadow: var(--smbk-elevation-inset-strong);
 }
 
 .smbk-chip--tone-default:disabled,
 .smbk-chip--tone-default[aria-disabled="true"] {
-  background: var(--smbk-color-action-default-background-disabled);
-  border-color: var(--smbk-color-action-default-border-disabled);
-  color: var(--smbk-color-action-default-foreground-disabled);
+  background: var(--smbk-color-action-disabled-background);
+  color: var(--smbk-color-action-disabled-foreground);
   box-shadow: none;
 }
 
@@ -168,16 +207,19 @@
 }
 
 .smbk-chip--tone-outline:active,
+.smbk-chip--tone-outline[aria-pressed="true"],
 .smbk-chip--tone-outline.smbk-chip--selected {
   background: var(--smbk-color-action-outline-background-pressed);
   border-color: var(--smbk-color-action-outline-border-hover);
+  box-shadow: var(--smbk-elevation-inset-strong);
 }
 
 .smbk-chip--tone-outline:disabled,
 .smbk-chip--tone-outline[aria-disabled="true"] {
   background: transparent;
-  border-color: var(--smbk-color-action-outline-border-disabled);
+  border-color: var(--smbk-color-action-disabled-border);
   color: var(--smbk-color-action-outline-foreground-disabled);
+  box-shadow: none;
 }
 
 /* ---- tone: inverse ---- */
@@ -192,23 +234,52 @@
   .smbk-chip--tone-inverse:hover {
     background: var(--smbk-color-action-inverse-background-hover);
     border-color: var(--smbk-color-action-inverse-border-hover);
-    box-shadow: var(--smbk-elevation-1);
+    box-shadow: var(--smbk-elevation-raised);
   }
 }
 
 .smbk-chip--tone-inverse:active,
+.smbk-chip--tone-inverse[aria-pressed="true"],
 .smbk-chip--tone-inverse.smbk-chip--selected {
   background: var(--smbk-color-action-inverse-background-pressed);
   border-color: var(--smbk-color-action-inverse-border-hover);
-  box-shadow: var(--smbk-elevation-1);
+  box-shadow: var(--smbk-elevation-inset);
 }
 
 .smbk-chip--tone-inverse:disabled,
 .smbk-chip--tone-inverse[aria-disabled="true"] {
-  background: var(--smbk-color-action-inverse-background-disabled);
-  border-color: var(--smbk-color-action-inverse-border-disabled);
-  color: var(--smbk-color-action-inverse-foreground-disabled);
+  background: var(--smbk-color-action-disabled-background);
+  border-color: var(--smbk-color-action-disabled-border);
+  color: var(--smbk-color-action-disabled-foreground);
   box-shadow: none;
+}
+
+/* ---- touch: a chip and its remove cross take invisible press areas ----
+   On a touch screen an invisible area, centred on a chip that is pressed and on a remove cross, takes the press out to
+   the comfortable target in each direction it falls short of it; a chip that only carries a remove cross takes the
+   press on the cross alone. The chip, its focus ring and its place stay as drawn. A component that sets chips closer
+   together stops their areas halfway to the next one. */
+
+@media (pointer: coarse) {
+  :where(button, a[href]).smbk-chip {
+    position: relative;
+  }
+
+  :where(button, a[href]).smbk-chip::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  .smbk-chip__remove {
+    position: relative;
+  }
+
+  .smbk-chip__remove::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
 }
 
 /* ---- high contrast (forced colors) ---- */
@@ -216,7 +287,8 @@
    user's own colors. Nothing here applies outside that mode. */
 
 @media (forced-colors: active) {
-  /* A toggle chip that is on (selected, aria-pressed) is filled with Highlight. */
+  /* A toggle chip that is on (aria-pressed, or the selected class) is filled with Highlight. */
+  .smbk-chip[aria-pressed="true"],
   .smbk-chip.smbk-chip--selected {
     forced-color-adjust: none;
     border-color: Highlight;
@@ -225,6 +297,7 @@
     box-shadow: none;
   }
 
+  .smbk-chip[aria-pressed="true"]:focus-visible,
   .smbk-chip.smbk-chip--selected:focus-visible {
     outline-color: CanvasText;
   }

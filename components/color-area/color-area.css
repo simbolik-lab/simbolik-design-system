@@ -1,0 +1,30 @@
+/* smbk-color-area — Color area. Figma "Color area" 7407:327 (State: Default, Focus, Disabled).
+ * A square of the colors of one hue, saturation across and brightness up, with a color thumb (smbk-color-thumb)
+ * at the color chosen. The gradients change with the hue, so the wrapper paints them as an inline background;
+ * the stylesheet draws the square, its corner and the hairline edge inside it. It fills the width it is given,
+ * never wider than Figma's frame. Disabled, it is the disabled surface and the thumb shows no color. */
+
+.smbk-color-area {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--smbk-size-color-area-width);
+  aspect-ratio: 1;
+  border-radius: var(--smbk-radius-control-md);
+  background: var(--smbk-color-surface-disabled);
+  box-shadow: inset 0 0 0 var(--smbk-border-width-hairline) var(--smbk-color-border-edge-shade-subtle);
+  touch-action: none;
+  cursor: crosshair;
+  forced-color-adjust: none;
+}
+
+.smbk-color-area:has(input:disabled) {
+  cursor: not-allowed;
+}
+
+/* ---- high contrast (forced colors) ---- */
+@media (forced-colors: active) {
+  .smbk-color-area {
+    outline: var(--smbk-border-width-hairline) solid CanvasText;
+  }
+}

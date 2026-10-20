@@ -4,12 +4,12 @@ import { defineVariants } from '../variants.js';
 export const codeBlock = defineVariants({
   name: 'code-block',
   block: 'smbk-code',
-  summary: 'Code in a sunken well with a top bar for a label or language tabs and small icon actions such as copy.',
+  summary: 'Code in a well, colored by kind and numbered by line, with a top bar for a file name or language tabs and small icon actions such as copy.',
   adapt: 'css',
   axes: {},
   flags: {
     bare: { description: 'No top bar: just the well.' },
   },
-  parts: ['bar', 'label', 'tabs', 'actions', 'action', 'body', 'code', 'status'],
+  parts: ['bar', 'label', 'icon', 'tabs', 'actions', 'action', 'body', 'numbers', 'code', 'status', 'keyword', 'declaration', 'string', 'number', 'function', 'type', 'tag', 'property', 'comment', 'punctuation'],
   figmaNodeId: '4255:6452',
 });

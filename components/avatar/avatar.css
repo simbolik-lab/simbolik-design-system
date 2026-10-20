@@ -1,7 +1,7 @@
 /* smbk-avatar — Avatar. Figma "Avatar" 962:62.
- * Sizes are bound to primitive size steps in Figma; so here. Initials are set
- * in the body face at the body size of each step. Figma draws them at the
- * medium weight, which no text preset carries — recorded in the docs. */
+ * Sizes are bound to primitive size steps in Figma; so here. Initials take a
+ * text style per size, as Figma binds them: the label styles up to the medium
+ * avatar, then Body LG, then Heading 2XS at the largest. */
 
 .smbk-avatar {
   box-sizing: border-box;
@@ -12,14 +12,15 @@
   width: var(--smbk-size-88);
   height: var(--smbk-size-88);
   overflow: hidden;
-  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight-subtle);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim-subtle);
   border-radius: var(--smbk-radius-full);
   background: var(--smbk-color-surface-raised);
   color: var(--smbk-color-text-default);
-  font-family: var(--smbk-typography-body-m-medium-font-family);
-  font-weight: var(--smbk-typography-body-m-medium-font-weight);
-  line-height: 1;
-  font-size: var(--smbk-text-heading-md);
+  font-family: var(--smbk-typography-heading-2xs-font-family);
+  font-size: var(--smbk-typography-heading-2xs-font-size);
+  font-weight: var(--smbk-typography-heading-2xs-font-weight);
+  line-height: var(--smbk-typography-heading-2xs-line-height);
+  letter-spacing: var(--smbk-typography-heading-2xs-letter-spacing);
   -webkit-user-select: none;
   user-select: none;
 }
@@ -35,31 +36,76 @@
   object-fit: cover;
 }
 
-/* ---- scheme ---- */
+/* ---- tone. The default tone is the block's own look above. ---- */
 
-.smbk-avatar--scheme-brand {
+.smbk-avatar--tone-brand {
   background: var(--smbk-color-surface-brand);
   color: var(--smbk-color-text-on-brand);
 }
 
-.smbk-avatar--scheme-default {
+.smbk-avatar--tone-inverse {
   background: var(--smbk-color-surface-inverse);
   color: var(--smbk-color-text-inverse);
 }
 
 /* ---- size ---- */
 
-.smbk-avatar--size-lg { width: var(--smbk-size-64); height: var(--smbk-size-64); font-size: var(--smbk-text-body-lg); }
+.smbk-avatar--size-lg {
+  width: var(--smbk-size-64);
+  height: var(--smbk-size-64);
+  font-family: var(--smbk-typography-body-lg-font-family);
+  font-size: var(--smbk-typography-body-lg-font-size);
+  font-weight: var(--smbk-typography-body-lg-font-weight);
+  line-height: var(--smbk-typography-body-lg-line-height);
+  letter-spacing: var(--smbk-typography-body-lg-letter-spacing);
+}
+
 .smbk-avatar--size-lg .smbk-avatar__icon { font-size: var(--smbk-size-icon-xl); }
 
-.smbk-avatar--size-md { width: var(--smbk-size-40); height: var(--smbk-size-40); font-size: var(--smbk-text-body-md); }
+.smbk-avatar--size-md {
+  width: var(--smbk-size-40);
+  height: var(--smbk-size-40);
+  font-family: var(--smbk-typography-label-lg-font-family);
+  font-size: var(--smbk-typography-label-lg-font-size);
+  font-weight: var(--smbk-typography-label-lg-font-weight);
+  line-height: var(--smbk-typography-label-lg-line-height);
+  letter-spacing: var(--smbk-typography-label-lg-letter-spacing);
+}
+
 .smbk-avatar--size-md .smbk-avatar__icon { font-size: var(--smbk-size-icon-lg); }
 
-.smbk-avatar--size-sm { width: var(--smbk-size-32); height: var(--smbk-size-32); font-size: var(--smbk-text-body-sm); }
+.smbk-avatar--size-sm {
+  width: var(--smbk-size-32);
+  height: var(--smbk-size-32);
+  font-family: var(--smbk-typography-label-md-font-family);
+  font-size: var(--smbk-typography-label-md-font-size);
+  font-weight: var(--smbk-typography-label-md-font-weight);
+  line-height: var(--smbk-typography-label-md-line-height);
+  letter-spacing: var(--smbk-typography-label-md-letter-spacing);
+}
+
 .smbk-avatar--size-sm .smbk-avatar__icon { font-size: var(--smbk-size-icon-md); }
 
-.smbk-avatar--size-xs { width: var(--smbk-size-24); height: var(--smbk-size-24); font-size: var(--smbk-text-body-xs); }
+.smbk-avatar--size-xs {
+  width: var(--smbk-size-24);
+  height: var(--smbk-size-24);
+  font-family: var(--smbk-typography-label-sm-font-family);
+  font-size: var(--smbk-typography-label-sm-font-size);
+  font-weight: var(--smbk-typography-label-sm-font-weight);
+  line-height: var(--smbk-typography-label-sm-line-height);
+  letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
+}
+
 .smbk-avatar--size-xs .smbk-avatar__icon { font-size: var(--smbk-size-icon-sm); }
 
-.smbk-avatar--size-2xs { width: var(--smbk-size-20); height: var(--smbk-size-20); font-size: var(--smbk-text-body-xs); }
+.smbk-avatar--size-2xs {
+  width: var(--smbk-size-20);
+  height: var(--smbk-size-20);
+  font-family: var(--smbk-typography-label-sm-font-family);
+  font-size: var(--smbk-typography-label-sm-font-size);
+  font-weight: var(--smbk-typography-label-sm-font-weight);
+  line-height: var(--smbk-typography-label-sm-line-height);
+  letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
+}
+
 .smbk-avatar--size-2xs .smbk-avatar__icon { font-size: var(--smbk-size-icon-xs); }

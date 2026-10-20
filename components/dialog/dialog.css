@@ -1,0 +1,102 @@
+/*
+ * Dialogs over the page: what the modal, the drawer and the command palette share when each is opened over the page
+ * as a native modal dialog, written once. A modal or drawer shown in place (their inline flag) and a palette shown in
+ * place are not over the page, and none of this applies to them.
+ *
+ * The scrim: the dialog's backdrop, in the scrim color. It fades in with the enter purpose as the dialog opens and out
+ * with the exit purpose as it closes; the dialog's display and its place in the top layer change at the end of the
+ * exit, so it stays drawn while it leaves. The modal's panel and the palette fade in and rise a spacing step into
+ * place, and fade out dropping a smaller step; the drawer's panel slides from its own edge (drawer.css). Under reduced
+ * motion the panel and the scrim still fade, at their normal durations, but nothing travels.
+ *
+ * The page behind: while one of them is open over the page, the page does not scroll under it, and its scrollbar's
+ * room is kept, so the page does not shift sideways as the scrollbar goes.
+ *
+ * Each component keeps its own classes, named here as the selectors of these rules, so markup written by hand with
+ * them keeps working; the wrapper's behaviour (opening, Escape, the scrim's click, the fade before the panel goes) is
+ * useModalDialog in dialog.ts.
+ */
+
+.smbk-modal::backdrop,
+.smbk-drawer::backdrop,
+.smbk-command-palette__dialog::backdrop {
+  background: var(--smbk-color-overlay-scrim);
+}
+
+/* ---- motion ---- */
+
+.smbk-modal:not(.smbk-modal--inline),
+.smbk-modal:not(.smbk-modal--inline)::backdrop,
+.smbk-drawer:not(.smbk-drawer--inline),
+.smbk-drawer:not(.smbk-drawer--inline)::backdrop,
+.smbk-command-palette__dialog,
+.smbk-command-palette__dialog::backdrop {
+  transition-property: translate, opacity, display, overlay;
+  transition-duration: var(--smbk-motion-exit-duration);
+  transition-timing-function: var(--smbk-motion-exit-easing);
+  transition-behavior: allow-discrete;
+}
+
+.smbk-modal[open]:not(.smbk-modal--inline),
+.smbk-modal[open]:not(.smbk-modal--inline)::backdrop,
+.smbk-drawer[open]:not(.smbk-drawer--inline),
+.smbk-drawer[open]:not(.smbk-drawer--inline)::backdrop,
+.smbk-command-palette__dialog[open],
+.smbk-command-palette__dialog[open]::backdrop {
+  transition-duration: var(--smbk-motion-enter-duration);
+  transition-timing-function: var(--smbk-motion-enter-easing);
+}
+
+/* Closed, and where they start from as they open: the modal's panel and the palette a step lower and faded, the scrim
+   faded. */
+.smbk-modal:not(.smbk-modal--inline):not([open]),
+.smbk-command-palette__dialog:not([open]) {
+  opacity: 0;
+  translate: 0 var(--smbk-space-8);
+}
+
+.smbk-modal:not(.smbk-modal--inline):not([open])::backdrop,
+.smbk-drawer:not(.smbk-drawer--inline):not([open])::backdrop,
+.smbk-command-palette__dialog:not([open])::backdrop {
+  opacity: 0;
+}
+
+@starting-style {
+  .smbk-modal[open]:not(.smbk-modal--inline),
+  .smbk-command-palette__dialog[open] {
+    opacity: 0;
+    translate: 0 var(--smbk-space-16);
+  }
+
+  .smbk-modal[open]:not(.smbk-modal--inline)::backdrop,
+  .smbk-drawer[open]:not(.smbk-drawer--inline)::backdrop,
+  .smbk-command-palette__dialog[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+/* As heavy as the rules that set the transitions, so they win over them. */
+@media (prefers-reduced-motion: reduce) {
+  .smbk-modal:not(.smbk-modal--inline),
+  .smbk-modal:not(.smbk-modal--inline)::backdrop,
+  .smbk-drawer:not(.smbk-drawer--inline),
+  .smbk-drawer:not(.smbk-drawer--inline)::backdrop,
+  .smbk-command-palette__dialog,
+  .smbk-command-palette__dialog::backdrop {
+    transition-property: opacity, display, overlay;
+  }
+
+  .smbk-modal:not(.smbk-modal--inline):not([open]),
+  .smbk-command-palette__dialog:not([open]) {
+    translate: none;
+  }
+}
+
+/* ---- the page behind ---- */
+
+:root:has(.smbk-modal:modal),
+:root:has(.smbk-drawer:modal),
+:root:has(.smbk-command-palette__dialog:modal) {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+}

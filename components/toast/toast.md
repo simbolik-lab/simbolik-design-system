@@ -16,7 +16,9 @@ A brief message that floats above the page to confirm something just happened â€
 
 ## Anatomy
 
-The same parts as the alert: icon, body with title and description, action, dismiss. The block is raised and has a fixed width.
+The same parts as the alert: icon, body with title and description, action, dismiss. Each tone has its own icon, as the alert's, and the cross sits in a box big enough to press. The block is raised and has a fixed width.
+
+- The region part, where a page's toasts appear: the corner at the end of the viewport's foot, one under another, the newest last. On a phone it spans the viewport less its inset, and so do its toasts.
 
 ## When to use
 
@@ -25,22 +27,58 @@ The same parts as the alert: icon, body with title and description, action, dism
 
 ## When not to use
 
-- Anything the person must read or act on. Use an alert, or a dialog.
+- Anything the person must read or act on. Use an [alert](../alert/alert.md), or a dialog.
 - Errors that block a task. Those belong where the task is.
 
 ## Behavior
 
-The component renders one toast. Where toasts stack and how long they stay are the page's concern. A toast fades in and rises a spacing step into place when it appears, and fades out dropping a smaller step when the page hides it with the hidden attribute; a toast removed from the page outright simply goes. Under reduced motion it appears and disappears at once.
+A toast region shows, times and closes a page's toasts. Put `ToastRegion` round the page once, as it loads, and call `useToasts().show()` anywhere inside it with the toast's tone, title, description and action; it returns an id that `dismiss()` takes.
+
+- A toast stays six seconds, then leaves. A danger toast, and a toast with an action, stay until they are closed. A toast can set its own time, or none.
+- While the pointer is on the region or focus is in it, every timer stops, and each starts again with the time it had left once the pointer and focus have gone. A page in a tab nobody is looking at holds them too.
+- Escape closes the toast focus is in, and focus moves on to the next toast, or back where it was before it went into the region.
+- Three toasts show at once; the others wait their turn and show as earlier ones leave.
+
+A toast fades in and rises a spacing step into place when it appears, and fades out dropping a smaller step as it leaves. Under reduced motion it fades in and out in place, without rising or dropping.
+
+On its own, without a region, the component renders one toast that stays until the page removes it or hides it with the hidden attribute, which plays the same exit. 
 
 ## Accessibility
+### What it does for you
 
-- The status role announces it politely without stealing focus.
-- Because it leaves on its own, it must never be the only place a piece of information appears.
-- A toast with an action must stay long enough to reach it by keyboard, or stay until dismissed.
+- The region carries the status role, so every toast put in it is announced politely, without stealing focus. A toast in a region has no role of its own.
+- A toast on its own carries the status role itself.
+- A toast with an action stays until it is closed, unless given a time. A danger toast stays until closed, so it cannot vanish unread.
+- While the pointer is on the region or focus is in it, every timer stops, so a toast does not leave while it is being read or reached.
+- Escape closes the toast focus is in, and focus moves on to the next toast, or back where it was before it went into the region.
+
+### What you must do
+
+- Put the region in the page as it loads, never with its first toast: it must be there before the first toast arrives, or that toast is not announced.
+- Never let a toast be the only place a piece of information appears, because it leaves on its own.
+- Give a toast with a time one long enough to reach the action by keyboard.
+- Put an error the reader must act on where the task is, not in a toast.
+- In plain markup, give the region the status role, `aria-atomic="false"`, so each toast is announced alone, and a name, and give the toasts in it no role. Timing, holding and Escape are then the page's own script, and must keep to the rules above.
+- Give the page's own words for everything it says by itself, such as the dismiss cross's name, which keeps its English until you do; a page in another language can change it.
+
+### How to test
+
+- With a screen reader, show a toast: it is announced without focus moving. Show one more after the page has loaded and check it is announced too.
+- Tab into the region: the timers stop, the dismiss cross and any action take focus with a focus ring, and Escape closes the toast.
+- Show a danger toast and one with an action: both stay until closed.
+- With reduced motion on, a toast fades in and out in place.
+
+### Keyboard
+
+| Key | What it does |
+|---|---|
+| Tab | Moves focus to a toast's action and its dismiss cross. |
+| Enter or Space | Presses the action or the dismiss cross. |
+| Escape | Closes the toast focus is in and moves focus to the next toast, or back to where it was before it entered the region. |
 
 ## Composition
 
-Same as the alert. Sits in a corner of the viewport, on the overlay layer.
+Same as the alert. Sits in the toast region, in a corner of the viewport, above everything else on the page.
 
 ## Usage rules
 
@@ -54,4 +92,4 @@ Same as the alert. Sits in a corner of the viewport, on the overlay layer.
 
 ## Related
 
-- Alert: the same message, kept on the page.
+- [Alert](../alert/alert.md): the same message, kept on the page.

@@ -3,15 +3,16 @@
     "tokens-bruecke-meta": {
       "useDTCG": true,
       "spec": "https://www.designtokens.org/tr/2025.10/format/",
-      "colorMode": "hex",
+      "colorMode": "srgb-dtcg",
       "variableCollections": [
         "Primitives",
         "Semantic Color",
         "Semantic Dimension",
         "Semantic Typography",
-        "Semantic"
+        "Semantic",
+        "Semantic Layout"
       ],
-      "createdAt": "2026-09-22T17:39:58.765Z"
+      "createdAt": "2026-10-13T11:06:03.073Z"
     }
   },
   "radius": {
@@ -19,6 +20,7 @@
       "xs": {
         "$value": "{radius.2}",
         "$type": "dimension",
+        "$description": "Corners of controls, extra small.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4068:10614",
@@ -36,6 +38,7 @@
       "sm": {
         "$value": "{radius.4}",
         "$type": "dimension",
+        "$description": "Corners of controls, small.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9526",
@@ -53,6 +56,7 @@
       "md": {
         "$value": "{radius.6}",
         "$type": "dimension",
+        "$description": "Corners of controls, medium.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9527",
@@ -70,6 +74,7 @@
       "lg": {
         "$value": "{radius.8}",
         "$type": "dimension",
+        "$description": "Corners of controls, large.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9528",
@@ -89,6 +94,7 @@
       "sm": {
         "$value": "{radius.8}",
         "$type": "dimension",
+        "$description": "Corners of cards, panels and dialogs, small.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9539",
@@ -106,6 +112,7 @@
       "md": {
         "$value": "{radius.12}",
         "$type": "dimension",
+        "$description": "Corners of cards, panels and dialogs, medium.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9538",
@@ -123,6 +130,7 @@
       "lg": {
         "$value": "{radius.16}",
         "$type": "dimension",
+        "$description": "Corners of cards, panels and dialogs, large.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9537",
@@ -141,6 +149,7 @@
     "inset": {
       "$value": "{radius.2}",
       "$type": "dimension",
+      "$description": "Small corner inside a control: a checkbox mark, a track.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4055:9540",
@@ -158,6 +167,7 @@
     "full": {
       "$value": "{radius.9999}",
       "$type": "dimension",
+      "$description": "Capsule: pills, chips, switches.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4055:9541",
@@ -177,6 +187,7 @@
     "hairline": {
       "$value": "{border-width.1}",
       "$type": "dimension",
+      "$description": "Thin lines: dividers and almost every edge.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4055:9542",
@@ -191,9 +202,10 @@
         }
       }
     },
-    "default": {
+    "emphasis": {
       "$value": "{border-width.2}",
       "$type": "dimension",
+      "$description": "Two-pixel edges for emphasis: a chosen card, a focus ring.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4055:9546",
@@ -208,9 +220,10 @@
         }
       }
     },
-    "thick": {
+    "accent": {
       "$value": "{border-width.3}",
       "$type": "dimension",
+      "$description": "Accent rules and callout stripes.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4055:9549",
@@ -231,6 +244,7 @@
       "xs": {
         "$value": "{size.12}",
         "$type": "dimension",
+        "$description": "Icon box, extra small.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9550",
@@ -248,6 +262,7 @@
       "sm": {
         "$value": "{size.16}",
         "$type": "dimension",
+        "$description": "Icon box, small.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9554",
@@ -265,6 +280,7 @@
       "md": {
         "$value": "{size.20}",
         "$type": "dimension",
+        "$description": "Icon box, medium.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9561",
@@ -282,6 +298,7 @@
       "lg": {
         "$value": "{size.24}",
         "$type": "dimension",
+        "$description": "Icon box, large.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9560",
@@ -299,6 +316,7 @@
       "xl": {
         "$value": "{size.32}",
         "$type": "dimension",
+        "$description": "Icon box, extra large.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9568",
@@ -316,6 +334,7 @@
       "2xl": {
         "$value": "{size.40}",
         "$type": "dimension",
+        "$description": "Icon box, 2× large.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9567",
@@ -335,6 +354,7 @@
       "min": {
         "$value": "{size.24}",
         "$type": "dimension",
+        "$description": "Smallest tap area allowed (24, WCAG 2.2).",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9569",
@@ -352,96 +372,10 @@
       "comfortable": {
         "$value": "{size.44}",
         "$type": "dimension",
+        "$description": "Comfortable touch target (44).",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9570",
-            "collection": {
-              "id": "VariableCollectionId:4055:9525",
-              "name": "Semantic",
-              "defaultModeId": "4055:9"
-            },
-            "scopes": [
-              "WIDTH_HEIGHT"
-            ]
-          }
-        }
-      }
-    },
-    "display": {
-      "xs": {
-        "$value": "{size.8}",
-        "$type": "dimension",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4128:20068",
-            "collection": {
-              "id": "VariableCollectionId:4055:9525",
-              "name": "Semantic",
-              "defaultModeId": "4055:9"
-            },
-            "scopes": [
-              "WIDTH_HEIGHT"
-            ]
-          }
-        }
-      },
-      "sm": {
-        "$value": "{size.16}",
-        "$type": "dimension",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4128:20069",
-            "collection": {
-              "id": "VariableCollectionId:4055:9525",
-              "name": "Semantic",
-              "defaultModeId": "4055:9"
-            },
-            "scopes": [
-              "WIDTH_HEIGHT"
-            ]
-          }
-        }
-      },
-      "md": {
-        "$value": "{size.20}",
-        "$type": "dimension",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4128:20070",
-            "collection": {
-              "id": "VariableCollectionId:4055:9525",
-              "name": "Semantic",
-              "defaultModeId": "4055:9"
-            },
-            "scopes": [
-              "WIDTH_HEIGHT"
-            ]
-          }
-        }
-      },
-      "lg": {
-        "$value": "{size.24}",
-        "$type": "dimension",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4128:20071",
-            "collection": {
-              "id": "VariableCollectionId:4055:9525",
-              "name": "Semantic",
-              "defaultModeId": "4055:9"
-            },
-            "scopes": [
-              "WIDTH_HEIGHT"
-            ]
-          }
-        }
-      },
-      "xl": {
-        "$value": "{size.32}",
-        "$type": "dimension",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4128:20072",
             "collection": {
               "id": "VariableCollectionId:4055:9525",
               "name": "Semantic",
@@ -458,6 +392,7 @@
       "sm": {
         "$value": "{size.16}",
         "$type": "dimension",
+        "$description": "Checkbox and radio box, small.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4089:13747",
@@ -475,6 +410,7 @@
       "md": {
         "$value": "{size.20}",
         "$type": "dimension",
+        "$description": "Checkbox and radio box, medium.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4089:13748",
@@ -492,6 +428,7 @@
       "lg": {
         "$value": "{size.24}",
         "$type": "dimension",
+        "$description": "Checkbox and radio box, large.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4089:13749",
@@ -509,8 +446,9 @@
     },
     "content": {
       "sm": {
-        "$value": "{size.content.480}",
+        "$value": "{size.width.480}",
         "$type": "dimension",
+        "$description": "Widest a content column may grow, small.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9573",
@@ -526,8 +464,9 @@
         }
       },
       "md": {
-        "$value": "{size.content.720}",
+        "$value": "{size.width.720}",
         "$type": "dimension",
+        "$description": "Widest a content column may grow, medium.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9577",
@@ -543,8 +482,9 @@
         }
       },
       "lg": {
-        "$value": "{size.content.960}",
+        "$value": "{size.width.960}",
         "$type": "dimension",
+        "$description": "Widest a content column may grow, large.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9581",
@@ -560,11 +500,164 @@
         }
       },
       "xl": {
-        "$value": "{size.content.1360}",
+        "$value": "{size.width.1360}",
         "$type": "dimension",
+        "$description": "Widest a content column may grow, extra large.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9585",
+            "collection": {
+              "id": "VariableCollectionId:4055:9525",
+              "name": "Semantic",
+              "defaultModeId": "4055:9"
+            },
+            "scopes": [
+              "WIDTH_HEIGHT"
+            ]
+          }
+        }
+      }
+    },
+    "mark": {
+      "sm": {
+        "$value": "{size.16}",
+        "$type": "dimension",
+        "$description": "Small fixed marks inside components (dots, bars, keys), small.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4128:20069",
+            "collection": {
+              "id": "VariableCollectionId:4055:9525",
+              "name": "Semantic",
+              "defaultModeId": "4055:9"
+            },
+            "scopes": [
+              "WIDTH_HEIGHT"
+            ]
+          }
+        }
+      },
+      "md": {
+        "$value": "{size.20}",
+        "$type": "dimension",
+        "$description": "Small fixed marks inside components (dots, bars, keys), medium.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4128:20070",
+            "collection": {
+              "id": "VariableCollectionId:4055:9525",
+              "name": "Semantic",
+              "defaultModeId": "4055:9"
+            },
+            "scopes": [
+              "WIDTH_HEIGHT"
+            ]
+          }
+        }
+      },
+      "lg": {
+        "$value": "{size.24}",
+        "$type": "dimension",
+        "$description": "Small fixed marks inside components (dots, bars, keys), large.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4128:20071",
+            "collection": {
+              "id": "VariableCollectionId:4055:9525",
+              "name": "Semantic",
+              "defaultModeId": "4055:9"
+            },
+            "scopes": [
+              "WIDTH_HEIGHT"
+            ]
+          }
+        }
+      },
+      "xl": {
+        "$value": "{size.32}",
+        "$type": "dimension",
+        "$description": "Small fixed marks inside components (dots, bars, keys), extra large.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4128:20072",
+            "collection": {
+              "id": "VariableCollectionId:4055:9525",
+              "name": "Semantic",
+              "defaultModeId": "4055:9"
+            },
+            "scopes": [
+              "WIDTH_HEIGHT"
+            ]
+          }
+        }
+      }
+    },
+    "list": {
+      "max-height": {
+        "$value": "{size.width.320}",
+        "$type": "dimension",
+        "$description": "The greatest height of a scrolling list or menu (the select, the dropdown, the combobox): 320 (decision H). The list scrolls inside it.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:76",
+            "collection": {
+              "id": "VariableCollectionId:4055:9525",
+              "name": "Semantic",
+              "defaultModeId": "4055:9"
+            },
+            "scopes": [
+              "WIDTH_HEIGHT"
+            ]
+          }
+        }
+      }
+    },
+    "tooltip": {
+      "max-width": {
+        "$value": "{size.width.240}",
+        "$type": "dimension",
+        "$description": "Placeholder:. The widest a tooltip bubble grows before its text wraps. Points at size/width/240 for now.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7120:35",
+            "collection": {
+              "id": "VariableCollectionId:4055:9525",
+              "name": "Semantic",
+              "defaultModeId": "4055:9"
+            },
+            "scopes": [
+              "WIDTH_HEIGHT"
+            ]
+          }
+        }
+      }
+    },
+    "table": {
+      "prose-min": {
+        "$value": "{size.width.240}",
+        "$type": "dimension",
+        "$description": "Placeholder:. The narrowest a prose column gets in a table before it wraps.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7122:849",
+            "collection": {
+              "id": "VariableCollectionId:4055:9525",
+              "name": "Semantic",
+              "defaultModeId": "4055:9"
+            },
+            "scopes": [
+              "WIDTH_HEIGHT"
+            ]
+          }
+        }
+      },
+      "prose-max": {
+        "$value": "{size.width.480}",
+        "$type": "dimension",
+        "$description": "Placeholder:. The widest a prose column grows in a table, so lines stay readable.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7122:850",
             "collection": {
               "id": "VariableCollectionId:4055:9525",
               "name": "Semantic",
@@ -583,6 +676,7 @@
       "width": {
         "$value": "{border-width.2}",
         "$type": "dimension",
+        "$description": "Thickness of the focus ring.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9571",
@@ -601,6 +695,7 @@
       "offset": {
         "$value": "{space.2}",
         "$type": "dimension",
+        "$description": "Gap between a control and its focus ring.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9572",

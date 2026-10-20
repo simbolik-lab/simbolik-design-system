@@ -1,0 +1,65 @@
+/* smbk-uptime-bar — Uptime bar. Figma "Uptime bar" 7580:263.
+ * A row of bars of equal width, one per period, as tall as a small control and close together, each in the
+ * color of its status: success for up, warning for an incident, danger for an outage. Under it, a caption with
+ * the start at the left, the share up in the middle and the end at the right. The words carry the meaning:
+ * a screen reader hears a summary with the periods that were not up, and the caption gives the share up. */
+
+.smbk-uptime-bar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-xs);
+  min-width: 0;
+}
+
+/* The block frames the words it hides for screen readers, so they stay inside it wherever it is placed: without a
+   frame they hang from the page itself and stretch it, past the end of an area that scrolls. No weight, so a parent
+   that places the block keeps its say. */
+:where(.smbk-uptime-bar) {
+  position: relative;
+}
+
+.smbk-uptime-bar__bars {
+  display: flex;
+  gap: var(--smbk-space-2);
+  height: var(--smbk-size-28);
+}
+
+.smbk-uptime-bar__bar {
+  flex: 1 1 0;
+  min-width: 0;
+  border-radius: var(--smbk-radius-2);
+  background: var(--smbk-color-feedback-success-icon);
+}
+
+.smbk-uptime-bar__bar--status-incident { background: var(--smbk-color-feedback-warning-icon); }
+.smbk-uptime-bar__bar--status-outage { background: var(--smbk-color-feedback-danger-icon); }
+
+.smbk-uptime-bar__caption {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--smbk-space-inline-md);
+  margin: 0;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
+  text-transform: var(--smbk-typography-body-xs-text-transform);
+}
+
+.smbk-uptime-bar__uptime {
+  font-variant-numeric: tabular-nums;
+}
+
+/* The summary, for screen readers only. */
+/* .smbk-uptime-bar__hidden: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
+/* ---- high contrast (forced colors) ---- */
+/* The bars keep their status colors; the summary and the caption say the same in words. */
+
+@media (forced-colors: active) {
+  .smbk-uptime-bar__bar {
+    forced-color-adjust: none;
+  }
+}

@@ -1,0 +1,321 @@
+/* smbk-stepper — Stepper. Figma "Stepper" 7117:303 and "Stepper item" 7117:227.
+ * An ordered list of steps, each a 24 marker (its number in a ring, the brand fill for the current step, a
+ * check for a finished one, a warning sign for one with an error), its name and a status line, with a line on
+ * to the next step that turns brand after a finished step. A step the reader can go back to is a link or a
+ * button over the whole step: the ghost fill under the pointer, the focus ring around it. The summary gives
+ * "Step 2 of 4", the step's name and the progress bar's slim track; a horizontal stepper shows it instead of
+ * its list where the layout is narrow. Each step's status is also said in words, for screen readers. */
+
+.smbk-stepper {
+  min-width: 0;
+}
+
+/* The block frames the words it hides for screen readers, so they stay inside it wherever it is placed: without a
+   frame they hang from the page itself and stretch it, past the end of an area that scrolls. No weight, so a parent
+   that places the block keeps its say. */
+:where(.smbk-stepper) {
+  position: relative;
+}
+
+.smbk-stepper__list {
+  display: flex;
+  gap: var(--smbk-space-0);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Horizontal: the steps share the row equally. */
+.smbk-stepper__item {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* The step: the whole item, so its fill and its focus ring take in the line too. A link or a button when the
+   reader can go back to it, a plain box otherwise. */
+.smbk-stepper__step {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+  min-width: 0;
+  margin: 0;
+  padding: var(--smbk-space-inset-xs);
+  border: 0;
+  border-radius: var(--smbk-radius-control-md);
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  text-decoration: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:where(a[href], button).smbk-stepper__step {
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+/* The marker and the line on to the next step. */
+.smbk-stepper__marker-row {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-xs);
+  min-width: 0;
+}
+
+.smbk-stepper__marker {
+  box-sizing: border-box;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--smbk-size-control-xs);
+  height: var(--smbk-size-control-xs);
+  border: var(--smbk-border-width-emphasis) solid transparent;
+  border-radius: var(--smbk-radius-full);
+  color: var(--smbk-color-text-subtle);
+}
+
+.smbk-stepper__number {
+  font-family: var(--smbk-typography-label-sm-font-family);
+  font-size: var(--smbk-typography-label-sm-font-size);
+  font-weight: var(--smbk-typography-label-sm-font-weight);
+  line-height: var(--smbk-typography-label-sm-line-height);
+  letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
+  text-transform: var(--smbk-typography-label-sm-text-transform);
+  font-variant-numeric: tabular-nums;
+}
+
+.smbk-stepper__icon {
+  font-size: var(--smbk-size-icon-xs);
+}
+
+.smbk-stepper__connector {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: var(--smbk-border-width-emphasis);
+  background: var(--smbk-color-border-subtle);
+}
+
+/* The last step leads nowhere. */
+.smbk-stepper__item:last-child .smbk-stepper__connector {
+  display: none;
+}
+
+.smbk-stepper__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-text-label);
+  min-width: 0;
+}
+
+.smbk-stepper__label {
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-label-md-font-family);
+  font-size: var(--smbk-typography-label-md-font-size);
+  font-weight: var(--smbk-typography-label-md-font-weight);
+  line-height: var(--smbk-typography-label-md-line-height);
+  letter-spacing: var(--smbk-typography-label-md-letter-spacing);
+  text-transform: var(--smbk-typography-label-md-text-transform);
+  overflow-wrap: anywhere;
+}
+
+.smbk-stepper__status {
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+  text-transform: var(--smbk-typography-body-sm-text-transform);
+  overflow-wrap: anywhere;
+}
+
+/* Words for screen readers only: each step's status. */
+/* .smbk-stepper__hidden: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
+/* ---- status ---- */
+
+.smbk-stepper__item--status-not-started .smbk-stepper__marker {
+  border-color: var(--smbk-color-border-strong);
+}
+
+.smbk-stepper__item--status-current .smbk-stepper__marker {
+  background: var(--smbk-color-action-brand-background);
+  color: var(--smbk-color-action-brand-foreground);
+}
+
+.smbk-stepper__item--status-unavailable .smbk-stepper__marker {
+  border-color: var(--smbk-color-border-control-disabled);
+  color: var(--smbk-color-text-disabled);
+}
+
+.smbk-stepper__item--status-unavailable .smbk-stepper__label {
+  color: var(--smbk-color-text-disabled);
+}
+
+.smbk-stepper__item--status-complete .smbk-stepper__marker {
+  background: var(--smbk-color-action-secondary-background);
+  color: var(--smbk-color-icon-default);
+}
+
+/* The line after a finished step is the brand's. */
+.smbk-stepper__item--status-complete .smbk-stepper__connector {
+  background: var(--smbk-color-border-brand);
+}
+
+.smbk-stepper__item--status-error .smbk-stepper__marker {
+  background: var(--smbk-color-feedback-danger-surface);
+  color: var(--smbk-color-feedback-danger-text-on-surface);
+}
+
+.smbk-stepper__item--status-error .smbk-stepper__status {
+  color: var(--smbk-color-feedback-danger-text-on-subtle);
+}
+
+/* ---- a step the reader can go back to ---- */
+
+@media (hover: hover) {
+  :where(a[href], button:enabled).smbk-stepper__step:hover {
+    background: var(--smbk-color-action-ghost-background-hover);
+  }
+}
+
+:where(a[href], button:enabled).smbk-stepper__step:active {
+  background: var(--smbk-color-action-ghost-background-pressed);
+}
+
+.smbk-stepper__step:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+/* ---- vertical: one step under another, the label beside its marker and the line running down ---- */
+
+.smbk-stepper--layout-vertical .smbk-stepper__list {
+  flex-direction: column;
+}
+
+.smbk-stepper--layout-vertical .smbk-stepper__item {
+  flex: none;
+}
+
+.smbk-stepper--layout-vertical .smbk-stepper__step {
+  flex-direction: row;
+  gap: var(--smbk-space-inline-md);
+}
+
+.smbk-stepper--layout-vertical .smbk-stepper__marker-row {
+  flex-direction: column;
+}
+
+.smbk-stepper--layout-vertical .smbk-stepper__connector {
+  width: var(--smbk-border-width-emphasis);
+  height: auto;
+  min-height: 0;
+}
+
+.smbk-stepper--layout-vertical .smbk-stepper__text {
+  flex: 1 1 0;
+}
+
+/* ---- summary: "Step 2 of 4", the step's name, and a slim track ---- */
+
+.smbk-stepper__summary {
+  display: none;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+  min-width: 0;
+}
+
+.smbk-stepper--layout-summary .smbk-stepper__list {
+  display: none;
+}
+
+.smbk-stepper--layout-summary .smbk-stepper__summary {
+  display: flex;
+}
+
+.smbk-stepper__summary-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-text-label);
+  min-width: 0;
+}
+
+.smbk-stepper__count {
+  margin: 0;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-label-md-font-family);
+  font-size: var(--smbk-typography-label-md-font-size);
+  font-weight: var(--smbk-typography-label-md-font-weight);
+  line-height: var(--smbk-typography-label-md-line-height);
+  letter-spacing: var(--smbk-typography-label-md-letter-spacing);
+  text-transform: var(--smbk-typography-label-md-text-transform);
+}
+
+.smbk-stepper__step-name {
+  margin: 0;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-heading-2xs-font-family);
+  font-size: var(--smbk-typography-heading-2xs-font-size);
+  font-weight: var(--smbk-typography-heading-2xs-font-weight);
+  line-height: var(--smbk-typography-heading-2xs-line-height);
+  letter-spacing: var(--smbk-typography-heading-2xs-letter-spacing);
+  text-transform: var(--smbk-typography-heading-2xs-text-transform);
+  overflow-wrap: anywhere;
+}
+
+/* A narrow space has no room for a row of steps: a horizontal stepper gives its summary instead. */
+@container style(--smbk-layout: narrow) {
+  .smbk-stepper--layout-horizontal .smbk-stepper__list {
+    display: none;
+  }
+
+  .smbk-stepper--layout-horizontal .smbk-stepper__summary {
+    display: flex;
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills; this puts the markers and the lines back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  .smbk-stepper__marker {
+    forced-color-adjust: none;
+    border-color: CanvasText;
+    background: Canvas;
+    color: CanvasText;
+  }
+
+  .smbk-stepper__item--status-current .smbk-stepper__marker {
+    border-color: Highlight;
+    background: Highlight;
+    color: HighlightText;
+  }
+
+  .smbk-stepper__item--status-unavailable .smbk-stepper__marker {
+    border-color: GrayText;
+    color: GrayText;
+  }
+
+  .smbk-stepper__item--status-unavailable .smbk-stepper__label {
+    color: GrayText;
+  }
+
+  .smbk-stepper__connector,
+  .smbk-stepper__item--status-complete .smbk-stepper__connector {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
+
+  .smbk-stepper__step:focus-visible {
+    outline-color: CanvasText;
+  }
+}

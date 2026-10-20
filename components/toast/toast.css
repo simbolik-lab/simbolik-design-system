@@ -2,39 +2,83 @@
  * It rises into place as it appears and drops away as it is hidden (motion rules at the end). */
 
 .smbk-toast {
+  /* The neutral tone; each feedback tone sets these again below (the tone recipe). */
+  --smbk-tone-surface: var(--smbk-color-surface-default);
+  --smbk-tone-border: var(--smbk-color-border-rim);
+  --smbk-tone-text: var(--smbk-color-text-default);
+  --smbk-tone-icon: var(--smbk-color-icon-subtle);
   box-sizing: border-box;
   display: flex;
   align-items: flex-start;
   gap: var(--smbk-space-inline-lg);
   width: var(--smbk-size-content-sm);
   max-width: 100%;
-  padding: var(--smbk-space-inset-xl);
-  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
-  border-radius: var(--smbk-radius-control-lg);
-  background: var(--smbk-color-surface-default);
-  color: var(--smbk-color-text-default);
-  box-shadow: var(--smbk-elevation-3);
+  padding: var(--smbk-space-inset-lg) var(--smbk-space-inset-xl);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-tone-border);
+  border-radius: var(--smbk-radius-container-sm);
+  background: var(--smbk-tone-surface);
+  color: var(--smbk-tone-text);
+  box-shadow: var(--smbk-elevation-overlay);
 }
 
-.smbk-toast__icon { flex-shrink: 0; font-size: var(--smbk-size-icon-md); }
-.smbk-toast__body { display: flex; flex: 1 1 auto; flex-direction: column; gap: var(--smbk-space-inset-lg); min-width: 0; padding: var(--smbk-space-inset-xs) 0; }
-.smbk-toast__title { margin: 0; font-family: var(--smbk-typography-body-m-medium-font-family); font-size: var(--smbk-typography-body-m-medium-font-size); font-weight: var(--smbk-typography-body-m-medium-font-weight); line-height: var(--smbk-typography-body-m-medium-line-height); letter-spacing: var(--smbk-typography-body-m-medium-letter-spacing); }
-.smbk-toast__description { margin: 0; color: var(--smbk-color-text-subtle); font-family: var(--smbk-typography-body-s-font-family); font-size: var(--smbk-typography-body-s-font-size); font-weight: var(--smbk-typography-body-s-font-weight); line-height: var(--smbk-typography-body-s-line-height); letter-spacing: var(--smbk-typography-body-s-letter-spacing); }
-.smbk-toast__action { flex-shrink: 0; }
-.smbk-toast__dismiss { display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; padding: 0; border: 0; background: none; color: inherit; font-size: var(--smbk-size-icon-md); cursor: pointer; appearance: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
-.smbk-toast__dismiss:focus-visible { outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus); outline-offset: var(--smbk-focus-ring-offset); border-radius: var(--smbk-radius-full); }
+/* The icon's box is as tall as the title's line, so the icon sits on the first line's middle.
+   The title sits on its text with no gap: the line heights give the air. */
+.smbk-toast__icon { display: inline-flex; flex-shrink: 0; align-items: center; height: calc(var(--smbk-typography-label-lg-font-size) * var(--smbk-typography-label-lg-line-height)); color: var(--smbk-tone-icon); font-size: var(--smbk-size-icon-md); }
+.smbk-toast__body { display: flex; flex: 1 1 0; flex-direction: column; gap: var(--smbk-space-text-label); min-width: 0; }
+.smbk-toast__title { margin: 0; font-family: var(--smbk-typography-label-lg-font-family); font-size: var(--smbk-typography-label-lg-font-size); font-weight: var(--smbk-typography-label-lg-font-weight); line-height: var(--smbk-typography-label-lg-line-height); letter-spacing: var(--smbk-typography-label-lg-letter-spacing); text-transform: var(--smbk-typography-label-lg-text-transform); }
+.smbk-toast__description { margin: 0; color: var(--smbk-color-text-subtle); font-family: var(--smbk-typography-body-sm-font-family); font-size: var(--smbk-typography-body-sm-font-size); font-weight: var(--smbk-typography-body-sm-font-weight); line-height: var(--smbk-typography-body-sm-line-height); letter-spacing: var(--smbk-typography-body-sm-letter-spacing); }
+.smbk-toast__action { display: flex; flex-shrink: 0; flex-wrap: wrap; gap: var(--smbk-space-inline-md); }
 
-.smbk-toast--tone-info, .smbk-toast--tone-success, .smbk-toast--tone-warning, .smbk-toast--tone-danger { gap: var(--smbk-space-inset-lg); }
-.smbk-toast--tone-info .smbk-toast__icon, .smbk-toast--tone-success .smbk-toast__icon, .smbk-toast--tone-warning .smbk-toast__icon, .smbk-toast--tone-danger .smbk-toast__icon { font-size: var(--smbk-size-icon-sm); }
-.smbk-toast--tone-info { background: var(--smbk-color-feedback-info-surface-subtle); border-color: var(--smbk-color-feedback-info-border); color: var(--smbk-color-feedback-info-text-on-subtle); }
-.smbk-toast--tone-success { background: var(--smbk-color-feedback-success-surface-subtle); border-color: var(--smbk-color-feedback-success-border); color: var(--smbk-color-feedback-success-text-on-subtle); }
-.smbk-toast--tone-warning { background: var(--smbk-color-feedback-warning-surface-subtle); border-color: var(--smbk-color-feedback-warning-border); color: var(--smbk-color-feedback-warning-text-on-subtle); }
-.smbk-toast--tone-danger { background: var(--smbk-color-feedback-danger-surface-subtle); border-color: var(--smbk-color-feedback-danger-border); color: var(--smbk-color-feedback-danger-text-on-subtle); }
+/* .smbk-toast__dismiss: the alert's cross, the small press box shared in press-box/press-box.css, with its focus ring
+   and its press area on a touch screen. */
+
+/* ---- feedback tones: the tone recipe, each family's subtle surface, its border, its text and its icon ---- */
+
+.smbk-toast--tone-info { --smbk-tone-surface: var(--smbk-color-feedback-info-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-info-border); --smbk-tone-text: var(--smbk-color-feedback-info-text-on-subtle); --smbk-tone-icon: var(--smbk-color-feedback-info-icon); }
+.smbk-toast--tone-success { --smbk-tone-surface: var(--smbk-color-feedback-success-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-success-border); --smbk-tone-text: var(--smbk-color-feedback-success-text-on-subtle); --smbk-tone-icon: var(--smbk-color-feedback-success-icon); }
+.smbk-toast--tone-warning { --smbk-tone-surface: var(--smbk-color-feedback-warning-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-warning-border); --smbk-tone-text: var(--smbk-color-feedback-warning-text-on-subtle); --smbk-tone-icon: var(--smbk-color-feedback-warning-icon); }
+.smbk-toast--tone-danger { --smbk-tone-surface: var(--smbk-color-feedback-danger-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-danger-border); --smbk-tone-text: var(--smbk-color-feedback-danger-text-on-subtle); --smbk-tone-icon: var(--smbk-color-feedback-danger-icon); }
+
+/* ---- the region: where the page's toasts appear, in the corner at the end of the viewport's
+   foot, one under another, the newest last. It is the one live region they are announced
+   through, so it is in the page before the first toast arrives, and takes no room or pointer
+   while it is empty. On a phone it spans the viewport less its inset, and so do its toasts. ---- */
+
+.smbk-toast__region {
+  position: fixed;
+  inset-block-end: var(--smbk-space-inset-xl);
+  inset-inline-end: var(--smbk-space-inset-xl);
+  z-index: var(--smbk-layer-critical);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--smbk-space-stack-sm);
+  max-width: calc(100% - 2 * var(--smbk-space-inset-xl));
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+}
+
+.smbk-toast__region > * {
+  pointer-events: auto;
+}
+
+@container style(--smbk-layout: narrow) {
+  .smbk-toast__region {
+    inset-inline-start: var(--smbk-space-inset-xl);
+    align-items: stretch;
+  }
+
+  .smbk-toast__region > .smbk-toast {
+    width: auto;
+  }
+}
 
 /* ---- motion: a toast fades in and rises a spacing step into place with the enter purpose when
    it appears, and fades out dropping a smaller step with the exit purpose when the page hides it
    with the hidden attribute. Its display changes at the end of the exit, so it stays drawn while
-   it leaves; a toast removed from the page outright simply goes. No movement under reduced motion. ---- */
+   it leaves; a toast removed from the page outright simply goes. Under reduced motion it fades in and out in
+   place, without rising or dropping. ---- */
 
 .smbk-toast {
   transition-property: opacity, translate, display;
@@ -61,6 +105,10 @@
 
 @media (prefers-reduced-motion: reduce) {
   .smbk-toast {
-    transition: none;
+    transition-property: opacity, display;
+  }
+
+  .smbk-toast[hidden] {
+    translate: none;
   }
 }

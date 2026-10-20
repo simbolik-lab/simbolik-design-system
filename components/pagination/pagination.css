@@ -2,7 +2,13 @@
  * The numbers type is a bar of ghost buttons, the current page held in the
  * pressed look, with or without its border. The select type is Previous, a
  * select of pages, Next. The range type says which rows are showing out of
- * how many, with a select of ranges, for a table's foot. */
+ * how many, with a select of ranges, for a table's foot.
+ * The current page shows by its pressed fill and a label one weight bolder, so
+ * it is found without telling colors apart. Digits are tabular, every one as
+ * wide as the next, so numbers line up and do not shift as they change.
+ * In a narrow space the numbers bar has no room for its numbers, so it shows
+ * a short form: Previous, "6 of 11", Next (the status part); the select type's
+ * Previous and Next show their icons alone. */
 
 .smbk-pagination {
   display: inline-flex;
@@ -32,10 +38,15 @@
 .smbk-pagination__page {
   width: var(--smbk-size-control-sm);
   padding: 0;
+  font-variant-numeric: tabular-nums;
 }
 
+/* Figma holds the current page in the pressed fill; its label one weight bolder, the semibold of the
+   same 14 px, is the code's own: the weight variants of the text styles live in the token source, not
+   in Figma. Only the weight changes, so the digit sits level with the others. */
 .smbk-pagination__page[aria-current="page"] {
   background: var(--smbk-color-action-ghost-background-pressed);
+  font-weight: var(--smbk-typography-body-sm-semibold-font-weight);
 }
 
 .smbk-pagination__gap {
@@ -43,12 +54,47 @@
   text-align: center;
   min-width: var(--smbk-size-control-sm);
   color: var(--smbk-color-text-subtlest);
-  font-family: var(--smbk-typography-body-m-font-family);
-  font-size: var(--smbk-typography-body-m-font-size);
-  font-weight: var(--smbk-typography-body-m-font-weight);
-  line-height: var(--smbk-typography-body-m-line-height);
-  letter-spacing: var(--smbk-typography-body-m-letter-spacing);
-  text-box: trim-both cap alphabetic;
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+/* The short form's "6 of 11", shown only in a narrow space. */
+.smbk-pagination__status {
+  display: none;
+  align-items: center;
+  padding: 0 var(--smbk-space-inset-md);
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* The select type's Previous and Next: with their words in a wide space, their icons alone in a
+   narrow one, so the three fit a phone. */
+.smbk-pagination .smbk-pagination__narrow-only {
+  display: none;
+}
+
+@container style(--smbk-layout: narrow) {
+  .smbk-pagination__item:has(> .smbk-pagination__page, > .smbk-pagination__gap) {
+    display: none;
+  }
+
+  .smbk-pagination__status,
+  .smbk-pagination .smbk-pagination__narrow-only {
+    display: inline-flex;
+  }
+
+  .smbk-pagination .smbk-pagination__wide-only {
+    display: none;
+  }
 }
 
 /* ---- type: select ---- */
@@ -59,6 +105,11 @@
 
 .smbk-pagination--type-select .smbk-pagination__select {
   width: auto;
+}
+
+.smbk-pagination__select .smbk-select__value,
+.smbk-pagination__select .smbk-select__option-label {
+  font-variant-numeric: tabular-nums;
 }
 
 /* ---- type: range ---- */

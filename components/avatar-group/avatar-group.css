@@ -1,0 +1,78 @@
+/* smbk-avatar-group — Avatar group. Figma "Avatar group" 7580:1856 (Count: 3, 4, 5; More text; Show more).
+ * Extra small avatars in a row, each in a ring of the default surface (the
+ * 2 step around it), overlapping the one before by 6, then a count of the
+ * rest: a pill on the sunken surface in Label SM and the subtle text color,
+ * in the same ring. Each later face sits over the one before. The overlap is
+ * written from the start edge, so it mirrors in right-to-left text. The
+ * avatars keep their own classes; this stylesheet adds the ring, the overlap
+ * and the count. */
+
+.smbk-avatar-group {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The block frames the words it hides for screen readers, so they stay inside it wherever it is placed: without a
+   frame they hang from the page itself and stretch it, past the end of an area that scrolls. No weight, so a parent
+   that places the block keeps its say. */
+:where(.smbk-avatar-group) {
+  position: relative;
+}
+
+.smbk-avatar-group__item {
+  display: inline-flex;
+  padding: var(--smbk-space-2);
+  border-radius: var(--smbk-radius-full);
+  background: var(--smbk-color-surface-default);
+}
+
+.smbk-avatar-group > :not(:first-child) {
+  margin-inline-start: calc(-1 * var(--smbk-space-6));
+}
+
+/* The count: as tall as an avatar inside the same ring, so the row's faces and the count line up. */
+.smbk-avatar-group__more {
+  box-sizing: content-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--smbk-size-24);
+  height: var(--smbk-size-24);
+  padding-inline: var(--smbk-space-6);
+  border: var(--smbk-border-width-emphasis) solid var(--smbk-color-surface-default);
+  border-radius: var(--smbk-radius-full);
+  background: var(--smbk-color-surface-sunken);
+  background-clip: padding-box;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-label-sm-font-family);
+  font-size: var(--smbk-typography-label-sm-font-size);
+  font-weight: var(--smbk-typography-label-sm-font-weight);
+  line-height: var(--smbk-typography-label-sm-line-height);
+  letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Words for screen readers only: "and 3 more" behind the visible "+3". */
+/* .smbk-avatar-group__hidden: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  /* The ring is a fill and would vanish, leaving the faces running into each other; it takes the
+     palette's background, and the count its text color as an edge. */
+  .smbk-avatar-group__item {
+    forced-color-adjust: none;
+    background: Canvas;
+  }
+
+  .smbk-avatar-group__more {
+    border-color: CanvasText;
+  }
+}

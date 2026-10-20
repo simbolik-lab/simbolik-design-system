@@ -30,6 +30,13 @@
         "max": [{ "$ref": "semantic-typography/max.tokens.json" }]
       },
       "default": "min"
+    },
+    "layout": {
+      "contexts": {
+        "phone": [{ "$ref": "semantic-layout/phone.tokens.json" }],
+        "desktop": [{ "$ref": "semantic-layout/desktop.tokens.json" }]
+      },
+      "default": "phone"
     }
   },
   "resolutionOrder": [
@@ -40,6 +47,7 @@
     { "$ref": "#/sets/authored" },
     { "$ref": "#/modifiers/theme" },
     { "$ref": "#/modifiers/density" },
-    { "$ref": "#/modifiers/text-size" }
+    { "$ref": "#/modifiers/text-size" },
+    { "$ref": "#/modifiers/layout" }
   ]
 }

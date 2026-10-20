@@ -1,65 +1,79 @@
 /* smbk-progress — Progress bar. Figma "Progress Bar" 4168:13627 and "ProgressTrack" 4168:13602.
- * The track is a thin solid line; the fill is a thicker bar laid over it,
- * so a default bar reads fatter than its track and a compact bar sits flush.
+ * The track and the fill are the same height on the same line: the empty track in the subtle track
+ * color, pressed in, and the fill laid over it from the start edge, clipped by its round ends.
  * The fill's width is set inline as a percentage by the wrapper; that is data, not a design value. */
 
 .smbk-progress {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   gap: var(--smbk-space-stack-sm);
   width: 100%;
-  min-height: var(--smbk-size-display-lg);
 }
 
 .smbk-progress__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: var(--smbk-color-text-subtle);
+  gap: var(--smbk-space-inline-md);
 }
 
 .smbk-progress__label {
-  font-family: var(--smbk-typography-body-s-font-family);
-  font-size: var(--smbk-typography-body-s-font-size);
-  font-weight: var(--smbk-typography-body-s-font-weight);
-  line-height: var(--smbk-typography-body-s-line-height);
-  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
-  text-box: trim-both cap alphabetic;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-xs);
+  min-width: 0;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+.smbk-progress__icon {
+  flex-shrink: 0;
+  color: var(--smbk-color-feedback-danger-icon);
+  font-size: var(--smbk-size-icon-sm);
 }
 
 .smbk-progress__value {
-  font-family: var(--smbk-typography-label-m-font-family);
-  font-size: var(--smbk-typography-label-m-font-size);
-  font-weight: var(--smbk-typography-label-m-font-weight);
-  line-height: var(--smbk-typography-label-m-line-height);
-  letter-spacing: var(--smbk-typography-label-m-letter-spacing);
-  text-box: trim-both cap alphabetic;
-  text-transform: var(--smbk-typography-label-m-text-transform);
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-label-md-font-family);
+  font-size: var(--smbk-typography-label-md-font-size);
+  font-weight: var(--smbk-typography-label-md-font-weight);
+  line-height: var(--smbk-typography-label-md-line-height);
+  letter-spacing: var(--smbk-typography-label-md-letter-spacing);
+  text-transform: var(--smbk-typography-label-md-text-transform);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Try again: words underlined like a link, in a box at least big enough to press, the small press box shared in
+   press-box/press-box.css, with its focus ring and its press area on a touch screen. */
+.smbk-progress__retry {
+  min-width: var(--smbk-size-target-min);
+  min-height: var(--smbk-size-target-min);
+  margin-block: calc((var(--smbk-typography-label-md-font-size) * var(--smbk-typography-label-md-line-height) - var(--smbk-size-target-min)) / 2);
+  border-radius: var(--smbk-radius-control-xs);
+  color: var(--smbk-color-feedback-danger-text-on-subtle);
+  font-family: var(--smbk-typography-label-md-font-family);
+  font-size: var(--smbk-typography-label-md-font-size);
+  font-weight: var(--smbk-typography-label-md-font-weight);
+  line-height: var(--smbk-typography-label-md-line-height);
+  letter-spacing: var(--smbk-typography-label-md-letter-spacing);
+  text-decoration: underline;
 }
 
 .smbk-progress__track {
   box-sizing: border-box;
   position: relative;
   display: flex;
-  align-items: center;
+  overflow: hidden;
   width: 100%;
   height: var(--smbk-space-inset-xs);
-}
-
-/* The thin line behind the fill: a strip the height of the compact fill, solid as Figma draws it.
-   Figma strokes a two-pixel frame inside with a one-pixel edge, which fills it; the edge counted
-   inside the strip's height does the same here. */
-.smbk-progress__track::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  box-sizing: border-box;
-  height: var(--smbk-space-inset-2xs);
-  margin: auto 0;
-  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-strong);
-  border-radius: var(--smbk-radius-inset);
+  border-radius: var(--smbk-radius-full);
+  background: var(--smbk-color-surface-track-subtle);
+  box-shadow: var(--smbk-elevation-inset);
 }
 
 .smbk-progress__fill {
@@ -75,33 +89,66 @@
 .smbk-progress--tone-default .smbk-progress__fill { background: var(--smbk-color-surface-inverse); }
 .smbk-progress--tone-success .smbk-progress__fill { background: var(--smbk-color-feedback-success-surface); }
 .smbk-progress--tone-warning .smbk-progress__fill { background: var(--smbk-color-feedback-warning-surface); }
+.smbk-progress--tone-danger .smbk-progress__fill { background: var(--smbk-color-feedback-danger-surface); }
 
-/* ---- compact: a slim fill flush with the line, smaller text ---- */
+/* ---- state ---- */
 
-.smbk-progress--size-compact {
-  min-height: var(--smbk-size-display-md);
+/* Failed: the words and the icon in danger, the fill too, whatever the tone. */
+.smbk-progress--state-failed .smbk-progress__label { color: var(--smbk-color-feedback-danger-text-on-subtle); }
+.smbk-progress--state-failed .smbk-progress__fill { background: var(--smbk-color-feedback-danger-surface); }
+
+/* Unknown: a detached part of the track, from three tenths to seven, plainly not a measured length. */
+.smbk-progress--state-unknown .smbk-progress__fill {
+  width: 40%;
+  margin-inline-start: 30%;
 }
 
-.smbk-progress--size-compact .smbk-progress__track {
+/* ---- small: the slim track, smaller text ---- */
+
+.smbk-progress--size-sm .smbk-progress__track {
   height: var(--smbk-space-inset-2xs);
 }
 
-.smbk-progress--size-compact .smbk-progress__label {
-  font-family: var(--smbk-typography-body-t-font-family);
-  font-size: var(--smbk-typography-body-t-font-size);
-  font-weight: var(--smbk-typography-body-t-font-weight);
-  line-height: var(--smbk-typography-body-t-line-height);
-  letter-spacing: var(--smbk-typography-body-t-letter-spacing);
-  text-box: trim-both cap alphabetic;
+.smbk-progress--size-sm .smbk-progress__label {
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
 }
 
-.smbk-progress--size-compact .smbk-progress__value {
-  font-family: var(--smbk-typography-label-s-font-family);
-  font-size: var(--smbk-typography-label-s-font-size);
-  font-weight: var(--smbk-typography-label-s-font-weight);
-  line-height: var(--smbk-typography-label-s-line-height);
-  letter-spacing: var(--smbk-typography-label-s-letter-spacing);
-  text-box: trim-both cap alphabetic;
+.smbk-progress--size-sm .smbk-progress__icon {
+  font-size: var(--smbk-size-icon-xs);
+}
+
+.smbk-progress--size-sm .smbk-progress__value,
+.smbk-progress--size-sm .smbk-progress__retry {
+  font-family: var(--smbk-typography-label-sm-font-family);
+  font-size: var(--smbk-typography-label-sm-font-size);
+  font-weight: var(--smbk-typography-label-sm-font-weight);
+  line-height: var(--smbk-typography-label-sm-line-height);
+  letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
+}
+
+.smbk-progress--size-sm .smbk-progress__retry {
+  margin-block: calc((var(--smbk-typography-label-sm-font-size) * var(--smbk-typography-label-sm-line-height) - var(--smbk-size-target-min)) / 2);
+}
+
+/* ---- pixel: the track cut into twenty square segments a hairline-pair apart, the fill showing
+   through whole ones. A mask over the track does the cutting, so the segments are the same in the
+   empty track and the fill, and the wrapper sends a value in whole segments (twentieths). The mask's
+   color is never seen: only its alpha cuts. ---- */
+
+.smbk-progress--type-pixel .smbk-progress__track {
+  border-radius: 0;
+  box-shadow: none;
+  mask-image: linear-gradient(to right, currentcolor calc(100% - var(--smbk-space-2)), transparent 0);
+  mask-size: calc((100% + var(--smbk-space-2)) / 20) 100%;
+  mask-repeat: repeat-x;
+}
+
+.smbk-progress--type-pixel .smbk-progress__fill {
+  border-radius: 0;
 }
 
 /* ---- motion: when the value changes, the fill grows or shrinks to it with the state purpose,
@@ -117,20 +164,26 @@
   }
 }
 
+/* ---- touch: the retry action's invisible press area (press-box/press-box.css) reaches over the bar under it ---- */
+
+@media (pointer: coarse) {
+  .smbk-progress__retry::after {
+    z-index: 1;
+  }
+}
+
 /* ---- high contrast (forced colors) ---- */
 /* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
    user's own colors. Nothing here applies outside that mode. */
 
 @media (forced-colors: active) {
-  /* The fill as a Highlight bar over a single hairline, so the done part is the thick one at
-     every size. */
-  .smbk-progress .smbk-progress__fill {
-    background: Highlight;
+  /* The empty track outlined with a hairline inside it, the done part filled with Highlight. */
+  .smbk-progress__track {
+    outline: var(--smbk-border-width-hairline) solid CanvasText;
+    outline-offset: calc(-1 * var(--smbk-border-width-hairline));
   }
 
-  .smbk-progress__track::before {
-    height: 0;
-    border-width: var(--smbk-border-width-hairline) 0 0;
-    border-color: CanvasText;
+  .smbk-progress .smbk-progress__fill {
+    background: Highlight;
   }
 }

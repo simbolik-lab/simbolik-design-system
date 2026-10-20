@@ -1,7 +1,9 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState, type HTMLAttributes, type MouseEvent, type ReactNode } from 'react';
 import { Icon } from '../icon/icon.js';
 import { placeIndicator } from '../indicator.js';
+import { useControllable } from '../controllable.js';
 import { tableOfContents } from './table-of-contents.manifest.js';
+import { cx } from '../variants.js';
 
 export interface TocItem {
   /** The id of the section element the item scrolls to. */
@@ -36,20 +38,16 @@ function flatten(items: TocItem[]): TocItem[] {
 
 /**
  * Table of contents: a navigation landmark that follows the reader down the page. One list, in two forms
- * the layout switch chooses, by CSS: in a wide space the card, its label over the links; in a
- * narrow one a box whose heading row is a button that opens and closes the links, as Figma's mobile
- * variant draws it. The button and the label carry the same words, and only one of them is ever shown.
+ * the layout switch chooses, by CSS, drawn alike: in a wide space the box, its heading row a label over
+ * the links; in a narrow one the heading row is a button that opens and closes the links, as Figma's
+ * mobile variant draws it. The button and the label carry the same words, and only one of them is ever shown.
  * The line marking the current section is one indicator that slides from item to item; the stylesheet
  * does the motion, the wrapper only measures where the line goes.
  */
 export function TableOfContents({ label = 'On this page', items, active, extra, open, defaultOpen = false, onOpenChange, className, 'aria-label': name, ...rest }: TableOfContentsProps) {
   const [seen, setSeen] = useState<string>(items[0]?.id ?? '');
-  const [internal, setInternal] = useState(defaultOpen);
-  const isOpen = open ?? internal;
-  const toggle = () => {
-    if (open === undefined) setInternal(!isOpen);
-    onOpenChange?.(!isOpen);
-  };
+  const [isOpen, setOpen] = useControllable({ value: open, defaultValue: defaultOpen, onChange: onOpenChange, name: 'TableOfContents open' });
+  const toggle = () => setOpen(!isOpen);
   const bodyId = useId();
   // An item just pressed stays marked until the reader scrolls on their own: the jump may leave its
   // section short of the line (a short last section cannot reach it) or pass other sections on the way.
@@ -102,8 +100,14 @@ export function TableOfContents({ label = 'On this page', items, active, extra, 
   const markRef = useRef<HTMLSpanElement>(null);
   const shown = useRef<string | undefined>(undefined);
   const currentItem = (body: HTMLElement | null) => body?.querySelector<HTMLElement>(`.${item}[aria-current="true"]`) ?? null;
+  /* Over a child the line sits on the tree line, so the indicator says which kind of item it marks. */
+  const place = (body: HTMLElement | null, instant: boolean) => {
+    const chosen = currentItem(body);
+    markRef.current?.toggleAttribute('data-child', !!chosen?.classList.contains(`${item}--child`));
+    placeIndicator(body, markRef.current, chosen, instant);
+  };
   useLayoutEffect(() => {
-    placeIndicator(bodyRef.current, markRef.current, currentItem(bodyRef.current), shown.current === undefined || shown.current === current);
+    place(bodyRef.current, shown.current === undefined || shown.current === current);
     shown.current = current;
   }, [current]);
 
@@ -111,7 +115,7 @@ export function TableOfContents({ label = 'On this page', items, active, extra, 
   useEffect(() => {
     const body = bodyRef.current;
     if (!body || typeof ResizeObserver === 'undefined') return;
-    const observer = new ResizeObserver(() => placeIndicator(body, markRef.current, currentItem(body), true));
+    const observer = new ResizeObserver(() => place(body, true));
     observer.observe(body);
     for (const link of body.querySelectorAll(`.${item}`)) observer.observe(link);
     return () => observer.disconnect();
@@ -125,7 +129,7 @@ export function TableOfContents({ label = 'On this page', items, active, extra, 
   const render = (list: TocItem[], child: boolean) =>
     list.map((i) => (
       <li key={i.id}>
-        <a className={[item, child ? `${item}--child` : ''].filter(Boolean).join(' ')} href={`#${i.id}`} aria-current={i.id === current ? 'true' : undefined} onClick={choose(i.id)}>
+        <a className={cx(item, child ? `${item}--child` : '')} href={`#${i.id}`} aria-current={i.id === current ? 'true' : undefined} onClick={choose(i.id)}>
           {i.title}
         </a>
         {i.children && i.children.length > 0 && <ul className={tableOfContents.part('list')}>{render(i.children, true)}</ul>}
@@ -134,6 +138,7 @@ export function TableOfContents({ label = 'On this page', items, active, extra, 
   const body = (
     <>
       <p className={tableOfContents.part('label')}>
+        <Icon name="ListDashes" className={tableOfContents.part('icon')} />
         <span className={tableOfContents.part('label-text')}>{label}</span>
       </p>
       <button type="button" className={tableOfContents.part('toggle')} aria-expanded={isOpen} aria-controls={bodyId} onClick={toggle}>
@@ -149,7 +154,7 @@ export function TableOfContents({ label = 'On this page', items, active, extra, 
       </div>
     </>
   );
-  const block = [tableOfContents({ open: isOpen }), className].filter(Boolean).join(' ');
+  const block = cx(tableOfContents({ open: isOpen }), className);
   if (extra === undefined || extra === null || extra === false) {
     return (
       <nav className={block} aria-label={name ?? label} {...rest}>

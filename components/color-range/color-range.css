@@ -1,0 +1,140 @@
+/* smbk-color-range — Color range. Figma "Color range" 7416:21, a strip of "ColorRangeStep" 7416:19 (State: Default, Hover,
+ * Selected, Focus).
+ * A name row (the range's name in Label MD and a line of facts in Body XS) over the steps, which share the width in equal
+ * columns, the extra small inline step apart. Each step is a color swatch (smbk-color-swatch) stretched to the width of its
+ * column and 40 tall, its name in Label SM and its contrast ratio in Body XS under it. The words sit on the page, never on
+ * the color, so no step needs a text color of its own. The step in use rings its swatch inside its edge in the inverse
+ * border color, two pixels wide: a shape as well as a color. In a range a reader can pick from, hover draws the swatch's
+ * edge in the strong border color and keyboard focus draws the ring in the focus color. In a narrow space the eleven
+ * steps wrap onto two rows, so the names and ratios keep their room. */
+
+.smbk-color-range {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-sm);
+  min-width: 0;
+}
+
+/* The block frames the words it hides for screen readers, so they stay inside it wherever it is placed: without a
+   frame they hang from the page itself and stretch it, past the end of an area that scrolls. No weight, so a parent
+   that places the block keeps its say. */
+:where(.smbk-color-range) {
+  position: relative;
+}
+
+.smbk-color-range__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--smbk-space-inline-md);
+}
+
+.smbk-color-range__title {
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-label-md-font-family);
+  font-size: var(--smbk-typography-label-md-font-size);
+  font-weight: var(--smbk-typography-label-md-font-weight);
+  line-height: var(--smbk-typography-label-md-line-height);
+  letter-spacing: var(--smbk-typography-label-md-letter-spacing);
+}
+
+.smbk-color-range__meta,
+.smbk-color-range__ratio {
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
+}
+
+/* The steps share the width equally, however many there are. */
+.smbk-color-range__steps {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  gap: var(--smbk-space-stack-sm) var(--smbk-space-inline-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  outline: none;
+}
+
+.smbk-color-range__step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-xs);
+  min-width: 0;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.smbk-color-range__step[role="option"] {
+  cursor: pointer;
+}
+
+.smbk-color-range__name {
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-label-sm-font-family);
+  font-size: var(--smbk-typography-label-sm-font-size);
+  font-weight: var(--smbk-typography-label-sm-font-weight);
+  line-height: var(--smbk-typography-label-sm-line-height);
+  letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
+}
+
+.smbk-color-range__name,
+.smbk-color-range__ratio {
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The swatch stretched to its column, 40 tall, with the control's small corner. Two classes, so these win over the
+   swatch's own size whichever stylesheet loads first. */
+.smbk-color-range__swatch.smbk-color-swatch {
+  width: 100%;
+  height: var(--smbk-size-40);
+  border-radius: var(--smbk-radius-control-sm);
+}
+
+@media (hover: hover) {
+  .smbk-color-range__step[role="option"]:hover .smbk-color-range__swatch.smbk-color-swatch::after {
+    border-color: var(--smbk-color-border-strong);
+  }
+}
+
+/* The step in use: aria-current in a list, aria-selected in a range a reader picks from. */
+.smbk-color-range__step[aria-current="true"] .smbk-color-range__swatch.smbk-color-swatch::after,
+.smbk-color-range__step[aria-selected="true"] .smbk-color-range__swatch.smbk-color-swatch::after {
+  border-width: var(--smbk-border-width-2);
+  border-color: var(--smbk-color-border-inverse);
+}
+
+.smbk-color-range__step:focus-visible .smbk-color-range__swatch.smbk-color-swatch::after {
+  border-width: var(--smbk-border-width-2);
+  border-color: var(--smbk-color-border-focus);
+}
+
+/* Words for screen readers only: the ratio said in full. */
+/* .smbk-color-range__hidden: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
+/* ---- the narrow form: the steps wrap onto rows of six, so their names and ratios keep their room ---- */
+@container style(--smbk-layout: narrow) {
+  .smbk-color-range__steps {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* The rings are the swatch's edge, which keeps the reader's colors: the step in use and the focused step draw it in
+   the highlight color, so neither is lost. */
+@media (forced-colors: active) {
+  .smbk-color-range__step[aria-current="true"] .smbk-color-range__swatch.smbk-color-swatch::after,
+  .smbk-color-range__step[aria-selected="true"] .smbk-color-range__swatch.smbk-color-swatch::after {
+    border-color: CanvasText;
+  }
+
+  .smbk-color-range__step:focus-visible .smbk-color-range__swatch.smbk-color-swatch::after {
+    border-color: Highlight;
+  }
+}

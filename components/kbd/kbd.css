@@ -3,47 +3,44 @@
  * padding, so one glyph gives a near-square cap and a word or a shortcut
  * widens it. */
 
-/* An inline block, not an inline flex box, so the trim reaches its words; the
-   padding centers the cap height in the fixed height, inside the hairline edge. */
+/* An inline flex box: the key's line is centered in the fixed height, inside the hairline edge. */
 .smbk-kbd {
   box-sizing: border-box;
-  display: inline-block;
-  height: var(--smbk-size-display-lg);
-  padding: calc((var(--smbk-size-display-lg) - 2 * var(--smbk-border-width-hairline) - 1cap) / 2) var(--smbk-space-inset-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--smbk-size-mark-lg);
+  padding: 0 var(--smbk-space-inset-sm);
   text-align: center;
-  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight-subtle);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim-subtle);
   border-radius: var(--smbk-radius-control-xs);
   background: var(--smbk-color-surface-raised);
   color: var(--smbk-color-text-subtle);
-  box-shadow: var(--smbk-elevation-1);
-  font-family: var(--smbk-typography-label-m-font-family);
-  font-size: var(--smbk-typography-label-m-font-size);
-  font-weight: var(--smbk-typography-label-m-font-weight);
-  line-height: var(--smbk-typography-label-m-line-height);
-  letter-spacing: var(--smbk-typography-label-m-letter-spacing);
-  text-box: trim-both cap alphabetic;
-  text-transform: var(--smbk-typography-label-m-text-transform);
+  box-shadow: var(--smbk-elevation-raised);
+  font-family: var(--smbk-typography-code-md-font-family);
+  font-size: var(--smbk-typography-code-md-font-size);
+  font-weight: var(--smbk-typography-code-md-font-weight);
+  line-height: var(--smbk-typography-code-md-line-height);
+  letter-spacing: var(--smbk-typography-code-md-letter-spacing);
   white-space: nowrap;
 }
 
+/* Keys are set in the code face, as Figma's Code styles: Code MD on the large key, Code SM on the others. */
 .smbk-kbd--size-md,
 .smbk-kbd--size-sm {
-  font-family: var(--smbk-typography-label-s-font-family);
-  font-size: var(--smbk-typography-label-s-font-size);
-  font-weight: var(--smbk-typography-label-s-font-weight);
-  line-height: var(--smbk-typography-label-s-line-height);
-  letter-spacing: var(--smbk-typography-label-s-letter-spacing);
-  text-box: trim-both cap alphabetic;
+  font-family: var(--smbk-typography-code-sm-font-family);
+  font-size: var(--smbk-typography-code-sm-font-size);
+  font-weight: var(--smbk-typography-code-sm-font-weight);
+  line-height: var(--smbk-typography-code-sm-line-height);
+  letter-spacing: var(--smbk-typography-code-sm-letter-spacing);
 }
 
-/* Each size centers the cap height in its own height, with its own padding above and below,
-   so no key sits low and the glyphs taller than a capital, such as ⌘, stay inside the top edge. */
+/* Each size has its own height; the line stays centered in it. */
 .smbk-kbd--size-md {
-  height: var(--smbk-size-display-md);
-  padding-block: calc((var(--smbk-size-display-md) - 2 * var(--smbk-border-width-hairline) - 1cap) / 2);
+  height: var(--smbk-size-mark-md);
 }
 
 .smbk-kbd--size-sm {
-  height: var(--smbk-size-display-sm);
-  padding: calc((var(--smbk-size-display-sm) - 2 * var(--smbk-border-width-hairline) - 1cap) / 2) var(--smbk-space-inset-xs);
+  height: var(--smbk-size-mark-sm);
+  padding: 0 var(--smbk-space-inset-xs);
 }

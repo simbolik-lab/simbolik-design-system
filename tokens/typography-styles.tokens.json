@@ -3,19 +3,20 @@
     "tokens-bruecke-meta": {
       "useDTCG": true,
       "spec": "https://www.designtokens.org/tr/2025.10/format/",
-      "colorMode": "hex",
+      "colorMode": "srgb-dtcg",
       "variableCollections": [
         "Primitives",
         "Semantic Color",
         "Semantic Dimension",
         "Semantic Typography",
-        "Semantic"
+        "Semantic",
+        "Semantic Layout"
       ],
-      "createdAt": "2026-09-22T17:39:58.765Z"
+      "createdAt": "2026-10-13T11:06:03.073Z"
     }
   },
   "typography": {
-    "display-1": {
+    "display-xl": {
       "$value": {
         "fontFamily": "{font.family.display}",
         "fontWeight": "{font.weight.regular}",
@@ -26,11 +27,11 @@
       "$type": "typography",
       "$extensions": {
         "figma": {
-          "styleId": "S:3ea55ab98646c527b15ac2e66ba1c22a5198131a"
+          "styleId": "S:5655bd3dcf004065f19679f4ee93c71ca9013d50"
         }
       }
     },
-    "display-2": {
+    "display-lg": {
       "$value": {
         "fontFamily": "{font.family.display}",
         "fontWeight": "{font.weight.regular}",
@@ -41,11 +42,11 @@
       "$type": "typography",
       "$extensions": {
         "figma": {
-          "styleId": "S:aece2688ac308367be58585d64c7a3263418c0f8"
+          "styleId": "S:f3ebd09fe6c8a66d29bafed87375c53297c6cca2"
         }
       }
     },
-    "h1": {
+    "heading-xl": {
       "$value": {
         "fontFamily": "{font.family.display}",
         "fontWeight": "{font.weight.regular}",
@@ -56,11 +57,11 @@
       "$type": "typography",
       "$extensions": {
         "figma": {
-          "styleId": "S:496ee34b6f4b2ad60e3105784d79dd8cbfc6bf4b"
+          "styleId": "S:1a9f129f750d97ba2364dc1c54efdb3d7d82a751"
         }
       }
     },
-    "h2": {
+    "heading-lg": {
       "$value": {
         "fontFamily": "{font.family.display}",
         "fontWeight": "{font.weight.regular}",
@@ -71,11 +72,11 @@
       "$type": "typography",
       "$extensions": {
         "figma": {
-          "styleId": "S:ac0dd1f4b598177af8256ec85487df7f4183a243"
+          "styleId": "S:f2deef7df557861821595168143b0a559072a95a"
         }
       }
     },
-    "h3": {
+    "heading-md": {
       "$value": {
         "fontFamily": "{font.family.display}",
         "fontWeight": "{font.weight.regular}",
@@ -86,11 +87,11 @@
       "$type": "typography",
       "$extensions": {
         "figma": {
-          "styleId": "S:0a4a3b8f1dda8eebbe15e3b99e8dc4d9efd1ae82"
+          "styleId": "S:72e732e15cf8b98053717d78bc32832c7903ec52"
         }
       }
     },
-    "h4": {
+    "heading-sm": {
       "$value": {
         "fontFamily": "{font.family.display}",
         "fontWeight": "{font.weight.regular}",
@@ -101,11 +102,11 @@
       "$type": "typography",
       "$extensions": {
         "figma": {
-          "styleId": "S:cc1b703ac8f15dc8d4e25094e09c161e53df72ea"
+          "styleId": "S:eb53ee66325db7dabbb7de77c211bb01fc3b71cc"
         }
       }
     },
-    "h5": {
+    "heading-xs": {
       "$value": {
         "fontFamily": "{font.family.display}",
         "fontWeight": "{font.weight.regular}",
@@ -116,22 +117,22 @@
       "$type": "typography",
       "$extensions": {
         "figma": {
-          "styleId": "S:1880a036523355ec0a976c6a42807fb4f5602e4e"
+          "styleId": "S:6e413b12bc25c3f22e92a80b90d783f417dbbb74"
         }
       }
     },
-    "h6": {
+    "heading-2xs": {
       "$value": {
         "fontFamily": "{font.family.display}",
         "fontWeight": "{font.weight.regular}",
         "fontSize": "{text.heading-2xs}",
-        "lineHeight": 1.4,
+        "lineHeight": 1.2,
         "letterSpacing": "{font.letter-spacing.none}"
       },
       "$type": "typography",
       "$extensions": {
         "figma": {
-          "styleId": "S:22a3c09abb961b226a281c7094d24ee989ea1c99"
+          "styleId": "S:e0959205f87fca631f42bbf2a699acc210be5d58"
         }
       }
     },
@@ -147,144 +148,326 @@
         }
       },
       "$type": "typography",
+      "$description": "Subtitle: a short heading set in body text, such as the error summary’s title. Body LG’s size with closer lines.",
       "$extensions": {
         "figma": {
-          "styleId": "S:240a74adaa3e4a093b9f9e0be12fd8520614613c"
+          "styleId": "S:de917c155645765bc603159cf0a4d38faddd0f41"
         }
       }
     },
-    "subheading": {
-      "$value": {
-        "fontFamily": "{font.family.body}",
-        "fontWeight": "{font.weight.regular}",
-        "fontSize": "{text.body-md}",
-        "lineHeight": 1.4,
-        "letterSpacing": "{font.letter-spacing.none}"
-      },
-      "$type": "typography",
-      "$extensions": {
-        "figma": {
-          "styleId": "S:2d5699cfc7a6fbe1d4e5664ff8c30156b2152a8e"
-        }
-      }
-    },
-    "body-l": {
+    "body-lg": {
       "$value": {
         "fontFamily": "{font.family.body}",
         "fontWeight": "{font.weight.regular}",
         "fontSize": "{text.body-lg}",
-        "lineHeight": 1.4,
-        "letterSpacing": {
-          "value": 0,
-          "unit": "px"
-        }
+        "lineHeight": 1.5,
+        "letterSpacing": "{font.letter-spacing.none}"
       },
       "$type": "typography",
       "$extensions": {
         "figma": {
-          "styleId": "S:19b6ba19e74dbdf02320f329bb724058b0e18cc8"
+          "styleId": "S:da73f8af0d10e5dcc76af7ce5d3a9a44b98a51af"
         }
       }
     },
-    "body-m": {
+    "body-md": {
       "$value": {
         "fontFamily": "{font.family.body}",
         "fontWeight": "{font.weight.regular}",
         "fontSize": "{text.body-md}",
-        "lineHeight": 1.4,
-        "letterSpacing": {
-          "value": 0,
-          "unit": "px"
-        }
+        "lineHeight": 1.5,
+        "letterSpacing": "{font.letter-spacing.none}"
       },
       "$type": "typography",
       "$extensions": {
         "figma": {
-          "styleId": "S:2d2c92cd9fb9e1a57c64ccb89588d300f8fe2e7c"
+          "styleId": "S:ce6c8095d7044db46edd8c5dcd7d782db92a6065"
         }
       }
     },
-    "body-s": {
+    "body-sm": {
       "$value": {
         "fontFamily": "{font.family.body}",
         "fontWeight": "{font.weight.regular}",
         "fontSize": "{text.body-sm}",
-        "lineHeight": 1.4,
+        "lineHeight": 1.5,
         "letterSpacing": "{font.letter-spacing.none}"
       },
       "$type": "typography",
       "$extensions": {
         "figma": {
-          "styleId": "S:aa9e97bae2870ac564ba77da03dfcc3f70ce5092"
+          "styleId": "S:7254a1bf7ffb52143661047ceceae04a57cf88a7"
         }
       }
     },
-    "body-t": {
+    "body-xs": {
       "$value": {
         "fontFamily": "{font.family.body}",
         "fontWeight": "{font.weight.regular}",
         "fontSize": "{text.body-xs}",
-        "lineHeight": 1.4,
+        "lineHeight": 1.5,
         "letterSpacing": "{font.letter-spacing.none}"
       },
       "$type": "typography",
       "$extensions": {
         "figma": {
-          "styleId": "S:f0894a6023740ccdcf1e2289991581ce1801cfab"
+          "styleId": "S:e41406423b974d806daa40abad666d5f45119ef7"
         }
       }
     },
-    "label-l": {
+    "label-lg": {
       "$value": {
-        "fontFamily": "{font.family.mono}",
-        "fontWeight": "{font.weight.regular}",
+        "fontFamily": "{font.family.body}",
+        "fontWeight": "{font.weight.medium}",
         "fontSize": "{text.label-lg}",
         "lineHeight": 1.4,
         "letterSpacing": "{font.letter-spacing.none}"
       },
       "$type": "typography",
+      "$description": "Label LG: labels on controls and short UI text (buttons, chips, tabs, menu headings). Geist Medium, sentence case. Code and keys use Code SM and Code MD.",
       "$extensions": {
-        "com.simbolik": {
-          "textTransform": "uppercase"
-        },
         "figma": {
-          "styleId": "S:6ebb71eca09c1b0818c7fc7c67fe1fe6115b1111"
+          "styleId": "S:33b48c2dd28efdb0fee22c23f899766fddef5d99"
         }
       }
     },
-    "label-m": {
+    "label-md": {
       "$value": {
-        "fontFamily": "{font.family.mono}",
+        "fontFamily": "{font.family.body}",
         "fontWeight": "{font.weight.medium}",
         "fontSize": "{text.label-md}",
         "lineHeight": 1.4,
-        "letterSpacing": "{font.letter-spacing.loose}"
+        "letterSpacing": "{font.letter-spacing.none}"
       },
       "$type": "typography",
+      "$description": "Label MD: labels on controls and short UI text (buttons, chips, tabs, menu headings). Geist Medium, sentence case. Code and keys use Code SM and Code MD.",
       "$extensions": {
-        "com.simbolik": {
-          "textTransform": "uppercase"
-        },
         "figma": {
-          "styleId": "S:61df69368bdec6df6c02bb2f134dfbeaf42c7a1a"
+          "styleId": "S:37b486d10f8d2bf6f5108309fc7f08492350c7b1"
         }
       }
     },
-    "label-s": {
+    "label-sm": {
       "$value": {
-        "fontFamily": "{font.family.mono}",
+        "fontFamily": "{font.family.body}",
         "fontWeight": "{font.weight.medium}",
         "fontSize": "{text.label-sm}",
         "lineHeight": 1.4,
-        "letterSpacing": "{font.letter-spacing.loose}"
+        "letterSpacing": "{font.letter-spacing.none}"
       },
       "$type": "typography",
+      "$description": "Label SM: labels on controls and short UI text (buttons, chips, tabs, menu headings). Geist Medium, sentence case. Code and keys use Code SM and Code MD.",
       "$extensions": {
-        "com.simbolik": {
-          "textTransform": "uppercase"
-        },
         "figma": {
-          "styleId": "S:7986fed8b2d45484ff21f9fc8e84ab1402c21f76"
+          "styleId": "S:cd0df0d835273fa757b6e29d88e751d7e861068a"
+        }
+      }
+    },
+    "display-xl-light": {
+      "$value": {
+        "fontFamily": "{font.family.display}",
+        "fontWeight": "{font.weight.light}",
+        "fontSize": "{text.display-xl}",
+        "lineHeight": 1,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$description": "Display XL in Funnel Display Light, for large display and heading text where a lighter weight reads better.",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:42e6c8fe9682e9b208b7095b621820ea047be162"
+        }
+      }
+    },
+    "display-lg-light": {
+      "$value": {
+        "fontFamily": "{font.family.display}",
+        "fontWeight": "{font.weight.light}",
+        "fontSize": "{text.display-lg}",
+        "lineHeight": 1,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$description": "Display LG in Funnel Display Light, for large display and heading text where a lighter weight reads better.",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:5607fcde465a50481de51b65dd7fac84fbc660f1"
+        }
+      }
+    },
+    "heading-xl-light": {
+      "$value": {
+        "fontFamily": "{font.family.display}",
+        "fontWeight": "{font.weight.light}",
+        "fontSize": "{text.heading-xl}",
+        "lineHeight": 1.2,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$description": "Heading XL in Funnel Display Light, for large display and heading text where a lighter weight reads better.",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:b88af04e91077d420241a11aca80a11bc2152b78"
+        }
+      }
+    },
+    "heading-lg-light": {
+      "$value": {
+        "fontFamily": "{font.family.display}",
+        "fontWeight": "{font.weight.light}",
+        "fontSize": "{text.heading-lg}",
+        "lineHeight": 1.2,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$description": "Heading LG in Funnel Display Light, for large display and heading text where a lighter weight reads better.",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:11dfc3c8f9c2e23112cc93cbbf02638c20310964"
+        }
+      }
+    },
+    "heading-md-light": {
+      "$value": {
+        "fontFamily": "{font.family.display}",
+        "fontWeight": "{font.weight.light}",
+        "fontSize": "{text.heading-md}",
+        "lineHeight": 1.2,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$description": "Heading MD in Funnel Display Light, for large display and heading text where a lighter weight reads better.",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:010c6d239eae456fdfc6a09b9b9b2f411c28df63"
+        }
+      }
+    },
+    "heading-sm-light": {
+      "$value": {
+        "fontFamily": "{font.family.display}",
+        "fontWeight": "{font.weight.light}",
+        "fontSize": "{text.heading-sm}",
+        "lineHeight": 1.2,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$description": "Heading SM in Funnel Display Light, for large display and heading text where a lighter weight reads better.",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:4e71ca2d8e79f0d235938f19db802a5f920924d9"
+        }
+      }
+    },
+    "heading-xs-light": {
+      "$value": {
+        "fontFamily": "{font.family.display}",
+        "fontWeight": "{font.weight.light}",
+        "fontSize": "{text.heading-xs}",
+        "lineHeight": 1.2,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$description": "Heading XS in Funnel Display Light, for large display and heading text where a lighter weight reads better.",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:40eccda1022f172c394b0446046dab2aea3a2f34"
+        }
+      }
+    },
+    "heading-2xs-light": {
+      "$value": {
+        "fontFamily": "{font.family.display}",
+        "fontWeight": "{font.weight.light}",
+        "fontSize": "{text.heading-2xs}",
+        "lineHeight": 1.2,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$description": "Heading 2XS in Funnel Display Light, for large display and heading text where a lighter weight reads better.",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:31a65a27635f878bf6dada506fc7f8fe757dc5ed"
+        }
+      }
+    },
+    "field-sm": {
+      "$value": {
+        "fontFamily": "{font.family.body}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{text.field-sm}",
+        "lineHeight": 1.5,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$description": "Field SM: the text inside a small field. 14 on a desktop, 16 on a phone, so iPhones do not zoom in (answer 11).",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:88311afea01904f1bfff5c1ace10d2c7af7232e5"
+        }
+      }
+    },
+    "code-sm": {
+      "$value": {
+        "fontFamily": "{font.family.mono}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{text.body-xs}",
+        "lineHeight": 1.5,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$description": "Code SM: keys (Kbd) and short code in a line of text. Geist Mono.",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:9f84cfb4ee62f40f2fabab6fc96e3398b3a4ff6e"
+        }
+      }
+    },
+    "code-md": {
+      "$value": {
+        "fontFamily": "{font.family.mono}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{text.body-sm}",
+        "lineHeight": 1.6,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$description": "Code MD: the code block and larger keys. Geist Mono with its own line height, 160%, so lines of code read apart.",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:f51dee8e68b29cc4451c98b67e314e45967e1591"
+        }
+      }
+    },
+    "body-md-medium": {
+      "$value": {
+        "fontFamily": "{font.family.body}",
+        "fontWeight": "{font.weight.medium}",
+        "fontSize": "{text.body-md}",
+        "lineHeight": 1.5,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$description": "Body MD one weight step bolder, for the current item, so the current item is not shown by colour alone.",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:603383902e91775342748ca7a29f258c2e8de88f"
+        }
+      }
+    },
+    "body-sm-medium": {
+      "$value": {
+        "fontFamily": "{font.family.body}",
+        "fontWeight": "{font.weight.medium}",
+        "fontSize": "{text.body-sm}",
+        "lineHeight": 1.5,
+        "letterSpacing": "{font.letter-spacing.none}"
+      },
+      "$type": "typography",
+      "$description": "Body SM one weight step bolder, for the current item, so the current item is not shown by colour alone.",
+      "$extensions": {
+        "figma": {
+          "styleId": "S:ae7a4b0b0ef74c2f3d486cdf702b771cd04a9d8b"
         }
       }
     }

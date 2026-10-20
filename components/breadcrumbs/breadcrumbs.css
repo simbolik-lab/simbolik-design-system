@@ -1,13 +1,16 @@
 /* smbk-breadcrumbs — Breadcrumbs. Figma "Breadcrumbs" 4136:867.
  * A trail of links to the pages above this one, ending on the current page.
  * Figma paints the ancestors with the muted link color and the current page
- * with the plain link color; the separators take the muted color too. */
+ * with the plain link color; the separators take the muted color too. A crumb
+ * may carry a decorative icon before its name, in the subtle text color. Crumbs
+ * and separators sit the small inline gap apart; the separator follows the size,
+ * as the icon does. Folded, a "more" button stands for the crumbs in between. */
 
 .smbk-breadcrumbs {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: var(--smbk-space-inset-xs);
+  gap: var(--smbk-space-inline-sm);
   margin: 0;
   padding: var(--smbk-space-inset-xs) 0;
   list-style: none;
@@ -16,7 +19,7 @@
 .smbk-breadcrumbs__item {
   display: inline-flex;
   align-items: center;
-  gap: var(--smbk-space-inset-xs);
+  gap: var(--smbk-space-inline-sm);
 }
 
 .smbk-breadcrumbs__link {
@@ -24,13 +27,11 @@
   align-items: center;
   gap: var(--smbk-space-inset-2xs);
   color: var(--smbk-color-text-link-disabled);
-  font-family: var(--smbk-typography-body-m-font-family);
-  font-size: var(--smbk-typography-body-m-font-size);
-  font-weight: var(--smbk-typography-body-m-font-weight);
-  line-height: var(--smbk-typography-body-m-line-height);
-  letter-spacing: var(--smbk-typography-body-m-letter-spacing);
-  /* Untrimmed, as the link is: its focus ring hugs the words, and a box
-     trimmed to the cap height would draw the ring through descenders. */
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
   text-decoration: none;
   white-space: nowrap;
   -webkit-tap-highlight-color: transparent;
@@ -57,17 +58,62 @@
   cursor: default;
 }
 
+.smbk-breadcrumbs__icon {
+  flex-shrink: 0;
+  color: var(--smbk-color-text-subtle);
+  font-size: var(--smbk-size-icon-sm);
+}
+
 .smbk-breadcrumbs__separator {
   color: var(--smbk-color-text-link-disabled);
+  font-size: var(--smbk-size-icon-sm);
+}
+
+/* Folded, the crumbs between the first and the parent wait behind the "more" button, the ghost
+   extra-small icon button, which opens them as a list of links. Its dots are the crumbs' icon size,
+   as Figma draws them: 16 beside the medium crumbs, 12 beside the small. */
+.smbk-breadcrumbs__more {
+  flex-shrink: 0;
+}
+
+.smbk-breadcrumbs .smbk-breadcrumbs__more .smbk-btn__icon {
+  font-size: var(--smbk-size-icon-sm);
+}
+
+.smbk-breadcrumbs--size-sm .smbk-breadcrumbs__more .smbk-btn__icon {
   font-size: var(--smbk-size-icon-xs);
 }
 
 /* ---- sizes ---- */
 
 .smbk-breadcrumbs--size-sm .smbk-breadcrumbs__link {
-  font-family: var(--smbk-typography-body-s-font-family);
-  font-size: var(--smbk-typography-body-s-font-size);
-  font-weight: var(--smbk-typography-body-s-font-weight);
-  line-height: var(--smbk-typography-body-s-line-height);
-  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+.smbk-breadcrumbs--size-sm .smbk-breadcrumbs__icon,
+.smbk-breadcrumbs--size-sm .smbk-breadcrumbs__separator {
+  font-size: var(--smbk-size-icon-xs);
+}
+
+/* ---- touch: each crumb takes an invisible press area ----
+   On a touch screen an invisible area, centred on each link and on the "more" button, takes the press out to the
+   comfortable target side to side, and up and down as far as halfway into the trail's gap, so the rows of a trail
+   that wraps never meet. What is drawn, the focus ring and every place stay as they are. */
+
+@media (pointer: coarse) {
+  .smbk-breadcrumbs__link {
+    position: relative;
+  }
+
+  .smbk-breadcrumbs__link::after,
+  .smbk-btn.smbk-breadcrumbs__more::after {
+    content: '';
+    position: absolute;
+    inset-inline: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+    inset-block: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-sm) / -2);
+  }
 }

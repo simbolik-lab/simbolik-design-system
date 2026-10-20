@@ -1,76 +1,90 @@
-/* smbk-toc — Table of contents. Figma "TableofContents" 4505:11351 over "TableofContentsItem" (State × Type: Parent, Child).
- * A card listing the sections of the page: a label with a rule under it, then
- * one small link per section, children indented, the one in view marked with
- * a line on its left, which slides from item to item. In a narrow space (Figma's Mobile) a box whose heading
- * row, an icon, the label and a caret, is a button: pressed, a rule and the
- * links open under it, and close again (the open flag). */
+/* smbk-toc — Table of contents. Figma "TableofContents" 4505:11351 over "TableofContentsItem" 4300:12766 (State × Type: Parent, Child).
+ * A box listing the sections of the page: a heading row (an icon and the
+ * label), a rule, then one small link per section, touching, children indented
+ * along a tree line, the one in view marked with a brand line (on a parent's
+ * left edge, on a child's tree line) and a bolder label; the line slides from
+ * item to item. Both forms are drawn alike, as Figma draws them: in a wide
+ * space the heading row is a label; in a narrow one (Figma's Mobile) it is a
+ * button with a caret at its end that opens and closes the rule and the links
+ * under it (the open flag). */
 
 .smbk-toc {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: var(--smbk-space-stack-lg);
+  gap: var(--smbk-space-stack-md);
   width: var(--smbk-size-table-of-contents-width);
-  padding: var(--smbk-space-inset-xl);
+  /* Figma draws the edge inside the box, so the padding gives the edge's width back. */
+  padding: calc(var(--smbk-space-inset-lg) - var(--smbk-border-width-hairline));
   border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
-  border-radius: var(--smbk-radius-container-sm);
+  border-radius: var(--smbk-radius-control-md);
 }
 
-/* With extra content, the navigation keeps the card's own stacking inside it. */
+/* With extra content, the navigation keeps the box's own stacking inside it. */
 .smbk-toc__nav {
   display: flex;
   flex-direction: column;
-  gap: var(--smbk-space-stack-lg);
+  gap: var(--smbk-space-stack-md);
 }
 
-/* Content under the list that belongs with it, set off by the same rule as the label's. */
+/* Content under the list that belongs with it, set off by the same rule as the list's. */
 .smbk-toc__extra {
   display: flex;
   flex-direction: column;
   gap: var(--smbk-space-stack-md);
-  padding: 0 var(--smbk-space-inset-md);
 }
 
 .smbk-toc__extra::before {
   content: "";
   display: block;
   height: 0;
-  border-top: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-top);
-  border-bottom: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-bottom);
+  border-top: var(--smbk-border-width-hairline) solid var(--smbk-color-border-groove-top);
+  border-bottom: var(--smbk-border-width-hairline) solid var(--smbk-color-border-groove-bottom);
 }
 
+/* The wide form's heading row: the list icon and the label, the smallest inset over and under them. */
 .smbk-toc__label {
   display: flex;
-  flex-direction: column;
-  gap: var(--smbk-space-stack-sm);
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
   margin: 0;
-  padding: var(--smbk-space-inset-md) var(--smbk-space-inset-md) 0;
+  padding: var(--smbk-space-inset-2xs) 0;
   color: var(--smbk-color-text-subtle);
-  font-family: var(--smbk-typography-label-s-font-family);
-  font-size: var(--smbk-typography-label-s-font-size);
-  font-weight: var(--smbk-typography-label-s-font-weight);
-  line-height: var(--smbk-typography-label-s-line-height);
-  letter-spacing: var(--smbk-typography-label-s-letter-spacing);
-  text-transform: var(--smbk-typography-label-s-text-transform);
+  font-family: var(--smbk-typography-label-sm-font-family);
+  font-size: var(--smbk-typography-label-sm-font-size);
+  font-weight: var(--smbk-typography-label-sm-font-weight);
+  line-height: var(--smbk-typography-label-sm-line-height);
+  letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
+  text-transform: var(--smbk-typography-label-sm-text-transform);
 }
 
-/* The words carry the trim themselves: the label is a flex column, which does not pass it on. */
-.smbk-toc__label-text {
-  text-box: trim-both cap alphabetic;
+/* Figma binds both icons to the subtlest text color. */
+.smbk-toc__icon,
+.smbk-toc__caret {
+  flex-shrink: 0;
+  color: var(--smbk-color-text-subtlest);
+  font-size: var(--smbk-size-icon-xs);
 }
 
-.smbk-toc__label::after {
+/* The rule and the links under it, the medium stack apart. */
+.smbk-toc__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+}
+
+.smbk-toc__body::before {
   content: "";
   display: block;
   height: 0;
-  border-top: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-top);
-  border-bottom: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-bottom);
+  border-top: var(--smbk-border-width-hairline) solid var(--smbk-color-border-groove-top);
+  border-bottom: var(--smbk-border-width-hairline) solid var(--smbk-color-border-groove-bottom);
 }
 
 .smbk-toc__list {
   display: flex;
   flex-direction: column;
-  gap: var(--smbk-space-stack-sm);
+  gap: 0;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -81,36 +95,78 @@
   display: none;
 }
 
-/* A long entry wraps onto more lines instead of being cut short, and keeps one line's height when short. */
+/* A small control tall. A long entry wraps onto more lines instead of being cut short, and keeps one
+   line's height when short. */
 .smbk-toc__item {
   box-sizing: border-box;
   display: flex;
   align-items: center;
   gap: var(--smbk-space-inline-xs);
-  min-height: var(--smbk-size-control-xs);
+  min-height: var(--smbk-size-control-sm);
+  /* The left edge is drawn inside the item, as Figma counts it: the padding after it gives its width back. */
   padding: var(--smbk-space-inset-2xs) var(--smbk-space-inset-lg);
+  padding-left: calc(var(--smbk-space-inset-lg) - var(--smbk-border-width-hairline));
   border-left: var(--smbk-border-width-hairline) solid transparent;
   color: var(--smbk-color-text-subtle);
-  font-family: var(--smbk-typography-body-s-font-family);
-  font-size: var(--smbk-typography-body-s-font-size);
-  font-weight: var(--smbk-typography-body-s-font-weight);
-  line-height: var(--smbk-typography-body-s-line-height);
-  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
   text-decoration: none;
   overflow-wrap: break-word;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
 
+/* A child's tree line: a hairline in the subtle border color down the children, just inside the parent's text,
+   one item tall, so the children's lines meet in one. */
+.smbk-toc__item--child {
+  position: relative;
+}
+
+.smbk-toc__item--child::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  /* From the item's edge, past its clear left edge: the large inset and the hairline, where Figma draws it. */
+  left: var(--smbk-space-inset-lg);
+  border-left: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  pointer-events: none;
+}
+
+/* Under the pointer an item's words and its line turn brand: a parent's left edge, a child's tree line. */
 @media (hover: hover) {
   .smbk-toc__item:hover {
     color: var(--smbk-color-text-brand);
   }
+
+  .smbk-toc__item:not(.smbk-toc__item--child):hover {
+    border-left-color: var(--smbk-color-border-brand);
+  }
+
+  .smbk-toc__item--child:hover::before {
+    border-left-color: var(--smbk-color-border-brand);
+  }
+}
+
+/* The current item: its brand line and its label one weight bolder, so it shows without color. */
+.smbk-toc__item[aria-current="true"]:not(.smbk-toc__item--child) {
+  border-left-color: var(--smbk-color-border-brand);
+}
+
+.smbk-toc__item--child[aria-current="true"]::before {
+  border-left-color: var(--smbk-color-border-brand);
 }
 
 .smbk-toc__item[aria-current="true"] {
-  border-left-color: var(--smbk-color-border-control);
   color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-body-sm-medium-font-family);
+  font-size: var(--smbk-typography-body-sm-medium-font-size);
+  font-weight: var(--smbk-typography-body-sm-medium-font-weight);
+  line-height: var(--smbk-typography-body-sm-medium-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-medium-letter-spacing);
 }
 
 .smbk-toc__item:focus-visible {
@@ -120,56 +176,62 @@
 }
 
 .smbk-toc__item--child {
-  padding-left: var(--smbk-space-inset-2xl);
+  padding-inline: var(--smbk-space-inset-2xl);
+  padding-left: calc(var(--smbk-space-inset-2xl) - var(--smbk-border-width-hairline));
 }
 
 /* The current item's line as one indicator, placed over that item by the wrapper, which then marks
-   the body `data-indicator`. Without it (hand-written markup, the rendered pictures) the current item
-   draws its own line. Every item's left edge is the list's, children included, so the line only
-   moves up and down. */
+   the body `data-indicator`, and the indicator `data-child` when the item is a child. Without it
+   (hand-written markup, the rendered pictures) the current item draws its own line. Every item's left
+   edge is the list's, children included, so the line moves up and down, and in to the tree line over
+   a child. */
 .smbk-toc__body {
   position: relative;
 }
 
+/* Over the items, which come after it: over a child its line lies on the child's own tree line and must cover it. */
 .smbk-toc__indicator {
   display: none;
   position: absolute;
+  z-index: 1;
   top: 0;
   left: 0;
   box-sizing: border-box;
-  border-left: var(--smbk-border-width-hairline) solid var(--smbk-color-border-control);
   pointer-events: none;
+}
+
+.smbk-toc__indicator::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  border-left: var(--smbk-border-width-hairline) solid var(--smbk-color-border-brand);
+}
+
+.smbk-toc__indicator[data-child]::before {
+  left: calc(var(--smbk-space-inset-lg) + var(--smbk-border-width-hairline));
 }
 
 .smbk-toc__body[data-indicator] > .smbk-toc__indicator {
   display: block;
 }
 
+.smbk-toc__body[data-indicator] .smbk-toc__item--child[aria-current="true"]::before {
+  border-left-color: var(--smbk-color-border-subtle);
+}
+
 .smbk-toc__body[data-indicator] .smbk-toc__item[aria-current="true"] {
   border-left-color: transparent;
 }
 
-/* Children sit in a list of their own under the parent's link; the gap above them is the list's own
-   gap, so a parent is as far from its first child as any item is from the next, as Figma spaces them. */
-.smbk-toc__item + .smbk-toc__list {
-  margin-top: var(--smbk-space-stack-sm);
-}
-
-/* ---- narrow: the folding box (Figma's Mobile). The medium stack between its rows, the large
-   inset inside it, the medium control radius; it fills its column. The heading row reaches out
+/* ---- narrow: the folding box (Figma's Mobile). It fills its column. The heading row reaches out
    through the box's inset on three sides so the whole top of the box takes a press, a target
    well over the minimum, while its contents sit where Figma draws them. ---- */
 
 @container style(--smbk-layout: narrow) {
   .smbk-toc {
-    gap: var(--smbk-space-stack-md);
     width: 100%;
-    padding: var(--smbk-space-inset-lg);
-    border-radius: var(--smbk-radius-control-md);
-  }
-
-  .smbk-toc__nav {
-    gap: var(--smbk-space-stack-md);
   }
 
   .smbk-toc__label {
@@ -182,19 +244,19 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--smbk-space-inline-md);
-    margin: calc(-1 * var(--smbk-space-inset-lg)) calc(-1 * var(--smbk-space-inset-lg)) 0;
-    padding: calc(var(--smbk-space-inset-lg) + var(--smbk-space-inset-2xs)) var(--smbk-space-inset-lg) var(--smbk-space-inset-2xs);
+    margin: calc(var(--smbk-border-width-hairline) - var(--smbk-space-inset-lg)) calc(var(--smbk-border-width-hairline) - var(--smbk-space-inset-lg)) 0;
+    padding: calc(var(--smbk-space-inset-lg) - var(--smbk-border-width-hairline) + var(--smbk-space-inset-2xs)) calc(var(--smbk-space-inset-lg) - var(--smbk-border-width-hairline)) var(--smbk-space-inset-2xs);
     border: 0;
     border-radius: var(--smbk-radius-control-md);
     background: none;
     color: var(--smbk-color-text-subtle);
     cursor: pointer;
-    font-family: var(--smbk-typography-label-s-font-family);
-    font-size: var(--smbk-typography-label-s-font-size);
-    font-weight: var(--smbk-typography-label-s-font-weight);
-    line-height: var(--smbk-typography-label-s-line-height);
-    letter-spacing: var(--smbk-typography-label-s-letter-spacing);
-    text-transform: var(--smbk-typography-label-s-text-transform);
+    font-family: var(--smbk-typography-label-sm-font-family);
+    font-size: var(--smbk-typography-label-sm-font-size);
+    font-weight: var(--smbk-typography-label-sm-font-weight);
+    line-height: var(--smbk-typography-label-sm-line-height);
+    letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
+    text-transform: var(--smbk-typography-label-sm-text-transform);
     text-align: start;
   }
 
@@ -217,18 +279,9 @@
     min-width: 0;
   }
 
-  /* The words carry the trim themselves: the row is a flex row, which does not pass it on. */
+  /* The words may shrink in the flex row, so a long heading is cut short rather than pushing the icons out. */
   .smbk-toc__heading-text {
     min-width: 0;
-    text-box: trim-both cap alphabetic;
-  }
-
-  /* Figma binds both icons to the subtlest text color. */
-  .smbk-toc__icon,
-  .smbk-toc__caret {
-    flex-shrink: 0;
-    color: var(--smbk-color-text-subtlest);
-    font-size: var(--smbk-size-icon-xs);
   }
 
   /* The caret points at the closed list and turns to point down it when it opens. */
@@ -240,21 +293,7 @@
     transform: rotate(90deg);
   }
 
-  /* The links under a rule, the medium stack apart. Closed, the body is gone: out of the tab order. */
-  .smbk-toc__body {
-    display: flex;
-    flex-direction: column;
-    gap: var(--smbk-space-stack-md);
-  }
-
-  .smbk-toc__body::before {
-    content: "";
-    display: block;
-    height: 0;
-    border-top: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-top);
-    border-bottom: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-bottom);
-  }
-
+  /* Closed, the body is gone: out of the tab order. */
   .smbk-toc:not(.smbk-toc--open) .smbk-toc__body {
     display: none;
   }
@@ -295,23 +334,59 @@
   transition: color var(--smbk-motion-feedback-duration) var(--smbk-motion-feedback-easing);
 }
 
-.smbk-toc__body[data-indicator] > .smbk-toc__indicator {
-  transition-property: translate, width, height;
+.smbk-toc__body[data-indicator] > .smbk-toc__indicator,
+.smbk-toc__body[data-indicator] > .smbk-toc__indicator::before {
+  transition-property: translate, width, height, left;
   transition-duration: var(--smbk-motion-state-duration);
   transition-timing-function: var(--smbk-motion-state-easing);
 }
 
 /* Set by the wrapper while it places the line without a slide. */
-.smbk-toc__body[data-indicator] > .smbk-toc__indicator[data-instant] {
+.smbk-toc__body[data-indicator] > .smbk-toc__indicator[data-instant],
+.smbk-toc__body[data-indicator] > .smbk-toc__indicator[data-instant]::before {
   transition: none;
 }
 
+/* Under reduced motion the caret, the list and the marking line land at once; the items' color still fades. */
 @media (prefers-reduced-motion: reduce) {
   .smbk-toc__caret,
   .smbk-toc__body,
-  .smbk-toc__item,
-  .smbk-toc__body[data-indicator] > .smbk-toc__indicator {
+  .smbk-toc__body[data-indicator] > .smbk-toc__indicator,
+  .smbk-toc__body[data-indicator] > .smbk-toc__indicator::before {
     transition: none;
+  }
+}
+
+/* ---- touch: the toggle and every item take invisible press areas ----
+   On a touch screen an invisible area, centred on the narrow box's toggle and on each item, takes the press out to the
+   comfortable target in each direction it falls short of it; items one under another touch, so each keeps to its
+   own row and stays one press. What is drawn and every place stay as they are. */
+
+@media (pointer: coarse) {
+  .smbk-toc__toggle,
+  .smbk-toc__item {
+    position: relative;
+  }
+
+  .smbk-toc__toggle::after,
+  .smbk-toc__item::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  /* The items touch, so between two items each area stays inside its own row. */
+  .smbk-toc__item::after {
+    inset-block: 0;
+  }
+
+  :is(.smbk-toc__body, .smbk-toc__nav) > .smbk-toc__list > li:first-child > .smbk-toc__item::after {
+    inset-block-start: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  :is(.smbk-toc__body, .smbk-toc__nav) > .smbk-toc__list > li:last-child > .smbk-toc__item:last-child::after,
+  :is(.smbk-toc__body, .smbk-toc__nav) > .smbk-toc__list > li:last-child > .smbk-toc__list > li:last-child > .smbk-toc__item::after {
+    inset-block-end: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
   }
 }
 
@@ -338,7 +413,12 @@
     outline-color: CanvasText;
   }
 
-  .smbk-toc__indicator {
+  .smbk-toc__indicator::before,
+  .smbk-toc__item--child::before {
+    border-left-color: CanvasText;
+  }
+
+  .smbk-toc__indicator::before {
     border-left-color: Highlight;
   }
 }

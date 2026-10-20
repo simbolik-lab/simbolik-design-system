@@ -1,8 +1,8 @@
 import { defineVariants } from '../variants.js';
 
 /**
- * Tabs. Figma "Tabs" 4171:15599 (Size × Orientation) over "TabItem" 4170:15306.
- * Figma's size axis: Default and Small.
+ * Tabs. Figma "Tabs" 4171:15599 (Style × Size × Orientation) over "TabItem" 4170:15306.
+ * Figma's Style is the look axis.
  */
 export const tabs = defineVariants({
   name: 'tabs',
@@ -10,10 +10,14 @@ export const tabs = defineVariants({
   summary: 'A bar of named views, one shown at a time, each tab in front of its own panel.',
   adapt: 'css',
   axes: {
+    look: {
+      values: ['boxed', 'line'],
+      default: 'boxed',
+      description: 'Boxed: the tabs in a well, the chosen one raised. Line: no well, a line under the row and a brand underline under the chosen tab, or a side bar beside it in a vertical bar. Figma calls this Style.',
+    },
     size: {
       values: ['md', 'sm'],
       default: 'md',
-      description: 'Figma: Default and Small.',
     },
     orientation: {
       values: ['horizontal', 'vertical'],
@@ -26,6 +30,6 @@ export const tabs = defineVariants({
     },
   },
   flags: {},
-  parts: ['list', 'indicator', 'tab', 'icon', 'label', 'badge', 'panel'],
+  parts: ['list', 'indicator', 'tab', 'icon', 'label', 'pause', 'badge', 'more', 'caret', 'panel'],
   figmaNodeId: '4171:15599',
 });

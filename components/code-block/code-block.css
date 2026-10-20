@@ -1,7 +1,7 @@
 /* smbk-code — Code block. Figma "CodeBlock" 4255:6452 and "CodeBlockAction" 4255:6264.
- * Code and the bar label are set in the monospace label face without its
- * uppercase; Figma draws them in the mono face at the regular weight, which no
- * preset carries, so the label preset's weight is used. */
+ * The code is set in Code MD, the mono face, always left to right, beside its line numbers, each kind of code in
+ * its code color. The bar names the code with a file icon and a subtle label, the label component's own, or
+ * switches it with tabs. Its actions are ghost icon buttons in a 24 px box. */
 
 .smbk-code {
   box-sizing: border-box;
@@ -17,25 +17,27 @@
 }
 
 .smbk-code__bar {
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--smbk-space-inline-lg);
+  /* The edge is drawn inside the bar, as Figma counts it: the padding under the row gives its width back. */
   padding: var(--smbk-space-inset-md);
+  padding-bottom: calc(var(--smbk-space-inset-md) - var(--smbk-border-width-hairline));
   border-bottom: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
-  background: var(--smbk-color-surface-raised);
+  background: var(--smbk-color-surface-default);
 }
 
+/* The label sits on the label component's subtle look (smbk-label smbk-label--tone-subtle), which sets its text and
+   the gap after the icon. */
 .smbk-code__label {
   padding: 0 var(--smbk-space-inset-xs);
-  color: var(--smbk-color-text-subtle);
-  font-family: var(--smbk-typography-label-m-font-family);
-  font-size: var(--smbk-typography-label-m-font-size);
-  font-weight: var(--smbk-typography-label-m-font-weight);
-  line-height: var(--smbk-typography-label-m-line-height);
-  letter-spacing: var(--smbk-typography-label-m-letter-spacing);
-  text-box: trim-both cap alphabetic;
-  text-transform: none;
+}
+
+.smbk-code__icon {
+  color: var(--smbk-color-text-disabled);
+  font-size: var(--smbk-size-icon-sm);
 }
 
 .smbk-code__tabs {
@@ -56,9 +58,9 @@
 
 .smbk-code__action {
   box-sizing: border-box;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-grid;
+  place-content: center;
+  place-items: center;
   gap: var(--smbk-space-inline-xs);
   height: var(--smbk-size-control-xs);
   padding: var(--smbk-space-inset-xs);
@@ -75,10 +77,18 @@
   user-select: none;
 }
 
+/* Hovered and pressed, the ghost button's fills. The focus ring alone shows focus: Figma's raised fill is the
+   bar's own. */
 @media (hover: hover) {
   .smbk-code__action:hover {
+    background: var(--smbk-color-action-ghost-background-hover);
     color: var(--smbk-color-text-default);
   }
+}
+
+.smbk-code__action:active {
+  background: var(--smbk-color-action-ghost-background-pressed);
+  color: var(--smbk-color-text-default);
 }
 
 .smbk-code__action:focus-visible {
@@ -86,40 +96,131 @@
   outline-offset: var(--smbk-focus-ring-offset);
 }
 
+.smbk-code__action:disabled {
+  background: none;
+  color: var(--smbk-color-text-disabled);
+  cursor: not-allowed;
+}
+
+/* The action's icon has one cell: an icon the page swaps for another (Copy, then Check once copied) shares it with
+   the one it replaces while the two cross-fade (motion, below). */
+.smbk-code__action > * {
+  grid-area: 1 / 1;
+}
+
 .smbk-code__body {
   position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--smbk-space-inline-lg);
   padding: var(--smbk-space-inset-xl);
-  background: var(--smbk-color-surface-sunken);
+  background: var(--smbk-color-surface-raised);
   overflow: auto;
   /* The system's scrollbar: thin, in the subtle border color, on a clear track. */
   scrollbar-width: thin;
   scrollbar-color: var(--smbk-color-border-subtle) transparent;
 }
 
+.smbk-code__numbers,
 .smbk-code__code {
   display: block;
   margin: 0;
-  font-family: var(--smbk-typography-label-m-font-family);
-  font-size: var(--smbk-typography-label-m-font-size);
-  font-weight: var(--smbk-typography-label-m-font-weight);
-  line-height: var(--smbk-typography-body-s-line-height);
-  letter-spacing: var(--smbk-typography-label-m-letter-spacing);
-  text-box: trim-both cap alphabetic;
-  text-transform: none;
+  font-family: var(--smbk-typography-code-md-font-family);
+  font-size: var(--smbk-typography-code-md-font-size);
+  font-weight: var(--smbk-typography-code-md-font-weight);
+  line-height: var(--smbk-typography-code-md-line-height);
+  letter-spacing: var(--smbk-typography-code-md-letter-spacing);
+  text-transform: var(--smbk-typography-code-md-text-transform);
   white-space: pre;
   tab-size: 2;
 }
 
+/* The line numbers: a column the reader can point by, quieter than the code, left out of a selection. */
+.smbk-code__numbers {
+  flex: none;
+  color: var(--smbk-color-text-disabled);
+  text-align: end;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ---- each kind of code in its code color ---- */
+
+.smbk-code__keyword { color: var(--smbk-color-code-keyword); }
+.smbk-code__declaration { color: var(--smbk-color-code-declaration); }
+.smbk-code__string { color: var(--smbk-color-code-string); }
+.smbk-code__number { color: var(--smbk-color-code-number); }
+.smbk-code__function { color: var(--smbk-color-code-function); }
+.smbk-code__type { color: var(--smbk-color-code-type); }
+.smbk-code__tag { color: var(--smbk-color-code-tag); }
+.smbk-code__property { color: var(--smbk-color-code-property); }
+.smbk-code__comment { color: var(--smbk-color-code-comment); }
+.smbk-code__punctuation { color: var(--smbk-color-code-punctuation); }
+
 /* The status line: what the last action did, for a screen reader only. Out of sight but in the page,
    so what is put in it is read aloud. */
-.smbk-code__status {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-  border: 0;
+/* .smbk-code__status: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
+/* ---- motion: an action whose icon the page swaps (Copy, then Check once copied) cross-fades the two in their one
+   cell. The leaving icon fades out with the feedback purpose, shrinking and blurring as it goes; the arriving one
+   comes back from that look, slower, with the enter purpose, so it lands after the other has gone. Not the exit
+   purpose for the leaving one: its easing holds an icon almost whole until its last moment, so the two would show
+   on top of each other. The icon an action starts with simply shows. Under reduced motion the two only cross-fade. ---- */
+
+.smbk-code__action > [data-swap] {
+  transition-property: opacity, scale, filter;
+  transition-duration: var(--smbk-motion-enter-duration);
+  transition-timing-function: var(--smbk-motion-enter-easing);
+}
+
+.smbk-code__action > [data-swap="out"] {
+  opacity: 0;
+  transition-duration: var(--smbk-motion-feedback-duration);
+  transition-timing-function: var(--smbk-motion-feedback-easing);
+}
+
+@starting-style {
+  .smbk-code__action > [data-swap="in"] {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .smbk-code__action > [data-swap="out"] {
+    scale: 0.6;
+    filter: blur(var(--smbk-blur-4));
+  }
+
+  @starting-style {
+    .smbk-code__action > [data-swap="in"] {
+      scale: 0.6;
+      filter: blur(var(--smbk-blur-4));
+    }
+  }
+}
+
+/* ---- touch: each action takes an invisible press area ----
+   On a touch screen an invisible area, centred on each action, takes the press out to the comfortable target in each
+   direction it falls short of it, over the code under the bar, and between two actions only halfway into their gap;
+   the block cuts it off at its edge. The actions, their focus ring and their places stay as drawn. */
+
+@media (pointer: coarse) {
+  .smbk-code__action {
+    position: relative;
+  }
+
+  .smbk-code__action::after {
+    z-index: 1;
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  .smbk-code__action ~ .smbk-code__action::after {
+    inset-inline-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-xs) / -2);
+  }
+
+  .smbk-code__action:has(~ .smbk-code__action)::after {
+    inset-inline-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-xs) / -2);
+  }
 }

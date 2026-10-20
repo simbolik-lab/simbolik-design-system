@@ -1,0 +1,10 @@
+/* smbk-color-field — Color field. Figma "Color field" 7408:727.
+ * Built on the input: the block always sits on an smbk-input well, the text control is the input's control part,
+ * and the color swatch (smbk-color-swatch) sits in the input's leading content. The padding, the code's text, hover,
+ * focus, error, read-only, disabled and the two sizes are the input's own, so a change to the input reaches the color
+ * field. This stylesheet adds only what the code needs. */
+
+/* Figures of one width, so a code that changes does not shift sideways. */
+.smbk-color-field__control {
+  font-variant-numeric: tabular-nums;
+}

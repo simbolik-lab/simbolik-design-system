@@ -1,6 +1,6 @@
 import { defineVariants } from '../variants.js';
 
-/** Text area. Figma "TextArea" 4800:64744: State (Default, Hover, Pressed, Focused, Filled, Error, Disabled), 7 variants; the states are the input's. */
+/** Text area. Figma "TextArea" 4800:64744: State (Default, Hover, Focus, Filled, Error, Disabled, Read-only), 7 variants; the states are the input's. */
 export const textArea = defineVariants({
   name: 'text-area',
   block: 'smbk-text-area',
@@ -8,7 +8,7 @@ export const textArea = defineVariants({
   adapt: 'css',
   axes: {},
   flags: {
-    error: { description: 'The value is invalid. Draws the danger border; the control also carries aria-invalid.' },
+    error: { description: 'The value is invalid. Draws the danger border, kept while focused, and the error icon at the top end; the control also carries aria-invalid.' },
   },
   parts: ['control', 'grip'],
   figmaNodeId: '4800:64744',

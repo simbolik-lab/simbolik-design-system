@@ -1,0 +1,251 @@
+/* smbk-line-chart — Line chart. Figma "Line chart" 7580:757.
+ * The legend over the chart; then the value labels at the left and the plot beside them, light grid lines at the
+ * round values and the baseline at zero; the labels under the plot. The line is drawn in the series color from its
+ * values, 2 wide, with a soft area of the same color under it for the area type; a second series, the period it
+ * is compared with, is a dashed gray line under it. One value may be marked: a dot ringed in the page's color, a
+ * line down to the baseline and a dark label above with its label and value. The marks are SVG stretched to the
+ * plot, the line keeping its width; the words are text, so they keep their size. A narrow layout drops every
+ * second label under the plot. The first time the chart comes into view its series is uncovered from left to
+ * right; nothing else moves and nothing takes focus. */
+
+.smbk-line-chart {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+  min-width: 0;
+}
+
+/* The block frames the words it hides for screen readers, so they stay inside it wherever it is placed: without a
+   frame they hang from the page itself and stretch it, past the end of an area that scrolls. No weight, so a parent
+   that places the block keeps its say. */
+:where(.smbk-line-chart) {
+  position: relative;
+}
+
+.smbk-line-chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--smbk-space-stack-xs) var(--smbk-space-inline-xl);
+  margin: 0;
+  padding: 0;
+}
+
+/* The value labels, the plot and, under the plot, its labels. */
+.smbk-line-chart__body {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--smbk-space-stack-md) var(--smbk-space-inline-md);
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
+  text-transform: var(--smbk-typography-body-xs-text-transform);
+}
+
+/* The value labels, highest first, spread from the top of the plot to its foot, so each is centred on its line. */
+.smbk-line-chart__y-axis {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: var(--smbk-size-chart-plot-height);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.smbk-line-chart__plot {
+  position: relative;
+  height: var(--smbk-size-chart-plot-height);
+}
+
+/* The scale runs between the middles of the top and bottom value labels: half a line of their text in. */
+.smbk-line-chart__grid {
+  position: absolute;
+  inset: calc(var(--smbk-typography-body-xs-font-size) * var(--smbk-typography-body-xs-line-height) / 2) 0;
+}
+
+.smbk-line-chart__gridline,
+.smbk-line-chart__baseline {
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: var(--smbk-border-width-hairline);
+  background: var(--smbk-color-border-subtle);
+  translate: 0 -50%;
+}
+
+.smbk-line-chart__baseline {
+  background: var(--smbk-color-data-reference-line);
+}
+
+/* Everything drawn from the values, over the grid: the lines and the area, and the marked value. The wrapper draws
+   it so the entrance uncovers them together; markup written by hand may leave it out. */
+.smbk-line-chart__series {
+  position: absolute;
+  inset: 0;
+}
+
+.smbk-line-chart__svg {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.smbk-line-chart__line,
+.smbk-line-chart__comparison {
+  fill: none;
+  stroke: var(--smbk-color-data-series);
+  stroke-width: var(--smbk-border-width-emphasis);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+/* The period compared with: gray and dashed, so it is told apart by more than its color. */
+.smbk-line-chart__comparison {
+  stroke: var(--smbk-color-data-reference-line);
+  stroke-dasharray: var(--smbk-size-4) var(--smbk-size-4);
+  stroke-linecap: butt;
+}
+
+.smbk-line-chart__area {
+  fill: var(--smbk-color-data-series);
+  fill-opacity: var(--smbk-opacity-ghost);
+  stroke: none;
+}
+
+/* ---- the marked value: a line down to the baseline, the dot, and its label and value above ---- */
+
+.smbk-line-chart__drop-line {
+  position: absolute;
+  width: var(--smbk-border-width-hairline);
+  background: var(--smbk-color-data-reference-line);
+  translate: -50% 0;
+}
+
+.smbk-line-chart__marker {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+/* The dot is ringed in the page's color, so it stands clear of the line it sits on. */
+.smbk-line-chart__point {
+  position: absolute;
+  width: var(--smbk-size-8);
+  height: var(--smbk-size-8);
+  border: var(--smbk-border-width-emphasis) solid var(--smbk-color-surface-default);
+  border-radius: var(--smbk-radius-full);
+  background: var(--smbk-color-data-series);
+  translate: -50% -50%;
+}
+
+.smbk-line-chart__readout {
+  position: absolute;
+  bottom: var(--smbk-size-8);
+  padding: var(--smbk-space-2) var(--smbk-space-6);
+  border-radius: var(--smbk-radius-control-sm);
+  background: var(--smbk-color-surface-inverse);
+  color: var(--smbk-color-text-inverse);
+  font-family: var(--smbk-typography-label-sm-font-family);
+  font-size: var(--smbk-typography-label-sm-font-size);
+  font-weight: var(--smbk-typography-label-sm-font-weight);
+  line-height: var(--smbk-typography-label-sm-line-height);
+  letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
+  text-transform: var(--smbk-typography-label-sm-text-transform);
+  white-space: nowrap;
+  translate: -50% 0;
+}
+
+/* Near an end of the plot the label starts or ends at the dot, so it stays over the plot. */
+.smbk-line-chart__readout--start {
+  translate: calc(-1 * var(--smbk-size-8)) 0;
+}
+
+.smbk-line-chart__readout--end {
+  translate: calc(-100% + var(--smbk-size-8)) 0;
+}
+
+/* ---- the labels under the plot, each centred under its value, the first and last kept inside the plot ---- */
+
+.smbk-line-chart__x-axis {
+  grid-column: 2;
+  position: relative;
+  height: calc(var(--smbk-typography-body-xs-font-size) * var(--smbk-typography-body-xs-line-height));
+}
+
+.smbk-line-chart__x-label {
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+  translate: -50% 0;
+}
+
+.smbk-line-chart__x-label:first-child {
+  translate: 0 0;
+}
+
+.smbk-line-chart__x-label:last-child {
+  translate: -100% 0;
+}
+
+/* The table, for screen readers only, unless the page shows it in the disclosure under the chart. */
+/* .smbk-line-chart__table: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
+/* A table takes the room its rows need whatever width and height it is given, so the hidden one is full size, only
+   unseen. It hangs from the block's end corner, reaching back and up, the way a page never scrolls: it adds no room
+   to the block or to any area that scrolls around it, and stays a table for screen readers. */
+.smbk-line-chart__table {
+  inset-block-end: 0;
+  inset-inline-end: 0;
+}
+
+/* A narrow space shows every second label under the plot, keeping the last. */
+@container style(--smbk-layout: narrow) {
+  .smbk-line-chart__x-label--minor {
+    display: none;
+  }
+}
+
+/* ---- motion: the entrance ----
+   The wrapper marks the chart `data-entrance` the first time it comes into view (simbolik/components/entrance.ts):
+   waiting while it is out of view, the series hidden; playing once it is seen, the series (lines, area and marked
+   value together) uncovered from the start of the plot to its end with the chart entrance purpose, as one edge
+   moving across, while the grid and the axes stay. The edges run a little past the plot on each side, and well
+   over and under it, so the line's round ends, the dot and its label are never cut once uncovered. Without the
+   mark (markup written by hand, the rendered pictures, after the entrance) the series is simply drawn, and under
+   reduced motion nothing moves. Only the clip changes, so nothing shifts. */
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  .smbk-line-chart[data-entrance="waiting"] .smbk-line-chart__series {
+    clip-path: inset(-100% calc(100% + var(--smbk-size-8)) -100% calc(-1 * var(--smbk-size-8)));
+  }
+
+  .smbk-line-chart:is([data-entrance="load"], [data-entrance="playing"]) .smbk-line-chart__series {
+    animation: smbk-line-chart-reveal var(--smbk-motion-chart-entrance-reveal-duration) var(--smbk-motion-chart-entrance-easing) backwards;
+  }
+}
+
+@keyframes smbk-line-chart-reveal {
+  from {
+    clip-path: inset(-100% calc(100% + var(--smbk-size-8)) -100% calc(-1 * var(--smbk-size-8)));
+  }
+
+  to {
+    clip-path: inset(-100% calc(-1 * var(--smbk-size-8)) -100% calc(-1 * var(--smbk-size-8)));
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* The plot keeps its colors, so the line still matches its legend swatch and the dashed line stays gray. */
+
+@media (forced-colors: active) {
+  .smbk-line-chart__plot {
+    forced-color-adjust: none;
+  }
+}

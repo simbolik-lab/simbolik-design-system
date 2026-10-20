@@ -15,6 +15,7 @@ export const TIER_OF: Record<string, 'primitive' | 'semantic'> = {
   theme: 'semantic',
   density: 'semantic',
   'text-size': 'semantic',
+  layout: 'semantic',
 };
 
 /**
@@ -46,10 +47,28 @@ export function isEmitted(category: string, tier: 'primitive' | 'semantic'): boo
   return !SEMANTIC_ONLY_CATEGORIES.has(category);
 }
 
-/** How each context axis reaches CSS: theme and density by attribute, text size by media query. */
+/**
+ * The layout switch. The build writes one inherited custom property that components
+ * read with a style query, so a component reflows for the space it is given rather
+ * than the window, and a page or a preview can force either form with the attribute.
+ * The layout tokens' axis below switches at the same width and follows the same attribute.
+ */
+export const LAYOUT_SWITCH = {
+  property: `--${PREFIX}-layout`,
+  attribute: 'data-layout',
+  values: ['narrow', 'wide'] as const,
+  default: 'narrow' as const,
+  // The width is itself a token; the build substitutes its resolved value.
+  wideQuery: '(min-width: {breakpoint.layout})',
+};
+
+/**
+ * How each context axis reaches CSS: theme and density by attribute, text size by media query, and layout by
+ * media query with the layout switch's attribute forcing either context on any element.
+ */
 export type ContextCss =
   | { kind: 'attribute'; attribute: string; systemPreference?: Record<string, string>; colorScheme?: boolean }
-  | { kind: 'media'; queries: Record<string, string> };
+  | { kind: 'media'; queries: Record<string, string>; attribute?: { name: string; values: Record<string, string> } };
 
 export const CONTEXT_CSS: Record<string, ContextCss> = {
   theme: {
@@ -67,21 +86,13 @@ export const CONTEXT_CSS: Record<string, ContextCss> = {
     // The width is itself a token; the build substitutes its resolved value.
     queries: { max: '(min-width: {breakpoint.text-size})' },
   },
-};
-
-/**
- * The layout switch. Not a token axis: no token changes value with it.
- * The build writes one inherited custom property that components read with a
- * style query, so a component reflows for the space it is given rather than the
- * window, and a page or a preview can force either form with the attribute.
- */
-export const LAYOUT_SWITCH = {
-  property: `--${PREFIX}-layout`,
-  attribute: 'data-layout',
-  values: ['narrow', 'wide'] as const,
-  default: 'narrow' as const,
-  // The width is itself a token; the build substitutes its resolved value.
-  wideQuery: '(min-width: {breakpoint.layout})',
+  // The layout tokens (Figma's Semantic Layout collection) switch where the layout switch does, and follow its
+  // attribute, so a page, a section or a preview forced narrow also takes the phone values.
+  layout: {
+    kind: 'media',
+    queries: { desktop: LAYOUT_SWITCH.wideQuery },
+    attribute: { name: LAYOUT_SWITCH.attribute, values: { phone: 'narrow', desktop: 'wide' } },
+  },
 };
 
 /** Tailwind theme namespaces per category. Categories not listed do not appear in the theme. */

@@ -47,6 +47,13 @@ export interface VariantManifest<
   parts: Parts;
   /** The Figma node this component is read from, or blank until mapped. */
   figmaNodeId: string;
+  /**
+   * The block whose stylesheet draws this component, when it is another component in a form of its own: the toggle
+   * button is the button with `aria-pressed`, the theme switch the segmented control in its theme look. Its axes,
+   * flags and parts are then that block's classes, written after this component's own block class, which stays its
+   * own and names it in markup; no two manifests share a block.
+   */
+  drawnBy?: string;
 }
 
 export type AxisValues<M extends VariantManifest> = {
@@ -80,14 +87,16 @@ export function defineVariants<
   type M = VariantManifest<Axes, Flags, Parts>;
   validateManifest(manifest);
 
-  const modifier = (axis: string, value: string) => `${manifest.block}--${axis}-${value}`;
-  const flagClass = (name: string) => `${manifest.block}--${name}`;
+  // A component drawn by another's stylesheet writes that block's modifiers and parts after its own block class.
+  const drawing = manifest.drawnBy ?? manifest.block;
+  const modifier = (axis: string, value: string) => `${drawing}--${axis}-${value}`;
+  const flagClass = (name: string) => `${drawing}--${name}`;
 
   const fn = ((props: VariantProps<M> = {}) => {
-    const classes = [manifest.block];
+    const classes = manifest.drawnBy ? [manifest.block, manifest.drawnBy] : [manifest.block];
     for (const [axis, def] of Object.entries(manifest.axes)) {
-      const given = (props as Record<string, unknown>)[axis];
-      const value = given === undefined ? def.default : String(given);
+      const asked = (props as Record<string, unknown>)[axis];
+      const value = asked === undefined ? def.default : String(asked);
       if (!def.values.includes(value)) {
         throw new Error(`${manifest.block}: "${value}" is not a value of axis "${axis}" (allowed: ${def.values.join(', ')}).`);
       }
@@ -107,7 +116,7 @@ export function defineVariants<
   fn.manifest = manifest;
   fn.part = (name) => {
     if (!manifest.parts.includes(name)) throw new Error(`${manifest.block}: "${name}" is not a declared part.`);
-    return `${manifest.block}__${name}`;
+    return `${drawing}__${name}`;
   };
   fn.modifier = (axis, value) => modifier(axis, value as string);
   fn.flag = (name) => flagClass(name);
@@ -127,6 +136,16 @@ function validateManifest(m: VariantManifest): void {
   }
   for (const flag of Object.keys(m.flags)) if (!NAME.test(flag)) throw new Error(`${m.block}: flag "${flag}" must be lowercase words joined with hyphens.`);
   for (const part of m.parts) if (!NAME.test(part)) throw new Error(`${m.block}: part "${part}" must be lowercase words joined with hyphens.`);
+  if (m.drawnBy !== undefined && (!BLOCK.test(m.drawnBy) || m.drawnBy === m.block)) throw new Error(`${m.block}: drawnBy must be another block class, smbk- followed by lowercase words joined with hyphens.`);
+}
+
+/**
+ * One class list from several: the variant function's classes, a part, a modifier the wrapper adds itself, and the
+ * page's own `className`, in that order, leaving out whatever is empty or false. Every wrapper joins its classes
+ * through this, so a class list is made here and nowhere else: `cx(button({ size }), loading && 'x', className)`.
+ */
+export function cx(...classes: (string | false | null | undefined | 0)[]): string {
+  return classes.filter(Boolean).join(' ');
 }
 
 /** Every combination of axis values, for the render harness and the Showroom. */

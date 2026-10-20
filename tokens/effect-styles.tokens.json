@@ -3,19 +3,20 @@
     "tokens-bruecke-meta": {
       "useDTCG": true,
       "spec": "https://www.designtokens.org/tr/2025.10/format/",
-      "colorMode": "hex",
+      "colorMode": "srgb-dtcg",
       "variableCollections": [
         "Primitives",
         "Semantic Color",
         "Semantic Dimension",
         "Semantic Typography",
-        "Semantic"
+        "Semantic",
+        "Semantic Layout"
       ],
-      "createdAt": "2026-09-22T17:39:58.765Z"
+      "createdAt": "2026-10-13T11:06:03.073Z"
     }
   },
   "elevation": {
-    "0": {
+    "control": {
       "$value": [
         {
           "inset": false,
@@ -39,7 +40,7 @@
         },
         {
           "inset": false,
-          "color": "{color.shadow.s}",
+          "color": "{color.shadow.sm}",
           "offsetX": {
             "value": 0,
             "unit": "px"
@@ -80,11 +81,11 @@
       ],
       "$type": "shadow"
     },
-    "1": {
+    "raised": {
       "$value": [
         {
           "inset": false,
-          "color": "{color.shadow.s}",
+          "color": "{color.shadow.sm}",
           "offsetX": {
             "value": 0,
             "unit": "px"
@@ -104,7 +105,7 @@
         },
         {
           "inset": false,
-          "color": "{color.shadow.s}",
+          "color": "{color.shadow.sm}",
           "offsetX": {
             "value": 0,
             "unit": "px"
@@ -125,11 +126,11 @@
       ],
       "$type": "shadow"
     },
-    "2": {
+    "raised-strong": {
       "$value": [
         {
           "inset": false,
-          "color": "{color.shadow.s}",
+          "color": "{color.shadow.sm}",
           "offsetX": {
             "value": 0,
             "unit": "px"
@@ -149,7 +150,7 @@
         },
         {
           "inset": false,
-          "color": "{color.shadow.s}",
+          "color": "{color.shadow.sm}",
           "offsetX": {
             "value": 0,
             "unit": "px"
@@ -170,11 +171,11 @@
       ],
       "$type": "shadow"
     },
-    "3": {
+    "overlay": {
       "$value": [
         {
           "inset": false,
-          "color": "{color.shadow.s}",
+          "color": "{color.shadow.sm}",
           "offsetX": {
             "value": 0,
             "unit": "px"
@@ -194,7 +195,7 @@
         },
         {
           "inset": false,
-          "color": "{color.shadow.m}",
+          "color": "{color.shadow.md}",
           "offsetX": {
             "value": 0,
             "unit": "px"
@@ -240,11 +241,11 @@
       ],
       "$type": "shadow"
     },
-    "inset-2": {
+    "inset-strong": {
       "$value": [
         {
           "inset": true,
-          "color": "{color.shadow.l}",
+          "color": "{color.shadow.lg}",
           "offsetX": {
             "value": -1,
             "unit": "px"

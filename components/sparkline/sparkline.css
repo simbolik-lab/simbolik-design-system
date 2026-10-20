@@ -1,0 +1,92 @@
+/* smbk-sparkline — Sparkline. Figma "Sparkline" 7580:152.
+ * A small line in the series color, drawn from its values with no axes, ending in a dot on the last value;
+ * with the area flag, a soft fill of the same color under it. It fills the width it is given and is as tall as
+ * a small control. The SVG stretches to fit; the line keeps its width and the dot stays round, because the dot
+ * is drawn outside the SVG. The first time it comes into view it is uncovered from left to right; nothing else
+ * moves. */
+
+.smbk-sparkline {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: var(--smbk-size-32);
+}
+
+.smbk-sparkline__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.smbk-sparkline__line {
+  fill: none;
+  stroke: var(--smbk-color-data-series);
+  stroke-width: var(--smbk-border-width-emphasis);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.smbk-sparkline__area {
+  fill: var(--smbk-color-data-series);
+  fill-opacity: var(--smbk-opacity-ghost);
+  stroke: none;
+}
+
+/* The end dot sits on the last value, centred on it, half past the right edge as Figma draws it. */
+.smbk-sparkline__dot {
+  position: absolute;
+  width: var(--smbk-size-6);
+  height: var(--smbk-size-6);
+  border-radius: var(--smbk-radius-full);
+  background: var(--smbk-color-data-series);
+  translate: -50% -50%;
+}
+
+/* ---- motion: the entrance ----
+   The wrapper marks the sparkline `data-entrance` the first time it comes into view (simbolik/components/entrance.ts):
+   waiting while it is out of view, hidden; playing once it is seen, the line, its area and the end dot uncovered
+   from left to right with the chart entrance purpose, as one edge moving across. The edges run a little past the
+   sparkline, so the dot half past its end is never cut once uncovered. Without the mark (markup written by hand,
+   the rendered pictures, after the entrance) it is simply drawn, and under reduced motion nothing moves. Only the
+   clip changes, so nothing shifts. */
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  .smbk-sparkline[data-entrance="waiting"] {
+    clip-path: inset(-50% calc(100% + var(--smbk-size-6)) -50% calc(-1 * var(--smbk-size-6)));
+  }
+
+  .smbk-sparkline:is([data-entrance="load"], [data-entrance="playing"]) {
+    animation: smbk-sparkline-reveal var(--smbk-motion-chart-entrance-reveal-duration) var(--smbk-motion-chart-entrance-easing) backwards;
+  }
+}
+
+@keyframes smbk-sparkline-reveal {
+  from {
+    clip-path: inset(-50% calc(100% + var(--smbk-size-6)) -50% calc(-1 * var(--smbk-size-6)));
+  }
+
+  to {
+    clip-path: inset(-50% calc(-1 * var(--smbk-size-6)) -50% calc(-1 * var(--smbk-size-6)));
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* The browser would drop the line's color; the line and the dot take the text color instead, and the area goes. */
+
+@media (forced-colors: active) {
+  .smbk-sparkline__line {
+    stroke: CanvasText;
+  }
+
+  .smbk-sparkline__area {
+    display: none;
+  }
+
+  .smbk-sparkline__dot {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
+}

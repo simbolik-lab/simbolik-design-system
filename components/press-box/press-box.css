@@ -1,0 +1,75 @@
+/*
+ * The small press box: a control drawn smaller than a press needs (a bare cross, a word or two underlined), put in a
+ * box at least the least a press needs (size/target/min), with nothing of the browser's own button look, so the box
+ * adds no look of its own and the glyph or the words sit where Figma draws them. The alert's and the toast's dismiss
+ * crosses, the tag's remove cross and the progress bar's Try again share it, written once. On a touch screen an
+ * invisible area, centred on the box, takes the press out to the comfortable target in each direction it falls short
+ * of it; the look, the focus ring and the place stay as drawn.
+ *
+ * Each component keeps its own part class, named here as a selector of these rules, so markup written by hand with it
+ * keeps working; each component's stylesheet adds what its part needs beyond this: its size, its margins that keep
+ * the glyph in place, its color and type, and its focus ring where it is drawn on the glyph rather than the box.
+ */
+
+.smbk-alert__dismiss,
+.smbk-toast__dismiss,
+.smbk-tag__remove,
+.smbk-progress__retry {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* A cross: the box is exactly the least a press needs, and the cross takes the color of the words around it. */
+.smbk-alert__dismiss,
+.smbk-toast__dismiss,
+.smbk-tag__remove {
+  width: var(--smbk-size-target-min);
+  height: var(--smbk-size-target-min);
+  color: inherit;
+}
+
+/* The alert's and the toast's cross: the size of the icon, centred on the title's line, the box reaching past the
+   glyph by the same amount on every side, round. */
+.smbk-alert__dismiss,
+.smbk-toast__dismiss {
+  margin-block: calc((var(--smbk-typography-label-lg-font-size) * var(--smbk-typography-label-lg-line-height) - var(--smbk-size-target-min)) / 2);
+  margin-inline: calc((var(--smbk-size-icon-md) - var(--smbk-size-target-min)) / 2);
+  border-radius: var(--smbk-radius-full);
+  font-size: var(--smbk-size-icon-md);
+}
+
+/* The focus ring on the box's own edge (the tag draws it on its cross instead, tag.css). */
+.smbk-alert__dismiss:focus-visible,
+.smbk-toast__dismiss:focus-visible,
+.smbk-progress__retry:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+@media (pointer: coarse) {
+  .smbk-alert__dismiss,
+  .smbk-toast__dismiss,
+  .smbk-tag__remove,
+  .smbk-progress__retry {
+    position: relative;
+  }
+
+  .smbk-alert__dismiss::after,
+  .smbk-toast__dismiss::after,
+  .smbk-tag__remove::after,
+  .smbk-progress__retry::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+}

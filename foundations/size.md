@@ -7,7 +7,7 @@ tokenGroup: size
 tiers: both
 themeAware: false
 densityAware: true
-viewportAware: false
+viewportAware: true
 status: candidate
 ---
 
@@ -19,7 +19,7 @@ The vocabulary of widths and heights that are not distances between things: how 
 
 ## How it is structured
 
-Primitives come in three runs. A run of small steps for controls, icons and boxes; a run of content widths for columns of reading and page content; and a run of viewport widths that name the structural breakpoints. They share a group because they are all sizes, but they are read by different roles and are not interchangeable.
+Primitives come in three runs. A run of small steps for controls, icons and boxes; a run of widths for columns, panels and pages; and a run of viewport widths that name the structural breakpoints. They share a group because they are all sizes, but they are read by different roles and are not interchangeable.
 
 The semantic roles say what is being sized:
 
@@ -27,8 +27,10 @@ The semantic roles say what is being sized:
 - **Icon** — the box an icon glyph is drawn into, from the smallest inline marker to the large decorative size.
 - **Target** — the tap-area floors: the minimum the accessibility guidelines allow, and a more comfortable target for primary touch actions.
 - **Selection** — the box of a checkbox or radio.
-- **Display** — the size of a visual mark such as an avatar or a status dot.
+- **Mark** — the size of a small fixed mark inside a component: a dot, a bar, a key.
 - **Content** — the widths a column of content may grow to, from a narrow prose measure to the full page line.
+- **Layout** — a page's container widths, the measure of its text, the least width of a column, and the header's height.
+- **List, tooltip and table** — the most a scrolling list grows, the widest a tooltip gets, and the narrowest and widest a column of prose in a table.
 - **Sidebar** — the width of the expanded sidebar, authored here because Figma has no place for it.
 
 ## Tiers
@@ -40,6 +42,10 @@ The viewport steps are primitives with no semantic layer, on purpose: a breakpoi
 ## Context behavior
 
 Density changes the control heights and nothing else in this group. Compact controls are one step shorter, except the smallest, which does not shrink because it is already at the minimum target floor. Icons, targets, selection boxes and content widths are the same under both densities, and target floors in particular must never compress.
+
+A touch screen keeps every size. Nothing is drawn bigger or further apart for a finger. Instead, a control drawn smaller than the comfortable target takes an invisible press area round it, out to the comfortable target where nothing else pressable stands closer, and halfway to its neighbour where one does, so no two areas meet. No press area is ever smaller than the minimum target. A laptop with a touch screen and a mouse keeps the mouse behaviour.
+
+The header's height is the one size that follows the screen: it has a phone value and a desktop value, which switch at the layout breakpoint and follow the layout attribute, as the components' narrow and wide forms do.
 
 Theme and text size do not touch size.
 

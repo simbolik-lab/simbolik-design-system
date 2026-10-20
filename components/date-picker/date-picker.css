@@ -1,0 +1,50 @@
+/* smbk-date-picker — Date and time picker. Figma "Date and time picker" 7112:894 over "Calendar" 7112:271.
+ * A date, a time, or both, typed in the reader's own way, with a button that opens a small calendar for the date.
+ * Figma builds it on other components, and so does the code: each field is the input's well (smbk-input), so its
+ * chrome, hover, focus, error, read-only and disabled looks are the input's own; the calendar button is the
+ * button's small ghost icon-only form in the input's trailing action; the open calendar sits in the popover's
+ * panel (smbk-popover), placed under the date field. This stylesheet adds only what differs: the pair of fields
+ * side by side that wrap, and the panel's narrower padding and larger corners. */
+
+.smbk-date-picker {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* The fields, side by side, wrapping under each other when there is no room. */
+.smbk-date-picker__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--smbk-space-stack-sm) var(--smbk-space-inline-md);
+}
+
+/* Date and time: the date field takes the room left beside the time field and never goes under its least width;
+   the time field keeps its own width, on the same row or the next. Two classes, so they win over the input's
+   full width whatever order the stylesheets load in. */
+.smbk-input.smbk-date-picker__input--date {
+  flex: 1 1 var(--smbk-size-date-picker-date-min-width);
+  width: auto;
+  min-width: var(--smbk-size-date-picker-date-min-width);
+}
+
+.smbk-date-picker--type-date-time .smbk-input.smbk-date-picker__input--time {
+  flex: 0 0 var(--smbk-size-date-picker-time-width);
+  width: var(--smbk-size-date-picker-time-width);
+}
+
+/* Alone, either field fills the row. */
+.smbk-date-picker--type-date .smbk-input.smbk-date-picker__input--date,
+.smbk-date-picker--type-time .smbk-input.smbk-date-picker__input--time {
+  flex: 1 1 100%;
+  min-width: 0;
+}
+
+/* The open calendar: the popover's panel, as wide as the calendar, with the medium inset around it and the
+   medium container corners, as Figma's popup draws it. Two classes, so they win over the popover's own. */
+.smbk-popover.smbk-date-picker__popup {
+  width: max-content;
+  padding: var(--smbk-space-inset-md);
+  border-radius: var(--smbk-radius-container-md);
+}

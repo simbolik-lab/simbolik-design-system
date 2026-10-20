@@ -1,10 +1,10 @@
 import { defineVariants } from '../variants.js';
 
 /**
- * Sidebar. Figma "Sidebar" 4732:56128 (Display: Expanded, Collapsed; Logo, Search, User Profile and
- * Collapsable booleans) over "SidebarNavItem" 4240:29552 (State × Level: Parent, Child ×
- * Display). It replaces Figma's older sidebar with a title and collapse button at the top
- * ("Sidebar" 4240:29921). The item is a part here, not its own component, because nothing else
+ * Sidebar. Figma "Sidebar" 4732:56128 (Style: Floating, Flat; Display: Expanded, Collapsed; Logo,
+ * Search, User Profile and Collapsible booleans) over "SidebarNavItem" 4240:29552 (State × Level:
+ * Parent, Child × Display × Size: md, sm). It replaces Figma's older sidebar with a title and
+ * collapse button at the top. The item is a part here, not its own component, because nothing else
  * uses it. Kept closed, an item with children opens them in a flyout drawn with the dropdown's
  * look (Figma does not draw it). The auto display is not drawn in Figma either.
  */
@@ -14,6 +14,16 @@ export const sidebar = defineVariants({
   summary: 'The side panel of an application: the logo, search, labeled groups of links with children, the user, and at the foot a button that keeps it open, keeps it a column of icons, or lets it open over the page when pointed at.',
   adapt: 'css',
   axes: {
+    look: {
+      values: ['floating', 'flat'],
+      default: 'floating',
+      description: "Floating is the raised panel with its corner, rim and shadow, which the page keeps a little way in from the window's edges. Flat is square and on the page's own surface, with no shadow and a hairline along its end edge, for a sidebar that runs flush to the window's edges. Figma calls this \"Style\".",
+    },
+    size: {
+      values: ['md', 'sm'],
+      default: 'md',
+      description: 'md rows are 40 tall with 16 px text and 20 px icons, their children 32 tall with 14 px text. sm rows are all 32 tall with 14 px text and 16 px icons, for a denser application. The column, the logo, search, user and foot cells keep their size. Figma: the item\'s Size, md and sm.',
+    },
     display: {
       values: ['auto', 'expanded', 'collapsed'],
       default: 'auto',
@@ -24,6 +34,6 @@ export const sidebar = defineVariants({
     collapsed: { description: "The column's look: icons only. The wrapper sets it when the display is collapsed, or auto and not open; plain markup sets it the same way." },
     open: { description: 'The auto display is open over the page, as when pointed at. No effect on the other two.' },
   },
-  parts: ['panel', 'logo', 'brand', 'brand-logo', 'brand-mark', 'search', 'search-field', 'search-button', 'nav', 'section', 'group-label', 'group-title', 'list', 'group', 'item', 'item-body', 'item-icon', 'item-label', 'item-caret', 'children', 'flyout', 'flyout-list', 'footer', 'user', 'user-name', 'user-detail', 'foot', 'toggle'],
+  parts: ['panel', 'logo', 'brand', 'brand-logo', 'brand-mark', 'search', 'search-field', 'search-button', 'nav', 'section', 'group-label', 'group-title', 'list', 'group', 'item', 'item-body', 'item-icon', 'item-label', 'item-said', 'item-marks', 'item-count', 'item-dot', 'item-caret', 'children', 'flyout', 'flyout-list', 'footer', 'user', 'user-name', 'user-detail', 'foot', 'toggle', 'glide'],
   figmaNodeId: '4732:56128',
 });

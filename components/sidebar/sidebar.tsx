@@ -5,15 +5,68 @@ import { sidebar } from './sidebar.manifest.js';
 import { Button } from '../button/button.js';
 import { Divider } from '../divider/divider.js';
 import { Icon } from '../icon/icon.js';
+import { Badge } from '../badge/badge.js';
+import { StatusDot } from '../status-dot/status-dot.js';
 import { Logo, type LogoProps } from '../logo/logo.js';
 import { logo as logoClasses } from '../logo/logo.manifest.js';
+import { useTip } from '../tooltip/tooltip.js';
+import { cx } from '../variants.js';
 import type { VariantProps } from '../variants.js';
+import { motionEasing, motionMs } from '../motion.js';
+import { useControllable } from '../controllable.js';
+import { useGlide } from '../glide.js';
 
 export interface SidebarChild {
   label: string;
   href: string;
   active?: boolean;
   disabled?: boolean;
+  /** A count after the label, drawn as a small badge and read with the name: "Issues, 18". In the column of icons it joins the icon's name. */
+  count?: number | string;
+  /** A dot after the label saying something here changed; in the column it sits on the icon's corner. Read with the name in the words of `dotLabel`. */
+  dot?: boolean;
+  /** The dot's words, read after the label: "Inbox, new". Defaults to "changed". */
+  dotLabel?: string;
+}
+
+/** What an item's count and dot add to its name, after its label: ", 18, changed". */
+function marksWords(item: SidebarChild): string {
+  const words: string[] = [];
+  if (item.count !== undefined && item.count !== null && item.count !== '') words.push(String(item.count));
+  if (item.dot) words.push(item.dotLabel ?? 'changed');
+  return words.map((w) => `, ${w}`).join('');
+}
+
+/** The name an item's icon carries when the icon shows alone: the label, then its count and dot. */
+const iconName = (item: SidebarChild) => item.label + marksWords(item);
+
+/** The navigation's rows the pointer's fill glides between (glide.ts): every item, a parent's children with it. */
+const NAV_GLIDE = { rows: `.${sidebar.part('item')}`, fill: sidebar.part('glide') };
+/** A flyout is the dropdown's panel, so it glides as the dropdown does. */
+const FLYOUT_GLIDE = { rows: `.${dropdown.part('item')}`, fill: dropdown.part('glide') };
+
+/**
+ * An item's count (the small badge) and dot (the status dot), drawn after its label. Both are pictures
+ * only; their words are a line only a screen reader hears, so the name reads "Issues, 18, changed".
+ * In the column the words and the count give way to the icon's name, and the dot moves onto the icon.
+ */
+function Marks({ item }: { item: SidebarChild }) {
+  const words = marksWords(item);
+  if (!words) return null;
+  const counted = item.count !== undefined && item.count !== null && item.count !== '';
+  return (
+    <>
+      <span className={sidebar.part('item-said')}>{words}</span>
+      <span className={sidebar.part('item-marks')} aria-hidden="true">
+        {counted && (
+          <Badge size="sm" className={sidebar.part('item-count')} aria-hidden="true">
+            {item.count}
+          </Badge>
+        )}
+        {item.dot && <StatusDot tone="info" className={sidebar.part('item-dot')} aria-hidden="true" />}
+      </span>
+    </>
+  );
 }
 
 export interface SidebarItem extends SidebarChild {
@@ -25,21 +78,13 @@ export interface SidebarItem extends SidebarChild {
   open?: boolean;
 }
 
+/** The level of the groups' headings. */
+type HeadingLevel = 2 | 3 | 4 | 5 | 6;
+
 export interface SidebarGroup {
   /** The heading over the group. A group without one is a plain list. */
   label?: string;
   items: SidebarItem[];
-}
-
-/** A motion token's value where an element sits: a duration in milliseconds, or an easing as written. */
-function motionMs(element: Element, name: string): number {
-  const value = getComputedStyle(element).getPropertyValue(`--smbk-motion-${name}`).trim();
-  const amount = Number.parseFloat(value);
-  if (!Number.isFinite(amount)) return 0;
-  return value.endsWith('ms') ? amount : amount * 1000;
-}
-function motionEasing(element: Element, purpose: string): string {
-  return getComputedStyle(element).getPropertyValue(`--smbk-motion-${purpose}-easing`).trim() || 'linear';
 }
 
 export interface FoldingOptions {
@@ -132,7 +177,7 @@ let closeOpenFlyout: ((instant?: boolean) => void) | null = null;
  * does neither, both panels marked `data-swap` for that moment, so the column answers as
  * fast as the pointer moves along it.
  */
-function CollapsedGroup({ item }: { item: SidebarItem }) {
+function CollapsedGroup({ item, small }: { item: SidebarItem; small: boolean }) {
   const [open, setOpen] = useState(false);
   const group = useRef<HTMLDivElement>(null);
   const opener = useRef<HTMLButtonElement>(null);
@@ -141,6 +186,7 @@ function CollapsedGroup({ item }: { item: SidebarItem }) {
   const refocusing = useRef(false);
   const id = useId();
   const cls = sidebar.part('item');
+  useGlide(panel, FLYOUT_GLIDE);
 
   const place = useCallback(() => {
     const b = opener.current;
@@ -261,16 +307,18 @@ function CollapsedGroup({ item }: { item: SidebarItem }) {
         onClick={show}
       >
         <span className={sidebar.part('item-body')}>
-          <Icon name={item.icon} className={sidebar.part('item-icon')} label={item.label} />
+          <Icon name={item.icon} className={sidebar.part('item-icon')} label={iconName(item)} />
+          {item.dot && <StatusDot tone="info" className={sidebar.part('item-dot')} aria-hidden="true" />}
         </span>
       </button>
-      <div ref={panel} id={id} className={`${dropdown.manifest.block} ${sidebar.part('flyout')}`} hidden={!open}>
+      <div ref={panel} id={id} className={`${dropdown({ size: small ? 'small' : 'default' })} ${sidebar.part('flyout')}`} hidden={!open}>
         <p className={dropdown.part('label')}>{item.label}</p>
         <ul className={sidebar.part('flyout-list')}>
           {item.children!.map((child) => (
             <li key={child.href}>
               <a className={dropdown.part('item')} href={child.disabled ? undefined : child.href} aria-current={child.active ? 'page' : undefined} aria-disabled={child.disabled ? true : undefined}>
                 <span className={dropdown.part('text')}>{child.label}</span>
+                <Marks item={child} />
               </a>
             </li>
           ))}
@@ -280,19 +328,54 @@ function CollapsedGroup({ item }: { item: SidebarItem }) {
   );
 }
 
-function Item({ item, collapsed, named }: { item: SidebarItem; collapsed: boolean; named: boolean }) {
-  if (collapsed && item.children?.length) return <CollapsedGroup item={item} />;
+/**
+ * An item without children while the sidebar is kept closed: its icon alone shows, so its name shows in a tooltip
+ * beside the column while it is pointed at or has keyboard focus (the tooltip's own behaviour: it stays while
+ * pointed at, Escape dismisses it). The name stays the icon's accessible name; the tooltip only shows it.
+ */
+function ClosedItem({ item }: { item: SidebarItem }) {
+  const { targetRef, hoverProps, focusProps, tip } = useTip({ text: item.label, arrow: 'left', inverse: true, purpose: 'name' });
+  return (
+    <>
+      <a
+        ref={targetRef as RefObject<HTMLAnchorElement>}
+        className={sidebar.part('item')}
+        href={item.disabled ? undefined : item.href}
+        aria-current={item.active ? 'page' : undefined}
+        aria-disabled={item.disabled ? true : undefined}
+        {...hoverProps}
+        {...focusProps}
+      >
+        <span className={sidebar.part('item-body')}>
+          <Icon name={item.icon} className={sidebar.part('item-icon')} label={iconName(item)} />
+          <span className={sidebar.part('item-label')} data-label={item.label}>{item.label}</span>
+          <Marks item={item} />
+        </span>
+      </a>
+      {tip}
+    </>
+  );
+}
+
+function Item({ item, collapsed, named, small }: { item: SidebarItem; collapsed: boolean; named: boolean; small: boolean }) {
+  if (collapsed && item.children?.length) return <CollapsedGroup item={item} small={small} />;
+  if (collapsed) return <ClosedItem item={item} />;
   const cls = sidebar.part('item');
   const body = (
     <span className={sidebar.part('item-body')}>
-      <Icon name={item.icon} className={sidebar.part('item-icon')} label={collapsed || named ? item.label : undefined} />
-      <span className={sidebar.part('item-label')}>{item.label}</span>
+      <Icon name={item.icon} className={sidebar.part('item-icon')} label={collapsed || named ? iconName(item) : undefined} />
+      <span className={sidebar.part('item-label')} data-label={item.label}>{item.label}</span>
+      <Marks item={item} />
     </span>
   );
   if (item.children?.length) {
+    const holdsCurrent = item.active || item.children.some((c) => c.active);
+    // Holding the current page, the parent row stays marked while its group is closed (the stylesheet reads it from
+    // the page's own link), and says so to assistive technology, as the kept-closed column's opener does: among
+    // its list's items it is the current one, aria-current="true", since the page's link is hidden with the group.
     return (
       <details className={sidebar.part('group')} open={item.open ?? item.children.some((c) => c.active)}>
-        <summary className={cls} aria-disabled={item.disabled ? true : undefined}>
+        <summary className={cls} aria-disabled={item.disabled ? true : undefined} aria-current={holdsCurrent ? 'true' : undefined}>
           {body}
           <Icon name="CaretDown" className={sidebar.part('item-caret')} />
         </summary>
@@ -300,7 +383,8 @@ function Item({ item, collapsed, named }: { item: SidebarItem; collapsed: boolea
           {item.children.map((child) => (
             <li key={child.href}>
               <a className={`${cls} ${cls}--child`} href={child.disabled ? undefined : child.href} aria-current={child.active ? 'page' : undefined} aria-disabled={child.disabled ? true : undefined}>
-                <span className={sidebar.part('item-label')}>{child.label}</span>
+                <span className={sidebar.part('item-label')} data-label={child.label}>{child.label}</span>
+                <Marks item={child} />
               </a>
             </li>
           ))}
@@ -321,20 +405,21 @@ function Item({ item, collapsed, named }: { item: SidebarItem; collapsed: boolea
  * while the markup stays the open panel's: for a panel that looks collapsed but opens in place,
  * whose items must stay the same elements so focus is not lost (the auto display at rest).
  */
-function SidebarGroups({ groups, collapsed, named = collapsed }: { groups: SidebarGroup[]; collapsed: boolean; named?: boolean }) {
+function SidebarGroups({ groups, collapsed, named = collapsed, small = false, headingLevel = 3 }: { groups: SidebarGroup[]; collapsed: boolean; named?: boolean; small?: boolean; headingLevel?: HeadingLevel }) {
+  const Heading = `h${headingLevel}` as const;
   return (
     <>
       {groups.map((group, i) => (
         <div key={i} className={sidebar.part('section')}>
           {group.label && (
-            <h3 className={sidebar.part('group-label')}>
+            <Heading className={sidebar.part('group-label')}>
               <span className={sidebar.part('group-title')}>{group.label}</span>
-            </h3>
+            </Heading>
           )}
           <ul className={sidebar.part('list')}>
             {group.items.map((item) => (
               <li key={item.href}>
-                <Item item={item} collapsed={collapsed} named={named} />
+                <Item item={item} collapsed={collapsed} named={named} small={small} />
               </li>
             ))}
           </ul>
@@ -348,6 +433,8 @@ export interface SidebarNavProps {
   groups: SidebarGroup[];
   /** Accessible name of the navigation. */
   label?: string;
+  /** The level of the group labels, which are headings. 3 unless given: one below the page's section headings. */
+  headingLevel?: HeadingLevel;
   className?: string;
 }
 
@@ -358,10 +445,12 @@ export interface SidebarNavProps {
  *
  *   <Drawer position="left" title="Menu" …><SidebarNav label="Categories" groups={groups} /></Drawer>
  */
-export function SidebarNav({ groups, label = 'Sidebar', className }: SidebarNavProps) {
+export function SidebarNav({ groups, label = 'Sidebar', headingLevel = 3, className }: SidebarNavProps) {
+  const nav = useRef<HTMLElement>(null);
+  useGlide(nav, NAV_GLIDE);
   return (
-    <nav aria-label={label} className={[sidebar.part('nav'), className].filter(Boolean).join(' ')}>
-      <SidebarGroups groups={groups} collapsed={false} />
+    <nav ref={nav} aria-label={label} className={cx(sidebar.part('nav'), className)}>
+      <SidebarGroups groups={groups} collapsed={false} headingLevel={headingLevel} />
     </nav>
   );
 }
@@ -375,12 +464,16 @@ export interface SidebarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'chil
   brand?: LogoProps['brand'];
   /** A site's own logo for the cell, in place of the brand's: the logo's `shapes`, drawn whole when open and as its mark in the column. */
   logoShapes?: LogoProps['shapes'];
+  /** A site's own logo as picture files, which keep their own colors: the logo's `picture`, its whole logo when open and its mark in the column. */
+  logoPicture?: LogoProps['picture'];
   /** Where the logo links to. */
   homeHref?: string;
   /** The search field shown when open. Figma: Search. */
   search?: ReactNode;
   /** Called when the column's search button is pressed. The button shows only when given. */
   onSearch?: () => void;
+  /** The column's search button's name. "Search" unless given, for a page in another language. */
+  searchLabel?: string;
   groups: SidebarGroup[];
   /** The user's avatar. With the name, Figma's User Profile. */
   avatar?: ReactNode;
@@ -389,18 +482,26 @@ export interface SidebarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'chil
   /**
    * The foot button that steps the display, with its divider. Off, the sidebar stays in the display
    * it is given: a column kept closed as an application's parent navigation, beside a second
-   * sidebar kept open for the current page's. Figma: Collapsable, on by default.
+   * sidebar kept open for the current page's. Figma: Collapsible, on by default.
    */
   collapsible?: boolean;
   /** Called with the display the foot button steps to. Give `display` as well to keep it outside. */
   onDisplayChange?: (display: SidebarDisplay) => void;
+  /**
+   * The foot button's names, one for each display it is pressed from, each saying what pressing it does. Unless given:
+   * "Keep sidebar open" in auto, "Keep sidebar closed" kept open, "Open sidebar on hover" kept closed. Give the ones
+   * a page in another language needs; the rest keep their English.
+   */
+  toggleLabels?: Partial<Record<SidebarDisplay, string>>;
+  /** The level of the group labels, which are headings. 3 unless given: one below the page's section headings. */
+  headingLevel?: HeadingLevel;
   /** Accessible name of the panel and of the navigation in it: one name for the region and its navigation, so a page with a second aside never has two complementary regions that sound the same. */
   label?: string;
 }
 
 /** The foot button steps through the displays in this order. */
 const NEXT: Record<SidebarDisplay, SidebarDisplay> = { auto: 'expanded', expanded: 'collapsed', collapsed: 'auto' };
-/** Its name says what pressing it does. */
+/** Its name says what pressing it does, unless the page gives its own (`toggleLabels`). */
 const STEP_NAME: Record<SidebarDisplay, string> = { auto: 'Keep sidebar open', expanded: 'Keep sidebar closed', collapsed: 'Open sidebar on hover' };
 
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -482,13 +583,14 @@ function useLogoMorph(panel: RefObject<HTMLElement | null>, open: boolean) {
  *   <Sidebar logoShapes={OUR_LOGO} homeHref="/" groups={groups} display={display} onDisplayChange={remember} />
  *   <Sidebar display="collapsed" collapsible={false} groups={apps} />
  */
-export function Sidebar({ logo = true, brand = 'simbolik', logoShapes, homeHref = '/', search, onSearch, groups, avatar, userName, userDetail, display, open, collapsible = true, onDisplayChange, label = 'Sidebar', className, suppressHydrationWarning, ...rest }: SidebarProps) {
-  const [internal, setInternal] = useState<SidebarDisplay>('auto');
-  const current = display ?? internal;
+export function Sidebar({ logo = true, brand = 'simbolik', logoShapes, logoPicture, homeHref = '/', search, onSearch, searchLabel = 'Search', groups, avatar, userName, userDetail, display, open, look, size, collapsible = true, onDisplayChange, toggleLabels, headingLevel = 3, label = 'Sidebar', className, suppressHydrationWarning, ...rest }: SidebarProps) {
+  const [current, keepDisplay] = useControllable<SidebarDisplay>({ value: display, defaultValue: 'auto', onChange: onDisplayChange, name: 'Sidebar display' });
   const [autoOpen, setAutoOpen] = useState(false);
   const shown = current === 'expanded' || (current === 'auto' && (open ?? autoOpen));
   const room = useRef<HTMLDivElement>(null);
   const panel = useRef<HTMLElement>(null);
+  const nav = useRef<HTMLElement>(null);
+  useGlide(nav, NAV_GLIDE);
   // The folding first: its effect marks the panel, which the morph's effect, declared after it, reads.
   const landed = useRef(() => {});
   const fold = useFolding(panel, !shown, { onLand: () => landed.current() });
@@ -621,8 +723,7 @@ export function Sidebar({ logo = true, brand = 'simbolik', logoShapes, homeHref 
       // would open under the very press that asked for auto.
       why.current.dismissed = true;
     }
-    if (display === undefined) setInternal(to);
-    onDisplayChange?.(to);
+    keepDisplay(to);
   };
 
   // Leaving auto forgets that it was open; coming back to it opens it if the pointer or focus asks.
@@ -662,7 +763,7 @@ export function Sidebar({ logo = true, brand = 'simbolik', logoShapes, homeHref 
     <div
       {...rest}
       ref={room}
-      className={[sidebar({ display: current, collapsed: !shown, open: current === 'auto' && shown }), className].filter(Boolean).join(' ')}
+      className={cx(sidebar({ look, size, display: current, collapsed: !shown, open: current === 'auto' && shown }), className)}
       suppressHydrationWarning={suppressHydrationWarning}
       onPointerEnter={(e) => e.pointerType === 'mouse' && hoverSoon()}
       onPointerMove={(e) => e.pointerType === 'mouse' && hoverSoon()}
@@ -678,8 +779,8 @@ export function Sidebar({ logo = true, brand = 'simbolik', logoShapes, homeHref 
           <>
             <div className={part('logo')}>
               <a className={part('brand')} href={homeHref}>
-                <Logo brand={brand} shapes={logoShapes} form="logo" className={part('brand-logo')} />
-                <Logo brand={brand} shapes={logoShapes} form="logomark" className={part('brand-mark')} />
+                <Logo brand={brand} shapes={logoShapes} picture={logoPicture} form="logo" className={part('brand-logo')} />
+                <Logo brand={brand} shapes={logoShapes} picture={logoPicture} form="logomark" className={part('brand-mark')} />
               </a>
             </div>
             <Divider />
@@ -688,11 +789,11 @@ export function Sidebar({ logo = true, brand = 'simbolik', logoShapes, homeHref 
         {(search || onSearch) && (
           <div className={sidebar.part('search')}>
             {search && <div className={sidebar.part('search-field')}>{search}</div>}
-            {onSearch && <Button tone="ghost" size="sm" icon="MagnifyingGlass" icon-only aria-label="Search" className={sidebar.part('search-button')} onClick={onSearch} />}
+            {onSearch && <Button tone="ghost" size="sm" icon="MagnifyingGlass" icon-only aria-label={searchLabel} className={sidebar.part('search-button')} onClick={onSearch} />}
           </div>
         )}
-        <nav aria-label={label} className={sidebar.part('nav')}>
-          <SidebarGroups groups={groups} collapsed={current === 'collapsed'} named={!shown} />
+        <nav ref={nav} aria-label={label} className={sidebar.part('nav')}>
+          <SidebarGroups groups={groups} collapsed={current === 'collapsed'} named={!shown} small={size === 'sm'} headingLevel={headingLevel} />
         </nav>
         {(avatar || userName) && (
           <>
@@ -710,7 +811,7 @@ export function Sidebar({ logo = true, brand = 'simbolik', logoShapes, homeHref 
           <>
             <Divider />
             <div className={part('foot')}>
-              <Button tone="ghost" size="sm" icon="SidebarSimple" icon-only aria-label={STEP_NAME[current]} aria-expanded={shown} className={part('toggle')} onClick={step} />
+              <Button tone="ghost" size="sm" icon="SidebarSimple" icon-only aria-label={toggleLabels?.[current] ?? STEP_NAME[current]} aria-expanded={shown} className={part('toggle')} onClick={step} />
             </div>
           </>
         )}

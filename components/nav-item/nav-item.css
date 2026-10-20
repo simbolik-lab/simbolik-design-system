@@ -1,27 +1,28 @@
-/* smbk-nav-item — Navigation item. Figma "NavItem" 4209:20209 (State × Size: Large, Default, Small).
+/* smbk-nav-item — Navigation item. Figma "NavItem" 4209:20209 (State × Size: lg, md, sm).
  * One link in a navigation list: header, app bar, footer columns, drawer.
- * An optional icon leads the label and an optional caret trails it. Hover
- * raises the item on the raised surface with a highlight edge and the resting
- * lift. The current page sits pressed into the bar at every size: the canvas
- * surface, the highlight edge and the inset shadow. */
+ * An optional icon leads the label and an optional caret trails it. Each size
+ * takes the text, icon, side padding and gap of its height. Hover raises the
+ * item on the raised surface with a highlight edge and the resting lift. The
+ * current page sits pressed into the bar at every size: the canvas surface,
+ * the highlight edge and the inset shadow, and its label one weight bolder. */
 
 .smbk-nav-item {
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
-  gap: var(--smbk-space-inline-sm);
+  gap: var(--smbk-space-inline-md);
   height: var(--smbk-size-control-md);
   margin: 0;
-  padding: 0 var(--smbk-space-inset-lg);
+  padding: 0 var(--smbk-space-inset-xl);
   border: var(--smbk-border-width-hairline) solid transparent;
   border-radius: var(--smbk-radius-control-sm);
   background: transparent;
   color: var(--smbk-color-text-subtle);
-  font-family: var(--smbk-typography-body-m-font-family);
-  font-size: var(--smbk-typography-body-m-font-size);
-  font-weight: var(--smbk-typography-body-m-font-weight);
-  line-height: var(--smbk-typography-body-m-line-height);
-  letter-spacing: var(--smbk-typography-body-m-letter-spacing);
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
   text-align: left;
   text-decoration: none;
   white-space: nowrap;
@@ -30,20 +31,28 @@
   touch-action: manipulation;
 }
 
+/* The block frames the words it hides for screen readers, so they stay inside it wherever it is placed: without a
+   frame they hang from the page itself and stretch it, past the end of an area that scrolls. No weight, so a parent
+   that places the block keeps its say. */
+:where(.smbk-nav-item) {
+  position: relative;
+}
+
 @media (hover: hover) {
   .smbk-nav-item:hover {
-    border-color: var(--smbk-color-border-edge-highlight);
+    border-color: var(--smbk-color-border-rim);
     background: var(--smbk-color-surface-raised);
     color: var(--smbk-color-text-link-hover);
-    box-shadow: var(--smbk-elevation-0);
+    box-shadow: var(--smbk-elevation-control);
   }
 }
 
 .smbk-nav-item[aria-current="page"] {
-  border-color: var(--smbk-color-border-edge-highlight);
+  border-color: var(--smbk-color-border-rim);
   background: var(--smbk-color-surface-canvas);
   color: var(--smbk-color-text-default);
-  box-shadow: var(--smbk-elevation-inset-2);
+  font-weight: var(--smbk-typography-body-md-medium-font-weight);
+  box-shadow: var(--smbk-elevation-inset-strong);
 }
 
 .smbk-nav-item[aria-expanded="true"] {
@@ -61,7 +70,6 @@
   pointer-events: none;
 }
 
-/* The label keeps its full line box: a trimmed box under overflow clipping would cut ascenders and descenders. */
 .smbk-nav-item__label {
   flex: 1 1 auto;
   min-width: 0;
@@ -69,10 +77,35 @@
   text-overflow: ellipsis;
 }
 
+/* The label is always as wide as its bolder self: an invisible copy of its words (`data-label`, which the wrapper
+   writes) at the current item's weight lies under it with no height, so an item that becomes the current page
+   keeps its width and the items beside it stay where they are. The copy is generated content, hidden, with empty
+   words for assistive technology, so the label is read once. */
+.smbk-nav-item__label[data-label]::after {
+  content: attr(data-label);
+  content: attr(data-label) / "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-weight: var(--smbk-typography-body-md-medium-font-weight);
+  pointer-events: none;
+  user-select: none;
+}
+
 .smbk-nav-item__icon {
   flex-shrink: 0;
   font-size: var(--smbk-size-icon-md);
 }
+
+/* A count (the badge, small) and a dot (the status dot) after the label, each read after a comma
+   only a screen reader hears, so the name is "Issues, 18". */
+.smbk-nav-item__count,
+.smbk-nav-item__dot {
+  flex-shrink: 0;
+}
+
+/* .smbk-nav-item__pause: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
 
 .smbk-nav-item__caret {
   flex-shrink: 0;
@@ -84,31 +117,54 @@
   transform: rotate(180deg);
 }
 
-/* ---- sizes ---- */
+/* ---- sizes: lg (the block rules above) 40 tall with 16 text, a 20 icon, 16 at the sides and 8
+   between; md 32 tall with 14 text, a 16 icon, 12 and 6; sm 24 tall with 12 text, a 12 icon, 8 and 4.
+   The caret is a step smaller than the icon, and 12 at both smaller sizes. The current label takes
+   the medium weight of its text style; Body XS has none, so the small current item keeps its weight
+   and is marked by its fill, edge and shadow, as Figma draws it. ---- */
 
 .smbk-nav-item--size-md {
-  gap: var(--smbk-space-inline-xs);
+  gap: var(--smbk-space-inline-sm);
   height: var(--smbk-size-control-sm);
-  padding: 0 var(--smbk-space-inset-md);
+  padding: 0 var(--smbk-space-inset-lg);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+.smbk-nav-item--size-md[aria-current="page"],
+.smbk-nav-item--size-md .smbk-nav-item__label[data-label]::after {
+  font-weight: var(--smbk-typography-body-sm-medium-font-weight);
 }
 
 .smbk-nav-item--size-sm {
   gap: var(--smbk-space-inline-xs);
   height: var(--smbk-size-control-xs);
-  padding: 0 var(--smbk-space-inset-sm);
+  padding: 0 var(--smbk-space-inset-md);
   border-radius: var(--smbk-radius-control-xs);
-  font-family: var(--smbk-typography-body-s-font-family);
-  font-size: var(--smbk-typography-body-s-font-size);
-  font-weight: var(--smbk-typography-body-s-font-weight);
-  line-height: var(--smbk-typography-body-s-line-height);
-  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
 }
 
-.smbk-nav-item--size-sm .smbk-nav-item__icon {
+.smbk-nav-item--size-sm[aria-current="page"],
+.smbk-nav-item--size-sm .smbk-nav-item__label[data-label]::after {
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+}
+
+.smbk-nav-item--size-md .smbk-nav-item__icon {
   font-size: var(--smbk-size-icon-sm);
 }
 
-.smbk-nav-item--size-sm .smbk-nav-item__caret {
+.smbk-nav-item--size-sm .smbk-nav-item__icon {
+  font-size: var(--smbk-size-icon-xs);
+}
+
+.smbk-nav-item:is(.smbk-nav-item--size-md, .smbk-nav-item--size-sm) .smbk-nav-item__caret {
   font-size: var(--smbk-size-icon-xs);
 }
 
@@ -148,6 +204,35 @@
 @media (prefers-reduced-motion: reduce) {
   .smbk-nav-item__caret {
     transition: none;
+  }
+}
+
+/* ---- touch: the item takes an invisible press area ----
+   On a touch screen an invisible area, centred on it, takes the press out to the comfortable target in each direction
+   it falls short of it; its look, its focus ring and its place stay as drawn. */
+
+@media (pointer: coarse) {
+  .smbk-nav-item {
+    position: relative;
+  }
+
+  .smbk-nav-item::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+}
+
+/* ---- touch: block items one under another stop halfway to each other ----
+   Block items stacked a stack's gap apart reach only halfway into it, so each stays one press. Nothing drawn moves. */
+
+@media (pointer: coarse) {
+  .smbk-nav-item--block + .smbk-nav-item--block::after {
+    inset-block-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-sm) / -2);
+  }
+
+  .smbk-nav-item--block:has(+ .smbk-nav-item--block)::after {
+    inset-block-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-sm) / -2);
   }
 }
 

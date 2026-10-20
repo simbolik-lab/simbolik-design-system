@@ -10,7 +10,9 @@
  * tokens, because both would make one of the above happen later. And on a
  * motion literal the standard would not accept: a duration without a time
  * unit, or an easing curve that is not four numbers with both x coordinates
- * between 0 and 1. And on Figma's code syntax, which normalisation drops: a
+ * between 0 and 1. And on a colour that is not the standard's colour object
+ * in sRGB, or whose hex fallback is not six digits naming the same colour.
+ * And on Figma's code syntax, which normalisation drops: a
  * name written beside the path, which could only repeat it or contradict it.
  */
 import { fileURLToPath } from 'node:url';

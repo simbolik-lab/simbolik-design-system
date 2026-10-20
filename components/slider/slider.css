@@ -1,6 +1,8 @@
 /* smbk-slider — Slider. Figma "Slider" 4711:52100 over "SliderThumb" 4711:51614.
- * A row of fine vertical lines on a sunken band; the lines turn brand red up
- * to the thumb, a narrow red bar, or between two thumbs for a range. Each
+ * Three looks. Ticks, the default: a row of fine vertical lines on a sunken
+ * band; the lines turn brand red up to the thumb, a narrow red bar, or between
+ * two thumbs for a range. Standard: a thin rounded line, red up to a round
+ * thumb. Fill: a thick bar filled red up to a thin light handle. Each
  * thumb has a native range input, invisible, right after it in the markup:
  * the input does the keyboard, form and screen reader work, and the thumb
  * reads the input's states with :has(+ …). A single slider's input also lies
@@ -28,13 +30,12 @@
 .smbk-slider__value {
   margin-inline-start: auto;
   color: var(--smbk-color-text-default);
-  font-family: var(--smbk-typography-body-t-font-family);
-  font-size: var(--smbk-typography-body-t-font-size);
-  font-weight: var(--smbk-typography-body-t-font-weight);
-  line-height: var(--smbk-typography-body-t-line-height);
-  letter-spacing: var(--smbk-typography-body-t-letter-spacing);
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
   font-variant-numeric: tabular-nums;
-  text-box: trim-both cap alphabetic;
   white-space: nowrap;
 }
 
@@ -102,10 +103,10 @@
   width: var(--smbk-size-8);
   height: var(--smbk-size-selection-lg);
   margin-inline-start: calc(var(--smbk-size-8) / -2);
-  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight-subtle);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim-subtle);
   border-radius: var(--smbk-radius-full);
   background: var(--smbk-color-surface-brand);
-  box-shadow: var(--smbk-elevation-0);
+  box-shadow: var(--smbk-elevation-control);
   pointer-events: none;
 }
 
@@ -194,6 +195,177 @@
   width: var(--smbk-size-6);
 }
 
+/* ---- the standard look: a thin rounded line, red up to a round thumb ---- */
+
+.smbk-slider--look-standard .smbk-slider__track {
+  height: var(--smbk-size-6);
+  padding-inline: 0;
+  border-radius: var(--smbk-radius-full);
+  background-color: var(--smbk-color-border-control);
+  background-image: none;
+}
+
+.smbk-slider--look-standard.smbk-slider--size-md .smbk-slider__track,
+.smbk-slider--look-standard.smbk-slider--size-sm .smbk-slider__track {
+  height: var(--smbk-size-4);
+}
+
+.smbk-slider--look-standard .smbk-slider__fill {
+  border-radius: var(--smbk-radius-full);
+  background-color: var(--smbk-color-action-brand-background);
+}
+
+/* The red lines belong to the ticks look only. */
+.smbk-slider--look-standard .smbk-slider__lines,
+.smbk-slider--look-fill .smbk-slider__lines {
+  display: none;
+}
+
+/* The round thumb, the icon size across. The input and the browser's own thumb follow its width,
+   as for the ticks thumb. */
+.smbk-slider--look-standard .smbk-slider__thumb {
+  width: var(--smbk-size-icon-md);
+  height: var(--smbk-size-icon-md);
+  margin-inline-start: calc(var(--smbk-size-icon-md) / -2);
+}
+
+.smbk-slider--look-standard .smbk-slider__control {
+  inset-inline-start: calc(var(--smbk-size-icon-md) / -2);
+  width: calc(100% + var(--smbk-size-icon-md));
+}
+
+.smbk-slider--look-standard .smbk-slider__control::-webkit-slider-thumb {
+  width: var(--smbk-size-icon-md);
+}
+
+.smbk-slider--look-standard .smbk-slider__control::-moz-range-thumb {
+  width: var(--smbk-size-icon-md);
+}
+
+.smbk-slider--look-standard.smbk-slider--size-md .smbk-slider__thumb {
+  width: var(--smbk-size-icon-sm);
+  height: var(--smbk-size-icon-sm);
+  margin-inline-start: calc(var(--smbk-size-icon-sm) / -2);
+}
+
+.smbk-slider--look-standard.smbk-slider--size-md .smbk-slider__control {
+  inset-inline-start: calc(var(--smbk-size-icon-sm) / -2);
+  width: calc(100% + var(--smbk-size-icon-sm));
+}
+
+.smbk-slider--look-standard.smbk-slider--size-md .smbk-slider__control::-webkit-slider-thumb {
+  width: var(--smbk-size-icon-sm);
+}
+
+.smbk-slider--look-standard.smbk-slider--size-md .smbk-slider__control::-moz-range-thumb {
+  width: var(--smbk-size-icon-sm);
+}
+
+.smbk-slider--look-standard.smbk-slider--size-sm .smbk-slider__thumb {
+  width: var(--smbk-size-icon-xs);
+  height: var(--smbk-size-icon-xs);
+  margin-inline-start: calc(var(--smbk-size-icon-xs) / -2);
+}
+
+.smbk-slider--look-standard.smbk-slider--size-sm .smbk-slider__control {
+  inset-inline-start: calc(var(--smbk-size-icon-xs) / -2);
+  width: calc(100% + var(--smbk-size-icon-xs));
+}
+
+.smbk-slider--look-standard.smbk-slider--size-sm .smbk-slider__control::-webkit-slider-thumb {
+  width: var(--smbk-size-icon-xs);
+}
+
+.smbk-slider--look-standard.smbk-slider--size-sm .smbk-slider__control::-moz-range-thumb {
+  width: var(--smbk-size-icon-xs);
+}
+
+/* ---- the fill look: a thick bar filled red up to a thin light handle. The rail is the handle's
+   travel: it is set in from each end of the bar by half the handle and the small inline space
+   around it, and the bar is drawn that far past it. The red part reaches that far past each
+   handle, so at the lowest value a short red stub still holds the handle. The input is as wide as
+   the bar, and the browser's own thumb is the handle with that space on both sides, so the
+   browser's place for a value is where the handle is drawn. ---- */
+
+.smbk-slider--look-fill .smbk-slider__rail {
+  height: var(--smbk-size-selection-lg);
+  margin-inline: calc(var(--smbk-space-inline-xs) + var(--smbk-size-4) / 2);
+}
+
+.smbk-slider--look-fill.smbk-slider--size-md .smbk-slider__rail {
+  height: var(--smbk-size-selection-md);
+}
+
+.smbk-slider--look-fill.smbk-slider--size-sm .smbk-slider__rail {
+  height: var(--smbk-size-selection-sm);
+}
+
+/* The bar, left in the rail's flow rather than placed, so the red part inside it is placed
+   against the rail, in the same percentages as the handles. */
+.smbk-slider--look-fill .smbk-slider__track {
+  position: static;
+  display: block;
+  height: 100%;
+  margin-inline: calc((var(--smbk-space-inline-xs) + var(--smbk-size-4) / 2) * -1);
+  padding-inline: 0;
+  translate: none;
+  border-radius: var(--smbk-radius-control-sm);
+  background-color: var(--smbk-color-surface-neutral-subtle);
+  background-image: none;
+}
+
+.smbk-slider--look-fill .smbk-slider__fill {
+  box-sizing: content-box;
+  margin-inline-start: calc((var(--smbk-space-inline-xs) + var(--smbk-size-4) / 2) * -1);
+  padding-inline: calc(var(--smbk-space-inline-xs) + var(--smbk-size-4) / 2);
+  border-radius: var(--smbk-radius-control-sm);
+  background-color: var(--smbk-color-action-brand-background);
+}
+
+.smbk-slider--look-fill .smbk-slider__thumb {
+  width: var(--smbk-size-4);
+  height: var(--smbk-size-16);
+  margin-inline-start: calc(var(--smbk-size-4) / -2);
+  border: 0;
+  background: var(--smbk-color-action-brand-foreground);
+  box-shadow: none;
+}
+
+.smbk-slider--look-fill.smbk-slider--size-md .smbk-slider__thumb {
+  height: var(--smbk-size-12);
+}
+
+.smbk-slider--look-fill.smbk-slider--size-sm .smbk-slider__thumb {
+  height: var(--smbk-size-8);
+}
+
+/* At least the smallest touch size tall, however thin the bar. */
+.smbk-slider--look-fill .smbk-slider__control {
+  top: 50%;
+  translate: 0 -50%;
+  inset-inline-start: calc((var(--smbk-space-inline-xs) + var(--smbk-size-4) / 2) * -1);
+  width: calc(100% + var(--smbk-space-inline-xs) * 2 + var(--smbk-size-4));
+  height: max(100%, var(--smbk-size-target-min));
+}
+
+.smbk-slider--look-fill .smbk-slider__control::-webkit-slider-thumb {
+  width: calc(var(--smbk-space-inline-xs) * 2 + var(--smbk-size-4));
+}
+
+.smbk-slider--look-fill .smbk-slider__control::-moz-range-thumb {
+  width: calc(var(--smbk-space-inline-xs) * 2 + var(--smbk-size-4));
+}
+
+/* A range's rail takes the pointer over the whole bar. */
+.smbk-slider--look-fill.smbk-slider--type-range .smbk-slider__rail::before {
+  content: '';
+  position: absolute;
+  inset-inline: calc((var(--smbk-space-inline-xs) + var(--smbk-size-4) / 2) * -1);
+  top: 50%;
+  translate: 0 -50%;
+  height: max(100%, var(--smbk-size-target-min));
+}
+
 /* ---- range: the rail takes the pointer, the thumbs take hover ---- */
 
 .smbk-slider--type-range .smbk-slider__rail {
@@ -214,19 +386,24 @@
 @media (hover: hover) {
   .smbk-slider__thumb:has(+ .smbk-slider__control:hover),
   .smbk-slider--type-range .smbk-slider__thumb:hover {
-    box-shadow: var(--smbk-elevation-1);
+    background: var(--smbk-color-action-brand-background-hover);
+    box-shadow: var(--smbk-elevation-raised);
   }
 }
 
 .smbk-slider__thumb:has(+ .smbk-slider__control:active),
 .smbk-slider--type-range .smbk-slider__thumb:active,
 .smbk-slider__thumb[data-pressed] {
-  box-shadow: var(--smbk-elevation-2);
+  background: var(--smbk-color-action-brand-background-pressed);
+  box-shadow: var(--smbk-elevation-raised-strong);
 }
 
+/* The bubble shows while the thumb is pressed, and while it has keyboard focus, so the value
+   stays in sight when the label row is hidden. */
 .smbk-slider__thumb:has(+ .smbk-slider__control:active) > .smbk-slider__bubble,
 .smbk-slider--type-range .smbk-slider__thumb:active > .smbk-slider__bubble,
-.smbk-slider__thumb[data-pressed] > .smbk-slider__bubble {
+.smbk-slider__thumb[data-pressed] > .smbk-slider__bubble,
+.smbk-slider__thumb:has(+ .smbk-slider__control:focus-visible) > .smbk-slider__bubble {
   visibility: visible;
   opacity: 1;
 }
@@ -240,6 +417,19 @@
   box-shadow:
     0 0 0 var(--smbk-focus-ring-offset) var(--smbk-color-surface-canvas),
     0 0 0 calc(var(--smbk-focus-ring-offset) + var(--smbk-focus-ring-width)) var(--smbk-color-border-focus);
+}
+
+/* The fill look's handle keeps its look on hover and press, as Figma draws it, and its focus
+   ring goes round the whole bar, not the handle. */
+.smbk-slider--look-fill .smbk-slider__thumb:is(:hover, :active, [data-pressed], :has(+ .smbk-slider__control:is(:hover, :active, :focus-visible))) {
+  outline: 0;
+  background: var(--smbk-color-action-brand-foreground);
+  box-shadow: none;
+}
+
+.smbk-slider--look-fill .smbk-slider__rail:has(.smbk-slider__control:focus-visible) .smbk-slider__track {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
 }
 
 .smbk-slider__control:disabled {
@@ -265,6 +455,25 @@
   pointer-events: none;
 }
 
+/* Disabled, the standard line and the fill bar's red part turn gray; the handle turns to the
+   subtle track color. */
+.smbk-slider--look-standard .smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__track {
+  background-color: var(--smbk-color-border-control-disabled);
+}
+
+.smbk-slider--look-standard .smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__fill,
+.smbk-slider--look-fill .smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__fill {
+  background-color: var(--smbk-color-action-disabled-foreground);
+}
+
+.smbk-slider--look-fill .smbk-slider__thumb:has(+ .smbk-slider__control:disabled) {
+  background: var(--smbk-color-surface-track-subtle);
+}
+
+.smbk-slider:has(.smbk-slider__control:disabled) .smbk-slider__marks {
+  color: var(--smbk-color-border-control-disabled);
+}
+
 .smbk-slider:has(.smbk-slider__control:disabled) .smbk-slider__label,
 .smbk-slider:has(.smbk-slider__control:disabled) .smbk-slider__value,
 .smbk-slider:has(.smbk-slider__control:disabled) .smbk-slider__bounds {
@@ -278,16 +487,55 @@
   justify-content: space-between;
   gap: var(--smbk-space-inline-md);
   color: var(--smbk-color-text-subtlest);
-  font-family: var(--smbk-typography-body-t-font-family);
-  font-size: var(--smbk-typography-body-t-font-size);
-  font-weight: var(--smbk-typography-body-t-font-weight);
-  line-height: var(--smbk-typography-body-t-line-height);
-  letter-spacing: var(--smbk-typography-body-t-letter-spacing);
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
 }
 
-/* On the words, not the row: a flex row does not trim its items' text. */
-.smbk-slider__bounds > * {
-  text-box: trim-both cap alphabetic;
+/* The fill look's marks between the lowest and highest values: 21 fine marks, the first and last
+   at the ends of their space, the rest evenly between. They do not stand for steps. */
+.smbk-slider__marks {
+  flex: 1 1 auto;
+  align-self: center;
+  height: var(--smbk-size-6);
+  color: var(--smbk-color-border-control);
+  background-image: repeating-linear-gradient(to right, currentColor 0 var(--smbk-border-width-hairline), transparent var(--smbk-border-width-hairline) calc((100% - var(--smbk-border-width-hairline)) / 20));
+  background-repeat: no-repeat;
+}
+
+/* ---- the number box: a small input beside the rail, one at each end for a range, centered on
+   the rail. It carries the input's own classes, so the input's stylesheet draws it. ---- */
+
+.smbk-slider__row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--smbk-space-inline-md);
+  min-width: 0;
+}
+
+.smbk-slider__row > .smbk-slider__body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.smbk-slider__row > .smbk-slider__number {
+  flex: none;
+  width: var(--smbk-size-64);
+  margin-block-start: calc((var(--smbk-size-target-min) - var(--smbk-size-control-sm)) / 2);
+}
+
+.smbk-slider--look-fill .smbk-slider__row > .smbk-slider__number {
+  margin-block-start: calc((var(--smbk-size-selection-lg) - var(--smbk-size-control-sm)) / 2);
+}
+
+.smbk-slider--look-fill.smbk-slider--size-md .smbk-slider__row > .smbk-slider__number {
+  margin-block-start: calc((var(--smbk-size-selection-md) - var(--smbk-size-control-sm)) / 2);
+}
+
+.smbk-slider--look-fill.smbk-slider--size-sm .smbk-slider__row > .smbk-slider__number {
+  margin-block-start: calc((var(--smbk-size-selection-sm) - var(--smbk-size-control-sm)) / 2);
 }
 
 /* ---- the narrow form: a finger-sized target, the look unchanged ---- */
@@ -305,26 +553,55 @@
     top: calc((var(--smbk-size-target-min) - var(--smbk-size-target-comfortable)) / 2);
     height: var(--smbk-size-target-comfortable);
   }
+
+  /* The fill bar may be thinner than the smallest touch size, so its target is centered on it. */
+  .smbk-slider--look-fill .smbk-slider__control,
+  .smbk-slider--look-fill.smbk-slider--type-range .smbk-slider__rail::before {
+    top: 50%;
+    height: var(--smbk-size-target-comfortable);
+  }
 }
 
-/* ---- motion: the thumb lifts with the state purpose; the bubble fades with the
-   feedback purpose, as the tooltip does. Nothing moves under reduced motion. ---- */
+/* ---- touch: the same finger-sized target on any touch screen, at any width ----
+   The narrow form above grows the target where the layout is narrow; a touch screen grows it too, so a tablet
+   in a wide layout gets it as well. The rules are the narrow form's, repeated, since one block cannot answer
+   to both a container and a media query. */
+
+@media (pointer: coarse) {
+  .smbk-slider__control {
+    top: calc((var(--smbk-size-target-min) - var(--smbk-size-target-comfortable)) / 2);
+    height: var(--smbk-size-target-comfortable);
+  }
+
+  .smbk-slider--type-range .smbk-slider__rail::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: calc((var(--smbk-size-target-min) - var(--smbk-size-target-comfortable)) / 2);
+    height: var(--smbk-size-target-comfortable);
+  }
+
+  /* The fill bar may be thinner than the smallest touch size, so its target is centered on it. */
+  .smbk-slider--look-fill .smbk-slider__control,
+  .smbk-slider--look-fill.smbk-slider--type-range .smbk-slider__rail::before {
+    top: 50%;
+    height: var(--smbk-size-target-comfortable);
+  }
+}
+
+/* ---- motion: the thumb lifts and darkens with the state purpose; the bubble fades with the
+   feedback purpose, as the tooltip does. Nothing here moves, so all of it stays under reduced motion. ---- */
 
 .smbk-slider__thumb {
-  transition: box-shadow var(--smbk-motion-state-duration) var(--smbk-motion-state-easing);
+  transition-property: box-shadow, background-color;
+  transition-duration: var(--smbk-motion-state-duration);
+  transition-timing-function: var(--smbk-motion-state-easing);
 }
 
 .smbk-slider__thumb > .smbk-slider__bubble {
   transition-property: opacity, visibility;
   transition-duration: var(--smbk-motion-feedback-duration);
   transition-timing-function: var(--smbk-motion-feedback-easing);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .smbk-slider__thumb,
-  .smbk-slider__thumb > .smbk-slider__bubble {
-    transition: none;
-  }
 }
 
 /* ---- high contrast (forced colors) ---- */
@@ -368,6 +645,52 @@
   }
 
   .smbk-slider:has(.smbk-slider__control:disabled) :is(.smbk-slider__label, .smbk-slider__value, .smbk-slider__bounds) {
+    color: GrayText;
+  }
+
+  /* The standard line in CanvasText; the fill bar's edge in CanvasText; in both, the part up to the
+     thumb in Highlight, and the fill look's handle in HighlightText on it. */
+  .smbk-slider--look-standard .smbk-slider__track {
+    background-color: CanvasText;
+  }
+
+  .smbk-slider--look-fill .smbk-slider__track {
+    border: var(--smbk-border-width-hairline) solid CanvasText;
+  }
+
+  .smbk-slider--look-standard .smbk-slider__fill,
+  .smbk-slider--look-fill .smbk-slider__fill {
+    forced-color-adjust: none;
+    background-color: Highlight;
+  }
+
+  .smbk-slider--look-fill .smbk-slider__thumb,
+  .smbk-slider--look-fill .smbk-slider__thumb:is(:hover, :active, [data-pressed], :has(+ .smbk-slider__control:is(:hover, :active, :focus-visible))) {
+    forced-color-adjust: none;
+    background: HighlightText;
+  }
+
+  .smbk-slider--look-fill .smbk-slider__rail:has(.smbk-slider__control:focus-visible) .smbk-slider__track {
+    outline-color: Highlight;
+  }
+
+  .smbk-slider--look-standard .smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__track,
+  .smbk-slider--look-standard .smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__fill,
+  .smbk-slider--look-fill .smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__fill {
+    background-color: GrayText;
+  }
+
+  .smbk-slider--look-fill .smbk-slider__thumb:has(+ .smbk-slider__control:disabled) {
+    background: Canvas;
+  }
+
+  /* The marks are a background image, which forced colors would drop. */
+  .smbk-slider__marks {
+    forced-color-adjust: none;
+    color: CanvasText;
+  }
+
+  .smbk-slider:has(.smbk-slider__control:disabled) .smbk-slider__marks {
     color: GrayText;
   }
 }

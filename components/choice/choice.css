@@ -1,0 +1,152 @@
+/*
+ * The choice row: what the checkbox, the radio, the switch and the choice card share, written once. A real control,
+ * visually hidden (by the shared rule in visually-hidden/visually-hidden.css), drives a mark drawn beside its label;
+ * each component draws its own mark (the box, the circle, the track) and this sheet draws the rest: the row and its
+ * type, the disabled colour, the label stacked over a line under it, the focus ring on the mark and the touch area.
+ *
+ * Every rule names each component's own classes, so markup written by hand with them keeps working and nothing here
+ * adds a class. A component that takes part only in some of it is listed only there: the switch has no line under its
+ * label, and the choice card draws its own row and its own focus ring around the whole card.
+ */
+
+/* ---- the row ---- */
+
+.smbk-checkbox,
+.smbk-radio,
+.smbk-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* A row with a real control is at least the smallest touch size tall. The checkbox's box drawn alone inside another
+   control (a dropdown item) has no control and takes that control's height. */
+.smbk-checkbox:has(> .smbk-checkbox__control),
+.smbk-radio:has(> .smbk-radio__control),
+.smbk-switch:has(> .smbk-switch__control) {
+  min-height: var(--smbk-size-target-min);
+}
+
+/* The keyboard's focus ring goes on the mark. The choice card puts it around the whole card instead. */
+.smbk-checkbox__control:focus-visible + .smbk-checkbox__box,
+.smbk-radio__control:focus-visible + .smbk-radio__circle,
+.smbk-switch__control:focus-visible + .smbk-switch__track {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+/* Disabled: the words take the disabled colour, and the pointer says no. */
+.smbk-checkbox:has(.smbk-checkbox__control:disabled),
+.smbk-radio:has(.smbk-radio__control:disabled),
+.smbk-switch:has(.smbk-switch__control:disabled) {
+  color: var(--smbk-color-text-disabled);
+  cursor: not-allowed;
+}
+
+/* ---- a label with a line under it ----
+   The two stack beside the mark, which sits on the label's first line. The choice card always stacks them. */
+
+.smbk-checkbox__text,
+.smbk-radio__text,
+.smbk-choice-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-text-label);
+  min-width: 0;
+}
+
+.smbk-checkbox:has(> .smbk-checkbox__text),
+.smbk-radio:has(> .smbk-radio__text) {
+  align-items: flex-start;
+}
+
+.smbk-checkbox:has(> .smbk-checkbox__text) > .smbk-checkbox__box,
+.smbk-radio:has(> .smbk-radio__text) > .smbk-radio__circle,
+.smbk-choice-card :is(.smbk-radio__circle, .smbk-checkbox__box) {
+  margin-block: calc((1lh - var(--smbk-size-selection-md)) / 2);
+}
+
+/* The small mark (sm). */
+.smbk-checkbox--size-sm:has(> .smbk-checkbox__text) > .smbk-checkbox__box,
+.smbk-radio--size-sm:has(> .smbk-radio__text) > .smbk-radio__circle {
+  margin-block: calc((1lh - var(--smbk-size-selection-sm)) / 2);
+}
+
+.smbk-checkbox__description,
+.smbk-radio__description,
+.smbk-choice-card__description {
+  color: var(--smbk-color-text-subtlest);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+.smbk-checkbox:has(.smbk-checkbox__control:disabled) .smbk-checkbox__description,
+.smbk-radio:has(.smbk-radio__control:disabled) .smbk-radio__description,
+.smbk-choice-card:has(:disabled) .smbk-choice-card__description {
+  color: var(--smbk-color-text-disabled);
+}
+
+/* ---- touch: the row takes an invisible press area ----
+   On a touch screen an invisible area, centred on a row with a real control, takes the press out to the comfortable
+   target in each direction it falls short of it, and between two options of one kind stacked or set side by side only
+   halfway into the gap a group of options keeps, a nested group too, so each stays one press. The mark, its words, its
+   focus ring and its place stay as drawn. */
+
+@media (pointer: coarse) {
+  .smbk-checkbox:has(> .smbk-checkbox__control)::after,
+  .smbk-radio:has(> .smbk-radio__control)::after,
+  .smbk-switch:has(> .smbk-switch__control)::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  .smbk-checkbox + .smbk-checkbox::after,
+  :is(.smbk-checkbox, :has(> .smbk-checkbox)) + :has(> .smbk-checkbox) > .smbk-checkbox:first-child::after,
+  .smbk-radio + .smbk-radio::after,
+  :is(.smbk-radio, :has(> .smbk-radio)) + :has(> .smbk-radio) > .smbk-radio:first-child::after,
+  .smbk-switch + .smbk-switch::after,
+  :is(.smbk-switch, :has(> .smbk-switch)) + :has(> .smbk-switch) > .smbk-switch:first-child::after {
+    inset-block-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-md) / -2);
+  }
+
+  .smbk-checkbox:has(+ .smbk-checkbox)::after,
+  .smbk-checkbox:has(+ :has(> .smbk-checkbox))::after,
+  :has(> .smbk-checkbox) + :has(> .smbk-checkbox) > .smbk-checkbox:last-child::after,
+  .smbk-radio:has(+ .smbk-radio)::after,
+  .smbk-radio:has(+ :has(> .smbk-radio))::after,
+  :has(> .smbk-radio) + :has(> .smbk-radio) > .smbk-radio:last-child::after,
+  .smbk-switch:has(+ .smbk-switch)::after,
+  .smbk-switch:has(+ :has(> .smbk-switch))::after,
+  :has(> .smbk-switch) + :has(> .smbk-switch) > .smbk-switch:last-child::after {
+    inset-block-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-md) / -2);
+  }
+}
+
+/* ---- high contrast (forced colors) ----
+   In Windows high-contrast mode the browser drops fills and shadows; a disabled row's words take the user's own
+   disabled colour. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  .smbk-checkbox:has(.smbk-checkbox__control:disabled),
+  .smbk-checkbox:has(.smbk-checkbox__control:disabled) .smbk-checkbox__description,
+  .smbk-radio:has(.smbk-radio__control:disabled),
+  .smbk-radio:has(.smbk-radio__control:disabled) .smbk-radio__description,
+  .smbk-switch:has(.smbk-switch__control:disabled),
+  .smbk-choice-card:has(:disabled) .smbk-choice-card__description {
+    color: GrayText;
+  }
+}

@@ -1,0 +1,118 @@
+/* smbk-color-slider — Color slider. Figma "Color slider" 7407:320 (Channel × State × Size: md, sm).
+ * A label row (the label in the strong label's look at the start, the value in Body XS at the end), the small
+ * stack step above a strip with fully round ends. The strip's gradient is the colors the channel moves through,
+ * which change with the color, so the wrapper paints it on the gradient part as an inline background; the
+ * opacity strip has the checkerboard (smbk-color-checker) under it. A hairline edge is drawn inside the strip.
+ * The thumb is the color thumb, placed along the rail: the strip less half its height at each end, so the thumb
+ * never passes the strip's round ends. Disabled, the strip is the disabled surface, the thumb shows no color and
+ * the value turns the disabled text color.
+ * A different construction from the slider: React Aria's hidden range input inside the thumb takes the keys, and
+ * the strip takes the pointer. */
+
+.smbk-color-slider {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-sm);
+  width: 100%;
+  min-width: 0;
+}
+
+/* ---- the label row ---- */
+
+.smbk-color-slider__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--smbk-space-inline-md);
+  min-width: 0;
+}
+
+.smbk-color-slider__value {
+  margin-inline-start: auto;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.smbk-color-slider:has(input:disabled) .smbk-color-slider__value {
+  color: var(--smbk-color-text-disabled);
+}
+
+/* ---- the strip ---- */
+
+.smbk-color-slider__track {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--smbk-size-24);
+  border-radius: var(--smbk-radius-full);
+  background: var(--smbk-color-surface-disabled);
+  touch-action: none;
+  cursor: pointer;
+}
+
+.smbk-color-slider:has(input:disabled) .smbk-color-slider__track {
+  cursor: not-allowed;
+}
+
+/* The colors, over the checkerboard on the opacity strip, with the edge drawn inside them. */
+.smbk-color-slider__gradient {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 var(--smbk-border-width-hairline) var(--smbk-color-border-edge-shade-subtle);
+  forced-color-adjust: none;
+}
+
+/* Where the thumb's middle travels: the strip less half its height at each end. */
+.smbk-color-slider__rail {
+  position: absolute;
+  inset-block: 0;
+  inset-inline: calc(var(--smbk-size-24) / 2);
+}
+
+/* ---- small ---- */
+
+.smbk-color-slider--size-sm .smbk-color-slider__track {
+  height: var(--smbk-size-20);
+}
+
+.smbk-color-slider--size-sm .smbk-color-slider__rail {
+  inset-inline: calc(var(--smbk-size-20) / 2);
+}
+
+/* ---- touch: the strip takes an invisible press area ----
+   On a touch screen an invisible area, centred on the strip, takes the press out to the comfortable target above and
+   below it, so a finger can start a drag anywhere near it; where a color area or another strip stands right above or
+   below, as in the color picker, it reaches only halfway into the gap between them. The strip and its thumb stay as
+   drawn. */
+
+@media (pointer: coarse) {
+  .smbk-color-slider__track::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  :is(.smbk-color-area, .smbk-color-slider) + .smbk-color-slider:not(:has(.smbk-color-slider__header)) .smbk-color-slider__track::after {
+    inset-block-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-md) / -2);
+  }
+
+  .smbk-color-slider:has(+ :is(.smbk-color-area, .smbk-color-slider:not(:has(.smbk-color-slider__header)))) .smbk-color-slider__track::after {
+    inset-block-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-md) / -2);
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* The strip keeps its colors, which are what it shows; its edge takes the reader's text color. */
+@media (forced-colors: active) {
+  .smbk-color-slider__track {
+    outline: var(--smbk-border-width-hairline) solid CanvasText;
+  }
+}

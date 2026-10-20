@@ -22,6 +22,8 @@ export interface Token {
   $value: TokenValue;
   $description?: string;
   $extensions?: Record<string, unknown>;
+  /** The standard's mark for a token on its way out: true, or a text saying what to use instead. */
+  $deprecated?: boolean | string;
   [key: string]: unknown;
 }
 
@@ -146,4 +148,35 @@ export function isDimensionValue(v: unknown): v is DimensionValue {
     typeof (v as DimensionValue).value === 'number' &&
     typeof (v as DimensionValue).unit === 'string'
   );
+}
+
+/** A DTCG colour: its colour space, its components and its alpha, with an optional six-digit hex as a fallback. */
+export type ColorValue = { colorSpace: string; components: unknown[]; alpha?: number; hex?: string };
+
+const toByte = (n: number) => Math.round(n * 255).toString(16).padStart(2, '0');
+
+/**
+ * Why a colour cannot be written as CSS, or null when it can. The build writes sRGB only:
+ * three components between 0 and 1, an alpha between 0 and 1 if given, and a hex fallback,
+ * if given, of six digits (the standard's own rule, since the alpha has its own field) that
+ * names the same colour as the components.
+ */
+export function colorProblem(v: unknown): string | null {
+  if (typeof v !== 'object' || v === null || Array.isArray(v)) return "its value is not the standard's colour object (a colour space, components and an alpha)";
+  const c = v as Partial<ColorValue>;
+  if (c.colorSpace !== 'srgb') return `its colour space is ${JSON.stringify(c.colorSpace)}, and the build writes sRGB only`;
+  if (!Array.isArray(c.components) || c.components.length !== 3 || !c.components.every((n) => typeof n === 'number' && n >= 0 && n <= 1)) return 'its components are not three numbers between 0 and 1';
+  if (c.alpha !== undefined && !(typeof c.alpha === 'number' && c.alpha >= 0 && c.alpha <= 1)) return 'its alpha is not a number between 0 and 1';
+  if (c.hex !== undefined) {
+    if (typeof c.hex !== 'string' || !/^#[0-9a-f]{6}$/i.test(c.hex)) return `its hex fallback ${JSON.stringify(c.hex)} is not six digits, as the standard requires`;
+    const fromComponents = `#${(c.components as number[]).map(toByte).join('')}`;
+    if (c.hex.toLowerCase() !== fromComponents) return `its hex fallback ${c.hex} is not the colour its components give (${fromComponents})`;
+  }
+  return null;
+}
+
+/** An sRGB colour as CSS hex: six digits, and two more when its alpha is below 1. */
+export function colorToHex(v: ColorValue): string {
+  const alpha = v.alpha ?? 1;
+  return `#${(v.components as number[]).map(toByte).join('')}${alpha < 1 ? toByte(alpha) : ''}`;
 }

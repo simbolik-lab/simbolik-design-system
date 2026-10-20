@@ -19,7 +19,8 @@ A choice from a fixed list, shown closed as the input well with a caret and open
 - The block, holding the well and, while open, the list.
 - The well part, a button that is the input's well: it carries the input's classes, so its chrome and states are the input's.
 - The value part, the chosen choice's label or the placeholder.
-- The icon part, the caret, at the well's end.
+- The icon part, the caret, at the well's end, at the field's icon size (it is the input's icon part too). A read-only select has none.
+- In error, the input's error icon, a warning sign before the caret.
 - The list part, the dropdown panel itself (it carries the dropdown's classes at the select's size), of option parts, each a dropdown item with its option label part and, on the chosen one, the check part.
 - The label and the help text are not the select's: put it in a field.
 
@@ -29,15 +30,18 @@ A choice from a fixed list, shown closed as the input well with a caret and open
 
 ## When not to use
 
-- Two or three choices that should all be visible. Use radios or the segmented control.
-- A list to search through. That is a combo box, which does not exist yet.
-- Multiple choices. Use checkboxes.
+- Two or three choices that should all be visible. Use [radios](../radio/radio.md) or the [segmented control](../segmented-control/segmented-control.md).
+- A long list to search through. Use a [combobox](../combobox/combobox.md).
+- Multiple choices. Use [checkboxes](../checkbox/checkbox.md).
 
 ## Behavior
 
-The closed well behaves as the input does: it lifts on hover, shows the field focus border when focused, and draws the danger border on error. Any change to the input's look reaches the select. Pressing the well opens the dropdown panel under it with one item per choice, as tall as the dropdown's items at the same size (the small select has the small items); the chosen one carries a check. Arrow keys move the highlight, Home and End jump to the first and last choice that can be chosen, Enter and Space choose; a disabled choice is passed over. Escape, a click outside, or focus leaving the select closes the list without choosing; Tab closes it and moves on to the next control, as it would from a closed select. Typing jumps to the next choice that starts with the letters typed (they add up while typed quickly; the same letter again steps through the choices that start with it), and opens a closed list on it. The list drops in from the well and fades in with the enter motion, as the dropdown panel does, and closes at once; under reduced motion it appears at once.
+The closed well behaves as the input does: it lifts on hover, shows the field focus border when focused, and on error draws the danger border, kept while focused, and the warning icon. Any change to the input's look reaches the select. It comes in the input's two sizes, md and sm. A read-only select shows its choice flat on the page with a faint edge and no caret; it stays in the tab order but never opens, and its value still travels with the form. Pressing the well opens the dropdown panel under it with one item per choice, as tall as the dropdown's items at the same size (the small select has the small items); the chosen one carries a check. Arrow keys move the highlight, Home and End jump to the first and last choice that can be chosen, Enter and Space choose; a disabled choice is passed over. Escape, a click outside, or focus leaving the select closes the list without choosing; Tab closes it and moves on to the next control, as it would from a closed select. Typing jumps to the next choice that starts with the letters typed (they add up while typed quickly; the same letter again steps through the choices that start with it), and opens a closed list on it.
+With a mouse, the highlight is the dropdown's sliding hover fill: it follows the pointer from choice to choice, lights the nearest choice when the pointer is in the list's padding, where a click chooses it, and steps aside while the keys move, so the keyboard's highlight keeps its own fill and focus ring. The list drops in from the well, growing from its edge nearest the well (upward when it opens above), and fades in with the enter motion, as the dropdown panel does, and closes at once; under reduced motion it fades in without moving.
 
-The open list never makes the page longer or runs off the screen. It stops the list's own gap short of the window's edge, of any scrolling part it sits in, and of a boundary the page may name (such as the part of the page whose end the list should not pass). A longer list scrolls inside itself with the system's thin scrollbar, and scrolling it never hands on to the page. Where there is more room above the well than under it, the list opens upward, and then only fades in. It opens scrolled to the chosen choice, and the keyboard's highlight is always kept in view. A short list that fits looks exactly as it did. The value can be controlled from outside or left to the component, and travels in a hidden input when the select has a form name. A disabled select sends nothing with its form, as a disabled native control does. A required select does not stop a form being sent while no choice is made: it says it is required (to a screen reader, and through the field's mark), but checking that a choice was made before sending is the form's work.
+The open list shows over the whole page, so a part around the select that clips or scrolls, such as an open accordion panel, never cuts it off, and it keeps the theme, density and text size of the place it opened from. It is as wide as the well, never taller than the system's list height, and never makes the page longer or runs off the screen: it stops the list's own gap short of the window's edge and of a boundary the page may name (such as the part of the page whose end the list should not pass), and stays beside the well as the page scrolls. A longer list scrolls inside itself with the system's thin scrollbar, with a soft shade along its foot while more choices wait below, and scrolling it never hands on to the page. Where there is more room above the well than under it, the list opens upward and rises into place. The placing uses React Aria, which a React project installs beside React. It opens scrolled to the chosen choice, and the keyboard's highlight is always kept in view. A short list that fits looks exactly as it did. The value can be controlled from outside or left to the component, and travels in a hidden input when the select has a form name. Give `autoComplete` the kind of value it holds, such as `country-name`, and the hidden input carries it, so the browser can fill the form in. A disabled select sends nothing with its form, as a disabled native control does. A required select does not stop a form being sent while no choice is made: it says it is required (to a screen reader, and through the field's mark), but checking that a choice was made before sending is the form's work.
+
+The page can hold the list open or shut by giving the React wrapper `open`, as for a test or a picture of the page; `onOpenChange` then hears each request to open or close it (a press, a key, a choice, a click outside, focus leaving), and the page decides. Left out, the select opens and closes itself. A disabled or read-only select never opens, whatever `open` says.
 
 A ref given to the React wrapper reaches the well, the button that opens the list, so a page can focus it. The select keeps working as usual with a ref attached.
 
@@ -45,12 +49,40 @@ A page names the boundary the list should not pass by giving `boundary` a ref to
 
 ## Accessibility
 
-- The well is a combo box button that opens a listbox; it needs a label, given with aria-label or aria-labelledby.
+### What it does for you
+
+- The well is a combo box button that opens a listbox. In development, a select with no name logs a warning in the console.
+- A read-only select says so with `aria-readonly`.
 - The list is in the page only while it is open, and the well names it as the element it controls only then, as ARIA 1.2 asks of a combo box, so the well never points at something that is not there.
 - The highlighted option is announced through the active descendant while the list is open, so focus never leaves the well. While the well has focus, the highlighted option carries the focus ring just inside its edge, so it can be found without telling the fills apart.
 - Typing to jump works as the select-only combo box pattern describes; a space while a word is being typed is part of the word, not a choice.
-- The field around it links its help text or error message to the well through aria-describedby, and its required mark comes with aria-required on the well.
 - An error marks the well invalid as well as drawing the danger border.
+- In a forced-color mode, the keyboard's highlight in the open list is drawn in the system's highlight colors.
+
+### What you must do
+
+- Give the well a label, with `aria-label` or `aria-labelledby`, or by a field.
+- Put it in a field, which links its help text or error message to the well through `aria-describedby`, and whose required mark comes with `aria-required` on the well.
+
+### How to test
+
+- Tab to the select, then press Enter, Space or Down Arrow: the list opens on the chosen choice. Move with the arrow keys, Home and End, and press Enter to choose. Press Escape to close it without choosing.
+- Type the first letters of a choice: the highlight jumps to it. Typing in a closed select opens the list on it.
+- With a screen reader, the well is read as a combo box with its label and its value, and the highlighted option is read as the arrows move.
+- A disabled choice is passed over by the arrows. A read-only select is reachable with Tab but never opens.
+- With text at 200% and the page 320 pixels wide, the well and the open list stay inside the window, and a long list scrolls inside itself.
+- In a forced-color mode, the highlighted choice in the open list is still told from the others.
+
+### Keyboard
+
+| Key | What it does |
+|---|---|
+| Tab | Moves focus to the select. With the list open, closes it, chooses nothing and moves on. |
+| Enter or Space | Opens the list when it is closed. With it open, chooses the highlighted choice. A space while a word is being typed is part of the word. |
+| Down Arrow or Up Arrow | Opens the list when it is closed. With it open, moves the highlight down or up, passing over a disabled choice. |
+| Home or End | With the list open, moves the highlight to the first or last choice that can be chosen. |
+| Any character | Jumps to the next choice that starts with the letters typed, and opens a closed list on it. |
+| Escape | Closes the list without choosing. |
 
 ## Composition
 
@@ -64,11 +96,12 @@ The input's well with a value and a caret, and the dropdown's panel and items fo
 
 ### Don't
 
-- Use a select for navigation. That is a dropdown.
+- Use a select for navigation. That is a [dropdown](../dropdown/dropdown.md).
 
 ## Related
 
-- Input: free text.
-- Dropdown: the panel and items the open list is drawn as.
-- Field: the label and help text around it.
-- Radio: a few choices, all visible.
+- [Input](../input/input.md): free text.
+- [Combobox](../combobox/combobox.md): a long list the reader types to search.
+- [Dropdown](../dropdown/dropdown.md): the panel and items the open list is drawn as.
+- [Field](../field/field.md): the label and help text around it.
+- [Radio](../radio/radio.md): a few choices, all visible.

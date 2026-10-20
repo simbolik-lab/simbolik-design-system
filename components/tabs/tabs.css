@@ -5,7 +5,12 @@
  * bar never grows past those heights.
  * A bar of tabs in front of one panel each. The bar is drawn much like the
  * segmented control (canvas well, selected tab raised on the raised surface);
- * the difference is what it does, not how it looks. */
+ * the difference is what it does, not how it looks.
+ * The same bar moves between pages when its tabs are links (TabsNav): a nav
+ * holding the bar, the link to the page shown marked aria-current="page", and
+ * the links past a number behind a More tab opening a dropdown of links, which
+ * draws as chosen (data-current) while the page shown is one of them. Every
+ * rule for a tab reaches the More tab inside its dropdown's anchor too. */
 
 .smbk-tabs__list {
   position: relative;
@@ -14,6 +19,9 @@
   align-items: stretch;
   gap: var(--smbk-space-inset-2xs);
   height: var(--smbk-size-control-md);
+  /* Figma counts the edge in the bar's size and puts the padding inside it, as the segmented control's, so the
+     tabs sit the smallest inset plus the edge's width in from the bar's outer edge, leaving the smallest inset
+     between a tab and the edge: 34 and 26 tall. */
   padding: var(--smbk-space-inset-2xs);
   border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
   border-radius: var(--smbk-radius-control-lg);
@@ -46,12 +54,12 @@
   border-radius: var(--smbk-radius-control-sm);
   background: transparent;
   color: var(--smbk-color-text-subtle);
-  font-family: var(--smbk-typography-body-m-font-family);
-  font-size: var(--smbk-typography-body-m-font-size);
-  font-weight: var(--smbk-typography-body-m-font-weight);
-  line-height: var(--smbk-typography-body-m-line-height);
-  letter-spacing: var(--smbk-typography-body-m-letter-spacing);
-  text-box: trim-both cap alphabetic;
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
+  text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -66,12 +74,12 @@
   }
 }
 
-.smbk-tabs__tab[aria-selected="true"] {
+.smbk-tabs__tab:is([aria-selected="true"], [aria-current="page"], [data-current]) {
   border-radius: var(--smbk-radius-control-md);
   background: var(--smbk-color-surface-raised);
-  border-color: var(--smbk-color-border-edge-highlight);
+  border-color: var(--smbk-color-border-rim);
   color: var(--smbk-color-text-default);
-  box-shadow: var(--smbk-elevation-0);
+  box-shadow: var(--smbk-elevation-control);
 }
 
 /* Inside the tab's edge: the bar's padding is thinner than the ring and its
@@ -86,10 +94,10 @@
   top: 0;
   left: 0;
   box-sizing: border-box;
-  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim);
   border-radius: var(--smbk-radius-control-md);
   background: var(--smbk-color-surface-raised);
-  box-shadow: var(--smbk-elevation-0);
+  box-shadow: var(--smbk-elevation-control);
   pointer-events: none;
 }
 
@@ -97,7 +105,7 @@
   display: block;
 }
 
-.smbk-tabs__list[data-indicator] > .smbk-tabs__tab[aria-selected="true"] {
+.smbk-tabs__list[data-indicator] .smbk-tabs__tab:is([aria-selected="true"], [aria-current="page"], [data-current]) {
   background: transparent;
   border-color: transparent;
   box-shadow: none;
@@ -117,10 +125,18 @@
   font-size: var(--smbk-size-icon-sm);
 }
 
+/* The comma a screen reader hears between the label and a badge ("Activity, 18"); never shown. */
+/* .smbk-tabs__pause: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
 /* A mark after the label (a badge): it sits in the tab's row, spaced by the tab's own gap. */
 .smbk-tabs__badge {
   display: inline-flex;
   align-items: center;
+}
+
+/* The More tab's caret, one step smaller than the tab's icon, as a caret may be. */
+.smbk-tabs__caret {
+  font-size: var(--smbk-size-icon-xs);
 }
 
 .smbk-tabs__panel {
@@ -147,23 +163,22 @@
   border-radius: var(--smbk-radius-control-md);
 }
 
-.smbk-tabs--size-sm > .smbk-tabs__list > .smbk-tabs__tab {
+.smbk-tabs--size-sm > .smbk-tabs__list .smbk-tabs__tab {
   gap: var(--smbk-space-inline-xs);
   padding: 0 var(--smbk-space-inset-md);
-  font-family: var(--smbk-typography-body-t-font-family);
-  font-size: var(--smbk-typography-body-t-font-size);
-  font-weight: var(--smbk-typography-body-t-font-weight);
-  line-height: var(--smbk-typography-body-t-line-height);
-  letter-spacing: var(--smbk-typography-body-t-letter-spacing);
-  text-box: trim-both cap alphabetic;
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
 }
 
-.smbk-tabs--size-sm > .smbk-tabs__list > .smbk-tabs__tab[aria-selected="true"],
+.smbk-tabs--size-sm > .smbk-tabs__list .smbk-tabs__tab:is([aria-selected="true"], [aria-current="page"], [data-current]),
 .smbk-tabs--size-sm > .smbk-tabs__list > .smbk-tabs__indicator {
   border-radius: var(--smbk-radius-control-sm);
 }
 
-.smbk-tabs--size-sm > .smbk-tabs__list > .smbk-tabs__tab > .smbk-tabs__icon {
+.smbk-tabs--size-sm > .smbk-tabs__list .smbk-tabs__tab > .smbk-tabs__icon {
   font-size: var(--smbk-size-icon-xs);
 }
 
@@ -193,12 +208,12 @@
 }
 
 /* Figma lets a vertical tab hug its padding and a 16 icon: the small control height, at both densities. */
-.smbk-tabs--orientation-vertical > .smbk-tabs__list > .smbk-tabs__tab {
+.smbk-tabs--orientation-vertical > .smbk-tabs__list .smbk-tabs__tab {
   justify-content: flex-start;
   height: var(--smbk-size-control-sm);
 }
 
-.smbk-tabs--orientation-vertical.smbk-tabs--size-sm > .smbk-tabs__list > .smbk-tabs__tab {
+.smbk-tabs--orientation-vertical.smbk-tabs--size-sm > .smbk-tabs__list .smbk-tabs__tab {
   height: var(--smbk-size-control-xs);
 }
 
@@ -208,9 +223,172 @@
   padding-top: 0;
 }
 
-/* The words carry the trim: the tab is a flex row, and a flex row does not pass the trim to its items. */
-.smbk-tabs__label {
-  text-box: trim-both cap alphabetic;
+/* ---- look: line — no well, one subtle line under the row (beside the column when vertical), and
+   the chosen tab marked by a brand underline (a side bar when vertical) at the emphasis width, a
+   shape as well as a color, its label a weight bolder. Each tab is the large control height (small:
+   the medium one) with the extra-small inset at its sides, around a row the medium control height
+   (small: the small one) padded by the medium inset; the row shows only as the fill a pointer
+   brings (Figma's TabItem Line, 18 October). The line is drawn inside the bar, and the chosen tab's
+   underline covers it across the whole tab. The indicator that slides is the underline; until the
+   wrapper places it, the chosen tab draws its own. ---- */
+
+.smbk-tabs--look-line > .smbk-tabs__list {
+  gap: var(--smbk-space-inline-sm);
+  height: var(--smbk-size-control-lg);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: inset 0 calc(-1 * var(--smbk-border-width-hairline)) 0 var(--smbk-color-border-subtle);
+}
+
+.smbk-tabs--look-line.smbk-tabs--size-sm > .smbk-tabs__list {
+  height: var(--smbk-size-control-md);
+}
+
+/* The tab's padding is the extra-small inset outside the row and the medium one inside it; it holds its own
+   layer, so the row's fill paints over the tab and under its words wherever the bar sits. */
+.smbk-tabs--look-line > .smbk-tabs__list .smbk-tabs__tab,
+.smbk-tabs--look-line > .smbk-tabs__list .smbk-tabs__tab:is([aria-selected="true"], [aria-current="page"], [data-current]) {
+  isolation: isolate;
+  gap: var(--smbk-space-inline-md);
+  padding: 0 calc(var(--smbk-space-inset-xs) + var(--smbk-space-inset-md));
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.smbk-tabs--look-line.smbk-tabs--size-sm > .smbk-tabs__list .smbk-tabs__tab {
+  gap: var(--smbk-space-inline-sm);
+}
+
+/* The icon follows the text: 20 beside Body MD, 16 beside Body SM, as Figma binds the line row's icon. */
+.smbk-tabs--look-line > .smbk-tabs__list .smbk-tabs__tab > .smbk-tabs__icon {
+  font-size: var(--smbk-size-icon-md);
+}
+
+.smbk-tabs--look-line.smbk-tabs--size-sm > .smbk-tabs__list .smbk-tabs__tab > .smbk-tabs__icon {
+  font-size: var(--smbk-size-icon-sm);
+}
+
+.smbk-tabs--look-line > .smbk-tabs__list .smbk-tabs__tab > .smbk-tabs__caret {
+  font-size: var(--smbk-size-icon-sm);
+}
+
+.smbk-tabs--look-line.smbk-tabs--size-sm > .smbk-tabs__list .smbk-tabs__tab > .smbk-tabs__caret {
+  font-size: var(--smbk-size-icon-xs);
+}
+
+/* The row inside the tab, drawn only as the hover fill: the medium control height (small: the small one), the
+   extra-small inset in from the tab's sides, centered up and down, with the medium control corner (small: the small
+   one). */
+.smbk-tabs--look-line > .smbk-tabs__list .smbk-tabs__tab::before {
+  content: '';
+  position: absolute;
+  inset-inline: var(--smbk-space-inset-xs);
+  top: 50%;
+  z-index: -1;
+  height: var(--smbk-size-control-md);
+  translate: 0 -50%;
+  border-radius: var(--smbk-radius-control-md);
+  background: transparent;
+  pointer-events: none;
+  transition: background-color var(--smbk-motion-feedback-duration) var(--smbk-motion-feedback-easing);
+}
+
+.smbk-tabs--look-line.smbk-tabs--size-sm > .smbk-tabs__list .smbk-tabs__tab::before {
+  height: var(--smbk-size-control-sm);
+  border-radius: var(--smbk-radius-control-sm);
+}
+
+/* The underline runs straight to the tab's ends; the focus ring alone takes a corner, Figma's ring's. */
+.smbk-tabs--look-line > .smbk-tabs__list .smbk-tabs__tab:focus-visible {
+  border-radius: var(--smbk-radius-control-md);
+}
+
+.smbk-tabs--look-line > .smbk-tabs__list .smbk-tabs__tab:is([aria-selected="true"], [aria-current="page"], [data-current]) {
+  box-shadow: inset 0 calc(-1 * var(--smbk-border-width-emphasis)) 0 var(--smbk-color-border-brand);
+}
+
+/* The chosen tab's label a weight bolder, Body MD Medium (small: Body SM Medium). An invisible copy of its words at
+   that weight (`data-label`, which the wrapper writes) lies under every label with no height, so a label that turns
+   bolder never moves the tabs beside it. The copy is generated content, hidden, with empty words for assistive
+   technology, so the label is read once. */
+.smbk-tabs--look-line > .smbk-tabs__list .smbk-tabs__tab:is([aria-selected="true"], [aria-current="page"], [data-current]) > .smbk-tabs__label {
+  font-family: var(--smbk-typography-body-md-medium-font-family);
+  font-weight: var(--smbk-typography-body-md-medium-font-weight);
+}
+
+.smbk-tabs--look-line.smbk-tabs--size-sm > .smbk-tabs__list .smbk-tabs__tab:is([aria-selected="true"], [aria-current="page"], [data-current]) > .smbk-tabs__label {
+  font-family: var(--smbk-typography-body-sm-medium-font-family);
+  font-weight: var(--smbk-typography-body-sm-medium-font-weight);
+}
+
+.smbk-tabs--look-line > .smbk-tabs__list .smbk-tabs__label[data-label]::after {
+  content: attr(data-label);
+  content: attr(data-label) / "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-family: var(--smbk-typography-body-md-medium-font-family);
+  font-weight: var(--smbk-typography-body-md-medium-font-weight);
+  pointer-events: none;
+  user-select: none;
+}
+
+.smbk-tabs--look-line.smbk-tabs--size-sm > .smbk-tabs__list .smbk-tabs__label[data-label]::after {
+  font-family: var(--smbk-typography-body-sm-medium-font-family);
+  font-weight: var(--smbk-typography-body-sm-medium-font-weight);
+}
+
+/* Pointing at a tab fills its row with the hover surface and its words take the default text color; a disabled tab
+   keeps its own color and no fill. */
+@media (hover: hover) {
+  .smbk-tabs--look-line > .smbk-tabs__list .smbk-tabs__tab:not(:disabled):hover {
+    color: var(--smbk-color-text-default);
+  }
+
+  .smbk-tabs--look-line > .smbk-tabs__list .smbk-tabs__tab:not(:disabled):hover::before {
+    background: var(--smbk-color-surface-hover);
+  }
+}
+
+.smbk-tabs--look-line > .smbk-tabs__list > .smbk-tabs__indicator {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: inset 0 calc(-1 * var(--smbk-border-width-emphasis)) 0 var(--smbk-color-border-brand);
+}
+
+.smbk-tabs--look-line > .smbk-tabs__list[data-indicator] .smbk-tabs__tab:is([aria-selected="true"], [aria-current="page"], [data-current]) {
+  box-shadow: none;
+}
+
+/* Vertical: the line runs down the column's start edge, the side bar over it. Each line tab keeps the
+   horizontal tab's height, as Figma stacks the same tab item: the large control height, the medium one at the
+   small size. */
+.smbk-tabs--look-line.smbk-tabs--orientation-vertical > .smbk-tabs__list {
+  height: auto;
+  box-shadow: inset var(--smbk-border-width-hairline) 0 0 var(--smbk-color-border-subtle);
+}
+
+.smbk-tabs--look-line.smbk-tabs--orientation-vertical > .smbk-tabs__list .smbk-tabs__tab {
+  height: var(--smbk-size-control-lg);
+}
+
+.smbk-tabs--look-line.smbk-tabs--orientation-vertical.smbk-tabs--size-sm > .smbk-tabs__list .smbk-tabs__tab {
+  height: var(--smbk-size-control-md);
+}
+
+.smbk-tabs--look-line.smbk-tabs--orientation-vertical > .smbk-tabs__list .smbk-tabs__tab:is([aria-selected="true"], [aria-current="page"], [data-current]),
+.smbk-tabs--look-line.smbk-tabs--orientation-vertical > .smbk-tabs__list > .smbk-tabs__indicator {
+  box-shadow: inset var(--smbk-border-width-emphasis) 0 0 var(--smbk-color-border-brand);
+}
+
+.smbk-tabs--look-line.smbk-tabs--orientation-vertical > .smbk-tabs__list[data-indicator] .smbk-tabs__tab:is([aria-selected="true"], [aria-current="page"], [data-current]) {
+  box-shadow: none;
 }
 
 /* ---- motion: the indicator slides to the chosen tab with the state purpose, as a switch's thumb
@@ -243,11 +421,60 @@
   }
 }
 
+/* Under reduced motion the raised surface lands at once; the words' color and the new panel still fade. */
 @media (prefers-reduced-motion: reduce) {
-  .smbk-tabs__tab,
-  .smbk-tabs__list[data-indicator] > .smbk-tabs__indicator,
-  .smbk-tabs__list[data-indicator] ~ .smbk-tabs__panel {
+  .smbk-tabs__list[data-indicator] > .smbk-tabs__indicator {
     transition: none;
+  }
+}
+
+/* ---- touch: every tab takes an invisible press area ----
+   On a touch screen an invisible area, centred on each tab, takes the press out to the comfortable target in each
+   direction it falls short of it, and between two tabs only halfway into the bar's gap, so each tab stays one press;
+   a bar that scrolls cuts it off at its padding. The tabs, the bar, the focus ring and every place stay as drawn. */
+
+@media (pointer: coarse) {
+  .smbk-tabs__tab::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  .smbk-tabs__list > .smbk-tabs__tab ~ .smbk-tabs__tab::after {
+    inset-inline-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inset-2xs) / -2);
+  }
+
+  .smbk-tabs__list > .smbk-tabs__tab:has(~ .smbk-tabs__tab)::after {
+    inset-inline-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inset-2xs) / -2);
+  }
+
+  .smbk-tabs--look-line > .smbk-tabs__list .smbk-tabs__tab ~ .smbk-tabs__tab::after {
+    inset-inline-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-sm) / -2);
+  }
+
+  .smbk-tabs--look-line > .smbk-tabs__list .smbk-tabs__tab:has(~ .smbk-tabs__tab)::after {
+    inset-inline-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-sm) / -2);
+  }
+
+  /* A column of tabs: the same, up and down. */
+  .smbk-tabs--orientation-vertical > .smbk-tabs__list .smbk-tabs__tab::after {
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  .smbk-tabs--orientation-vertical > .smbk-tabs__list .smbk-tabs__tab ~ .smbk-tabs__tab::after {
+    inset-block-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inset-2xs) / -2);
+  }
+
+  .smbk-tabs--orientation-vertical > .smbk-tabs__list .smbk-tabs__tab:has(~ .smbk-tabs__tab)::after {
+    inset-block-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inset-2xs) / -2);
+  }
+
+  .smbk-tabs--look-line.smbk-tabs--orientation-vertical > .smbk-tabs__list .smbk-tabs__tab ~ .smbk-tabs__tab::after {
+    inset-block-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-sm) / -2);
+  }
+
+  .smbk-tabs--look-line.smbk-tabs--orientation-vertical > .smbk-tabs__list .smbk-tabs__tab:has(~ .smbk-tabs__tab)::after {
+    inset-block-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-sm) / -2);
   }
 }
 
@@ -258,7 +485,7 @@
 @media (forced-colors: active) {
   /* The selected tab, or the indicator that slides under it once the wrapper has placed it,
      filled with Highlight; the tab's words in HighlightText. */
-  .smbk-tabs__tab[aria-selected="true"] {
+  .smbk-tabs__tab:is([aria-selected="true"], [aria-current="page"], [data-current]) {
     forced-color-adjust: none;
     border-color: Highlight;
     background: Highlight;
@@ -268,13 +495,13 @@
 
   /* Its focus ring is drawn inside its edge, over the fill: a HighlightText ring as far in as a
      ring usually stands out, so a Highlight edge stays around it. */
-  .smbk-tabs__tab[aria-selected="true"]:focus-visible {
+  .smbk-tabs__tab:is([aria-selected="true"], [aria-current="page"], [data-current]):focus-visible {
     outline-color: HighlightText;
     outline-offset: calc(-1 * (var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset)));
   }
 
   /* A badge in the selected tab is forced again: its own Canvas cap with CanvasText words. */
-  .smbk-tabs__tab[aria-selected="true"] .smbk-tabs__badge {
+  .smbk-tabs__tab:is([aria-selected="true"], [aria-current="page"], [data-current]) .smbk-tabs__badge {
     forced-color-adjust: auto;
     color: CanvasText;
   }
@@ -282,5 +509,27 @@
   .smbk-tabs__indicator {
     border-color: Highlight;
     background: Highlight;
+  }
+
+  /* The line look keeps its underline or side bar in Highlight, with no fill behind the words, drawn
+     by the chosen tab itself, since the mode drops the indicator's shadow. */
+  .smbk-tabs--look-line > .smbk-tabs__list .smbk-tabs__tab:is([aria-selected="true"], [aria-current="page"], [data-current]),
+  .smbk-tabs--look-line > .smbk-tabs__list[data-indicator] .smbk-tabs__tab:is([aria-selected="true"], [aria-current="page"], [data-current]) {
+    background: transparent;
+    color: CanvasText;
+    box-shadow: inset 0 calc(-1 * var(--smbk-border-width-emphasis)) 0 Highlight;
+  }
+
+  .smbk-tabs--look-line.smbk-tabs--orientation-vertical > .smbk-tabs__list .smbk-tabs__tab:is([aria-selected="true"], [aria-current="page"], [data-current]),
+  .smbk-tabs--look-line.smbk-tabs--orientation-vertical > .smbk-tabs__list[data-indicator] .smbk-tabs__tab:is([aria-selected="true"], [aria-current="page"], [data-current]) {
+    box-shadow: inset var(--smbk-border-width-emphasis) 0 0 Highlight;
+  }
+
+  .smbk-tabs--look-line > .smbk-tabs__list .smbk-tabs__tab:is([aria-selected="true"], [aria-current="page"], [data-current]):focus-visible {
+    outline-color: Highlight;
+  }
+
+  .smbk-tabs--look-line > .smbk-tabs__list > .smbk-tabs__indicator {
+    display: none;
   }
 }

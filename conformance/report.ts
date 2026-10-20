@@ -54,12 +54,23 @@ export function formatReport(r: Result, { explained: everyFinding = false }: { e
   }
   out.push('');
 
+  const byName = group(r.leaving, (l) => l.name);
+  out.push(`ON THEIR WAY OUT (not violations: each name still works until a later Release removes it) (${r.leaving.length} use${r.leaving.length === 1 ? '' : 's'} of ${byName.size} name${byName.size === 1 ? '' : 's'})`);
+  if (!r.leaving.length) out.push('  None.');
+  for (const [name, items] of byName) {
+    const places = items.slice(0, PLACES).map((l) => `${l.file}:${l.line}`);
+    out.push(`  ${name}  ${items.length} use${items.length === 1 ? '' : 's'}: ${places.join(', ')}${items.length > PLACES ? `, and ${items.length - PLACES} more` : ''}`);
+    out.push(`      ${items[0]!.instead}`);
+  }
+  out.push('');
+
   out.push('SUMMARY');
   const rows = r.summary.rules.filter((row) => row.violations || row.explained);
   const width = Math.max(4, ...rows.map((row) => row.rule.length));
   out.push(`  ${'Rule'.padEnd(width)}  Violations  Explained`);
   for (const row of rows) out.push(`  ${row.rule.padEnd(width)}  ${String(row.violations).padStart(10)}  ${String(row.explained).padStart(9)}`);
   out.push(`  ${'Total'.padEnd(width)}  ${String(r.summary.violations).padStart(10)}  ${String(r.summary.explained).padStart(9)}`);
+  if (r.summary.leaving.uses) out.push(`  On their way out: ${r.summary.leaving.uses} use${r.summary.leaving.uses === 1 ? '' : 's'} of ${r.summary.leaving.names} name${r.summary.leaving.names === 1 ? '' : 's'}`);
   out.push('');
   out.push(r.summary.violations ? `Result: ${r.summary.violations} violation${r.summary.violations === 1 ? '' : 's'}.` : 'Result: clean.');
   return out.join('\n');
@@ -106,6 +117,7 @@ export function formatJson(r: Result): string {
       violations: r.violations,
       explained: r.explained,
       stale: r.stale,
+      leaving: r.leaving,
       notes: r.notes,
     },
     null,

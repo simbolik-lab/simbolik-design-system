@@ -26,7 +26,7 @@ Anywhere a component or a page needs a glyph: beside a label in a button, as the
 
 ## When not to use
 
-- For a logo or an illustration. Those are images with their own components.
+- For a [logo](../logo/logo.md) or an illustration. Those are images with their own components.
 - For a status color on its own. An icon inherits color; it does not carry meaning by color, and color must never be the only cue (WCAG 1.4.1 Use of Color).
 
 ## Behavior
@@ -35,7 +35,20 @@ None. It is inert. Size follows the size axis or, more often, the component that
 
 ## Accessibility
 
-An icon with no label is decorative and hidden from assistive technology. An icon that carries meaning on its own — an icon-only button, a status mark with no text — must be given a label, which the React wrapper turns into an image role with an accessible name. The Phosphor font must be loaded for the glyph to render; a missing font shows nothing, so a meaningful icon should always have text or a label beside it.
+### What it does for you
+
+- An icon with no label is decorative and hidden from assistive technology.
+- An icon given a label is turned by the React wrapper into an image role with that accessible name.
+
+### What you must do
+
+- Give a label to an icon that carries meaning on its own, such as an icon-only button or a status mark with no text.
+- Load the Phosphor font for the glyph to render. A missing font shows nothing, so a meaningful icon should always have text or a label beside it.
+
+### How to test
+
+- With a screen reader, a decorative icon is skipped and a labeled one is read as an image by its label.
+- Block the font from loading: a meaningful icon still has text or a label beside it that says what it meant.
 
 ## Composition
 
@@ -57,4 +70,4 @@ Placed inside any component that declares an icon part. Never contains anything.
 
 ## Related
 
-- Button, Tag, Chip, Link and Label place icons through their icon parts and set the size themselves.
+- [Button](../button/button.md), [Tag](../tag/tag.md), [Chip](../chip/chip.md), [Link](../link/link.md) and [Label](../label/label.md) place icons through their icon parts and set the size themselves.

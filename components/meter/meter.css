@@ -1,0 +1,27 @@
+/* smbk-meter — Meter. Figma "Meter" 7580:43 (Value × Tone), on "ProgressTrack" 4168:13602's track.
+ * How full something is inside a known range, such as storage used. Built on the progress bar: the
+ * root also carries smbk-progress and the parts carry its part classes, so the label row, the track
+ * (the subtle track color, pressed in, round ends) and the high contrast rules are the progress bar's.
+ * This stylesheet adds only what differs: a taller track and the fill's tones. The fill's width is set
+ * inline as a percentage by the wrapper; that is data, not a design value. */
+
+.smbk-meter .smbk-progress__track {
+  height: var(--smbk-size-6);
+}
+
+/* ---- tone: the chart series color, or a feedback icon color ---- */
+
+.smbk-meter--tone-series .smbk-progress__fill { background: var(--smbk-color-data-series); }
+.smbk-meter--tone-success .smbk-progress__fill { background: var(--smbk-color-feedback-success-icon); }
+.smbk-meter--tone-warning .smbk-progress__fill { background: var(--smbk-color-feedback-warning-icon); }
+.smbk-meter--tone-danger .smbk-progress__fill { background: var(--smbk-color-feedback-danger-icon); }
+
+/* ---- high contrast (forced colors) ---- */
+/* The progress bar's rules draw the track and fill with the user's colors; the tones above would win
+   over them here, so they are put back. */
+
+@media (forced-colors: active) {
+  .smbk-meter .smbk-progress__fill {
+    background: Highlight;
+  }
+}

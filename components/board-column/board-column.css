@@ -1,0 +1,116 @@
+/* smbk-board-column — Board column and Board group. Figma "Board column" 7118:731 (Meter and Action
+ * booleans) and "Board group" 7118:654 (Count, Dot and Show all booleans).
+ * A lane of cards pressed into the page: the canvas surface with the strong inset shadow inside a subtle
+ * hairline, the medium container corners, 12 all round. Its head holds the title in Heading XS, the
+ * capacity meter under it and an action at the end; then its groups, each a label with a status dot and a
+ * count, the cards in a list and an optional "Show all". On a wide screen a column is the large column
+ * width; in a narrow space it fills the width. A column given a height scrolls inside itself. */
+
+.smbk-board-column {
+  box-sizing: border-box;
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-xl);
+  width: var(--smbk-size-column-min-lg);
+  max-width: 100%;
+  padding: var(--smbk-space-inset-lg);
+  overflow-y: auto;
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  border-radius: var(--smbk-radius-container-md);
+  background: var(--smbk-color-surface-canvas);
+  color: var(--smbk-color-text-default);
+  box-shadow: var(--smbk-elevation-inset-strong);
+  /* The system's scrollbar: thin, in the subtle border color, on a clear track. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--smbk-color-border-subtle) transparent;
+}
+
+/* A column that scrolls is a region the keyboard reaches: its ring is drawn inside its edge. */
+.smbk-board-column:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: calc(-1 * var(--smbk-focus-ring-width));
+}
+
+.smbk-board-column__head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--smbk-space-inline-md);
+}
+
+.smbk-board-column__heading {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-sm);
+  min-width: 0;
+}
+
+.smbk-board-column__title {
+  margin: 0;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-heading-xs-font-family);
+  font-size: var(--smbk-typography-heading-xs-font-size);
+  font-weight: var(--smbk-typography-heading-xs-font-weight);
+  line-height: var(--smbk-typography-heading-xs-line-height);
+  letter-spacing: var(--smbk-typography-heading-xs-letter-spacing);
+  text-transform: var(--smbk-typography-heading-xs-text-transform);
+  overflow-wrap: anywhere;
+}
+
+.smbk-board-column__meter {
+  display: flex;
+}
+
+.smbk-board-column__action {
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--smbk-space-inline-xs);
+}
+
+/* ---- a group: its label row, its cards and "Show all" ---- */
+
+.smbk-board-column__group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--smbk-space-stack-md);
+}
+
+.smbk-board-column__group-head {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+}
+
+.smbk-board-column__group-label {
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-label-sm-font-family);
+  font-size: var(--smbk-typography-label-sm-font-size);
+  font-weight: var(--smbk-typography-label-sm-font-weight);
+  line-height: var(--smbk-typography-label-sm-line-height);
+  letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
+  text-transform: var(--smbk-typography-label-sm-text-transform);
+}
+
+.smbk-board-column__cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+  align-self: stretch;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.smbk-board-column__card {
+  display: block;
+}
+
+/* ---- the narrow form: the column fills the width it is given ---- */
+
+@container style(--smbk-layout: narrow) {
+  .smbk-board-column {
+    width: 100%;
+  }
+}

@@ -12,7 +12,7 @@ status: candidate
 
 ## Purpose
 
-Several buttons that belong together, presented as one control. Kept apart, they are simply a row with the right gap. Merged or segmented, they fuse into one bar with shared edges and hairline dividers, which is how a split action or a set of mutually exclusive choices reads as a single thing.
+Several buttons that belong together, presented as one control. Kept apart, they are simply a row with the right gap that wraps when it runs out of room. Segmented, they fuse into one bar with shared edges and hairline dividers, which is how a set of mutually exclusive choices reads as a single thing.
 
 ## Anatomy
 
@@ -22,22 +22,48 @@ A button that opens more options is a dropdown whose opener is that button, plac
 
 ## When to use
 
-- A split action: a main button and an icon-only button that opens more options, merged.
 - A small set of exclusive choices where a segmented control would be too small.
+- A row of actions that must stay together on a narrow page: the default type wraps onto a second line rather than running off the edge.
 - Two or three related actions of equal weight, kept apart with the default type.
 
 ## When not to use
 
-- For a single toggle between views. Use the segmented control.
+- For a main action with a menu of related ones. Use the [split button](../split-button/split-button.md).
+- For a single toggle between views. Use the [segmented control](../segmented-control/segmented-control.md).
 - For unrelated actions that happen to sit side by side. Give them their own spacing.
 
 ## Behavior
 
 None of its own. Each button behaves as a button. The group is a layout and a shared edge.
 
+The default type, in a row, never grows wider than the space it is given: when its buttons do not fit on one line, the next ones wrap onto a second line, with a small gap between the lines. A segmented bar and a vertical group stay as they are.
+
 ## Accessibility
 
-The container carries the group role and needs an accessible name that says what the group is for; the wrapper requires one. Focus moves through the buttons in order. Because the fused bar hides the buttons' own borders, focus rings are what separates the focused button from its neighbors; they are never suppressed.
+### What it does for you
+
+- The container carries the group role, and the wrapper requires an accessible name for it.
+- Focus moves through the buttons in order.
+- Because the fused bar hides the buttons' own borders, focus rings are what separates the focused button from its neighbors. They are never suppressed, and a focused button sits above its neighbors so the shared edge never covers its ring.
+
+### What you must do
+
+- Give the group an accessible name that says what the group is for.
+
+### How to test
+
+- Tab through the group: focus moves from button to button in order, and each focus ring shows whole, in both themes and in a forced-color mode.
+- Press Enter, then Space on a button: each runs its action once.
+- With a screen reader, the group is read by its name, and each button by its label.
+- With text at 200% and the page 320 pixels wide, the labels stay whole.
+
+### Keyboard
+
+| Key | What it does |
+|---|---|
+| Tab | Moves focus to the next button in the group. |
+| Shift + Tab | Moves focus to the previous button. |
+| Enter or Space | Presses the focused button. |
 
 ## Composition
 
@@ -52,10 +78,12 @@ Contains buttons only, all of one size and, in a fused bar, of one tone matching
 
 ### Don't
 
-- Mix tones inside a merged or segmented bar. The dividers are tuned to one fill.
+- Mix tones inside a segmented bar. The dividers are tuned to one fill.
+- Build a main action with a menu from a segmented bar and a dropdown. Use the split button.
 - Put a link styled as a button next to real buttons in a fused bar without checking focus order.
 
 ## Related
 
-- Button: what goes inside.
-- Segmented control: exclusive choices as a single switch.
+- [Button](../button/button.md): what goes inside.
+- [Segmented control](../segmented-control/segmented-control.md): exclusive choices as a single switch.
+- [Split button](../split-button/split-button.md): a main action with a menu of related ones, built on the segmented bar.

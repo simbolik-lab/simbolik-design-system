@@ -1,0 +1,394 @@
+/* smbk-list — List. Figma "List" 7113:863 (Type × Dividers) and "List item" 7113:173 (State × Size).
+ * A title over rows of one kind, and the words to show when there are none. Plain, bulleted and numbered
+ * lists are text, a line of list spacing apart; a bulleted or numbered row puts its marker in front of its
+ * text, and a line that wraps keeps under the text, not under the marker. Navigation, action and selectable
+ * lists are rows with an icon, a title and a quiet line, touching: the row is the link, the button or the
+ * option, and its states are the browser's and the markup's own (hover, pressed, focus, aria-current,
+ * aria-selected, disabled), never classes. A row's edge is drawn inside its height: its padding gives the
+ * edge's width back. The dividers are the divider component, ending every row but the last. */
+
+.smbk-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+  min-width: 0;
+}
+
+.smbk-list__title {
+  margin: 0;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-label-lg-font-family);
+  font-size: var(--smbk-typography-label-lg-font-size);
+  font-weight: var(--smbk-typography-label-lg-font-weight);
+  line-height: var(--smbk-typography-label-lg-line-height);
+  letter-spacing: var(--smbk-typography-label-lg-letter-spacing);
+  text-transform: var(--smbk-typography-label-lg-text-transform);
+}
+
+.smbk-list__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-text-list);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
+}
+
+.smbk-list__item {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.smbk-list__empty {
+  margin: 0;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+/* ---- text lists: bulleted and numbered rows hold a marker and the text; the marker hugs a bullet and
+   gives a number a fixed column, so the texts of a numbered list line up. ---- */
+
+.smbk-list:is(.smbk-list--type-bulleted, .smbk-list--type-numbered) .smbk-list__item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--smbk-space-inline-md);
+  row-gap: var(--smbk-space-text-list);
+}
+
+.smbk-list__marker {
+  flex: none;
+  color: var(--smbk-color-text-subtle);
+}
+
+.smbk-list--type-numbered .smbk-list__marker {
+  min-width: var(--smbk-size-20);
+}
+
+/* A numbered row's marker left empty counts itself; one written by hand shows what was written. */
+.smbk-list--type-numbered .smbk-list__items {
+  counter-reset: smbk-list;
+}
+
+.smbk-list--type-numbered .smbk-list__item {
+  counter-increment: smbk-list;
+}
+
+.smbk-list--type-numbered .smbk-list__marker:empty::before {
+  content: counter(smbk-list) ".";
+}
+
+.smbk-list__text {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* ---- rows: navigation, action and selectable ---- */
+
+.smbk-list:is(.smbk-list--type-navigation, .smbk-list--type-action, .smbk-list--type-selectable) .smbk-list__items {
+  gap: var(--smbk-space-0);
+}
+
+.smbk-list:is(.smbk-list--type-navigation, .smbk-list--type-action, .smbk-list--type-selectable) .smbk-list__item {
+  display: flex;
+  flex-direction: column;
+}
+
+.smbk-list__row {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-lg);
+  width: 100%;
+  min-height: var(--smbk-size-control-md);
+  margin: 0;
+  padding: calc(var(--smbk-space-inset-md) - var(--smbk-border-width-hairline)) calc(var(--smbk-space-inset-lg) - var(--smbk-border-width-hairline));
+  border: var(--smbk-border-width-hairline) solid transparent;
+  border-radius: var(--smbk-radius-control-md);
+  background: transparent;
+  color: var(--smbk-color-text-default);
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: start;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.smbk-list--size-md .smbk-list__row {
+  min-height: var(--smbk-size-control-lg);
+  padding-block: calc(var(--smbk-space-inset-lg) - var(--smbk-border-width-hairline));
+}
+
+:where(a[href], button).smbk-list__row,
+.smbk-list__item[role="option"] {
+  cursor: pointer;
+}
+
+.smbk-list__start,
+.smbk-list__end {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-stack-sm);
+}
+
+.smbk-list__leading {
+  flex: none;
+  color: var(--smbk-color-icon-subtle);
+  font-size: var(--smbk-size-icon-md);
+}
+
+.smbk-list__body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--smbk-space-text-label);
+  min-width: 0;
+}
+
+.smbk-list__item-title {
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
+}
+
+/* The title is always as wide as its bolder self: an invisible copy of its words (`data-label`, which the wrapper
+   writes) at the current row's weight lies under it with no height, so a title that turns bold never pushes
+   anything beside it. The copy is generated content, hidden, with empty words for assistive technology, so the
+   title is read once. */
+.smbk-list__item-title[data-label]::after {
+  content: attr(data-label);
+  content: attr(data-label) / "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-weight: var(--smbk-typography-body-md-medium-font-weight);
+  pointer-events: none;
+  user-select: none;
+}
+
+.smbk-list__meta {
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+.smbk-list__trailing {
+  flex: none;
+  color: var(--smbk-color-icon-subtle);
+  font-size: var(--smbk-size-icon-sm);
+}
+
+/* The tick of a chosen option: in every option, so a row never changes width as it is chosen, and shown
+   only by the option's own aria-selected, so the look and what a screen reader hears always agree. */
+.smbk-list__check {
+  flex: none;
+  visibility: hidden;
+  color: var(--smbk-color-icon-default);
+  font-size: var(--smbk-size-icon-sm);
+}
+
+/* ---- states. Hover and pressed fill a row that can be pressed; the current row and the chosen option
+   keep their own look under the pointer. ---- */
+
+/* With the wrapper the pointer's fill is the glide part instead (below), so a row's own hover is drawn only in
+   markup without it. */
+@media (hover: hover) {
+  :where(a[href], button:enabled).smbk-list__row:hover:where(:not([data-glide] *)),
+  .smbk-list__item:where([role="option"]:not([aria-disabled="true"])):hover:where(:not([data-glide] *)) > .smbk-list__row {
+    background: var(--smbk-color-action-ghost-background-hover);
+  }
+}
+
+:where(a[href], button:enabled).smbk-list__row:active,
+.smbk-list__item:where([role="option"]:not([aria-disabled="true"])):active > .smbk-list__row {
+  background: var(--smbk-color-action-ghost-background-pressed);
+}
+
+/* An option takes focus itself; its row draws the ring. */
+.smbk-list__item[role="option"] {
+  outline: none;
+}
+
+.smbk-list__row:focus-visible,
+.smbk-list__item[role="option"]:focus-visible > .smbk-list__row {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+/* Where the reader is: the default surface, the rim for its edge and the title one weight bolder. */
+.smbk-list__row[aria-current]:not([aria-current="false"]) {
+  border-color: var(--smbk-color-border-rim);
+  background: var(--smbk-color-surface-default);
+}
+
+.smbk-list__row[aria-current]:not([aria-current="false"]) .smbk-list__item-title {
+  font-weight: var(--smbk-typography-body-md-medium-font-weight);
+}
+
+/* A chosen option: the see-through selected fill and its tick. The fill shows on the page and on a card alike;
+   the sunken fill is the page's own color, so on the page only the tick would show. */
+.smbk-list__item[aria-selected="true"] > .smbk-list__row {
+  background: var(--smbk-color-surface-selected);
+}
+
+.smbk-list__item[aria-selected="true"] > .smbk-list__row .smbk-list__check {
+  visibility: visible;
+}
+
+.smbk-list__row:is(:disabled, [aria-disabled="true"]),
+.smbk-list__item[aria-disabled="true"] > .smbk-list__row {
+  cursor: default;
+}
+
+.smbk-list__row:is(:disabled, [aria-disabled="true"]) :is(.smbk-list__item-title, .smbk-list__meta),
+.smbk-list__item[aria-disabled="true"] > .smbk-list__row :is(.smbk-list__item-title, .smbk-list__meta) {
+  color: var(--smbk-color-text-disabled);
+}
+
+.smbk-list__row:is(:disabled, [aria-disabled="true"]) :is(.smbk-list__leading, .smbk-list__trailing, .smbk-list__check),
+.smbk-list__item[aria-disabled="true"] > .smbk-list__row :is(.smbk-list__leading, .smbk-list__trailing, .smbk-list__check) {
+  color: var(--smbk-color-icon-disabled);
+}
+
+/* ---- the glide: with the wrapper, when every row can be pressed, the hover fill is one part that slides to the
+   row under the mouse (glide.ts) instead of each row lighting up on its own, so a pointer on a divider or past
+   the last row still lights the nearest row. The wrapper adds it as the rows' first child and marks the list
+   data-glide ("lit" while it shows); the rows are lifted over it, so a current or chosen row's own fill still
+   shows over it. It fades in where it lands and out as the pointer leaves, and slides with the feedback purpose;
+   under reduced motion it lands at once and only fades. A touch screen draws none. ---- */
+
+:where(.smbk-list__items[data-glide]) {
+  position: relative;
+}
+
+:where(.smbk-list__items[data-glide] > :not(.smbk-list__glide)) {
+  position: relative;
+}
+
+.smbk-list__glide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  margin: 0;
+  border-radius: var(--smbk-radius-control-md);
+  background: var(--smbk-color-action-ghost-background-hover);
+  opacity: 0;
+  pointer-events: none;
+  list-style: none;
+  transition-property: translate, width, height, opacity;
+  transition-duration: var(--smbk-motion-feedback-duration);
+  transition-timing-function: var(--smbk-motion-feedback-easing);
+}
+
+.smbk-list__items[data-glide="lit"] > .smbk-list__glide {
+  opacity: 1;
+}
+
+.smbk-list__glide[data-instant] {
+  transition-property: opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-list__glide {
+    transition-property: opacity;
+  }
+}
+
+@media (hover: none) {
+  .smbk-list__glide {
+    display: none;
+  }
+}
+
+/* ---- dividers: the divider component ends each row but the last. Between text rows it keeps the list's
+   spacing on both sides; between rows that can be pressed the rows touch it. ---- */
+
+.smbk-list__item:last-child > .smbk-list__divider {
+  display: none;
+}
+
+.smbk-list--type-plain .smbk-list__divider {
+  margin-block-start: var(--smbk-space-text-list);
+}
+
+.smbk-list:is(.smbk-list--type-bulleted, .smbk-list--type-numbered) .smbk-list__divider {
+  flex-basis: 100%;
+}
+
+/* ---- touch: every row takes an invisible press area ----
+   On a touch screen an invisible area, centred on each row, takes the press out to the comfortable target in each
+   direction it falls short of it, except where two rows touch: there each keeps its own edge, so the rows stay one
+   press each. What is drawn and every place stay as they are. */
+
+@media (pointer: coarse) {
+  :is(a[href], button).smbk-list__row,
+  .smbk-list__item[role="option"] {
+    position: relative;
+  }
+
+  :is(a[href], button).smbk-list__row::after,
+  .smbk-list__item[role="option"]::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  .smbk-list__item + .smbk-list__item > :is(a[href], button).smbk-list__row::after,
+  .smbk-list__item[role="option"] + .smbk-list__item[role="option"]::after {
+    inset-block-start: 0;
+  }
+
+  .smbk-list__item:has(+ .smbk-list__item) > :is(a[href], button).smbk-list__row::after,
+  .smbk-list__item[role="option"]:has(+ .smbk-list__item[role="option"])::after {
+    inset-block-end: 0;
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills; this puts the current row and the chosen option
+   back with the user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  .smbk-list__row[aria-current]:not([aria-current="false"]),
+  .smbk-list__item[aria-selected="true"] > .smbk-list__row {
+    forced-color-adjust: none;
+    border-color: Highlight;
+    background: Highlight;
+    color: HighlightText;
+  }
+
+  .smbk-list__row[aria-current]:not([aria-current="false"]) :is(.smbk-list__item-title, .smbk-list__meta, .smbk-list__leading, .smbk-list__trailing),
+  .smbk-list__item[aria-selected="true"] > .smbk-list__row :is(.smbk-list__item-title, .smbk-list__meta, .smbk-list__leading, .smbk-list__check) {
+    color: HighlightText;
+  }
+
+  .smbk-list__row:focus-visible,
+  .smbk-list__item[role="option"]:focus-visible > .smbk-list__row {
+    outline-color: CanvasText;
+  }
+
+  .smbk-list__row:is(:disabled, [aria-disabled="true"]) :is(.smbk-list__item-title, .smbk-list__meta, .smbk-list__leading, .smbk-list__trailing),
+  .smbk-list__item[aria-disabled="true"] > .smbk-list__row :is(.smbk-list__item-title, .smbk-list__meta, .smbk-list__leading, .smbk-list__check) {
+    color: GrayText;
+  }
+}

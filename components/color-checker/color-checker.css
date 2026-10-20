@@ -1,0 +1,25 @@
+/* smbk-color-checker — the checkerboard drawn behind a see-through color. Figma "ColorChecker" 7406:4: a tile of
+ * 4 px squares in the default and the neutral subtle surface colors, placed under the color of a swatch, the
+ * opacity slider's strip and the picker's swatches, and clipped by them.
+ * Not a component to configure: an empty element with this class, placed first inside a part that sets its own
+ * position (a swatch, a slider's track), fills that part and takes its corners. The color goes over it. Each
+ * repeat is two squares across, so the squares are half the 8 px step. */
+
+.smbk-color-checker {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-color: var(--smbk-color-surface-default);
+  background-image: repeating-conic-gradient(var(--smbk-color-surface-neutral-subtle) 0 25%, transparent 0 50%);
+  background-size: var(--smbk-size-8) var(--smbk-size-8);
+  pointer-events: none;
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* The squares show what a color lets through; forced colors would drop them, so they keep their own colors,
+   as the color over them does. */
+@media (forced-colors: active) {
+  .smbk-color-checker {
+    forced-color-adjust: none;
+  }
+}

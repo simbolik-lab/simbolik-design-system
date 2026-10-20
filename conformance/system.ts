@@ -29,6 +29,8 @@ export interface System {
   classes: Set<string>;
   properties: Set<string>;
   primitives: Map<string, Primitive>;
+  /** Custom properties on their way out (the standard's $deprecated, from Figma's own mark), each with what to use instead. */
+  deprecated: Map<string, string>;
   components: Map<string, Component>;
   /** First segment after --smbk-, e.g. "color", "space", "motion". */
   families: Set<string>;
@@ -122,6 +124,7 @@ export async function loadSystem(root: string): Promise<System> {
 
   // Primitives that never reach CSS, and which semantics are built on them.
   const primitives = new Map<string, Primitive>();
+  const deprecated = new Map<string, string>();
   const tokensJson = join(root, 'output', 'tokens.json');
   if (existsSync(tokensJson)) {
     try {
@@ -138,6 +141,19 @@ export async function loadSystem(root: string): Promise<System> {
         const css = typeof t.css === 'string' ? t.css : undefined;
         if (ref && css && t.emitted) byPath.get(ref)?.usedBy.push(css);
       }
+      // Tokens on their way out: a rename names its replacement's path, which is given here as its custom
+      // property, part by part for a text style; any other mark is Figma's own sentence, given as it is.
+      const records = new Map(data.tokens.map((t) => [t.path, t]));
+      const names = (t: TokenRecord): Record<string, string> => (typeof t.css === 'string' ? { value: t.css } : t.css && typeof t.css === 'object' ? (t.css as Record<string, string>) : {});
+      for (const t of data.tokens) {
+        if (!t.emitted || t.deprecated === undefined || t.deprecated === false) continue;
+        const renamedTo = typeof t.deprecated === 'string' ? /^Renamed: use ([\w.-]+)\.$/.exec(t.deprecated)?.[1] : undefined;
+        const target = renamedTo ? records.get(renamedTo) : undefined;
+        for (const [part, name] of Object.entries(names(t))) {
+          const to = target ? names(target)[part] : undefined;
+          deprecated.set(name, to ? `Use ${to}.` : typeof t.deprecated === 'string' ? t.deprecated.replace(/^\w/, (c) => c.toUpperCase()) : 'Nothing replaces it; a later Release removes it.');
+        }
+      }
     } catch (err) {
       notes.push(`simbolik/output/tokens.json could not be read (${(err as Error).message}); primitives are recognized by shape only.`);
     }
@@ -146,7 +162,7 @@ export async function loadSystem(root: string): Promise<System> {
   const families = new Set<string>();
   for (const p of properties) families.add(p.slice('--smbk-'.length).split('-')[0]!);
 
-  return { root, classes, properties, primitives, components, families, notes };
+  return { root, classes, properties, primitives, deprecated, components, families, notes };
 }
 
 interface ManifestShape {
@@ -154,6 +170,8 @@ interface ManifestShape {
   axes?: Record<string, { values: readonly string[] }>;
   flags?: Record<string, unknown>;
   parts?: readonly string[];
+  /** The block whose stylesheet draws it (variants.ts): its modifiers and parts are that block's. */
+  drawnBy?: string;
 }
 
 interface TokenRecord {
@@ -162,14 +180,16 @@ interface TokenRecord {
   emitted: boolean;
   css: unknown;
   reference?: unknown;
+  deprecated?: unknown;
 }
 
 /** Every class the variant helper can put on the page for this manifest. */
 function manifestClasses(m: ManifestShape): string[] {
-  const out = [m.block];
-  for (const [axis, def] of Object.entries(m.axes ?? {})) for (const v of def.values) out.push(`${m.block}--${axis}-${v}`);
-  for (const flag of Object.keys(m.flags ?? {})) out.push(`${m.block}--${flag}`);
-  for (const part of m.parts ?? []) out.push(`${m.block}__${part}`);
+  const drawing = m.drawnBy ?? m.block;
+  const out = m.drawnBy ? [m.block, m.drawnBy] : [m.block];
+  for (const [axis, def] of Object.entries(m.axes ?? {})) for (const v of def.values) out.push(`${drawing}--${axis}-${v}`);
+  for (const flag of Object.keys(m.flags ?? {})) out.push(`${drawing}--${flag}`);
+  for (const part of m.parts ?? []) out.push(`${drawing}__${part}`);
   return out;
 }
 

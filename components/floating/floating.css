@@ -1,0 +1,167 @@
+/*
+ * Floating panels: what every panel beside its opener shares, written once. The dropdown's panel (and with it the
+ * select's and the combobox's lists, the split button's menu and the sidebar's flyout, which are that panel), the
+ * popover's panel (and with it the date picker's calendar and the color picker's panel) and the tooltip.
+ *
+ * The layer: with an opener, the anchor holds the opener and the layer, and the layer the panel. Until the wrapper
+ * lifts it, the layer has no box, so the panel hangs from the anchor as each component's own stylesheet places it, as
+ * in markup written without the layer. While the panel shows, the wrapper lifts the layer into the browser's top
+ * layer (floating.ts): it covers the window and lets every press through, and the panel inside it takes the place
+ * the wrapper gives it, so no clipping or scrolling part around the opener cuts it off. Nothing of the browser's own
+ * popover look stays.
+ *
+ * A closed panel carries the hidden attribute. The panel's own display would otherwise outweigh it.
+ *
+ * The motion of the dropdown's and the popover's panels: the panel drops from its opener across the gap and fades in
+ * with the enter purpose, and goes back the same way with the exit purpose; opened above its opener, it rises to it
+ * and sinks back. Its display changes at the end of the exit, so it stays drawn while it leaves. Under reduced motion
+ * it still fades in and out, at its normal durations, but does not travel. The tooltip's motion is its own (feedback,
+ * not entry), in tooltip.css.
+ *
+ * Each component keeps its own part classes, named here as the selectors of these rules, so markup written by hand
+ * with them keeps working; each component's stylesheet adds what its panel needs beyond this: its look, where it hangs
+ * before it is placed, and what scrolls.
+ */
+
+/* ---- the layer ---- */
+
+.smbk-dropdown__layer,
+.smbk-popover__layer,
+.smbk-tooltip__layer {
+  display: contents;
+}
+
+.smbk-dropdown__layer:popover-open,
+.smbk-popover__layer:popover-open,
+.smbk-tooltip__layer:popover-open {
+  display: block;
+  position: fixed;
+  inset: 0;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  background: none;
+  color: inherit;
+  pointer-events: none;
+}
+
+/* Placed by the wrapper, the panel takes only the place the wrapper writes, and takes presses again. */
+.smbk-dropdown__layer:popover-open > .smbk-dropdown,
+.smbk-popover__layer:popover-open > .smbk-popover,
+.smbk-tooltip__layer:popover-open > .smbk-tooltip {
+  inset: auto;
+  pointer-events: auto;
+}
+
+/* ---- a closed panel ---- */
+
+.smbk-dropdown[hidden],
+.smbk-popover[hidden],
+.smbk-tooltip[hidden] {
+  display: none;
+}
+
+/* ---- motion: the dropdown's and the popover's panels ---- */
+
+.smbk-dropdown,
+.smbk-popover {
+  transition-property: opacity, translate, scale, display;
+  transition-duration: var(--smbk-motion-enter-duration);
+  transition-timing-function: var(--smbk-motion-enter-easing);
+  transition-behavior: allow-discrete;
+}
+
+.smbk-dropdown[hidden],
+.smbk-popover[hidden] {
+  opacity: 0;
+  translate: 0 calc(-1 * var(--smbk-space-stack-xs));
+  transition-duration: var(--smbk-motion-exit-duration);
+  transition-timing-function: var(--smbk-motion-exit-easing);
+}
+
+@starting-style {
+  .smbk-dropdown,
+  .smbk-popover {
+    opacity: 0;
+    translate: 0 calc(-1 * var(--smbk-space-stack-xs));
+  }
+}
+
+/* Opened above its opener, it rises to it and sinks back. */
+.smbk-dropdown[data-side="above"][hidden],
+.smbk-popover[data-side="above"][hidden] {
+  translate: 0 var(--smbk-space-stack-xs);
+}
+
+@starting-style {
+  .smbk-dropdown[data-side="above"],
+  .smbk-popover[data-side="above"] {
+    translate: 0 var(--smbk-space-stack-xs);
+  }
+}
+
+/* It grows out of the edge nearest its opener as it comes, a touch short of its height at first, and shrinks back
+   into it as it goes: its top edge holds still below the opener, its foot above it. The coming is an animation
+   named for the side, rather than the starting style above: the side is known only once the panel shows and has
+   been placed, and a new name starts the animation again from that side, before anything is drawn. Not under
+   reduced motion. */
+.smbk-dropdown,
+.smbk-popover {
+  transform-origin: top;
+}
+
+.smbk-dropdown[data-side="above"],
+.smbk-popover[data-side="above"] {
+  transform-origin: bottom;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .smbk-dropdown,
+  .smbk-popover {
+    animation: smbk-floating-drop var(--smbk-motion-enter-duration) var(--smbk-motion-enter-easing);
+  }
+
+  .smbk-dropdown[data-side="above"],
+  .smbk-popover[data-side="above"] {
+    animation-name: smbk-floating-rise;
+  }
+
+  .smbk-dropdown[hidden],
+  .smbk-popover[hidden] {
+    scale: 1 0.96;
+  }
+}
+
+@keyframes smbk-floating-drop {
+  from {
+    opacity: 0;
+    translate: 0 calc(-1 * var(--smbk-space-stack-xs));
+    scale: 1 0.96;
+  }
+}
+
+@keyframes smbk-floating-rise {
+  from {
+    opacity: 0;
+    translate: 0 var(--smbk-space-stack-xs);
+    scale: 1 0.96;
+  }
+}
+
+/* Under reduced motion only its opacity and its display change over time, and a closing panel stays where it is. */
+@media (prefers-reduced-motion: reduce) {
+  .smbk-dropdown,
+  .smbk-popover {
+    transition-property: opacity, display;
+  }
+
+  .smbk-dropdown[hidden],
+  .smbk-dropdown[data-side][hidden],
+  .smbk-popover[hidden],
+  .smbk-popover[data-side][hidden] {
+    translate: none;
+  }
+}

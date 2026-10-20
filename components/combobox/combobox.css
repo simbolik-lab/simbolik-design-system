@@ -1,0 +1,266 @@
+/* smbk-combobox — Combobox. Figma "Combobox" 7109:2214 over "Combobox popup" 7109:1317 and "List status row"
+ * 7109:1161. A box to type in that suggests matches from a list, for one choice or several.
+ * Figma builds it on other components, and so does the code: the well carries smbk-input, so its chrome, hover,
+ * focus, error, read-only, disabled and small size, its caret and its error icon are the input's own; each pick
+ * is a chip at its small size, removable; the open list is the dropdown panel with every option a dropdown item
+ * at the combobox's size, ticking with the checkbox's small box when it takes several; the loading row turns the
+ * spinner; the clear cross is the search field's. This stylesheet adds only what differs: a well that grows to
+ * hold wrapped chips, the text after them, the caret's press box, the active option, and the status row. */
+
+.smbk-combobox {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* ---- the well: the input's, grown for chips that wrap. Its block padding sets one row of chips, as tall as a
+   large mark, in the middle of the input's height less its edge, so a single row keeps that height exactly and
+   each wrapped row adds its own. Two classes, so it wins over the input's fixed height whatever order the
+   stylesheets load in. ---- */
+
+.smbk-input.smbk-combobox__control {
+  height: auto;
+  min-height: var(--smbk-size-control-md);
+  padding-block: calc((var(--smbk-size-control-md) - var(--smbk-size-mark-lg)) / 2 - var(--smbk-border-width-hairline));
+}
+
+.smbk-combobox--size-sm .smbk-input.smbk-combobox__control {
+  min-height: var(--smbk-size-control-sm);
+  padding-block: calc((var(--smbk-size-control-sm) - var(--smbk-size-mark-lg)) / 2 - var(--smbk-border-width-hairline));
+}
+
+/* The chips and the text, one row that wraps: chips sit the extra-small step apart either way, and the text
+   keeps room for about eight characters before it moves to a line of its own. */
+.smbk-combobox__values {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--smbk-space-stack-xs) var(--smbk-space-inline-xs);
+  min-width: 0;
+}
+
+.smbk-input__control.smbk-combobox__input {
+  flex: 1 1 var(--smbk-size-80);
+  min-width: 0;
+}
+
+/* After the last chip the text keeps the input's own gap, as Figma's Leading content slot does. */
+.smbk-combobox__chip + .smbk-combobox__input {
+  margin-inline-start: calc(var(--smbk-space-inline-md) - var(--smbk-space-inline-xs));
+}
+
+.smbk-combobox--size-sm .smbk-combobox__chip + .smbk-combobox__input {
+  margin-inline-start: calc(var(--smbk-space-inline-sm) - var(--smbk-space-inline-xs));
+}
+
+/* A chip never runs past the well: a long name is cut short with an ellipsis, across only. */
+.smbk-combobox__chip {
+  max-width: 100%;
+  min-width: 0;
+}
+
+.smbk-combobox__chip .smbk-chip__label {
+  min-width: 0;
+  overflow-x: clip;
+  overflow-y: visible;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The caret is the input's icon part, so it takes the field's icon size and color; its button gives it a
+   24 px box, the least a press needs, reaching past the icon into the gap and the padding, so the caret sits
+   where Figma draws it. It is out of the Tab order: the arrow keys open the list. */
+.smbk-combobox__caret {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--smbk-size-target-min);
+  height: var(--smbk-size-target-min);
+  margin: calc((var(--smbk-size-icon-md) - var(--smbk-size-target-min)) / 2);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.smbk-combobox--size-sm .smbk-combobox__caret {
+  margin: calc((var(--smbk-size-icon-sm) - var(--smbk-size-target-min)) / 2);
+}
+
+.smbk-combobox__caret:disabled {
+  cursor: not-allowed;
+}
+
+/* The clear cross is the search field's (smbk-search__clear) and keeps its look. */
+.smbk-combobox__clear {
+  flex-shrink: 0;
+}
+
+/* ---- the open list: the dropdown panel under the well, as wide as the well ----
+   Without script the panel hangs from the combobox, under the well whatever its height; lifted over the page,
+   the dropdown's layer takes it and the wrapper sets its place and width. It keeps the well's width, narrower or
+   wider than a dropdown, and a long choice wraps inside it. A list longer than the list height, or than its room,
+   stops there and scrolls inside itself, the dropdown panel's own rule. */
+
+.smbk-combobox .smbk-dropdown.smbk-combobox__list {
+  z-index: var(--smbk-layer-overlay);
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+}
+
+.smbk-combobox__options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-0);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  outline: none;
+}
+
+.smbk-combobox__options > * {
+  flex-shrink: 0;
+}
+
+/* The active option, which the arrow keys move while focus stays in the box, takes the dropdown item's hover
+   fill. While the box has focus and the keys moved it, it also carries the focus ring, drawn just inside its
+   edge, so it is never shown by its fill alone; an option under the pointer takes the hover fill alone. */
+/* Two classes, so the fill outweighs the dropdown item's own clear background, which the bundle loads after this
+   stylesheet. */
+.smbk-dropdown__item.smbk-combobox__option--active {
+  background: var(--smbk-color-surface-hover);
+}
+
+/* While the pointer's fill shows (the dropdown's glide), it is the active option, so the option draws no second one. */
+.smbk-combobox__list[data-glide="lit"] .smbk-combobox__option--active {
+  background: transparent;
+}
+
+.smbk-combobox:focus-within [data-highlight="keys"] > .smbk-combobox__option--active {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: calc(-1 * var(--smbk-focus-ring-width));
+}
+
+/* ---- the status row: what the list says instead of options, in words: no results, loading with the turning
+   ring, or an error with its icon. Body SM in the secondary text color at both sizes; one line keeps the
+   medium control height. ---- */
+
+.smbk-combobox__status {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-md);
+  min-height: var(--smbk-size-control-md);
+  margin: 0;
+  padding: var(--smbk-space-inset-lg);
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+.smbk-combobox--size-sm .smbk-combobox__status {
+  padding-block: var(--smbk-space-inset-md);
+}
+
+/* The spinner keeps its small subtle ring and its words, set the row's gap apart. */
+.smbk-combobox__status .smbk-spinner {
+  gap: var(--smbk-space-inline-md);
+}
+
+.smbk-combobox__status .smbk-spinner__label {
+  white-space: normal;
+}
+
+.smbk-combobox__status--type-error {
+  color: var(--smbk-color-feedback-danger-text-on-subtle);
+}
+
+.smbk-combobox__status-icon {
+  flex-shrink: 0;
+  color: var(--smbk-color-feedback-danger-icon);
+  font-size: var(--smbk-size-icon-sm);
+}
+
+/* What a screen reader hears as the list loads or fails, for screen readers only. */
+/* .smbk-combobox__announcement: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
+/* ---- touch: the picks, the clear cross and the caret take invisible press areas ----
+   On a touch screen the caret takes an invisible area, centred on it, out to the comfortable target, as the clear
+   cross and each pick's remove cross do; between the two buttons, and toward the text before them, each area reaches
+   only halfway into the gap. In the row of picks, which wraps, every remove cross and the text reach only halfway into
+   the row's gaps, so each pick stays one press. Nothing drawn moves and the well keeps its height. */
+
+@media (pointer: coarse) {
+  .smbk-combobox__caret {
+    position: relative;
+  }
+
+  .smbk-combobox__caret::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  .smbk-input > .smbk-combobox__caret::after {
+    inset-inline-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), (var(--smbk-space-inline-md) + (var(--smbk-size-icon-md) - var(--smbk-size-target-min)) / 2) / -2);
+  }
+
+  .smbk-input > .smbk-combobox__clear:has(+ .smbk-combobox__caret)::after {
+    inset-inline-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), (var(--smbk-space-inline-md) + var(--smbk-size-icon-md) - var(--smbk-size-target-min)) / -2);
+  }
+
+  .smbk-input > .smbk-combobox__clear + .smbk-combobox__caret::after {
+    inset-inline-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), (var(--smbk-space-inline-md) + var(--smbk-size-icon-md) - var(--smbk-size-target-min)) / -2);
+  }
+
+  .smbk-combobox--size-sm .smbk-input > .smbk-combobox__caret::after {
+    inset-inline-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), (var(--smbk-space-inline-sm) + (var(--smbk-size-icon-sm) - var(--smbk-size-target-min)) / 2) / -2);
+  }
+
+  .smbk-combobox--size-sm .smbk-input > .smbk-combobox__clear:has(+ .smbk-combobox__caret)::after {
+    inset-inline-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), (var(--smbk-space-inline-sm) + var(--smbk-size-icon-sm) - var(--smbk-size-target-min)) / -2);
+  }
+
+  .smbk-combobox--size-sm .smbk-input > .smbk-combobox__clear + .smbk-combobox__caret::after {
+    inset-inline-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), (var(--smbk-space-inline-sm) + var(--smbk-size-icon-sm) - var(--smbk-size-target-min)) / -2);
+  }
+
+  .smbk-combobox__values .smbk-chip__remove::after {
+    inset-inline: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-xs) / -2);
+    inset-block: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-xs) / -2);
+  }
+
+  .smbk-combobox__values > .smbk-input__control {
+    padding-block: max(0%, min((var(--smbk-size-target-comfortable) - 1lh) / 2, var(--smbk-space-stack-xs) / 2));
+    margin-block: min(0%, max((1lh - var(--smbk-size-target-comfortable)) / 2, var(--smbk-space-stack-xs) / -2));
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  /* The active option in the open list. */
+  .smbk-dropdown__item.smbk-combobox__option--active {
+    forced-color-adjust: none;
+    background: Highlight;
+    color: HighlightText;
+  }
+
+  .smbk-combobox__option--active .smbk-dropdown__icon {
+    color: inherit;
+  }
+}

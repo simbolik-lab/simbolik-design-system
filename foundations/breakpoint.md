@@ -22,18 +22,18 @@ The viewport widths at which a page changes how it behaves: where the text sizes
 Semantic tokens, each aliasing one of the viewport steps in the size foundation and named for what it switches:
 
 - **Text size** — the width at and above which the text sizes take their maximum values.
-- **Layout** — the width at and above which a page counts as wide, so components that reflow for narrow spaces take their wide form.
+- **Layout** — the width at and above which a page counts as wide, so components that reflow for narrow spaces take their wide form and the layout tokens of spacing, size and radius take their desktop values.
 - **Side columns** — the width at and above which a documentation page has room for a column on each side of its content: the sidebar on one side, the table of contents on the other. Between the layout switch and this width the page keeps one side column: the table of contents moves into the page and the sidebar starts as its column of icons.
 
 They introduce no new measurement, and the text-size and layout switches alias the same step, so the two change together. The structural breakpoints themselves — the widths at which a page layout may change shape — are the viewport steps and are documented under Size; they are primitives, because a breakpoint belongs where the content stops fitting rather than at a named device, and a primitive width carries no claim about intent.
 
 ## Tiers
 
-Semantic only. Each reaches CSS as a custom property, and the build also writes the text-size switch's resolved value into the media query that switches the text sizes, because a custom property cannot be used inside a media query's condition.
+Semantic only. Each reaches CSS as a custom property, and the build also writes the text-size and layout switches' resolved values into the media queries that switch the text sizes and the layout tokens, because a custom property cannot be used inside a media query's condition.
 
 ## Context behavior
 
-The text-size token is what *causes* the text-size context. Below it, min; at and above it, max. The layout token sets the layout switch the same way: below it a page counts as narrow, at and above it wide, and any element can force either with the layout attribute. The side-columns token sets no context of its own: it is for a page's layout, which keeps one side column below it and makes room for both at and above it. None of them changes with any context itself.
+The text-size token is what *causes* the text-size context. Below it, min; at and above it, max. The layout token sets the layout switch the same way: below it a page counts as narrow, at and above it wide, and any element can force either with the layout attribute. The layout tokens follow the same width and the same attribute: phone values below it, desktop values at and above it. The side-columns token sets no context of its own: it is for a page's layout, which keeps one side column below it and makes room for both at and above it. None of them changes with any context itself.
 
 The layout switch is a custom property every element inherits, not a media query. A component reads it with a style container query, so a wrapper that forces narrow or wide reaches everything inside it.
 

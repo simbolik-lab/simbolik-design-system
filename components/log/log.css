@@ -1,0 +1,127 @@
+/* smbk-log — Log. Figma "Log" 7118:1670 (State: Empty, Running, Finished, Scrolled up; Header boolean).
+ * What a program prints as it runs: a header with the log's title in Label MD and a small soft badge that
+ * says Waiting, Running or Finished; then the well, the sunken surface inside a subtle hairline with the
+ * small container corners, holding an optional note ("40 earlier lines left out") over a divider and the
+ * lines in Code MD, which wrap so nothing scrolls sideways. The well is no taller than a long list and
+ * scrolls inside itself; while the reader is scrolled up, "Jump to latest" waits at its foot. */
+
+.smbk-log {
+  box-sizing: border-box;
+  /* Holds the status line, which is out of sight, inside the log rather than wherever the page would put it. */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-sm);
+  width: 100%;
+  color: var(--smbk-color-text-default);
+}
+
+.smbk-log__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+}
+
+.smbk-log__title {
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-label-md-font-family);
+  font-size: var(--smbk-typography-label-md-font-size);
+  font-weight: var(--smbk-typography-label-md-font-weight);
+  line-height: var(--smbk-typography-label-md-line-height);
+  letter-spacing: var(--smbk-typography-label-md-letter-spacing);
+  text-transform: var(--smbk-typography-label-md-text-transform);
+}
+
+.smbk-log__well {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  max-height: var(--smbk-size-list-max-height);
+  overflow: hidden;
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  border-radius: var(--smbk-radius-container-sm);
+  background: var(--smbk-color-surface-sunken);
+}
+
+/* The well's ring when its scrolling area has the keyboard, drawn inside its edge. */
+.smbk-log__well:has(.smbk-log__scroll:focus-visible) {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: calc(-1 * var(--smbk-focus-ring-width));
+}
+
+.smbk-log__scroll {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-sm);
+  min-height: 0;
+  padding: var(--smbk-space-inset-lg);
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: none;
+  /* The system's scrollbar: thin, in the subtle border color, on a clear track. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--smbk-color-border-subtle) transparent;
+}
+
+/* Figures of one width, so a count that grows as the program prints ("40 earlier lines left out") never moves the
+   words after it. */
+.smbk-log__note {
+  margin: 0;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+  font-variant-numeric: tabular-nums;
+}
+
+.smbk-log__divider {
+  flex-shrink: 0;
+}
+
+/* The lines: the code style, always left to right, wrapping at any point so a long line never runs past
+   the well. */
+.smbk-log__lines {
+  margin: 0;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-code-md-font-family);
+  font-size: var(--smbk-typography-code-md-font-size);
+  font-weight: var(--smbk-typography-code-md-font-weight);
+  line-height: var(--smbk-typography-code-md-line-height);
+  letter-spacing: var(--smbk-typography-code-md-letter-spacing);
+  text-transform: var(--smbk-typography-code-md-text-transform);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  direction: ltr;
+  text-align: left;
+}
+
+/* Nothing printed yet: the waiting words in the subtle text color. */
+.smbk-log__lines--empty {
+  color: var(--smbk-color-text-subtle);
+}
+
+.smbk-log__jump {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: flex-end;
+  padding: 0 var(--smbk-space-inset-lg) var(--smbk-space-inset-lg);
+}
+
+/* What changed, for a screen reader: in the page, not drawn. */
+/* .smbk-log__announcement: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+.smbk-log__announcement {
+  clip-path: inset(50%);
+}
+
+/* ---- high contrast (forced colors) ---- */
+
+@media (forced-colors: active) {
+  .smbk-log__well:has(.smbk-log__scroll:focus-visible) {
+    outline-color: Highlight;
+  }
+}

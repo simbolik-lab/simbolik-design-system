@@ -1,8 +1,8 @@
 /* smbk-accordion — Accordion. Figma "Accordion" 4128:20419 and "AccordionItem" 4128:20300.
  * Items are native details/summary elements, so opening, closing and keyboard
- * behavior are the browser's. The caret turns and takes the brand color when open.
- * The content grows from no height to its own as the item opens (see the motion
- * rules at the end). */
+ * behavior are the browser's; items sharing a name close each other. The caret
+ * turns and takes the brand color when open. The content grows from no height to
+ * its own as the item opens (see the motion rules at the end). */
 
 .smbk-accordion {
   display: flex;
@@ -11,10 +11,11 @@
   width: 100%;
 }
 
+/* Figma pads the item; here the padding is the summary's and the content's, so the whole heading row,
+   padding included, is what a press opens. */
 .smbk-accordion__item {
   box-sizing: border-box;
-  padding: var(--smbk-space-inset-2xl) var(--smbk-space-inset-xl);
-  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim);
   border-radius: var(--smbk-radius-control-sm);
   background: var(--smbk-color-surface-default);
   color: var(--smbk-color-text-default);
@@ -24,14 +25,14 @@
   display: flex;
   align-items: center;
   gap: var(--smbk-space-inset-md);
+  padding: var(--smbk-space-inset-2xl) var(--smbk-space-inset-xl);
   list-style: none;
   cursor: pointer;
-  font-family: var(--smbk-typography-body-l-font-family);
-  font-size: var(--smbk-typography-body-l-font-size);
-  font-weight: var(--smbk-typography-body-l-font-weight);
-  line-height: var(--smbk-typography-body-l-line-height);
-  letter-spacing: var(--smbk-typography-body-l-letter-spacing);
-  text-box: trim-both cap alphabetic;
+  font-family: var(--smbk-typography-body-lg-font-family);
+  font-size: var(--smbk-typography-body-lg-font-size);
+  font-weight: var(--smbk-typography-body-lg-font-weight);
+  line-height: var(--smbk-typography-body-lg-line-height);
+  letter-spacing: var(--smbk-typography-body-lg-letter-spacing);
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
@@ -46,18 +47,28 @@
   display: none;
 }
 
+/* Focus is drawn around the whole item, its corners with it, as Figma draws it: the summary takes focus,
+   the item shows the ring. */
 .smbk-accordion__summary:focus-visible {
-  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
-  outline-offset: var(--smbk-focus-ring-offset);
-  border-radius: var(--smbk-radius-control-xs);
+  outline: none;
 }
 
-/* The row is a flex container, which a text-box trim does not reach; the title
-   is the block that holds the text, so it carries the trim, and the row is as
-   tall as Figma draws it: the caret's height, not the line's. */
+.smbk-accordion__item:has(> .smbk-accordion__summary:focus-visible) {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+/* A browser that cannot ask what an item holds rings the summary instead. */
+@supports not selector(:has(*)) {
+  .smbk-accordion__summary:focus-visible {
+    outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+    outline-offset: calc(-1 * var(--smbk-focus-ring-width));
+  }
+}
+
+/* The title takes the room the caret leaves. */
 .smbk-accordion__title {
   flex: 1 1 auto;
-  text-box: trim-both cap alphabetic;
 }
 
 .smbk-accordion__caret {
@@ -66,24 +77,25 @@
   font-size: var(--smbk-size-icon-md);
 }
 
-.smbk-accordion__item[open] > .smbk-accordion__summary .smbk-accordion__caret {
+/* An item the React component is closing (data-closing) is still open until its motion ends; its caret turns back
+   as the motion starts. */
+.smbk-accordion__item[open]:not([data-closing]) > .smbk-accordion__summary .smbk-accordion__caret {
   color: var(--smbk-color-text-brand);
   transform: rotate(180deg);
 }
 
 .smbk-accordion__content {
-  padding-top: var(--smbk-space-inset-2xl);
+  padding: 0 var(--smbk-space-inset-xl) var(--smbk-space-inset-2xl);
   color: var(--smbk-color-text-subtle);
-  font-family: var(--smbk-typography-body-m-font-family);
-  font-size: var(--smbk-typography-body-m-font-size);
-  font-weight: var(--smbk-typography-body-m-font-weight);
-  line-height: var(--smbk-typography-body-m-line-height);
-  letter-spacing: var(--smbk-typography-body-m-letter-spacing);
-  text-box: trim-both cap alphabetic;
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
 }
 
 .smbk-accordion__item--disabled {
-  background: var(--smbk-color-surface-default-disabled);
+  background: var(--smbk-color-surface-disabled);
   border-color: transparent;
   color: var(--smbk-color-text-disabled);
 }
@@ -105,10 +117,14 @@
 }
 
 .smbk-accordion--look-flat .smbk-accordion__item {
-  padding: 0;
   border: 0;
   border-radius: 0;
   background: transparent;
+}
+
+/* A flat item lifts to the raised surface while its heading has keyboard focus, as Figma draws it. */
+.smbk-accordion--look-flat .smbk-accordion__item:has(> .smbk-accordion__summary:focus-visible) {
+  background: var(--smbk-color-surface-raised);
 }
 
 .smbk-accordion--look-flat .smbk-accordion__summary {
@@ -123,44 +139,100 @@
   background: transparent;
 }
 
+/* ---- small: for a narrow column such as a settings panel. A Label MD title over Body SM text, the
+   summary padded by the medium inset over and under and the large inset at the sides, a 16 caret.
+   The flat look keeps no side padding. ---- */
+
+.smbk-accordion--size-sm .smbk-accordion__summary {
+  padding: var(--smbk-space-inset-md) var(--smbk-space-inset-lg);
+  font-family: var(--smbk-typography-label-md-font-family);
+  font-size: var(--smbk-typography-label-md-font-size);
+  font-weight: var(--smbk-typography-label-md-font-weight);
+  line-height: var(--smbk-typography-label-md-line-height);
+  letter-spacing: var(--smbk-typography-label-md-letter-spacing);
+}
+
+.smbk-accordion--size-sm .smbk-accordion__caret {
+  font-size: var(--smbk-size-icon-sm);
+}
+
+.smbk-accordion--size-sm .smbk-accordion__content {
+  padding: 0 var(--smbk-space-inset-lg) var(--smbk-space-inset-md);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+.smbk-accordion--look-flat.smbk-accordion--size-sm .smbk-accordion__summary {
+  padding-inline: 0;
+}
+
+.smbk-accordion--look-flat.smbk-accordion--size-sm .smbk-accordion__content {
+  padding: 0 0 var(--smbk-space-inset-xl);
+}
+
 /* ---- motion: the caret turns with the state purpose; the content grows from no height to its
    own with the enter purpose and shrinks with the exit purpose. While it grows it is clipped,
-   with room to spare for the item's own padding (flat: a focus ring's reach), so the text
-   never spills over the edge. A browser that cannot animate to a natural height opens at once.
-   No movement under reduced motion. ---- */
-
-.smbk-accordion__item {
-  interpolate-size: allow-keywords;
-}
+   with room to spare for a focus ring's reach, so the text never spills over the edge. Only a
+   browser that can animate to a natural height does it here; in one that cannot, the React
+   component moves the item's height with the same purposes, and markup written by hand opens at
+   once. No movement under reduced motion. ---- */
 
 .smbk-accordion__caret {
   transition: transform var(--smbk-motion-state-duration) var(--smbk-motion-state-easing);
 }
 
-.smbk-accordion__item::details-content {
-  block-size: 0;
-  overflow: clip;
-  overflow-clip-margin: var(--smbk-space-inset-xl);
-  transition-property: block-size, content-visibility;
-  transition-duration: var(--smbk-motion-exit-duration);
-  transition-timing-function: var(--smbk-motion-exit-easing);
-  transition-behavior: allow-discrete;
-}
+@supports (interpolate-size: allow-keywords) {
+  .smbk-accordion__item {
+    interpolate-size: allow-keywords;
+  }
 
-.smbk-accordion__item[open]::details-content {
-  block-size: auto;
-  transition-duration: var(--smbk-motion-enter-duration);
-  transition-timing-function: var(--smbk-motion-enter-easing);
-}
+  .smbk-accordion__item::details-content {
+    block-size: 0;
+    overflow: clip;
+    overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+    transition-property: block-size, content-visibility;
+    transition-duration: var(--smbk-motion-exit-duration);
+    transition-timing-function: var(--smbk-motion-exit-easing);
+    transition-behavior: allow-discrete;
+  }
 
-.smbk-accordion--look-flat .smbk-accordion__item::details-content {
-  overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+  .smbk-accordion__item[open]::details-content {
+    block-size: auto;
+    transition-duration: var(--smbk-motion-enter-duration);
+    transition-timing-function: var(--smbk-motion-enter-easing);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .smbk-accordion__caret,
   .smbk-accordion__item::details-content {
     transition: none;
+  }
+}
+
+/* ---- touch: the heading row takes an invisible press area ----
+   On a touch screen an invisible area, centred on it, takes the press out to the comfortable target in each direction
+   it falls short of it; its look, its focus ring and its place stay as drawn. */
+
+@media (pointer: coarse) {
+  .smbk-accordion__summary {
+    position: relative;
+  }
+
+  .smbk-accordion__summary::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  /* Flat items touch across their divider: a heading right under a closed one reaches up only to its own edge, and the
+     one over it reaches down under it. */
+  .smbk-accordion--look-flat .smbk-accordion__item:not([open]) + .smbk-accordion__item > .smbk-accordion__summary::after,
+  .smbk-accordion--look-flat .smbk-accordion__item:not([open]) + .smbk-accordion__divider + .smbk-accordion__item > .smbk-accordion__summary::after {
+    inset-block-start: 0;
   }
 }
 

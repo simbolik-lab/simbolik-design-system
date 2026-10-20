@@ -8,7 +8,9 @@ import { defineVariants } from '../variants.js';
  * the panel's, so every item in one panel is the same height. The align axis
  * says which edge of the opener the panel lines up with; it only matters when
  * the dropdown draws its opener. Figma draws no opener; the anchor part holds
- * the opener and the panel.
+ * the opener and the layer, and the layer the panel, lifted over the page while
+ * it shows (floating.ts). Figma's Height axis (Hug, Limited) is no axis here: a
+ * panel taller than the list height always stops there and scrolls.
  */
 export const dropdown = defineVariants({
   name: 'dropdown',
@@ -28,6 +30,6 @@ export const dropdown = defineVariants({
     },
   },
   flags: {},
-  parts: ['anchor', 'group', 'label', 'item', 'checkbox', 'icon', 'text', 'divider'],
+  parts: ['anchor', 'layer', 'group', 'label', 'item', 'checkbox', 'icon', 'text', 'divider', 'glide'],
   figmaNodeId: '4800:63682',
 });

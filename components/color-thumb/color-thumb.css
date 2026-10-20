@@ -1,0 +1,87 @@
+/* smbk-color-thumb — the handle of a color slider and a color area. Figma "ColorThumb" 7406:57 (State: Default,
+ * Pressed, Focus, Disabled × Size: md, sm).
+ * A round mark the size of a selection control, showing the color it points at inside a light ring that reads on
+ * any color, raised by the control shadow. It is not a control of its own: the slider's or the area's hidden range
+ * inputs sit inside it and take the focus and the keys, so its focus ring shows while one of them has keyboard
+ * focus. The slider or the area places it (left and top, in percent, moved back by half its size) and paints its
+ * color with an inline background color; the stylesheet draws everything else.
+ * Pressed (while it is dragged, data-pressed) it grows one step and lifts to the raised shadow (under reduced
+ * motion it grows at once and the shadow still fades); disabled
+ * (data-disabled) it shows the disabled surface and no color. States come from attributes and the focus of the
+ * inputs inside it, not from classes. */
+
+.smbk-color-thumb {
+  position: absolute;
+  top: 50%;
+  box-sizing: border-box;
+  width: var(--smbk-size-selection-md);
+  height: var(--smbk-size-selection-md);
+  border: var(--smbk-border-width-emphasis) solid var(--smbk-color-border-on-media);
+  border-radius: var(--smbk-radius-full);
+  background-color: var(--smbk-color-surface-disabled);
+  box-shadow: var(--smbk-elevation-control);
+  transform: translate(-50%, -50%);
+  transition-property: width, height, box-shadow;
+  transition-duration: var(--smbk-motion-state-duration);
+  transition-timing-function: var(--smbk-motion-state-easing);
+  forced-color-adjust: none;
+}
+
+.smbk-color-thumb--size-sm {
+  width: var(--smbk-size-selection-sm);
+  height: var(--smbk-size-selection-sm);
+}
+
+/* Pressed: one step larger, lifted. */
+.smbk-color-thumb[data-pressed] {
+  width: var(--smbk-size-selection-lg);
+  height: var(--smbk-size-selection-lg);
+  box-shadow: var(--smbk-elevation-raised);
+}
+
+.smbk-color-thumb--size-sm[data-pressed] {
+  width: var(--smbk-size-selection-md);
+  height: var(--smbk-size-selection-md);
+}
+
+/* Figma's focus style: the page color in the gap, then the focus ring, so the ring reads on any color under it.
+   The transparent outline is what forced colors mode paints, since it drops shadows. */
+.smbk-color-thumb:has(:focus-visible) {
+  outline: var(--smbk-focus-ring-width) solid transparent;
+  outline-offset: var(--smbk-focus-ring-offset);
+  box-shadow:
+    0 0 0 var(--smbk-focus-ring-offset) var(--smbk-color-surface-canvas),
+    0 0 0 calc(var(--smbk-focus-ring-offset) + var(--smbk-focus-ring-width)) var(--smbk-color-border-focus);
+}
+
+/* The hidden range inputs cover the thumb, unseen; the slider or the area takes the pointer. */
+.smbk-color-thumb input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-color-thumb {
+    transition-property: box-shadow;
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+@media (forced-colors: active) {
+  .smbk-color-thumb {
+    border-color: CanvasText;
+  }
+
+  .smbk-color-thumb:has(:focus-visible) {
+    outline-color: Highlight;
+  }
+
+  .smbk-color-thumb[data-disabled] {
+    border-color: GrayText;
+  }
+}

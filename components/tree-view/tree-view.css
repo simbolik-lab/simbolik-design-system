@@ -1,0 +1,228 @@
+/* smbk-tree-view — Tree view. Figma "Tree view" 7607:118417 and "Tree item" 7580:1383.
+ * Folders and files, or any list that nests, one row each. A row is 32 tall: a caret on a folder (the same room
+ * kept empty on a file), an icon, the label, then an optional count and a dot for a changed item. Each level steps
+ * the row 16 further in, and a fine line runs down under each open folder's caret beside the rows inside it. Under
+ * the pointer a row takes the hover fill; the chosen row takes the selected fill and its label a weight step bolder, so
+ * it is not shown by color alone. The tree is one Tab stop; the arrow keys move inside it. A folder's rows are a
+ * group that is hidden while it is closed. The level comes from the item's --smbk-tree-level, written beside its
+ * aria-level (one less: the top rows are level 0). */
+
+.smbk-tree-view,
+.smbk-tree-view__group {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.smbk-tree-view__group[hidden] {
+  display: none;
+}
+
+.smbk-tree-view__item {
+  --smbk-tree-level: 0;
+  display: block;
+  min-width: 0;
+  outline: none;
+}
+
+.smbk-tree-view__row {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-6);
+  min-height: var(--smbk-size-control-sm);
+  padding-block: var(--smbk-space-4);
+  padding-inline: calc(var(--smbk-space-8) + var(--smbk-tree-level) * var(--smbk-space-16)) var(--smbk-space-8);
+  border-radius: var(--smbk-radius-control-sm);
+  color: var(--smbk-color-text-default);
+  cursor: default;
+  touch-action: manipulation;
+}
+
+/* The lines down the levels: one under each ancestor's caret, as fine as a hairline and centred on it. */
+.smbk-tree-view__row::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: var(--smbk-space-8);
+  width: calc(var(--smbk-tree-level) * var(--smbk-space-16));
+  background-image: linear-gradient(
+    to right,
+    transparent round(down, calc((var(--smbk-size-icon-xs) - var(--smbk-border-width-hairline)) / 2), 1px),
+    var(--smbk-color-border-subtle) 0,
+    var(--smbk-color-border-subtle) calc(round(down, calc((var(--smbk-size-icon-xs) - var(--smbk-border-width-hairline)) / 2), 1px) + var(--smbk-border-width-hairline)),
+    transparent 0
+  );
+  background-size: var(--smbk-space-16) 100%;
+  background-repeat: repeat-x;
+  pointer-events: none;
+}
+
+.smbk-tree-view__row:dir(rtl)::before {
+  transform: scaleX(-1);
+}
+
+.smbk-tree-view__toggle {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--smbk-size-icon-xs);
+  height: var(--smbk-size-icon-xs);
+  font-size: var(--smbk-size-icon-xs);
+  color: var(--smbk-color-text-default);
+}
+
+.smbk-tree-view__caret {
+  font-size: var(--smbk-size-icon-xs);
+}
+
+.smbk-tree-view__icon {
+  font-size: var(--smbk-size-icon-sm);
+  color: var(--smbk-color-text-default);
+}
+
+.smbk-tree-view__label {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+/* The label is always as wide as its bolder self: an invisible copy of its words (`data-label`, which the wrapper
+   writes) at the chosen row's weight lies under it with no height, so a label that turns bold never pushes
+   anything beside it. The copy is generated content, hidden, with empty words for assistive technology, so the
+   label is read once; it wraps as the label does. */
+.smbk-tree-view__label[data-label]::after {
+  content: attr(data-label);
+  content: attr(data-label) / "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-family: var(--smbk-typography-body-sm-medium-font-family);
+  font-weight: var(--smbk-typography-body-sm-medium-font-weight);
+  letter-spacing: var(--smbk-typography-body-sm-medium-letter-spacing);
+  pointer-events: none;
+  user-select: none;
+}
+
+.smbk-tree-view__meta {
+  flex: none;
+  color: var(--smbk-color-text-subtlest);
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
+  font-variant-numeric: tabular-nums;
+}
+
+.smbk-tree-view__changed {
+  flex: none;
+  width: var(--smbk-size-6);
+  height: var(--smbk-size-6);
+  border-radius: var(--smbk-radius-full);
+  background: var(--smbk-color-feedback-warning-icon);
+}
+
+/* .smbk-tree-view__hidden: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
+/* ---- states: hover, chosen, focus ---- */
+
+@media (hover: hover) {
+  .smbk-tree-view__item:not([aria-selected='true']) > .smbk-tree-view__row:hover {
+    background: var(--smbk-color-surface-hover);
+  }
+}
+
+.smbk-tree-view__item[aria-selected='true'] > .smbk-tree-view__row {
+  background: var(--smbk-color-surface-selected);
+}
+
+.smbk-tree-view__item[aria-selected='true'] > .smbk-tree-view__row .smbk-tree-view__label {
+  font-family: var(--smbk-typography-body-sm-medium-font-family);
+  font-weight: var(--smbk-typography-body-sm-medium-font-weight);
+  letter-spacing: var(--smbk-typography-body-sm-medium-letter-spacing);
+}
+
+/* The ring just inside the row's edge: rows touch, and a tree in a scrolling panel would cut one drawn outside. */
+.smbk-tree-view__item:focus-visible > .smbk-tree-view__row {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: calc(var(--smbk-focus-ring-width) * -1);
+}
+
+/* ---- motion: a folder's caret turns as it opens; none under reduced motion ---- */
+
+.smbk-tree-view__caret {
+  transition: transform var(--smbk-motion-state-duration) var(--smbk-motion-state-easing);
+}
+
+.smbk-tree-view__item[aria-expanded='true'] > .smbk-tree-view__row .smbk-tree-view__caret {
+  transform: rotate(90deg);
+}
+
+.smbk-tree-view__item[aria-expanded='false'] > .smbk-tree-view__row:dir(rtl) .smbk-tree-view__caret {
+  transform: scaleX(-1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-tree-view__caret {
+    transition: none;
+  }
+}
+
+/* ---- forced colors: the chosen row framed, the lines and the changed dot in the text color ---- */
+
+@media (forced-colors: active) {
+  .smbk-tree-view__item[aria-selected='true'] > .smbk-tree-view__row {
+    outline: var(--smbk-border-width-hairline) solid Highlight;
+  }
+
+  .smbk-tree-view__row::before {
+    forced-color-adjust: none;
+    background-image: linear-gradient(
+      to right,
+      transparent round(down, calc((var(--smbk-size-icon-xs) - var(--smbk-border-width-hairline)) / 2), 1px),
+      GrayText 0,
+      GrayText calc(round(down, calc((var(--smbk-size-icon-xs) - var(--smbk-border-width-hairline)) / 2), 1px) + var(--smbk-border-width-hairline)),
+      transparent 0
+    );
+  }
+
+  .smbk-tree-view__changed {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
+
+  .smbk-tree-view__item:focus-visible > .smbk-tree-view__row {
+    outline-color: CanvasText;
+  }
+}
+
+/* ---- touch: every row takes an invisible press area ----
+   On a touch screen an invisible area, centred on each row, takes the press out to the comfortable target where it
+   falls short of it. The rows touch: a row reaches up only if it is the tree's first, and its reach down lies under
+   the next row, which is drawn over it, so each row keeps its own whole box. What is drawn stays as it is. */
+
+@media (pointer: coarse) {
+  .smbk-tree-view__row::after {
+    content: '';
+    position: absolute;
+    inset-inline: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+    inset-block-start: 0;
+    inset-block-end: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  .smbk-tree-view > .smbk-tree-view__item:first-child > .smbk-tree-view__row::after {
+    inset-block-start: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+}

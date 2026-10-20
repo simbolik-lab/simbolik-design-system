@@ -5,7 +5,7 @@
 import { readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { Collector, type Ctx, type Finding } from './checks.js';
+import { Collector, type Ctx, type Finding, type Leaving } from './checks.js';
 import { checkCss } from './css.js';
 import { checkHtml } from './html.js';
 import { blankMarkdownCode } from './markdown.js';
@@ -30,12 +30,16 @@ export interface Result {
   violations: Finding[];
   explained: Explained[];
   stale: Finding[];
+  /** Uses of custom properties on their way out, each with what to use instead. Never a violation while the name exists. */
+  leaving: Leaving[];
   /** What the reader should know that is not a finding: a part of the system the checker could not read, an exception naming a rule it no longer has. */
   notes: string[];
   summary: {
     rules: Array<{ rule: RuleId; violations: number; explained: number }>;
     violations: number;
     explained: number;
+    /** Uses of names on their way out, and how many names. */
+    leaving: { uses: number; names: number };
   };
 }
 
@@ -55,7 +59,8 @@ export async function checkProject(dirIn: string, options: Options = {}): Promis
 
   const findings = out.findings.sort((a, b) => a.file.localeCompare(b.file) || a.line - b.line || a.rule.localeCompare(b.rule));
   const { violations, explained, stale } = applyExceptions(findings, exceptions);
-  return { project: dir, prefix: config.prefix, files: files.length, violations: [...violations, ...stale], explained, stale, notes: [...system.notes, ...notes], summary: summarise(violations, explained, stale) };
+  const leaving = out.leaving.sort((a, b) => a.name.localeCompare(b.name) || a.file.localeCompare(b.file) || a.line - b.line);
+  return { project: dir, prefix: config.prefix, files: files.length, violations: [...violations, ...stale], explained, stale, leaving, notes: [...system.notes, ...notes], summary: summarise(violations, explained, stale, leaving) };
 }
 
 export function checkFile(ctx: Ctx, text: string): void {
@@ -91,7 +96,7 @@ function applyExceptions(findings: Finding[], exceptions: Exception[]) {
   return { violations, explained, stale };
 }
 
-function summarise(violations: Finding[], explained: Explained[], stale: Finding[]): Result['summary'] {
+function summarise(violations: Finding[], explained: Explained[], stale: Finding[], leaving: Leaving[]): Result['summary'] {
   const rules = RULE_ORDER.map((rule) => ({
     rule,
     violations: (rule === 'stale-exception' ? stale : violations).filter((f) => f.rule === rule).length,
@@ -101,6 +106,7 @@ function summarise(violations: Finding[], explained: Explained[], stale: Finding
     rules,
     violations: violations.length + stale.length,
     explained: explained.length,
+    leaving: { uses: leaving.length, names: new Set(leaving.map((l) => l.name)).size },
   };
 }
 

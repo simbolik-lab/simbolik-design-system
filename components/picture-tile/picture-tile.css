@@ -1,0 +1,151 @@
+/* smbk-picture-tile — Picture tile. Figma "Picture tile" 7119:143 (Selected × State × Ratio, 20 variants).
+ * One native button: a picture on top, at 4:3 or 1:1, and a short label under
+ * it, in a frame of the default surface with a hairline edge in the subtle
+ * border color and a small container's corner. It fills the cell it is given,
+ * never narrower than the 88 size step, so a grid of them wraps. Pointing
+ * strengthens the edge; pressing sinks the frame onto the sunken surface;
+ * focus draws the shared ring outside it. Chosen, the edge turns the rim color
+ * at the emphasis width, drawn inside so nothing moves, the tile lifts with
+ * the control elevation, and a tick on a brand disc marks the picture's
+ * corner: the shape says it is chosen, not the color alone. Disabled dims the
+ * picture and the label. */
+
+.smbk-picture-tile {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-sm);
+  width: 100%;
+  min-width: var(--smbk-size-88);
+  margin: 0;
+  padding: var(--smbk-space-inset-2xs);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  border-radius: var(--smbk-radius-container-sm);
+  background: var(--smbk-color-surface-default);
+  color: var(--smbk-color-text-default);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* The picture: the tile's width at the ratio, on the sunken surface, with the inset corner. Whatever it holds
+   (a picture, an image placeholder, a skeleton) fills it. */
+.smbk-picture-tile__picture {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--smbk-radius-inset);
+  background: var(--smbk-color-surface-sunken);
+}
+
+.smbk-picture-tile__picture > * {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.smbk-picture-tile__picture > img {
+  object-fit: cover;
+}
+
+.smbk-picture-tile--ratio-1-1 .smbk-picture-tile__picture {
+  aspect-ratio: 1 / 1;
+}
+
+/* The label: one line of Body SM, cut short with an ellipsis; the button's name stays the whole label. */
+.smbk-picture-tile__label {
+  display: block;
+  overflow: hidden;
+  padding: var(--smbk-space-inset-xs) var(--smbk-space-inset-md) var(--smbk-space-inset-md);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The tick: a brand disc with a check, 8 in from the tile's top and end corner. Shown only when chosen. */
+.smbk-picture-tile__tick {
+  position: absolute;
+  inset-block-start: var(--smbk-space-inset-md);
+  inset-inline-end: var(--smbk-space-inset-md);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--smbk-size-20);
+  height: var(--smbk-size-20);
+  border-radius: var(--smbk-radius-full);
+  background: var(--smbk-color-action-brand-background);
+  color: var(--smbk-color-icon-on-brand);
+}
+
+.smbk-picture-tile__tick .smbk-icon {
+  font-size: var(--smbk-size-icon-xs);
+}
+
+/* ---- states ---- */
+
+@media (hover: hover) {
+  .smbk-picture-tile:hover:enabled:not(.smbk-picture-tile--selected) {
+    border-color: var(--smbk-color-border-strong);
+  }
+}
+
+.smbk-picture-tile:active:enabled {
+  background: var(--smbk-color-surface-sunken);
+}
+
+.smbk-picture-tile:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+/* Chosen: the rim at the emphasis width, the hairline border plus the rest drawn inside, and the lift. */
+.smbk-picture-tile--selected {
+  border-color: var(--smbk-color-border-rim);
+  box-shadow: inset 0 0 0 calc(var(--smbk-border-width-emphasis) - var(--smbk-border-width-hairline)) var(--smbk-color-border-rim), var(--smbk-elevation-control);
+}
+
+.smbk-picture-tile--selected .smbk-picture-tile__tick {
+  display: flex;
+}
+
+.smbk-picture-tile:disabled {
+  cursor: default;
+}
+
+.smbk-picture-tile:disabled .smbk-picture-tile__picture {
+  opacity: var(--smbk-opacity-disabled);
+}
+
+.smbk-picture-tile:disabled .smbk-picture-tile__label {
+  color: var(--smbk-color-text-disabled);
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  /* The chosen edge's inner half is a shadow and would vanish: the edge takes Highlight at full width. The
+     tick's disc is a fill: it keeps its shape in Highlight with the check in the highlight's text color. */
+  .smbk-picture-tile--selected {
+    border-width: var(--smbk-border-width-emphasis);
+    border-color: Highlight;
+    padding: calc(var(--smbk-space-inset-2xs) - var(--smbk-border-width-emphasis) + var(--smbk-border-width-hairline));
+  }
+
+  .smbk-picture-tile__tick {
+    forced-color-adjust: none;
+    background: Highlight;
+    color: HighlightText;
+  }
+
+  .smbk-picture-tile:disabled {
+    border-color: GrayText;
+  }
+}

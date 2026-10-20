@@ -1,0 +1,140 @@
+/* smbk-heatmap — Heatmap. Figma "Heatmap" 7580:375.
+ * A column for each week, Monday at the top, each day a small square in its level's shade: the track's faint
+ * gray for none, then four steps of the sequential data color from less to more. Monday, Wednesday and Friday
+ * are named at the left and each month above the week it starts in. Under the grid, the summary at the left and
+ * the scale from less to more at the right. Days outside the data are left empty. The picture is hidden from
+ * screen readers, which read the same values in a table kept out of sight. In a narrow layout the heatmap shows
+ * its last 13 weeks; the table keeps them all. */
+
+.smbk-heatmap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-sm);
+  width: max-content;
+  max-width: 100%;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
+  text-transform: var(--smbk-typography-body-xs-text-transform);
+}
+
+/* The block frames the words it hides for screen readers, so they stay inside it wherever it is placed: without a
+   frame they hang from the page itself and stretch it, past the end of an area that scrolls. No weight, so a parent
+   that places the block keeps its say. */
+:where(.smbk-heatmap) {
+  position: relative;
+}
+
+.smbk-heatmap__chart {
+  display: flex;
+  gap: var(--smbk-space-4);
+}
+
+.smbk-heatmap__weekdays,
+.smbk-heatmap__week {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: var(--smbk-space-4);
+}
+
+.smbk-heatmap__weekdays {
+  width: var(--smbk-size-28);
+}
+
+/* The month row: as tall as a line of text, a step further from the grid than the days are from each other.
+   A name starts over its week and runs on over the next weeks, whose month slots are empty. */
+.smbk-heatmap__month {
+  display: block;
+  width: var(--smbk-size-12);
+  height: calc(var(--smbk-typography-body-xs-font-size) * var(--smbk-typography-body-xs-line-height));
+  margin-bottom: calc(var(--smbk-space-stack-sm) - var(--smbk-space-4));
+  white-space: nowrap;
+}
+
+.smbk-heatmap__weekdays .smbk-heatmap__month {
+  width: auto;
+}
+
+.smbk-heatmap__month-name--narrow {
+  display: none;
+}
+
+/* A weekday's name is centred on its row of squares, whose height it does not change. */
+.smbk-heatmap__weekday {
+  display: flex;
+  align-items: center;
+  height: var(--smbk-size-12);
+  white-space: nowrap;
+}
+
+.smbk-heatmap__cell {
+  display: block;
+  flex: none;
+  width: var(--smbk-size-12);
+  height: var(--smbk-size-12);
+  border-radius: var(--smbk-radius-2);
+  background: var(--smbk-color-surface-track-subtle);
+}
+
+.smbk-heatmap__cell--level-1 { background: var(--smbk-color-data-sequential-2); }
+.smbk-heatmap__cell--level-2 { background: var(--smbk-color-data-sequential-3); }
+.smbk-heatmap__cell--level-3 { background: var(--smbk-color-data-sequential-4); }
+.smbk-heatmap__cell--level-4 { background: var(--smbk-color-data-sequential-5); }
+
+.smbk-heatmap__cell--blank {
+  background: none;
+}
+
+.smbk-heatmap__legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--smbk-space-stack-xs) var(--smbk-space-inline-lg);
+}
+
+.smbk-heatmap__summary {
+  margin: 0;
+}
+
+.smbk-heatmap__scale {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-4);
+}
+
+/* The table and a summary without its legend, for screen readers only. */
+/* .smbk-heatmap__table and .smbk-heatmap__hidden: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
+/* A table takes the room its rows need whatever width and height it is given, so the hidden one is full size, only
+   unseen. It hangs from the block's end corner, reaching back and up, the way a page never scrolls: it adds no room
+   to the block or to any area that scrolls around it, and stays a table for screen readers. */
+.smbk-heatmap__table {
+  inset-block-end: 0;
+  inset-inline-end: 0;
+}
+
+/* A narrow space shows the last 13 weeks, with the months named as if they began there. */
+@container style(--smbk-layout: narrow) {
+  .smbk-heatmap__week--early,
+  .smbk-heatmap__month-name--wide {
+    display: none;
+  }
+
+  .smbk-heatmap__month-name--narrow {
+    display: inline;
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* The squares keep their shades, so the scale still reads from less to more; the table holds every value. */
+
+@media (forced-colors: active) {
+  .smbk-heatmap__cell {
+    forced-color-adjust: none;
+  }
+}

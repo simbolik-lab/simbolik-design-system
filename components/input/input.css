@@ -3,28 +3,27 @@
  * its own, so that icons and the control share one border, one focus ring.
  * The search field and the select are built on this well: their markup
  * carries smbk-input, so every change here reaches them too. The select's
- * well is itself the control, a button, which the focus and disabled rules
- * below also cover. */
+ * well is itself the control, a button, which the focus, read-only and
+ * disabled rules below also cover. */
 
 .smbk-input {
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
-  gap: var(--smbk-space-inline-sm);
+  gap: var(--smbk-space-inline-md);
   width: 100%;
   height: var(--smbk-size-control-md);
-  padding: 0 var(--smbk-space-inline-lg);
-  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  padding: 0 var(--smbk-space-inset-lg);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim);
   border-radius: var(--smbk-radius-control-md);
   background: var(--smbk-color-surface-sunken);
   color: var(--smbk-color-text-default);
-  box-shadow: var(--smbk-elevation-inset-2);
-  font-family: var(--smbk-typography-body-m-font-family);
-  font-size: var(--smbk-typography-body-m-font-size);
-  font-weight: var(--smbk-typography-body-m-font-weight);
-  line-height: var(--smbk-typography-body-m-line-height);
-  letter-spacing: var(--smbk-typography-body-m-letter-spacing);
-  text-box: trim-both cap alphabetic;
+  box-shadow: var(--smbk-elevation-inset-strong);
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
   cursor: text;
 }
 
@@ -32,14 +31,17 @@
 @media (hover: hover) {
   .smbk-input:hover {
     background: var(--smbk-color-surface-raised);
-    box-shadow: var(--smbk-elevation-0);
+    box-shadow: var(--smbk-elevation-control);
   }
 }
 
-.smbk-input:focus-within {
+/* Focus: the field's border. A well that is itself a button (the select's) shows it only when the keyboard
+   brought focus there, as every button does: a press opens its list, and a choice hands focus back to it
+   without the focused look. A field typed into shows it however it was reached. */
+.smbk-input:focus-within:where(:not(button:not(:focus-visible))) {
   background: var(--smbk-color-surface-sunken);
   border-color: var(--smbk-color-border-focus-field);
-  box-shadow: var(--smbk-elevation-inset-2);
+  box-shadow: var(--smbk-elevation-inset-strong);
 }
 
 /* Field focus is the border alone; a well that is itself the control draws no ring. */
@@ -47,20 +49,31 @@
   outline: none;
 }
 
-.smbk-input--error {
+/* In error the danger edge stays while the field has focus and under the pointer, with the error icon
+   beside the value, so the error is a shape as well as a color. Two classes, so it wins over focus. */
+.smbk-input.smbk-input--error {
   border-color: var(--smbk-color-feedback-danger-border);
 }
 
-@media (hover: hover) {
-  .smbk-input--error:hover {
-    border-color: var(--smbk-color-feedback-danger-border);
-  }
+/* Read-only: the value can be read, selected and copied, not changed. The well sits flat on the page's
+   surface with a faint edge, no shadow and no lift on hover; it stays in the tab order and shows focus by
+   its border, as every field does. The select's well, a button, says it with aria-readonly. */
+.smbk-input:has(.smbk-input__control[readonly]),
+.smbk-input[aria-readonly="true"] {
+  border-color: var(--smbk-color-border-rim-subtle);
+  background: var(--smbk-color-surface-default);
+  box-shadow: none;
+}
+
+.smbk-input:has(.smbk-input__control[readonly]):focus-within,
+.smbk-input[aria-readonly="true"]:focus-within:where(:not(button:not(:focus-visible))) {
+  border-color: var(--smbk-color-border-focus-field);
 }
 
 .smbk-input:has(.smbk-input__control:disabled),
 .smbk-input:disabled {
   border-color: transparent;
-  background: var(--smbk-color-surface-default-disabled);
+  background: var(--smbk-color-surface-disabled);
   color: var(--smbk-color-text-disabled);
   box-shadow: none;
   cursor: not-allowed;
@@ -88,6 +101,7 @@
   cursor: not-allowed;
 }
 
+/* Icons at either end are one size, the field's own: Figma draws the leading and trailing icon alike. */
 .smbk-input__icon {
   color: var(--smbk-color-text-subtlest);
   font-size: var(--smbk-size-icon-md);
@@ -97,27 +111,84 @@
   color: var(--smbk-color-text-disabled);
 }
 
-/* Figma draws the trailing icon one step smaller than the leading one. */
-.smbk-input__icon:last-child {
-  font-size: var(--smbk-size-icon-sm);
+/* The error icon, Figma's Warning glyph, sits after the value and before any trailing icon. */
+.smbk-input__error-icon {
+  color: var(--smbk-color-feedback-danger-icon);
+  font-size: var(--smbk-size-icon-md);
 }
 
-/* ---- small ---- */
+/* Figma's Leading content and Trailing action slots: what a field needs before the value (a swatch, a unit)
+   and an action after it (a small button). Each is drawn only when given, so an empty one takes no room. A
+   button inside keeps its own size and its own focus ring. */
+.smbk-input__leading-content,
+.smbk-input__trailing-action {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+}
 
-.smbk-input--size-small {
+.smbk-input__leading-content {
+  gap: var(--smbk-space-inline-xs);
+}
+
+/* ---- small (sm): the small recipe, and text in Field SM, which never
+   goes under 16 px on a phone, so a phone's browser never zooms into the field ---- */
+
+.smbk-input--size-sm {
+  gap: var(--smbk-space-inline-sm);
   height: var(--smbk-size-control-sm);
-  padding: 0 var(--smbk-space-inline-md);
+  padding: 0 var(--smbk-space-inset-md);
   border-radius: var(--smbk-radius-control-sm);
-  font-family: var(--smbk-typography-body-s-font-family);
-  font-size: var(--smbk-typography-body-s-font-size);
-  font-weight: var(--smbk-typography-body-s-font-weight);
-  line-height: var(--smbk-typography-body-s-line-height);
-  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
-  text-box: trim-both cap alphabetic;
+  font-family: var(--smbk-typography-field-sm-font-family);
+  font-size: var(--smbk-typography-field-sm-font-size);
+  font-weight: var(--smbk-typography-field-sm-font-weight);
+  line-height: var(--smbk-typography-field-sm-line-height);
+  letter-spacing: var(--smbk-typography-field-sm-letter-spacing);
 }
 
-.smbk-input--size-small .smbk-input__icon {
+.smbk-input--size-sm .smbk-input__icon,
+.smbk-input--size-sm .smbk-input__error-icon {
   font-size: var(--smbk-size-icon-sm);
+}
+
+/* ---- touch: the value's box takes the comfortable target ----
+   On a touch screen the native control reaches out to the comfortable target above and below its line, with
+   padding that takes the press and margins that give the room back, so a press anywhere across the well, or just
+   past it, lands on the field. It has no fill or edge of its own and its line stays where it is, so nothing that
+   is drawn moves. It is placed relatively, with no offset, so it takes its turn among the press areas round it in
+   the order of the page, as they do. */
+
+@media (pointer: coarse) {
+  .smbk-input__control {
+    position: relative;
+    padding-block: max(0%, (var(--smbk-size-target-comfortable) - 1lh) / 2);
+    margin-block: min(0%, (1lh - var(--smbk-size-target-comfortable)) / 2);
+  }
+}
+
+/* ---- touch: buttons inside the well stop halfway to the value ----
+   A button inside the well (a clear cross, a list's caret, a trailing action) takes its own invisible press area on a
+   touch screen; right after the value, and beside another button, that area reaches only halfway into the well's gap,
+   so a press beside the value never lands on the button. */
+
+@media (pointer: coarse) {
+  :is(.smbk-input__control, .smbk-combobox__values) + button::after,
+  :is(.smbk-input__control, .smbk-combobox__values) + .smbk-input__trailing-action > button:first-child::after {
+    inset-inline-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-md) / -2);
+  }
+
+  .smbk-input > button:has(+ button)::after {
+    inset-inline-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-md) / -2);
+  }
+
+  .smbk-input--size-sm > :is(.smbk-input__control, .smbk-combobox__values) + button::after,
+  .smbk-input--size-sm > :is(.smbk-input__control, .smbk-combobox__values) + .smbk-input__trailing-action > button:first-child::after {
+    inset-inline-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-sm) / -2);
+  }
+
+  .smbk-input--size-sm > button:has(+ button)::after {
+    inset-inline-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-sm) / -2);
+  }
 }
 
 /* ---- high contrast (forced colors) ---- */
@@ -127,7 +198,7 @@
 @media (forced-colors: active) {
   /* Field focus is the edge alone, as everywhere: here the edge turns Highlight and thickens by a
      focus ring's width, since a hairline color change does not show in forced colors. */
-  .smbk-input:focus-within {
+  .smbk-input:focus-within:where(:not(button:not(:focus-visible))) {
     border-color: Highlight;
     outline: var(--smbk-focus-ring-width) solid Highlight;
     outline-offset: 0;

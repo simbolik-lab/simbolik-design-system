@@ -1,35 +1,18 @@
-/* smbk-switch — Switch. Figma "Switch" 4086:11238.
+/* smbk-switch — Switch. Figma "Switch" 4086:11238 (Size × State × Checked, with an Icon boolean).
  * The track is two thumbs wide plus its inset, so the thumb slides exactly
- * one thumb-width to the on side: its own width, so no distance is written. */
+ * one thumb-width to the on side: its own width, so no distance is written.
+ * The off track is filled, so the switch shows against any page without an edge.
+ * The thumb stays light in both themes and may carry a tick when on and a cross when off.
+ * --smbk-switch-thumb is the thumb's resting size at each size; the thumb's own width and height start from it and
+ * stretch while it is pointed at or pressed (motion, below). */
 
 .smbk-switch {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--smbk-space-inline-sm);
-  color: var(--smbk-color-text-default);
-  font-family: var(--smbk-typography-body-s-font-family);
-  font-size: var(--smbk-typography-body-s-font-size);
-  font-weight: var(--smbk-typography-body-s-font-weight);
-  line-height: var(--smbk-typography-body-s-line-height);
-  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
-  text-box: trim-both cap alphabetic;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
+  --smbk-switch-thumb: var(--smbk-size-selection-md);
 }
 
-.smbk-switch__control {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-  border: 0;
-}
+/* .smbk-switch__control: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css.
+   The row, its type, the disabled colour, the focus ring on the track and the touch area are shared
+   with the other choices, in choice/choice.css; this sheet draws the track. */
 
 .smbk-switch__track {
   box-sizing: border-box;
@@ -37,86 +20,131 @@
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
-  width: calc(2 * var(--smbk-size-icon-md) + 2 * var(--smbk-space-inset-2xs));
+  width: calc(2 * var(--smbk-size-selection-md) + 2 * var(--smbk-space-inset-2xs));
   height: var(--smbk-size-selection-lg);
   padding: var(--smbk-space-inset-2xs);
   border-radius: var(--smbk-radius-control-sm);
-  background: var(--smbk-color-surface-canvas);
-  outline: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  background: var(--smbk-color-surface-track);
 }
 
+/* The thumb's two marks share its one cell; the state shows one of them. */
 .smbk-switch__thumb {
   box-sizing: border-box;
-  display: block;
-  width: var(--smbk-size-icon-md);
-  height: var(--smbk-size-icon-md);
-  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-bottom);
+  --smbk-switch-thumb-width: var(--smbk-switch-thumb);
+  --smbk-switch-thumb-height: var(--smbk-switch-thumb);
+  display: grid;
+  place-items: center;
+  width: var(--smbk-switch-thumb-width);
+  height: var(--smbk-switch-thumb-height);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-groove-bottom);
   border-radius: var(--smbk-radius-inset);
-  background: var(--smbk-color-surface-raised);
-  box-shadow: var(--smbk-elevation-1);
+  background: var(--smbk-color-surface-thumb);
+  box-shadow: var(--smbk-elevation-raised);
+}
+
+.smbk-switch__on-icon,
+.smbk-switch__off-icon {
+  grid-area: 1 / 1;
+  color: var(--smbk-color-icon-on-thumb);
+  font-size: var(--smbk-size-icon-xs);
+}
+
+.smbk-switch__on-icon,
+.smbk-switch__control:checked + .smbk-switch__track .smbk-switch__off-icon {
+  visibility: hidden;
+}
+
+.smbk-switch__control:checked + .smbk-switch__track .smbk-switch__on-icon {
+  visibility: visible;
 }
 
 .smbk-switch__control:checked + .smbk-switch__track {
   background: var(--smbk-color-surface-brand);
-  outline: 0;
 }
 
+/* Hover: an on track darkens its red; an off track stays as it is. */
+@media (hover: hover) {
+  .smbk-switch:hover .smbk-switch__control:enabled:checked + .smbk-switch__track {
+    background: var(--smbk-color-action-brand-background-hover);
+  }
+}
+
+/* On, the thumb's outer edge sits at the track's far end, two resting thumbs in: a thumb stretched wider than at
+   rest grows toward the inside, so that edge stays where it is. */
 .smbk-switch__control:checked + .smbk-switch__track .smbk-switch__thumb {
-  translate: 100% 0;
+  translate: calc(2 * var(--smbk-switch-thumb) - var(--smbk-switch-thumb-width)) 0;
 }
 
 .smbk-switch__control:checked + .smbk-switch__track .smbk-switch__thumb:dir(rtl) {
-  translate: -100% 0;
-}
-
-.smbk-switch__control:focus-visible + .smbk-switch__track {
-  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
-  outline-offset: var(--smbk-focus-ring-offset);
+  translate: calc(var(--smbk-switch-thumb-width) - 2 * var(--smbk-switch-thumb)) 0;
 }
 
 .smbk-switch__control:disabled + .smbk-switch__track {
-  background: var(--smbk-color-surface-default-disabled);
-  outline: 0;
+  background: var(--smbk-color-surface-track-subtle);
 }
 
 .smbk-switch__control:disabled + .smbk-switch__track .smbk-switch__thumb {
-  background: var(--smbk-color-surface-default-disabled);
-  border-color: var(--smbk-color-border-control-disabled);
+  border-color: transparent;
+  background: var(--smbk-color-surface-disabled);
   box-shadow: none;
 }
 
-.smbk-switch:has(.smbk-switch__control:disabled) {
-  color: var(--smbk-color-text-disabled);
-  cursor: not-allowed;
+.smbk-switch__control:disabled + .smbk-switch__track :is(.smbk-switch__on-icon, .smbk-switch__off-icon) {
+  color: var(--smbk-color-icon-disabled);
 }
 
 /* ---- sizes ---- */
 
 .smbk-switch--size-md .smbk-switch__track {
-  width: calc(2 * var(--smbk-size-icon-sm) + 2 * var(--smbk-space-inset-2xs));
+  width: calc(2 * var(--smbk-size-selection-sm) + 2 * var(--smbk-space-inset-2xs));
   height: var(--smbk-size-selection-md);
 }
 
-.smbk-switch--size-md .smbk-switch__thumb {
-  width: var(--smbk-size-icon-sm);
-  height: var(--smbk-size-icon-sm);
+.smbk-switch--size-md {
+  --smbk-switch-thumb: var(--smbk-size-selection-sm);
 }
 
 .smbk-switch--size-sm .smbk-switch__track {
-  width: calc(2 * var(--smbk-size-icon-xs) + 2 * var(--smbk-space-inset-2xs));
+  width: calc(2 * var(--smbk-size-12) + 2 * var(--smbk-space-inset-2xs));
   height: var(--smbk-size-selection-sm);
 }
 
-.smbk-switch--size-sm .smbk-switch__thumb {
-  width: var(--smbk-size-icon-xs);
-  height: var(--smbk-size-icon-xs);
+.smbk-switch--size-sm {
+  --smbk-switch-thumb: var(--smbk-size-12);
+}
+
+/* The small thumb has no room for a mark. */
+.smbk-switch--size-sm :is(.smbk-switch__on-icon, .smbk-switch__off-icon) {
+  display: none;
 }
 
 /* ---- motion: the thumb slides across with the state purpose, the same way in both directions.
-   The track's color changes at once, so a theme change never fades. No movement under reduced motion. ---- */
+   The track's color changes at once, so a theme change never fades. With a mouse, pointing at the switch
+   stretches the thumb a small step wider, into a pill; pressing stretches it a step more and squashes it as much,
+   centred in the track (the small switch, whose thumb is tiny, squashes by the small step only). Off, the thumb
+   grows from its start edge; on, toward the inside, so its outer edge stays at the track's end. The stretch
+   moves with the state purpose. The box, the track and what is around the switch never move; a disabled
+   switch and a touch screen do not stretch. Under reduced motion the thumb jumps and its size changes at once. ---- */
 
 .smbk-switch__thumb {
-  transition: translate var(--smbk-motion-state-duration) var(--smbk-motion-state-easing);
+  transition-property: translate, width, height;
+  transition-duration: var(--smbk-motion-state-duration);
+  transition-timing-function: var(--smbk-motion-state-easing);
+}
+
+@media (hover: hover) {
+  .smbk-switch:hover .smbk-switch__control:enabled + .smbk-switch__track .smbk-switch__thumb {
+    --smbk-switch-thumb-width: calc(var(--smbk-switch-thumb) + var(--smbk-space-2));
+  }
+
+  .smbk-switch:active .smbk-switch__control:enabled + .smbk-switch__track .smbk-switch__thumb {
+    --smbk-switch-thumb-width: calc(var(--smbk-switch-thumb) + var(--smbk-space-4));
+    --smbk-switch-thumb-height: calc(var(--smbk-switch-thumb) - var(--smbk-space-4));
+  }
+
+  .smbk-switch--size-sm:active .smbk-switch__control:enabled + .smbk-switch__track .smbk-switch__thumb {
+    --smbk-switch-thumb-height: calc(var(--smbk-switch-thumb) - var(--smbk-space-2));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -125,16 +153,16 @@
   }
 }
 
-/* The words carry the trim: the switch is a flex row, and a flex row does not pass the trim to its items. */
-.smbk-switch__label {
-  text-box: trim-both cap alphabetic;
-}
-
 /* ---- high contrast (forced colors) ---- */
 /* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
    user's own colors. Nothing here applies outside that mode. */
 
 @media (forced-colors: active) {
+  /* Off: the fill is dropped, so the track takes an edge in the text color. */
+  .smbk-switch__track {
+    outline: var(--smbk-border-width-hairline) solid CanvasText;
+  }
+
   /* On: the track filled with Highlight and edged in it, the thumb in HighlightText at the far end. */
   .smbk-switch__control:checked + .smbk-switch__track {
     background: Highlight;
@@ -144,6 +172,10 @@
   .smbk-switch__control:checked + .smbk-switch__track .smbk-switch__thumb {
     border-color: HighlightText;
     background: HighlightText;
+  }
+
+  .smbk-switch__control:checked + .smbk-switch__track .smbk-switch__on-icon {
+    color: Highlight;
   }
 
   /* Disabled: the track keeps an edge, in GrayText; on, it is filled with GrayText. */
@@ -162,10 +194,6 @@
   .smbk-switch__control:disabled:checked + .smbk-switch__track .smbk-switch__thumb {
     border-color: Canvas;
     background: Canvas;
-  }
-
-  .smbk-switch:has(.smbk-switch__control:disabled) {
-    color: GrayText;
   }
 
   /* The focus ring again, since the rules above set the track's outline. */

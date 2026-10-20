@@ -1,0 +1,5 @@
+/* smbk-toggle-button — Toggle button. Figma "Toggle button" 7125:4263: On × State × Size, 24 variants.
+ * The toggle button is the button with aria-pressed, and the button's stylesheet draws it: off is the outline or
+ * ghost button exactly, and on (the sunken fill, the rim and the strong inset shadow) is in button/button.css, under
+ * "on". Its markup carries the button's classes, its mark smbk-toggle-button and aria-pressed.
+ * This file holds no rules: the toggle button's own class is only its mark in markup. */

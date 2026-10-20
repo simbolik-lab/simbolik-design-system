@@ -1,0 +1,55 @@
+/* smbk-capacity-meter — Capacity meter. Figma "Capacity meter" 7118:653 (Segments × Filled, 12 variants).
+ * How many of a few places are taken: a row of short bars, as many filled as are used, then the same in
+ * words ("1 of 2 places"). The filled bars are the inverse surface, the empty ones the track; the meaning
+ * is in the words, so the bars are never the only sign. */
+
+.smbk-capacity-meter {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-md);
+  vertical-align: middle;
+}
+
+.smbk-capacity-meter__segments {
+  display: inline-flex;
+  flex-shrink: 0;
+  gap: var(--smbk-space-inline-xs);
+}
+
+.smbk-capacity-meter__segment {
+  display: block;
+  width: var(--smbk-size-20);
+  height: var(--smbk-size-8);
+  border-radius: var(--smbk-radius-full);
+  background: var(--smbk-color-surface-track);
+}
+
+.smbk-capacity-meter__segment--filled {
+  background: var(--smbk-color-surface-inverse);
+}
+
+/* Figures of one width, so the words do not shift sideways as a place is taken or freed. */
+.smbk-capacity-meter__words {
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills; each bar is outlined in the text color and the
+   filled ones are filled with it, so taken and free places still differ. */
+
+@media (forced-colors: active) {
+  .smbk-capacity-meter__segment {
+    outline: var(--smbk-border-width-hairline) solid CanvasText;
+    outline-offset: calc(-1 * var(--smbk-border-width-hairline));
+  }
+
+  .smbk-capacity-meter__segment--filled {
+    background: CanvasText;
+  }
+}

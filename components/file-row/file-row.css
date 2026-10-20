@@ -1,0 +1,159 @@
+/* smbk-file-row — File row. Figma "File row" 7110:252 (Status: Selected, Uploading, Complete, Failed, Rejected).
+ * One chosen file: a card that stacks a top row over, while it uploads, the progress bar. The top row holds the
+ * file's icon at the 2xl icon size, then its name over a line with the size, a dot and the state, then its
+ * actions, the button's small ghost icon-only form, at the top end. The name is two texts, so a long one is cut
+ * short with an ellipsis and the extension stays whole. The state is an icon (or the spinner's ring) and words,
+ * so it never rests on color alone; a failed or refused file shows only the reason, which wraps beside its icon.
+ * The edge is drawn inside, so the paddings give its width back. */
+
+.smbk-file-row {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+  min-width: 0;
+  padding: calc(var(--smbk-space-inset-lg) - var(--smbk-border-width-hairline));
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  border-radius: var(--smbk-radius-container-sm);
+  background: var(--smbk-color-surface-default);
+  color: var(--smbk-color-text-default);
+}
+
+.smbk-file-row__top {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--smbk-space-inline-lg);
+  min-width: 0;
+}
+
+/* The file's type, as an icon chosen from its extension: decoration, since the name says the same. */
+.smbk-file-row__icon {
+  flex: none;
+  font-size: var(--smbk-size-icon-2xl);
+  color: var(--smbk-color-icon-subtle);
+}
+
+.smbk-file-row__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-xs);
+  min-width: 0;
+}
+
+.smbk-file-row__name {
+  display: flex;
+  min-width: 0;
+  margin: 0;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-body-sm-medium-font-family);
+  font-size: var(--smbk-typography-body-sm-medium-font-size);
+  font-weight: var(--smbk-typography-body-sm-medium-font-weight);
+  line-height: var(--smbk-typography-body-sm-medium-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-medium-letter-spacing);
+}
+
+/* The name before its extension shrinks first, cut short with an ellipsis; the extension keeps its width. */
+.smbk-file-row__stem {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.smbk-file-row__extension {
+  flex: none;
+  white-space: nowrap;
+}
+
+/* The line under the name: the size, a dot, then the state. It never wraps between them; only a long reason
+   wraps, beside its own icon. */
+.smbk-file-row__meta {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--smbk-space-inline-sm);
+  min-width: 0;
+  margin: 0;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
+}
+
+.smbk-file-row__size,
+.smbk-file-row__separator {
+  flex: none;
+  white-space: nowrap;
+}
+
+/* Figures of one width, so the size counting up while a file uploads ("1.1 of 2.4 MB") never moves the state after it. */
+.smbk-file-row__size {
+  font-variant-numeric: tabular-nums;
+}
+
+.smbk-file-row__state {
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+  gap: var(--smbk-space-inline-xs);
+  min-width: 0;
+}
+
+/* The state's icon, and the spinner's ring while uploading, sit in a box one line tall, on the first line's middle. */
+.smbk-file-row__state-icon {
+  flex: none;
+  height: calc(var(--smbk-typography-body-xs-font-size) * var(--smbk-typography-body-xs-line-height));
+  font-size: var(--smbk-size-icon-sm);
+}
+
+.smbk-file-row__message {
+  min-width: 0;
+}
+
+.smbk-file-row--status-complete .smbk-file-row__message {
+  color: var(--smbk-color-feedback-success-text-on-subtle);
+}
+
+.smbk-file-row--status-complete .smbk-file-row__state-icon {
+  color: var(--smbk-color-feedback-success-icon);
+}
+
+.smbk-file-row--status-failed .smbk-file-row__message,
+.smbk-file-row--status-rejected .smbk-file-row__message {
+  color: var(--smbk-color-feedback-danger-text-on-subtle);
+}
+
+.smbk-file-row--status-failed .smbk-file-row__state-icon,
+.smbk-file-row--status-rejected .smbk-file-row__state-icon {
+  color: var(--smbk-color-feedback-danger-icon);
+}
+
+.smbk-file-row__actions {
+  display: flex;
+  flex: none;
+  gap: var(--smbk-space-inline-xs);
+}
+
+/* While uploading: the progress bar's small size, with no label, the row's full width. */
+.smbk-file-row__progress {
+  width: 100%;
+}
+
+/* ---- touch: the actions stop their press areas halfway to each other ----
+   Every button takes an invisible press area on a touch screen; the row's actions stand closer than that, so between
+   two of them each area reaches only halfway into their gap. Nothing drawn moves. */
+
+@media (pointer: coarse) {
+  .smbk-file-row__actions > * + * .smbk-btn::after,
+  .smbk-file-row__actions > .smbk-btn + .smbk-btn::after,
+  .smbk-file-row__actions > * + .smbk-btn::after {
+    inset-inline-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-xs) / -2);
+  }
+
+  .smbk-file-row__actions > *:has(+ *) .smbk-btn::after,
+  .smbk-file-row__actions > .smbk-btn:has(+ *)::after {
+    inset-inline-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-xs) / -2);
+  }
+}

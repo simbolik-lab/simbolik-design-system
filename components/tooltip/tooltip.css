@@ -1,6 +1,8 @@
 /* smbk-tooltip — Tooltip. Figma "Tooltip" 4170:13949 and "TooltipItem" 4170:13718.
- * The bubble is the item; the arrow is a small shape cut from a box the same
- * color, placed on one edge. Positioning relative to the target is the page's.
+ * The bubble is the item: it hugs its words and wraps at the tooltip's greatest
+ * width. The arrow is a small shape cut from a box the same color, placed on one
+ * edge. With a target, the anchor holds the target and the layer, and the wrapper
+ * shows the tooltip and places it beside the target; on its own, the page places it.
  * It fades in as it appears and out as it is hidden (motion rules at the end). */
 
 .smbk-tooltip {
@@ -11,24 +13,27 @@
   color: var(--smbk-color-text-default);
 }
 
-/* A block, not an inline flex box, so the trim reaches its words; the padding
-   centers the cap height in the fixed height, inside the hairline edge. */
+/* The words set its size: the extra-small inset over and under them, the medium inset at their sides, inside the
+   hairline edge, as Figma counts the edge in its 28 tall one-line bubble. As wide as the words, up to the tooltip's
+   greatest width, where they wrap, whatever the part it sits in says about wrapping and alignment. */
 .smbk-tooltip__bubble {
   box-sizing: border-box;
   display: block;
-  height: var(--smbk-size-display-lg);
-  padding: calc((var(--smbk-size-display-lg) - 2 * var(--smbk-border-width-hairline) - 1cap) / 2) var(--smbk-space-inset-md);
-  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  width: max-content;
+  max-width: var(--smbk-size-tooltip-max-width);
+  padding: var(--smbk-space-inset-xs) var(--smbk-space-inset-md);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim);
   border-radius: var(--smbk-radius-control-sm);
   background: var(--smbk-color-surface-raised);
-  box-shadow: var(--smbk-elevation-3);
-  font-family: var(--smbk-typography-body-t-font-family);
-  font-size: var(--smbk-typography-body-t-font-size);
-  font-weight: var(--smbk-typography-body-t-font-weight);
-  line-height: var(--smbk-typography-body-t-line-height);
-  letter-spacing: var(--smbk-typography-body-t-letter-spacing);
-  text-box: trim-both cap alphabetic;
-  white-space: nowrap;
+  box-shadow: var(--smbk-elevation-overlay);
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
+  text-align: start;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 /* The arrow reaches a hairline into the bubble, so it lies over the bubble's edge where the two
@@ -88,6 +93,14 @@
   clip-path: polygon(100% 50%, 0 0, 0 100%);
 }
 
+/* Placed beside its target, the wrapper sets the arrow's middle where the target's middle is (an inline offset
+   along the edge, kept the medium inset from the corners), so it still points at the target when the bubble has
+   moved inward at the window's edge. */
+.smbk-tooltip[data-placed]:is(.smbk-tooltip--arrow-top-start, .smbk-tooltip--arrow-top-center, .smbk-tooltip--arrow-top-end, .smbk-tooltip--arrow-bottom-start, .smbk-tooltip--arrow-bottom-center, .smbk-tooltip--arrow-bottom-end) .smbk-tooltip__arrow {
+  right: auto;
+  translate: -50% 0;
+}
+
 /* ---- inverse ---- */
 
 .smbk-tooltip--inverse {
@@ -103,9 +116,77 @@
   background: var(--smbk-color-surface-inverse);
 }
 
+/* ---- with a target: the anchor holds the target and the layer, the layer the tooltip ---- */
+
+.smbk-tooltip__anchor {
+  position: relative;
+  display: inline-flex;
+}
+
+/* Until the wrapper lifts it, the layer has no box: the tooltip hangs from the anchor on the side its arrow names, the
+   extra-small stack step from the target past the arrow's tip (the arrow reaches half its width less two hairlines
+   out of the bubble), as in markup written by hand and before the page's
+   script runs. A top arrow hangs it below the target, a bottom arrow above, a left arrow to its right and a right
+   arrow to its left; start and end line its edge up with the target's, center its middle. The layer, its lift into
+   the top layer and the closed tooltip are the floating panels' own, shared with the dropdown and the popover:
+   floating/floating.css. */
+.smbk-tooltip__layer > .smbk-tooltip {
+  position: absolute;
+  z-index: var(--smbk-layer-overlay);
+}
+
+.smbk-tooltip__layer > :is(.smbk-tooltip--arrow-top-start, .smbk-tooltip--arrow-top-center, .smbk-tooltip--arrow-top-end) {
+  top: calc(100% + var(--smbk-space-stack-xs) + var(--smbk-size-icon-xs) / 2 - 2 * var(--smbk-border-width-hairline));
+}
+
+.smbk-tooltip__layer > :is(.smbk-tooltip--arrow-bottom-start, .smbk-tooltip--arrow-bottom-center, .smbk-tooltip--arrow-bottom-end) {
+  bottom: calc(100% + var(--smbk-space-stack-xs) + var(--smbk-size-icon-xs) / 2 - 2 * var(--smbk-border-width-hairline));
+}
+
+.smbk-tooltip__layer > :is(.smbk-tooltip--arrow-top-start, .smbk-tooltip--arrow-bottom-start) {
+  left: 0;
+}
+
+.smbk-tooltip__layer > :is(.smbk-tooltip--arrow-top-end, .smbk-tooltip--arrow-bottom-end) {
+  right: 0;
+}
+
+.smbk-tooltip__layer > :is(.smbk-tooltip--arrow-top-center, .smbk-tooltip--arrow-bottom-center) {
+  left: 50%;
+  translate: -50% 0;
+}
+
+.smbk-tooltip__layer > :is(.smbk-tooltip--arrow-left, .smbk-tooltip--arrow-right) {
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.smbk-tooltip__layer > .smbk-tooltip--arrow-left {
+  left: calc(100% + var(--smbk-space-stack-xs) + var(--smbk-size-icon-xs) / 2 - 2 * var(--smbk-border-width-hairline));
+}
+
+.smbk-tooltip__layer > .smbk-tooltip--arrow-right {
+  right: calc(100% + var(--smbk-space-stack-xs) + var(--smbk-size-icon-xs) / 2 - 2 * var(--smbk-border-width-hairline));
+}
+
+/* Placed by the wrapper, it takes only the place the wrapper writes. */
+.smbk-tooltip__layer > .smbk-tooltip[data-placed] {
+  inset: auto;
+  translate: none;
+}
+
+/* Lifted into the top layer while the tooltip shows, it takes the place the wrapper gives it, and the pointer can move
+   onto it and it stays (the wrapper keeps it open while pointed at; the press it takes is floating.css's). */
+.smbk-tooltip__layer:popover-open > .smbk-tooltip {
+  translate: none;
+}
+
 /* ---- motion: a tooltip is feedback to pointing at or focusing its target, so it fades in with
    the feedback purpose when it appears and fades out the same way when the page hides it with
-   the hidden attribute. It does not travel. No movement under reduced motion. ---- */
+   the hidden attribute. Shown beside a target, it comes out of the target as it fades in, from the
+   extra-small stack step nearer it, on the side it was placed (its arrow names it), and fades out where it is.
+   Moving from one tooltip straight to the next, the wrapper marks the new one data-instant and it shows at
+   once. No movement under reduced motion. ---- */
 
 .smbk-tooltip {
   transition-property: opacity, display;
@@ -114,9 +195,8 @@
   transition-behavior: allow-discrete;
 }
 
-/* The tooltip's own display would otherwise outweigh the hidden attribute. */
+/* Hidden, it is gone (floating.css) and faded out. */
 .smbk-tooltip[hidden] {
-  display: none;
   opacity: 0;
 }
 
@@ -126,9 +206,68 @@
   }
 }
 
+/* The coming out of the target is an animation named for the side, rather than a starting style: the side is
+   known only once the tooltip shows and has been placed, and a new name starts the animation again from that side,
+   before anything is drawn. */
+@media (prefers-reduced-motion: no-preference) {
+  .smbk-tooltip__layer > :is(.smbk-tooltip--arrow-top-start, .smbk-tooltip--arrow-top-center, .smbk-tooltip--arrow-top-end) {
+    animation: smbk-tooltip-drop var(--smbk-motion-feedback-duration) var(--smbk-motion-feedback-easing);
+  }
+
+  .smbk-tooltip__layer > :is(.smbk-tooltip--arrow-bottom-start, .smbk-tooltip--arrow-bottom-center, .smbk-tooltip--arrow-bottom-end) {
+    animation: smbk-tooltip-rise var(--smbk-motion-feedback-duration) var(--smbk-motion-feedback-easing);
+  }
+
+  .smbk-tooltip__layer > .smbk-tooltip--arrow-left {
+    animation: smbk-tooltip-slide-right var(--smbk-motion-feedback-duration) var(--smbk-motion-feedback-easing);
+  }
+
+  .smbk-tooltip__layer > .smbk-tooltip--arrow-right {
+    animation: smbk-tooltip-slide-left var(--smbk-motion-feedback-duration) var(--smbk-motion-feedback-easing);
+  }
+
+  .smbk-tooltip__layer > .smbk-tooltip[data-instant] {
+    animation: none;
+  }
+}
+
+@keyframes smbk-tooltip-drop {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--smbk-space-stack-xs)));
+  }
+}
+
+@keyframes smbk-tooltip-rise {
+  from {
+    opacity: 0;
+    transform: translateY(var(--smbk-space-stack-xs));
+  }
+}
+
+@keyframes smbk-tooltip-slide-right {
+  from {
+    opacity: 0;
+    transform: translateX(calc(-1 * var(--smbk-space-stack-xs)));
+  }
+}
+
+@keyframes smbk-tooltip-slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(var(--smbk-space-stack-xs));
+  }
+}
+
+.smbk-tooltip[data-instant] {
+  transition: none;
+}
+
+/* Under reduced motion the tooltip still fades in and out with the feedback purpose: only its
+   opacity and its display change over time, so nothing it might travel moves. */
 @media (prefers-reduced-motion: reduce) {
   .smbk-tooltip {
-    transition: none;
+    transition-property: opacity, display;
   }
 }
 

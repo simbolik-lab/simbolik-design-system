@@ -1,0 +1,139 @@
+/* smbk-description-list — Description list. Figma "Description list" 7113:1025 and "Description list row"
+ * 7113:941. A heading over rows of a term and its value, and an optional action. Stacked, the term sits over
+ * its value and the action under it; side by side, the term has a column of its own and the action ends the
+ * row. Side by side lines the three up on their first lines, so words of two sizes share one baseline. A value
+ * that is not shown, missing or hidden, says so in quieter words; one still loading is a line of skeleton as
+ * tall as the value, so nothing moves when it arrives. */
+
+.smbk-description-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-lg);
+  min-width: 0;
+}
+
+/* The block frames the words it hides for screen readers, so they stay inside it wherever it is placed: without a
+   frame they hang from the page itself and stretch it, past the end of an area that scrolls. No weight, so a parent
+   that places the block keeps its say. */
+:where(.smbk-description-list) {
+  position: relative;
+}
+
+.smbk-description-list__heading {
+  margin: 0;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-heading-2xs-font-family);
+  font-size: var(--smbk-typography-heading-2xs-font-size);
+  font-weight: var(--smbk-typography-heading-2xs-font-weight);
+  line-height: var(--smbk-typography-heading-2xs-line-height);
+  letter-spacing: var(--smbk-typography-heading-2xs-letter-spacing);
+  text-transform: var(--smbk-typography-heading-2xs-text-transform);
+}
+
+.smbk-description-list__rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-xl);
+  margin: 0;
+  padding: 0;
+}
+
+.smbk-description-list__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-sm);
+  min-width: 0;
+}
+
+.smbk-description-list__term {
+  margin: 0;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-label-md-font-family);
+  font-size: var(--smbk-typography-label-md-font-size);
+  font-weight: var(--smbk-typography-label-md-font-weight);
+  line-height: var(--smbk-typography-label-md-line-height);
+  letter-spacing: var(--smbk-typography-label-md-letter-spacing);
+  text-transform: var(--smbk-typography-label-md-text-transform);
+  overflow-wrap: break-word;
+}
+
+.smbk-description-list__value {
+  min-width: 0;
+  margin: 0;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
+  overflow-wrap: anywhere;
+}
+
+/* A value that is not shown: "Not provided", or "Hidden" after its icon. Never a value in color alone. */
+/* Its icon sits on the words' baseline, which centers the glyph on the capitals and keeps the row's line. */
+.smbk-description-list__absent {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--smbk-space-inline-xs);
+  color: var(--smbk-color-text-subtle);
+}
+
+.smbk-description-list__icon {
+  flex: none;
+  color: var(--smbk-color-icon-subtle);
+  font-size: var(--smbk-size-icon-sm);
+}
+
+.smbk-description-list__action {
+  flex: none;
+  margin: 0;
+}
+
+/* .smbk-description-list__hidden: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
+/* ---- side by side: the term in a column of its own, the value filling the rest, the action at the end ---- */
+
+.smbk-description-list--layout-side-by-side .smbk-description-list__rows {
+  gap: var(--smbk-space-stack-lg);
+}
+
+.smbk-description-list--layout-side-by-side .smbk-description-list__row {
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--smbk-space-inline-xl);
+}
+
+.smbk-description-list--layout-side-by-side .smbk-description-list__term {
+  flex: none;
+  width: var(--smbk-size-width-240);
+}
+
+.smbk-description-list--layout-side-by-side .smbk-description-list__value {
+  flex: 1 1 0;
+}
+
+/* A value still loading has no line of text to line up by: it sits level with the term's line. */
+.smbk-description-list--layout-side-by-side .smbk-description-list__value[aria-busy="true"] {
+  align-self: flex-start;
+}
+
+/* A narrow space has no room for a column of names: the rows stack, keeping the term before its value. */
+@container style(--smbk-layout: narrow) {
+  .smbk-description-list--layout-side-by-side .smbk-description-list__rows {
+    gap: var(--smbk-space-stack-xl);
+  }
+
+  .smbk-description-list--layout-side-by-side .smbk-description-list__row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--smbk-space-stack-sm);
+  }
+
+  .smbk-description-list--layout-side-by-side .smbk-description-list__term {
+    width: auto;
+  }
+
+  .smbk-description-list--layout-side-by-side .smbk-description-list__value {
+    flex: none;
+  }
+}

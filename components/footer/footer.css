@@ -1,13 +1,17 @@
-/* smbk-footer — Footer. Figma "Footer" 4255:9405 (Desktop, Mobile; Default, Minimal).
- * The foot of a website: the brand with its social links, columns of page
- * links, then a legal strip. In a narrow space the columns come first in two
- * rows, the brand moves below them and centers, and the legal strip stacks.
- * The minimal look is a divider over one strip (its section at the end).
- * Which form shows is the layout switch.
- * Within either form the footer fits whatever width it is given, with no
- * width written anywhere: columns share their row equally and narrow down to
- * their longest word, then carry on onto a further row; link labels wrap
- * rather than being cut short; the legal strip wraps. */
+/* smbk-footer — Footer. Figma "Footer" 7444:2151 (Style × Platform; Background, Divider), built from FooterBrand
+ * 7443:399, FooterLinks 7443:938, FooterLegal 7443:1133 and FooterCTA 7443:1210.
+ * The foot of a website: the brand with a line about the site and its social links, page links in columns (or,
+ * centred, in one row), then a legal strip. In a narrow space each column folds into a row that opens, the brand
+ * follows them and the legal strip stacks. The columns are drawn twice, folded for the narrow form before the brand
+ * and open for the wide form after it, and the brand once between them, so the order Tab follows is the order on
+ * screen in each form. Which form shows is the layout switch.
+ * Six looks: columns; minimal (a divider over one strip, its section further down); centred; floating (the content
+ * on a raised card); call to action (a card asking for one action above the rest); big wordmark (the name as wide as
+ * the footer, under the strip).
+ * Within either form the footer fits whatever width it is given, with no width written anywhere: each column is as
+ * wide as its longest link, and columns carry on onto a further row when the row runs out; link labels wrap rather
+ * than being cut short; the legal strip wraps. Two choices for a wide space: every column as wide as the widest, in
+ * one row or two even ones (the equal column width), and the legal links at the strip's end (legal end). */
 
 .smbk-footer {
   box-sizing: border-box;
@@ -20,20 +24,83 @@
   color: var(--smbk-color-text-default);
 }
 
-/* The columns drop below the brand only when even one column cannot sit beside it. */
+/* The content: everything in the footer, one part under another. Markup written by hand without it keeps the same
+   gaps, which the block gives its own parts. */
+.smbk-footer__content {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-2xl);
+  width: 100%;
+  min-width: 0;
+}
+
+/* ---- the switches ---- */
+
+/* Background: a band of the default surface behind the footer with a hairline along its top. */
+.smbk-footer--background {
+  border-top: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  background: var(--smbk-color-surface-default);
+}
+
+.smbk-footer--divider-off .smbk-footer__divider {
+  display: none;
+}
+
+/* The zone: Figma's room around the content, and the content held to the content width in the middle. The large
+   stack steps above and below and the extra-large inset at the sides. */
+.smbk-footer.smbk-footer--zone {
+  padding: var(--smbk-space-stack-3xl) var(--smbk-space-inset-2xl) var(--smbk-space-stack-xl);
+}
+
+.smbk-footer--zone > .smbk-footer__content {
+  max-width: var(--smbk-size-layout-container-default);
+  margin-inline: auto;
+}
+
+/* ---- floating: the content on a raised card ----
+ * Figma's floating card holds the whole footer, the extra-large inset inside it. Without the zone the card is the
+ * footer's whole box; with it, the medium inset above and below and the extra-large one at the sides, and the card
+ * as wide as that leaves (Figma binds no width to it). */
+.smbk-footer.smbk-footer--look-floating {
+  padding: 0;
+}
+
+.smbk-footer--look-floating > .smbk-footer__content {
+  padding: var(--smbk-space-inset-2xl);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim);
+  border-radius: var(--smbk-radius-container-lg);
+  background: var(--smbk-color-surface-default);
+  box-shadow: var(--smbk-elevation-raised);
+}
+
+.smbk-footer.smbk-footer--look-floating.smbk-footer--zone {
+  padding: var(--smbk-space-inset-md) var(--smbk-space-inset-2xl);
+}
+
+.smbk-footer--look-floating.smbk-footer--zone > .smbk-footer__content {
+  max-width: none;
+}
+
+/* ---- the brand and the columns ----
+ * The columns drop below the brand only when even one column cannot sit beside it. Beside it they sit at the row's
+ * end, as Figma draws them. */
 .smbk-footer__main {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: flex-start;
   gap: var(--smbk-space-stack-2xl) var(--smbk-space-inline-3xl);
 }
 
+/* Logo, a line about the site, the social links and an optional newsletter sign-up, the large stack step apart. */
 .smbk-footer__brand {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: var(--smbk-space-stack-xl);
+  align-items: flex-start;
+  gap: var(--smbk-space-stack-lg);
   flex-shrink: 0;
+  max-width: 100%;
 }
 
 .smbk-footer__brand-link {
@@ -54,25 +121,37 @@
   width: auto;
 }
 
+/* Figma's brand is 320 wide and its line wraps there; the brand here is as wide as what it holds, so the line and the
+   newsletter stop at that width instead. */
+.smbk-footer__blurb {
+  max-width: var(--smbk-size-width-320);
+  margin: 0;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+/* Small ghost icon buttons, the extra-small inline step apart. */
 .smbk-footer__social {
   display: flex;
-  gap: var(--smbk-space-inline-md);
+  flex-wrap: wrap;
+  gap: var(--smbk-space-inline-xs);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* Each item holds only its link, so the row is exactly as tall as an icon, as Figma draws it;
-   as a list item it would add a line of text's height around the icon. */
+/* Each item holds only its link, so the row is exactly as tall as a button; as a list item it would add a line of
+   text's height around it. */
 .smbk-footer__social > li {
   display: flex;
 }
 
-/* Figma's social icons are the large icon size in the default look and the medium one in the
-   minimal look, the medium inline step apart in both. The size is the icon's own
-   size (footer.tsx), since the icon's own size rule sits on the icon and would win over one
-   inherited from here. */
-.smbk-footer__social-link {
+/* A social link written by hand as a plain anchor, not a button: an icon in the default text color. */
+.smbk-footer__social-link:not(.smbk-btn) {
   display: inline-flex;
   color: var(--smbk-color-text-default);
   text-decoration: none;
@@ -81,62 +160,84 @@
 }
 
 @media (hover: hover) {
-  .smbk-footer__social-link:hover {
+  .smbk-footer__social-link:not(.smbk-btn):hover {
     color: var(--smbk-color-text-brand);
   }
 }
 
-.smbk-footer__social-link:focus-visible {
+.smbk-footer__social-link:not(.smbk-btn):focus-visible {
   outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
   outline-offset: var(--smbk-focus-ring-offset);
   border-radius: var(--smbk-radius-control-xs);
 }
 
+/* The newsletter: the page's form, its label over a row of the email field and its button. */
+.smbk-footer__newsletter,
+.smbk-footer__newsletter > form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-sm);
+  width: 100%;
+  max-width: var(--smbk-size-width-320);
+  margin: 0;
+}
+
+.smbk-footer__newsletter-row {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+}
+
+.smbk-footer__newsletter-row > :first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* The columns take the room the brand leaves, up to what they need in one row. */
 .smbk-footer__columns {
   display: flex;
   flex: 1 1 0;
   flex-wrap: wrap;
   gap: var(--smbk-space-inline-2xl) var(--smbk-space-inline-3xl);
-  max-width: min(100%, var(--smbk-size-content-lg));
+  max-width: max-content;
 }
 
-/* Equal shares of the row, but never narrower than the longest word in the
-   column (its automatic least width) and never wider than the row itself. */
+/* As wide as the column's longest link, as Figma draws it, and never wider than the row itself: a column whose links
+   are longer than the row narrows and its labels wrap. Heading and links stand the extra-small stack step apart. */
 .smbk-footer__column {
   display: flex;
-  flex: 1 1 0;
+  flex: 0 1 auto;
   flex-direction: column;
-  gap: var(--smbk-space-stack-sm);
+  gap: var(--smbk-space-stack-xs);
   max-width: 100%;
 }
 
+/* The heading's text starts where its links' text does: the link's side padding and its edge. */
 .smbk-footer__heading {
   margin: 0;
-  padding: var(--smbk-space-inset-md);
+  padding: 0 0 var(--smbk-space-inset-xs) calc(var(--smbk-space-inset-lg) + var(--smbk-border-width-hairline));
   color: var(--smbk-color-text-subtlest);
-  font-family: var(--smbk-typography-label-s-font-family);
-  font-size: var(--smbk-typography-label-s-font-size);
-  font-weight: var(--smbk-typography-label-s-font-weight);
-  line-height: var(--smbk-typography-label-s-line-height);
-  letter-spacing: var(--smbk-typography-label-s-letter-spacing);
-  text-box: trim-both cap alphabetic;
-  text-transform: var(--smbk-typography-label-s-text-transform);
+  font-family: var(--smbk-typography-label-sm-font-family);
+  font-size: var(--smbk-typography-label-sm-font-size);
+  font-weight: var(--smbk-typography-label-sm-font-weight);
+  line-height: var(--smbk-typography-label-sm-line-height);
+  letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
+  text-transform: var(--smbk-typography-label-sm-text-transform);
 }
 
 .smbk-footer__list {
   display: flex;
   flex-direction: column;
-  gap: var(--smbk-space-stack-sm);
+  gap: var(--smbk-space-stack-xs);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* Each link is a navigation item, which keeps to one line and cuts a long
-   label short. Here the label wraps instead, since a navigation label is never
-   cut short: the item grows a line at a time. One line keeps the navigation
-   item's own height, and its padding gives every further line the same
-   inset. A word longer than the whole column breaks rather than spills. */
+/* Each link is a navigation item, which keeps to one line and cuts a long label short. Here the label wraps instead,
+   since a navigation label is never cut short: the item grows a line at a time. One line keeps the navigation item's
+   own height, and its padding gives every further line the same inset. A word longer than the whole column breaks
+   rather than spills. */
 .smbk-nav-item.smbk-footer__link {
   height: auto;
   min-height: var(--smbk-size-control-sm);
@@ -145,147 +246,440 @@
   overflow-wrap: break-word;
 }
 
-/* The words a column link that leaves the site adds to its name, "(opens in a new tab)": for a
-   screen reader only, so the link looks as every other. */
-.smbk-footer__new-tab {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
+/* The words a page link that leaves the site adds to its name, "(opens in a new tab)": for a screen reader only, so
+   the link looks as every other. */
+/* .smbk-footer__new-tab: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
+/* ---- the equal column width: every column as wide as the widest, the same gap between them ----
+ * The columns stand in two halves, the first holding the extra column of an odd count. Each half is a row of equal
+ * columns that wraps as one, so the columns stand in one row where they fit and otherwise in two rows as even as the
+ * count allows, never one column alone under the rest; the rows keep to the row's end, where one row sits. A column is
+ * as wide as the widest because its heading holds an invisible copy of every column's title (before it) and of every
+ * link's words (after it), one per line, set as the headings and as a link's bolder label are, under the heading
+ * with no height; the copy wraps between words as a label does, so a column too narrow for it still narrows. In a
+ * space too narrow for two columns side by side they stand one under another. Markup written by hand without the
+ * halves wraps its columns one at a time; without the copies, each column keeps its own width. Hidden from assistive
+ * technology: generated, invisible, with empty words. */
+.smbk-footer--column-width-equal .smbk-footer__columns {
+  justify-content: flex-end;
+}
+
+.smbk-footer--column-width-equal .smbk-footer__half {
+  display: flex;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  gap: var(--smbk-space-inline-2xl) var(--smbk-space-inline-3xl);
+  max-width: 100%;
+}
+
+/* Each column starts from its own width, which the copies make the widest's, so a half's columns stand side by side
+   at that width, and in a space too narrow for even one half they wrap one under another rather than overflow. */
+.smbk-footer--column-width-equal .smbk-footer__half > .smbk-footer__column {
+  flex: 1 1 auto;
+}
+
+.smbk-footer--column-width-equal .smbk-footer__heading[data-titles]::before,
+.smbk-footer--column-width-equal .smbk-footer__heading[data-links]::after {
+  display: block;
+  height: 0;
   overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-  border: 0;
+  visibility: hidden;
+  white-space: pre-line;
+  pointer-events: none;
+  user-select: none;
 }
 
-.smbk-footer__legal {
+.smbk-footer--column-width-equal .smbk-footer__heading[data-titles]::before {
+  content: attr(data-titles);
+  content: attr(data-titles) / "";
+}
+
+/* A link's words at its bolder weight, and the link's own room after them: with the heading's room before them, as
+   wide as the link. */
+.smbk-footer--column-width-equal .smbk-footer__heading[data-links]::after {
+  content: attr(data-links);
+  content: attr(data-links) / "";
+  padding-inline-end: calc(var(--smbk-space-inset-lg) + var(--smbk-border-width-hairline));
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-medium-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+  text-transform: none;
+}
+
+/* ---- the folded columns: each a row that opens, the narrow form's own ----
+ * A native disclosure: its heading row is the summary, the large inset above and below its words, the caret at its
+ * end; open, its links follow with the medium inset under them. A divider closes each row. */
+.smbk-footer__folds {
+  flex-direction: column;
+  width: 100%;
+}
+
+.smbk-footer__fold > details > summary {
+  list-style: none;
+}
+
+.smbk-footer__fold > details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.smbk-footer__fold-heading {
   display: flex;
-  flex-wrap: wrap;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  gap: var(--smbk-space-inline-2xl);
-  color: var(--smbk-color-text-subtlest);
-  font-family: var(--smbk-typography-body-t-font-family);
-  font-size: var(--smbk-typography-body-t-font-size);
-  font-weight: var(--smbk-typography-body-t-font-weight);
-  line-height: var(--smbk-typography-body-t-line-height);
-  letter-spacing: var(--smbk-typography-body-t-letter-spacing);
-  text-align: center;
-  text-box: trim-both cap alphabetic;
+  gap: var(--smbk-space-inline-md);
+  padding: var(--smbk-space-inset-lg) 0;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-label-md-font-family);
+  font-size: var(--smbk-typography-label-md-font-size);
+  font-weight: var(--smbk-typography-label-md-font-weight);
+  line-height: var(--smbk-typography-label-md-line-height);
+  letter-spacing: var(--smbk-typography-label-md-letter-spacing);
+  text-transform: var(--smbk-typography-label-md-text-transform);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
-.smbk-footer__legal-links {
+.smbk-footer__fold-heading:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: calc(-1 * var(--smbk-focus-ring-width));
+  border-radius: var(--smbk-radius-control-xs);
+}
+
+/* Figma draws an open row's caret pointing up and a closed one's down: one caret, turned. */
+.smbk-footer__caret {
+  flex-shrink: 0;
+  color: var(--smbk-color-icon-default);
+  transition: rotate var(--smbk-motion-state-duration) var(--smbk-motion-state-easing);
+}
+
+.smbk-footer__fold > details[open] .smbk-footer__caret {
+  rotate: 180deg;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-footer__caret {
+    transition: none;
+  }
+}
+
+.smbk-footer__fold .smbk-footer__list {
+  gap: 0;
+  padding-bottom: var(--smbk-space-inset-md);
+}
+
+/* ---- the row: the centred look's page links, centered, the extra-small inline step apart, wrapping ---- */
+.smbk-footer__row {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: var(--smbk-space-inline-2xl);
+  align-items: center;
+  gap: var(--smbk-space-inline-xs);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.smbk-footer__legal-link {
+.smbk-footer__row > li {
+  display: flex;
+}
+
+/* ---- the call to action: a raised card, the words at the start and the actions at the end ---- */
+.smbk-footer__cta {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--smbk-space-inline-2xl);
+  padding: var(--smbk-space-inset-3xl);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim);
+  border-radius: var(--smbk-radius-container-md);
+  background: var(--smbk-color-surface-raised);
+  box-shadow: var(--smbk-elevation-raised);
+}
+
+.smbk-footer__cta-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-xs);
+  min-width: 0;
+}
+
+.smbk-footer__cta-headline {
+  margin: 0;
   color: var(--smbk-color-text-default);
-  text-decoration: none;
+  font-family: var(--smbk-typography-heading-sm-font-family);
+  font-size: var(--smbk-typography-heading-sm-font-size);
+  font-weight: var(--smbk-typography-heading-sm-font-weight);
+  line-height: var(--smbk-typography-heading-sm-line-height);
+  letter-spacing: var(--smbk-typography-heading-sm-letter-spacing);
+  text-transform: var(--smbk-typography-heading-sm-text-transform);
+}
+
+.smbk-footer__cta-line {
+  margin: 0;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
+}
+
+.smbk-footer__cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--smbk-space-inline-md);
+}
+
+/* An email field and its button in the card: the medium inline step apart, as the two buttons are. */
+.smbk-footer__cta .smbk-footer__newsletter-row {
+  gap: var(--smbk-space-inline-md);
+}
+
+/* ---- the legal strip ----
+ * Spread, Figma's wide strip: the copyright (and its tagline, the medium inline step after it) and the legal links
+ * at the start, the extras at the end, the fine print under both. Small links standing on their own, the large
+ * inline step apart; the extras the medium step apart. The strip wraps where room runs short. */
+.smbk-footer__legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--smbk-space-stack-md) var(--smbk-space-inline-2xl);
+  color: var(--smbk-color-text-subtlest);
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
+}
+
+.smbk-footer__legal-start {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--smbk-space-stack-md) var(--smbk-space-inline-2xl);
+}
+
+.smbk-footer__notice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 var(--smbk-space-inline-md);
+  margin: 0;
+}
+
+.smbk-footer__tagline {
+  color: var(--smbk-color-text-subtle);
+}
+
+.smbk-footer__legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 var(--smbk-space-inline-lg);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.smbk-footer__extras {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--smbk-space-stack-sm) var(--smbk-space-inline-md);
+}
+
+.smbk-footer__fine-print {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--smbk-color-text-subtle);
+}
+
+/* Legal end: the legal links leave the start and stand at the strip's end, before the extras, the strip's gap between
+   them. The start part steps aside, so the notice, the legal links and the extras are the strip's own places, in the
+   order Tab follows, and the room left over goes before the legal links. A strip that wraps keeps them at the end of
+   its last row. The centred and minimal looks place their legal links themselves. */
+.smbk-footer--legal-end:not(.smbk-footer--look-centred, .smbk-footer--look-minimal) .smbk-footer__legal-start {
+  display: contents;
+}
+
+.smbk-footer--legal-end:not(.smbk-footer--look-centred, .smbk-footer--look-minimal) .smbk-footer__legal-links {
+  margin-inline-start: auto;
+}
+
+/* A legal link written by hand, not the link component: the default text color, underlined among words (in the
+   copyright, the fine print, a line at the end) so it never differs by color alone, and standing on its own in the
+   legal links, where it is underlined on hover only. */
+.smbk-footer__legal-link:not(.smbk-link) {
+  color: var(--smbk-color-text-default);
+  text-decoration: underline;
+  text-decoration-color: var(--smbk-color-text-link-underline);
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
 
+.smbk-footer__legal-links .smbk-footer__legal-link:not(.smbk-link) {
+  text-decoration: none;
+}
+
 @media (hover: hover) {
-  .smbk-footer__legal-link:hover {
+  .smbk-footer__legal-link:not(.smbk-link):hover {
     color: var(--smbk-color-text-brand);
     text-decoration: underline;
+    text-decoration-color: currentColor;
   }
 }
 
-.smbk-footer__legal-link:focus-visible {
+.smbk-footer__legal-link:not(.smbk-link):focus-visible {
   outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
   outline-offset: var(--smbk-focus-ring-offset);
   border-radius: var(--smbk-radius-control-xs);
 }
 
-/* Wide: the divider above the legal strip only; the one above the brand is for the narrow form. */
-.smbk-footer .smbk-footer__brand-divider {
+/* ---- the big wordmark: the name as wide as the content, under the strip ---- */
+.smbk-footer__wordmark {
+  display: flex;
+  color: var(--smbk-color-text-default);
+}
+
+.smbk-footer__wordmark > :is(svg, img, span) {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Wide: the narrow form's brand and folded columns go, as does the old divider above the brand. The selectors carry
+   the block so they outweigh the parts' own display rules. */
+.smbk-footer .smbk-footer__brand-divider,
+.smbk-footer .smbk-footer__narrow-only {
   display: none;
 }
 
-/* ---- narrow: two columns sized to their links, brand below and centered, legal stacked ----
- * On purpose, where Figma draws equal halves: each column is as
- * wide as its longest link, and the room left over is shared between the two,
- * so columns of short links sit in halves as Figma draws them, a column of
- * long links takes what it needs and its links do not wrap where there is
- * room for them; where there is not, a column still narrows to its longest
- * word. The design system's divider stands between the columns and the brand
- * below them, and none above the legal strip, as Figma's mobile footer draws
- * it. */
+/* ---- centred: brand, row and strip, each centered ---- */
+.smbk-footer--look-centred > .smbk-footer__content {
+  align-items: center;
+}
+
+.smbk-footer--look-centred .smbk-footer__content > .smbk-footer__divider {
+  align-self: stretch;
+}
+
+.smbk-footer--look-centred .smbk-footer__brand {
+  align-items: center;
+  text-align: center;
+}
+
+.smbk-footer--look-centred .smbk-footer__blurb,
+.smbk-footer--look-centred .smbk-footer__newsletter {
+  max-width: var(--smbk-size-content-sm);
+}
+
+.smbk-footer--look-centred .smbk-footer__legal,
+.smbk-footer--look-centred .smbk-footer__legal-start {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: var(--smbk-space-stack-md);
+  text-align: center;
+}
+
+.smbk-footer--look-centred :is(.smbk-footer__notice, .smbk-footer__legal-links, .smbk-footer__extras) {
+  justify-content: center;
+}
+
+/* ---- narrow: the columns folded, the brand under them, the strip stacked ---- */
 
 @container style(--smbk-layout: narrow) {
   .smbk-footer {
     padding: var(--smbk-space-inset-2xl) 0;
   }
 
+  .smbk-footer.smbk-footer--zone {
+    padding: var(--smbk-space-stack-2xl) var(--smbk-space-inset-xl) var(--smbk-space-stack-xl);
+  }
+
+  .smbk-footer.smbk-footer--look-floating.smbk-footer--zone {
+    padding: var(--smbk-space-inset-md) var(--smbk-space-gutter-xs);
+  }
+
+  .smbk-footer--look-floating > .smbk-footer__content {
+    padding: var(--smbk-space-inset-xl);
+  }
+
   .smbk-footer__main {
     flex-direction: column;
     flex-wrap: nowrap;
+    align-items: stretch;
     gap: var(--smbk-space-stack-2xl);
   }
 
-  .smbk-footer__brand {
+  /* The brand comes after the folds. The order keeps a footer whose markup puts its brand first, or holds it twice,
+     in the same places. */
+  .smbk-footer__main > .smbk-footer__brand {
     order: 2;
-    align-items: center;
   }
 
-  .smbk-footer .smbk-footer__brand-divider {
-    display: block;
-    order: 1;
+  .smbk-footer .smbk-footer__narrow-only {
+    display: flex;
   }
 
-  .smbk-footer:not(.smbk-footer--look-minimal) .smbk-footer__divider {
+  .smbk-footer .smbk-footer__wide-only {
     display: none;
   }
 
-  /* Two tracks as wide as their links, stretched by equal shares of what is left. */
   .smbk-footer__columns {
-    display: grid;
-    grid-template-columns: repeat(2, auto);
-    gap: var(--smbk-space-inline-2xl);
     max-width: none;
   }
 
-  .smbk-footer__legal {
+  .smbk-footer__cta {
     flex-direction: column;
+    align-items: stretch;
+    gap: var(--smbk-space-stack-lg);
+    padding: var(--smbk-space-inset-xl);
+  }
+
+  /* Figma stacks the actions with the medium inline step, each as wide as the card: two buttons, or an email field
+     over its button. */
+  .smbk-footer__cta-actions,
+  .smbk-footer__cta .smbk-footer__newsletter-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+
+  /* Stacked: the copyright, the legal links and the extras one under another at the start, wherever a wide space
+     puts the legal links. */
+  .smbk-footer__legal,
+  .smbk-footer__legal-start {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--smbk-space-stack-md);
+  }
+
+  .smbk-footer--legal-end:not(.smbk-footer--look-centred, .smbk-footer--look-minimal) .smbk-footer__legal-links {
+    margin-inline-start: 0;
   }
 }
 
-/* The words carry the trim: the legal strip is a flex row, and a flex row does not pass the trim to its items.
-   The social links are icons, not words, and are never trimmed. */
-.smbk-footer__legal > :not(.smbk-footer__legal-links, .smbk-footer__social),
-.smbk-footer__notice > *,
-.smbk-footer__legal-links > li {
-  text-box: trim-both cap alphabetic;
-}
+/* ---- minimal: a divider over one strip ----
+ * The strip has three places, each at least a small control tall with its content centered in it: the notice (the
+ * copyright, and the tagline after it) at the start, the center part in the middle and the end part at the end. The
+ * center and end parts hold the legal links and the extras with the social links, or other content a page puts
+ * there instead; several things in one place stand apart and wrap. The middle place is as wide as its content and
+ * the other two share the rest equally. Each keeps its own column when another is left out. The places sit flush;
+ * the strip's own gap between them only shows when room runs short, and a place whose content needs more than its
+ * share takes it rather than overlap. The fine print takes a row of its own under the three. In a narrow space the
+ * three stack, centered, the extra-large stack step apart, each only as tall as its content; the middle and end
+ * places fold into the stack, so a place whose content is hidden there leaves no gap. */
 
-/* ---- minimal: a divider over one strip, as Figma's minimal footer draws it ----
- * The strip has three places, each at least a small control tall with its
- * content centered in it: the notice (the copyright, and the tagline the
- * extra-large inline step after it) at the start, the center part in the
- * middle and the end part at the end. The center and end parts hold the legal
- * links and the social links (at the medium icon size), or other content a
- * page puts there instead (Figma does not draw that);
- * several things in one place stand the legal links' gap apart and wrap.
- * Figma draws three equal columns; here the middle one is as wide as its
- * content and the other two share the rest equally, which looks the same
- * wherever the content fits a third and gives the notice more room before it
- * wraps where it does not. Each keeps its own column when another is left
- * out. Figma's columns sit flush; the strip's own gap between them only shows
- * when room runs short, and a column whose content needs more than its share
- * takes it rather than overlap. In a narrow space the three stack, centered,
- * the extra-large stack step apart, each only as tall as its content, and the
- * copyright and tagline a step closer; the middle and end places fold into
- * the stack, so a place whose content is hidden there leaves no gap. */
-
-.smbk-footer--look-minimal {
+.smbk-footer--look-minimal,
+.smbk-footer--look-minimal > .smbk-footer__content {
   gap: var(--smbk-space-stack-lg);
 }
 
@@ -293,9 +687,10 @@
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
+  gap: var(--smbk-space-stack-md) var(--smbk-space-inline-2xl);
 }
 
-.smbk-footer__notice,
+.smbk-footer--look-minimal .smbk-footer__notice,
 .smbk-footer__center,
 .smbk-footer__end {
   display: flex;
@@ -305,9 +700,8 @@
   margin: 0;
 }
 
-.smbk-footer__notice {
+.smbk-footer--look-minimal .smbk-footer__notice {
   grid-column: 1;
-  gap: var(--smbk-space-stack-sm) var(--smbk-space-inline-xl);
   text-align: start;
 }
 
@@ -328,38 +722,97 @@
   text-align: end;
 }
 
-/* Words a page puts in the middle or at the end carry the trim, as the notice's do. A flex row
-   does not pass it on, so it sits on each span or paragraph; controls are left as they are. */
+.smbk-footer--look-minimal .smbk-footer__legal-links {
+  justify-content: center;
+}
+
+.smbk-footer--look-minimal .smbk-footer__fine-print {
+  grid-column: 1 / -1;
+}
+
+/* Words a page puts in the middle or at the end lose a paragraph's margins; controls are left as they are. */
 .smbk-footer__center > :is(span, p),
 .smbk-footer__end > :is(span, p) {
   margin: 0;
-  text-box: trim-both cap alphabetic;
 }
 
 @container style(--smbk-layout: narrow) {
-  .smbk-footer--look-minimal {
+  .smbk-footer--look-minimal,
+  .smbk-footer--look-minimal > .smbk-footer__content {
     gap: var(--smbk-space-stack-xl);
   }
 
   .smbk-footer--look-minimal .smbk-footer__legal {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: var(--smbk-space-stack-xl);
   }
 
-  .smbk-footer__notice {
+  .smbk-footer--look-minimal .smbk-footer__notice {
     justify-content: center;
     min-height: 0;
-    column-gap: var(--smbk-space-inline-lg);
     text-align: center;
   }
 
-  /* The middle and end places fold into the stack: what they hold stands in it directly, centered,
-     so content a page hides in a narrow space leaves no empty place and
-     no gap. Several things meant to stay together go inside one element of the page's own. */
+  .smbk-footer--look-minimal .smbk-footer__extras {
+    justify-content: center;
+  }
+
+  .smbk-footer--look-minimal .smbk-footer__fine-print {
+    text-align: center;
+  }
+
+  /* The middle and end places fold into the stack: what they hold stands in it directly, centered, so content a page
+     hides in a narrow space leaves no empty place and no gap. Several things meant to stay together go inside one
+     element of the page's own. */
   .smbk-footer__center,
   .smbk-footer__end {
     display: contents;
     text-align: center;
   }
 }
+
+/* ---- touch: the logo's link and every link take invisible press areas ----
+   On a touch screen an invisible area, centred on the logo's link and on each link and button, takes the press out to
+   the comfortable target in each direction it falls short of it. Where the footer sets them closer than that (the
+   social buttons and the centred row, which wrap; a column's links, one under another; a folded column's links, which
+   touch each other and their heading), each reaches only halfway into the gap, or not past its own edge where two
+   touch. Nothing drawn moves. */
+
+@media (pointer: coarse) {
+  .smbk-footer__brand-link,
+  .smbk-footer__legal-links .smbk-footer__legal-link {
+    position: relative;
+  }
+
+  .smbk-footer__brand-link::after,
+  .smbk-footer__legal-links .smbk-footer__legal-link::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  .smbk-footer__social .smbk-btn::after,
+  .smbk-footer__row .smbk-nav-item::after {
+    inset: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-xs) / -2);
+  }
+
+  .smbk-footer__list > li + li > .smbk-nav-item::after {
+    inset-block-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-xs) / -2);
+  }
+
+  .smbk-footer__list > li:has(+ li) > .smbk-nav-item::after {
+    inset-block-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-xs) / -2);
+  }
+
+  .smbk-footer__fold .smbk-footer__list > li > .smbk-nav-item::after {
+    inset-block-start: 0;
+  }
+
+  .smbk-footer__fold .smbk-footer__list > li:has(+ li) > .smbk-nav-item::after {
+    inset-block-end: 0;
+  }
+
+}
+

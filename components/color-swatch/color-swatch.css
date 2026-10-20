@@ -1,0 +1,92 @@
+/* smbk-color-swatch — Color swatch. Figma "Color swatch" 7406:48 (Size: lg, md, sm, xs × Shape: Square, Round ×
+ * Value: Color, None).
+ * One color in a square or a dot: the checkerboard (smbk-color-checker) under the color part, so a see-through
+ * color shows what it lets through, and a hairline edge over both, so a color near the surface's own still shows
+ * its outline. The color is data, not a design value: the wrapper paints it on the color part as an inline
+ * background color. None, when no color is set, is the default surface crossed by a danger slash: a shape, so
+ * "no color" is not told by color alone. */
+
+.smbk-color-swatch {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: var(--smbk-size-32);
+  height: var(--smbk-size-32);
+  overflow: hidden;
+  border-radius: var(--smbk-radius-control-md);
+  background: var(--smbk-color-surface-default);
+  vertical-align: middle;
+  forced-color-adjust: none;
+}
+
+/* The edge, drawn inside and over the color, as Figma's inside stroke is. */
+.smbk-color-swatch::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-shade-subtle);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.smbk-color-swatch__color {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+/* None: a slash from corner to corner in the danger icon color, two pixels wide. */
+.smbk-color-swatch__slash {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom right,
+    transparent calc(50% - var(--smbk-border-width-2) / 2),
+    var(--smbk-color-feedback-danger-icon) 0 calc(50% + var(--smbk-border-width-2) / 2),
+    transparent 0
+  );
+}
+
+/* ---- sizes: lg, md, sm, xs; the square's corner follows the size ---- */
+
+.smbk-color-swatch--size-md {
+  width: var(--smbk-size-24);
+  height: var(--smbk-size-24);
+  border-radius: var(--smbk-radius-control-sm);
+}
+
+.smbk-color-swatch--size-sm {
+  width: var(--smbk-size-20);
+  height: var(--smbk-size-20);
+  border-radius: var(--smbk-radius-control-sm);
+}
+
+.smbk-color-swatch--size-xs {
+  width: var(--smbk-size-16);
+  height: var(--smbk-size-16);
+  border-radius: var(--smbk-radius-control-xs);
+}
+
+/* Round: a dot at any size. Two classes, so it wins over each size's corner. */
+.smbk-color-swatch.smbk-color-swatch--shape-round {
+  border-radius: var(--smbk-radius-full);
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* The color is what the swatch shows, so it keeps it (forced-color-adjust above); the edge and the slash take
+   the reader's text color, so the swatch's shape and "no color" still show. */
+@media (forced-colors: active) {
+  .smbk-color-swatch::after {
+    border-color: CanvasText;
+  }
+
+  .smbk-color-swatch__slash {
+    background: linear-gradient(
+      to bottom right,
+      transparent calc(50% - var(--smbk-border-width-2) / 2),
+      CanvasText 0 calc(50% + var(--smbk-border-width-2) / 2),
+      transparent 0
+    );
+  }
+}

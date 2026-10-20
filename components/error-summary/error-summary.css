@@ -1,0 +1,165 @@
+/* smbk-error-summary — Error summary. Figma "Error summary" 7110:412 (Size × State) and "Error summary item"
+ * 7110:350 (Type). A box on the danger family's subtle surface, inside a hairline of its edge colour, at the small
+ * container corners: the danger icon, then the heading over an optional intro line, then the mistakes, each a link
+ * in the danger text colour, underlined, that moves focus to its field. It is focused by the page after a failed
+ * send, and draws the focus ring round itself whenever it has focus, from a click as from the keyboard. */
+
+.smbk-error-summary {
+  /* Always the danger family (the tone recipe). */
+  --smbk-tone-surface: var(--smbk-color-feedback-danger-surface-subtle);
+  --smbk-tone-border: var(--smbk-color-feedback-danger-border);
+  --smbk-tone-text: var(--smbk-color-feedback-danger-text-on-subtle);
+  --smbk-tone-icon: var(--smbk-color-feedback-danger-icon);
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--smbk-space-inline-lg);
+  padding: var(--smbk-space-inset-xl);
+  background: var(--smbk-tone-surface);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-tone-border);
+  border-radius: var(--smbk-radius-container-sm);
+  color: var(--smbk-tone-text);
+}
+
+/* The page moves focus here; the ring shows for that focus too, not only for the keyboard's. */
+.smbk-error-summary:focus {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+/* The icon sits in a box one heading line tall, so it is centred on the heading's first line at either size. */
+.smbk-error-summary__icon {
+  flex: none;
+  display: flex;
+  align-items: center;
+  height: 1lh;
+  font-family: var(--smbk-typography-subtitle-font-family);
+  font-size: var(--smbk-typography-subtitle-font-size);
+  line-height: var(--smbk-typography-subtitle-line-height);
+  color: var(--smbk-tone-icon);
+}
+
+.smbk-error-summary__icon .smbk-icon {
+  font-size: var(--smbk-size-icon-md);
+  color: inherit;
+}
+
+.smbk-error-summary__content {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+}
+
+.smbk-error-summary__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-text-label);
+}
+
+.smbk-error-summary__heading {
+  margin: 0;
+  color: var(--smbk-tone-text);
+  font-family: var(--smbk-typography-subtitle-font-family);
+  font-size: var(--smbk-typography-subtitle-font-size);
+  font-weight: var(--smbk-typography-subtitle-font-weight);
+  line-height: var(--smbk-typography-subtitle-line-height);
+  letter-spacing: var(--smbk-typography-subtitle-letter-spacing);
+}
+
+.smbk-error-summary__intro {
+  margin: 0;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
+}
+
+.smbk-error-summary__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.smbk-error-summary__item {
+  margin: 0;
+  color: var(--smbk-tone-text);
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
+}
+
+/* The link keeps the danger text colour and its underline at rest, on hover and when pressed: the summary's colour
+   is what ties it to the fields' messages. */
+.smbk-error-summary__link {
+  color: inherit;
+  text-decoration: underline;
+  border-radius: var(--smbk-radius-control-sm);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.smbk-error-summary__link:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+/* ---- small: closer to its edges, the heading in Label LG ---- */
+
+.smbk-error-summary--size-sm {
+  padding: var(--smbk-space-inset-lg);
+}
+
+.smbk-error-summary--size-sm .smbk-error-summary__icon {
+  font-family: var(--smbk-typography-label-lg-font-family);
+  font-size: var(--smbk-typography-label-lg-font-size);
+  line-height: var(--smbk-typography-label-lg-line-height);
+}
+
+.smbk-error-summary--size-sm .smbk-error-summary__heading {
+  font-family: var(--smbk-typography-label-lg-font-family);
+  font-size: var(--smbk-typography-label-lg-font-size);
+  font-weight: var(--smbk-typography-label-lg-font-weight);
+  line-height: var(--smbk-typography-label-lg-line-height);
+  letter-spacing: var(--smbk-typography-label-lg-letter-spacing);
+}
+
+@media (forced-colors: active) {
+  .smbk-error-summary:focus,
+  .smbk-error-summary__link:focus-visible {
+    outline-color: Highlight;
+  }
+}
+
+/* ---- touch: each link takes an invisible press area ----
+   On a touch screen an invisible area, centred on each link, takes the press out to the comfortable target in each
+   direction it falls short of it, and between two links only halfway into the list's gap, so the links stay one
+   press each. The links, their focus ring and their places stay as drawn. */
+
+@media (pointer: coarse) {
+  .smbk-error-summary__link {
+    position: relative;
+  }
+
+  .smbk-error-summary__link::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  /* Halfway between two links: half the list's gap and half of what the line keeps round the link's own box. */
+  .smbk-error-summary__item:has(.smbk-error-summary__link) + .smbk-error-summary__item .smbk-error-summary__link::after {
+    inset-block-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), (var(--smbk-space-stack-md) + 1lh - 100%) / -2);
+  }
+
+  .smbk-error-summary__item:has(+ .smbk-error-summary__item .smbk-error-summary__link) .smbk-error-summary__link::after {
+    inset-block-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), (var(--smbk-space-stack-md) + 1lh - 100%) / -2);
+  }
+}

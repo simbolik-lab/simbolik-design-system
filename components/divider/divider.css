@@ -8,20 +8,20 @@
   height: 0;
   margin: 0;
   border: 0;
-  border-top: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-top);
-  border-bottom: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-bottom);
+  border-top: var(--smbk-border-width-hairline) solid var(--smbk-color-border-groove-top);
+  border-bottom: var(--smbk-border-width-hairline) solid var(--smbk-color-border-groove-bottom);
 }
 
 .smbk-divider--orientation-vertical {
   display: inline-block;
   width: 0;
   height: auto;
-  min-height: var(--smbk-size-display-md);
+  min-height: var(--smbk-size-mark-md);
   align-self: stretch;
   border-top: 0;
   border-bottom: 0;
-  border-left: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-top);
-  border-right: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-bottom);
+  border-left: var(--smbk-border-width-hairline) solid var(--smbk-color-border-groove-top);
+  border-right: var(--smbk-border-width-hairline) solid var(--smbk-color-border-groove-bottom);
 }
 
 /* ---- labelled: a word between two lines ---- */
@@ -37,18 +37,17 @@
 .smbk-divider__line {
   flex: 1 1 auto;
   height: 0;
-  border-top: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-top);
-  border-bottom: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-bottom);
+  border-top: var(--smbk-border-width-hairline) solid var(--smbk-color-border-groove-top);
+  border-bottom: var(--smbk-border-width-hairline) solid var(--smbk-color-border-groove-bottom);
 }
 
 .smbk-divider__label {
   color: var(--smbk-color-text-subtlest);
-  font-family: var(--smbk-typography-label-s-font-family);
-  font-size: var(--smbk-typography-label-s-font-size);
-  font-weight: var(--smbk-typography-label-s-font-weight);
-  line-height: var(--smbk-typography-label-s-line-height);
-  letter-spacing: var(--smbk-typography-label-s-letter-spacing);
-  text-box: trim-both cap alphabetic;
-  text-transform: var(--smbk-typography-label-s-text-transform);
+  font-family: var(--smbk-typography-label-sm-font-family);
+  font-size: var(--smbk-typography-label-sm-font-size);
+  font-weight: var(--smbk-typography-label-sm-font-weight);
+  line-height: var(--smbk-typography-label-sm-line-height);
+  letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
+  text-transform: var(--smbk-typography-label-sm-text-transform);
   white-space: nowrap;
 }

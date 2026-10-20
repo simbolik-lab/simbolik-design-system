@@ -1,0 +1,101 @@
+/* smbk-number-field — Number field. Figma "Number field" 7106:947.
+ * Built on the input: the block always sits on an smbk-input well, the text
+ * control is the input's control part, and the unit, a hairline and the minus
+ * and plus buttons (ghost icon buttons) sit in the input's trailing action.
+ * The padding, the value's text, hover, focus, error, read-only, disabled and
+ * the two sizes are the input's own, so a change to the input reaches the
+ * number field. This stylesheet adds the unit, the line, the buttons' place
+ * and figures of one width. */
+
+/* Figures of one width, so a value that steps does not shift sideways. */
+.smbk-number-field__control,
+.smbk-number-field__unit {
+  font-variant-numeric: tabular-nums;
+}
+
+/* The unit, the line and the two buttons, 4 apart. */
+.smbk-number-field .smbk-input__trailing-action {
+  gap: var(--smbk-space-inline-xs);
+}
+
+/* The unit is quieter than the value and a step smaller beside the md value: Body SM. Figma keeps its color in
+   every state, disabled too. */
+.smbk-number-field__unit {
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+  white-space: nowrap;
+}
+
+.smbk-input--size-sm .smbk-number-field__unit {
+  font-family: var(--smbk-typography-field-sm-font-family);
+  font-size: var(--smbk-typography-field-sm-font-size);
+  font-weight: var(--smbk-typography-field-sm-font-weight);
+  line-height: var(--smbk-typography-field-sm-line-height);
+  letter-spacing: var(--smbk-typography-field-sm-letter-spacing);
+}
+
+/* A hairline between what is typed and the buttons, as tall as a medium icon at both sizes, as Figma draws it. */
+.smbk-number-field__separator {
+  flex-shrink: 0;
+  width: var(--smbk-border-width-hairline);
+  height: var(--smbk-size-icon-md);
+  background: var(--smbk-color-border-subtle);
+}
+
+/* The rule React Aria would write into the page itself (the wrapper keeps it from doing so, since a Site's
+   security policy refuses an inline style). A touch on a button starts the press at once, with no wait for a
+   double tap, while the page still scrolls and zooms under it; unlike the button's own touch-action: manipulation,
+   a scroll that starts on a button also cancels its press in Safari, so a held button never starts stepping while
+   the page scrolls. Two classes, so it wins over the button's own rule whichever stylesheet loads first. */
+.smbk-number-field__decrement.smbk-btn,
+.smbk-number-field__increment.smbk-btn {
+  touch-action: pan-x pan-y pinch-zoom;
+}
+
+/* Small: Figma puts 32 px buttons in the 32 px well, which would cover the well's edge. Each button here is
+   the 24 px square, with the 16 px icon Figma draws, and the margin gives back the rest of Figma's 32 px place,
+   so the icons sit where Figma draws them. Two classes on the icon, so it wins over the button's own small icon
+   whichever stylesheet loads first. */
+.smbk-number-field__decrement.smbk-btn--size-xs,
+.smbk-number-field__increment.smbk-btn--size-xs {
+  margin-inline: calc((var(--smbk-size-control-sm) - var(--smbk-size-control-xs)) / 2);
+}
+
+.smbk-number-field__decrement.smbk-btn--size-xs .smbk-btn__icon,
+.smbk-number-field__increment.smbk-btn--size-xs .smbk-btn__icon {
+  font-size: var(--smbk-size-icon-sm);
+}
+
+/* ---- touch: the two steps stop their press areas halfway to each other ----
+   Every button takes an invisible press area on a touch screen; the field's two steps stand closer than that, so
+   between them each area reaches only halfway into their gap, while both can be pressed. Nothing drawn moves. */
+
+@media (pointer: coarse) {
+  .smbk-input__trailing-action:has(> .smbk-number-field__increment:not(:disabled)) > .smbk-btn.smbk-number-field__decrement::after {
+    inset-inline-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-xs) / -2);
+  }
+
+  .smbk-input__trailing-action:has(> .smbk-number-field__decrement:not(:disabled)) > .smbk-btn.smbk-number-field__increment::after {
+    inset-inline-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-xs) / -2);
+  }
+
+  .smbk-input__trailing-action:has(> .smbk-number-field__increment:not(:disabled)) > .smbk-number-field__decrement.smbk-btn--size-xs::after {
+    inset-inline-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), (var(--smbk-space-inline-xs) + var(--smbk-size-control-sm) - var(--smbk-size-control-xs)) / -2);
+  }
+
+  .smbk-input__trailing-action:has(> .smbk-number-field__decrement:not(:disabled)) > .smbk-number-field__increment.smbk-btn--size-xs::after {
+    inset-inline-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), (var(--smbk-space-inline-xs) + var(--smbk-size-control-sm) - var(--smbk-size-control-xs)) / -2);
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* The hairline is a fill, which forced colors drop; draw it in the text color the reader chose. */
+@media (forced-colors: active) {
+  .smbk-number-field__separator {
+    background: CanvasText;
+  }
+}

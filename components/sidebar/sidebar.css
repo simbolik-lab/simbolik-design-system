@@ -1,6 +1,6 @@
-/* smbk-sidebar — Sidebar. Figma "Sidebar" 4732:56128 (Display: Expanded, Collapsed; Logo,
- * Search, User Profile and Collapsable booleans) over "SidebarNavItem" 4240:29552. It replaces
- * Figma's older sidebar with a title and its collapse button at the top ("Sidebar" 4240:29921).
+/* smbk-sidebar — Sidebar. Figma "Sidebar" 4732:56128 (Style: Floating, Flat; Display: Expanded,
+ * Collapsed; Logo, Search, User Profile and Collapsible booleans) over "SidebarNavItem" 4240:29552
+ * (Size: md, sm). It replaces Figma's older sidebar with a title and its collapse button at the top.
  *
  * The block is the room the sidebar keeps beside the page; the panel inside it is the raised
  * surface: the logo, search, labeled groups of navigation items with children, the user, and
@@ -42,14 +42,33 @@
   flex-direction: column;
   width: var(--smbk-size-sidebar-width);
   height: 100%;
-  outline: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  outline: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim);
   outline-offset: calc(-1 * var(--smbk-border-width-hairline));
-  border-radius: var(--smbk-radius-control-lg);
+  border-radius: var(--smbk-radius-container-sm);
   background: var(--smbk-color-surface-default);
   color: var(--smbk-color-text-default);
-  box-shadow: var(--smbk-elevation-1);
+  box-shadow: var(--smbk-elevation-raised);
   interpolate-size: allow-keywords;
   transition: box-shadow var(--smbk-motion-state-duration) var(--smbk-motion-state-easing);
+}
+
+/* Flat: square and on the page's own surface, with no shadow and no rim, a hairline along its end
+   edge only. The hairline is drawn inside the panel, as Figma draws it, so the column keeps its width. */
+.smbk-sidebar--look-flat > .smbk-sidebar__panel {
+  position: relative;
+  outline: none;
+  border-radius: 0;
+  background: var(--smbk-color-surface-canvas);
+  box-shadow: none;
+}
+
+.smbk-sidebar--look-flat > .smbk-sidebar__panel::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  border-inline-end: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  pointer-events: none;
 }
 
 /* Only the list gives way when the panel is short; every cell keeps its height. */
@@ -68,7 +87,7 @@
 }
 
 .smbk-sidebar--display-auto.smbk-sidebar--open > .smbk-sidebar__panel {
-  box-shadow: var(--smbk-elevation-3);
+  box-shadow: var(--smbk-elevation-overlay);
 }
 
 /* Kept open from the open auto display, the room widens under the panel; meanwhile the panel stays
@@ -175,17 +194,17 @@
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
-  gap: var(--smbk-space-stack-xs);
+  gap: var(--smbk-space-text-label);
   min-width: 0;
 }
 
 .smbk-sidebar__user-name {
   overflow: hidden;
-  font-family: var(--smbk-typography-body-s-font-family);
-  font-size: var(--smbk-typography-body-s-font-size);
-  font-weight: var(--smbk-typography-body-s-font-weight);
-  line-height: var(--smbk-typography-body-s-line-height);
-  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -193,11 +212,11 @@
 .smbk-sidebar__user-detail {
   overflow: hidden;
   color: var(--smbk-color-text-subtle);
-  font-family: var(--smbk-typography-body-t-font-family);
-  font-size: var(--smbk-typography-body-t-font-size);
-  font-weight: var(--smbk-typography-body-t-font-weight);
-  line-height: var(--smbk-typography-body-t-line-height);
-  letter-spacing: var(--smbk-typography-body-t-letter-spacing);
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -254,19 +273,15 @@
   padding: var(--smbk-space-inset-md) var(--smbk-space-inset-md) 0;
   overflow: clip;
   color: var(--smbk-color-text-subtle);
-  font-family: var(--smbk-typography-label-s-font-family);
-  font-size: var(--smbk-typography-label-s-font-size);
-  font-weight: var(--smbk-typography-label-s-font-weight);
-  line-height: var(--smbk-typography-label-s-line-height);
-  letter-spacing: var(--smbk-typography-label-s-letter-spacing);
-  text-transform: var(--smbk-typography-label-s-text-transform);
+  font-family: var(--smbk-typography-label-sm-font-family);
+  font-size: var(--smbk-typography-label-sm-font-size);
+  font-weight: var(--smbk-typography-label-sm-font-weight);
+  line-height: var(--smbk-typography-label-sm-line-height);
+  letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
+  text-transform: var(--smbk-typography-label-sm-text-transform);
   transition-property: block-size, padding-top, opacity, visibility;
   transition-duration: var(--smbk-motion-enter-duration);
   transition-timing-function: var(--smbk-motion-enter-easing);
-}
-
-.smbk-sidebar__group-title {
-  text-box: trim-both cap alphabetic;
 }
 
 /* The two-line rule under a group label: the divider's edges, drawn on the label itself. */
@@ -274,8 +289,8 @@
   content: "";
   display: block;
   height: 0;
-  border-top: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-top);
-  border-bottom: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-bottom);
+  border-top: var(--smbk-border-width-hairline) solid var(--smbk-color-border-groove-top);
+  border-bottom: var(--smbk-border-width-hairline) solid var(--smbk-color-border-groove-bottom);
 }
 
 .smbk-sidebar__list {
@@ -288,13 +303,14 @@
 }
 
 /* ---- items ----
-   Figma's item: a parent is a medium control tall, a child a small control tall. A
-   parent's icon sits in a square as big as the row is tall, centered, and the label starts where
-   the square ends, as in the column, where the item is that square alone; so the icon never moves
-   between the two. Here the square is the padding before the icon and the gap after it, each what
-   is left of the square around the icon. Figma draws the edge inside, so the padding gives the
-   edge's width back. The room above and below is the label's, so a label that wraps grows the row
-   and keeps a medium inset over and under its lines. */
+   Figma's item at the medium size, the default: a parent is a medium control tall with Body MD and
+   a medium icon; a child is the small item, a small control tall with Body SM, as Figma's sidebar
+   draws its children. A parent's icon sits in a square as big as the row is tall, centered, and the
+   label starts where the square ends, as in the column, where the item is that square alone; so the
+   icon never moves between the two. Here the square is the padding before the icon and the gap
+   after it, each what is left of the square around the icon. Figma draws the edge inside, so the
+   padding gives the edge's width back. The room above and below is the label's, what is left of the
+   row around one line, so a label that wraps grows the row and keeps that room over and under it. */
 
 .smbk-sidebar__item {
   box-sizing: border-box;
@@ -308,12 +324,11 @@
   border-radius: var(--smbk-radius-control-sm);
   background: transparent;
   color: var(--smbk-color-text-subtle);
-  font-family: var(--smbk-typography-body-m-font-family);
-  font-size: var(--smbk-typography-body-m-font-size);
-  font-weight: var(--smbk-typography-body-m-font-weight);
-  line-height: var(--smbk-typography-body-m-line-height);
-  letter-spacing: var(--smbk-typography-body-m-letter-spacing);
-  text-box: trim-both cap alphabetic;
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
   text-align: left;
   text-decoration: none;
   cursor: pointer;
@@ -326,24 +341,29 @@
   display: none;
 }
 
+/* The current item, an open group's parent, and the parent of a group holding the current page,
+   closed too: the see-through selected fill, which shows on whatever surface the panel is (raised,
+   flat on the page, or sunken), and the label one weight bolder, so the mark is not a fill alone. */
 .smbk-sidebar__item[aria-current="page"],
 .smbk-sidebar__group[open] > .smbk-sidebar__item,
+.smbk-sidebar__group:has([aria-current="page"]) > .smbk-sidebar__item,
 .smbk-sidebar__group--flyout > .smbk-sidebar__item[data-current="true"],
 .smbk-sidebar__group--flyout > .smbk-sidebar__item[aria-expanded="true"] {
-  background: var(--smbk-color-surface-sunken);
+  background: var(--smbk-color-surface-selected);
   color: var(--smbk-color-text-default);
+  font-weight: var(--smbk-typography-body-md-medium-font-weight);
 }
 
-/* Pointing at an item raises it, Figma's Hover, and wins over the sunken current and open states
-   above, which Figma draws only at rest; so a collapsed item whose flyout opens as the pointer
-   arrives shows the hover while pointed at, and sinks once the pointer moves into its flyout.
-   A child only sinks (below). */
+/* Pointing at an item raises it, Figma's Hover, a parent and a child alike, and wins over the
+   selected current and open states above, which Figma draws only at rest; so a collapsed item whose
+   flyout opens as the pointer arrives shows the hover while pointed at, and takes the selected fill
+   once the pointer moves into its flyout. */
 @media (hover: hover) {
-  .smbk-sidebar__item:not(.smbk-sidebar__item--child):hover {
-    border-color: var(--smbk-color-border-edge-highlight);
+  .smbk-sidebar__item:not([aria-disabled="true"]):hover:where(:not([data-glide] *)) {
+    border-color: var(--smbk-color-border-rim);
     background: var(--smbk-color-surface-raised);
     color: var(--smbk-color-text-link-hover);
-    box-shadow: var(--smbk-elevation-0);
+    box-shadow: var(--smbk-elevation-control);
   }
 }
 
@@ -375,9 +395,29 @@
 .smbk-sidebar__item-label {
   flex: 1 1 auto;
   min-width: 0;
-  margin-block: calc(var(--smbk-space-inset-md) - var(--smbk-border-width-hairline));
+  margin-block: calc((var(--smbk-size-control-md) - 1lh) / 2 - var(--smbk-border-width-hairline));
   overflow-wrap: break-word;
-  text-box: trim-both cap alphabetic;
+}
+
+/* The label is always as wide as its bolder self: an invisible copy of its words (`data-label`, which the wrapper
+   writes) at the current item's weight lies under it with no height, so a label that turns bold never pushes
+   anything beside it. The copy is generated content, hidden, with empty words for assistive technology, so the
+   label is read once; it wraps as the label does. */
+.smbk-sidebar__item-label[data-label]::after {
+  content: attr(data-label);
+  content: attr(data-label) / "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-weight: var(--smbk-typography-body-md-medium-font-weight);
+  pointer-events: none;
+  user-select: none;
+}
+
+.smbk-sidebar__item--child .smbk-sidebar__item-label[data-label]::after,
+.smbk-sidebar--size-sm .smbk-sidebar__item-label[data-label]::after {
+  font-weight: var(--smbk-typography-body-sm-medium-font-weight);
 }
 
 .smbk-sidebar__item-caret {
@@ -392,7 +432,7 @@
 .smbk-sidebar__children {
   display: flex;
   flex-direction: column;
-  gap: var(--smbk-space-stack-sm);
+  gap: 0;
   margin: var(--smbk-space-stack-sm) 0 0;
   padding: 0;
   list-style: none;
@@ -400,18 +440,104 @@
 }
 
 /* A child's label starts under its parent's, where the parent's icon square ends. One line is the
-   small control's height, a step shorter than its parent's, as Figma draws it, and a label that
-   wraps grows it line by line. */
+   small control's height, a step shorter than its parent's, in Body SM, as Figma draws it; children
+   touch, and a label that wraps grows its row line by line. */
 .smbk-sidebar__item--child {
   min-height: var(--smbk-size-control-sm);
   padding-left: calc(var(--smbk-size-control-md) - var(--smbk-border-width-hairline));
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
 }
 
-@media (hover: hover) {
-  .smbk-sidebar__item--child:hover {
-    background: var(--smbk-color-surface-sunken);
-    color: var(--smbk-color-text-link-hover);
-  }
+.smbk-sidebar__item--child .smbk-sidebar__item-label {
+  margin-block: calc((var(--smbk-size-control-sm) - 1lh) / 2 - var(--smbk-border-width-hairline));
+}
+
+.smbk-sidebar__item--child[aria-current="page"] {
+  font-weight: var(--smbk-typography-body-sm-medium-font-weight);
+}
+
+/* ---- counts and dots: a count (the small badge) and a dot (the status dot) at the end of the row,
+   before a parent's caret. They are pictures only: their words are a line only a screen reader
+   hears (the said part), so the name reads "Issues, 18, changed". ---- */
+
+.smbk-sidebar__item-marks {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+  margin-inline-start: var(--smbk-space-inline-md);
+}
+
+/* .smbk-sidebar__item-said: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
+/* ---- the tree line: a hairline in the subtle border color down a parent's children, under the
+   parent's icon, turning toward each child's label at the middle of its first line with a small
+   rounded corner. It runs on past every child but the last, which ends the line (Figma's Connector,
+   Continuing and End, read from the list itself). It goes with the children when the panel folds. ---- */
+
+.smbk-sidebar__item--child {
+  position: relative;
+}
+
+.smbk-sidebar__item--child::before,
+.smbk-sidebar__children > li:not(:last-child) > .smbk-sidebar__item--child::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: calc(var(--smbk-space-inset-xl) - var(--smbk-border-width-hairline));
+  top: calc(-1 * var(--smbk-border-width-hairline));
+  border-inline-start: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  pointer-events: none;
+}
+
+.smbk-sidebar__item--child::before {
+  width: var(--smbk-space-inset-lg);
+  height: calc(var(--smbk-size-control-sm) / 2);
+  border-block-end: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  border-end-start-radius: var(--smbk-radius-4);
+}
+
+.smbk-sidebar__children > li:not(:last-child) > .smbk-sidebar__item--child::after {
+  bottom: calc(-1 * var(--smbk-border-width-hairline));
+}
+
+/* ---- the small size: every row a small control tall, in Body SM with a small icon. Figma draws the
+   small item but no small sidebar, so the cells and the column keep their size, and the column's
+   item is a small control square centered in it. The open row keeps its icon where the column has
+   it, centered in a medium square at the row's start, so the icon never moves as the panel folds;
+   the label follows the small square's room after it, and a child's label starts under it. ---- */
+
+.smbk-sidebar--size-sm .smbk-sidebar__item {
+  min-height: var(--smbk-size-control-sm);
+  padding-left: calc((var(--smbk-size-control-md) - var(--smbk-size-icon-sm)) / 2 - var(--smbk-border-width-hairline));
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+.smbk-sidebar--size-sm .smbk-sidebar__item-body {
+  gap: calc((var(--smbk-size-control-sm) - var(--smbk-size-icon-sm)) / 2);
+}
+
+.smbk-sidebar--size-sm .smbk-sidebar__item-icon {
+  font-size: var(--smbk-size-icon-sm);
+}
+
+.smbk-sidebar--size-sm .smbk-sidebar__item-label {
+  margin-block: calc((var(--smbk-size-control-sm) - 1lh) / 2 - var(--smbk-border-width-hairline));
+}
+
+.smbk-sidebar--size-sm .smbk-sidebar__item--child {
+  padding-left: calc((var(--smbk-size-control-md) + var(--smbk-size-control-sm)) / 2 - var(--smbk-border-width-hairline));
+}
+
+.smbk-sidebar--size-sm :is(.smbk-sidebar__item[aria-current="page"], .smbk-sidebar__group:is([open], :has([aria-current="page"])) > .smbk-sidebar__item, .smbk-sidebar__group--flyout > .smbk-sidebar__item:is([data-current="true"], [aria-expanded="true"])) {
+  font-weight: var(--smbk-typography-body-sm-medium-font-weight);
 }
 
 /* ---- the column: icons only ---- */
@@ -425,8 +551,37 @@
   justify-content: center;
 }
 
-.smbk-sidebar--collapsed :is(.smbk-sidebar__search-field, .smbk-sidebar__item-label, .smbk-sidebar__item-caret, .smbk-sidebar__user) {
+.smbk-sidebar--collapsed :is(.smbk-sidebar__search-field, .smbk-sidebar__item-label, .smbk-sidebar__item-caret, .smbk-sidebar__user, .smbk-sidebar__item-said, .smbk-sidebar__item-count) {
   display: none;
+}
+
+/* In the column the count gives way to the icon's name, and the dot sits on the icon's top end corner. */
+.smbk-sidebar--collapsed .smbk-sidebar__item:not(.smbk-sidebar__item--child) {
+  position: relative;
+}
+
+.smbk-sidebar--collapsed .smbk-sidebar__item:not(.smbk-sidebar__item--child) .smbk-sidebar__item-marks {
+  position: absolute;
+  inset-block-start: var(--smbk-space-inset-md);
+  inset-inline-end: var(--smbk-space-inset-md);
+  margin: 0;
+}
+
+.smbk-sidebar--size-sm.smbk-sidebar--collapsed .smbk-sidebar__item:not(.smbk-sidebar__item--child) .smbk-sidebar__item-marks {
+  inset-block-start: var(--smbk-space-inset-xs);
+  inset-inline-end: var(--smbk-space-inset-xs);
+}
+
+/* A flyout's opener holds its dot alone, the same way. */
+.smbk-sidebar__group--flyout > .smbk-sidebar__item > .smbk-sidebar__item-body > .smbk-sidebar__item-dot {
+  position: absolute;
+  inset-block-start: var(--smbk-space-inset-md);
+  inset-inline-end: var(--smbk-space-inset-md);
+}
+
+.smbk-sidebar--size-sm .smbk-sidebar__group--flyout > .smbk-sidebar__item > .smbk-sidebar__item-body > .smbk-sidebar__item-dot {
+  inset-block-start: var(--smbk-space-inset-xs);
+  inset-inline-end: var(--smbk-space-inset-xs);
 }
 
 .smbk-sidebar--collapsed .smbk-sidebar__search-button {
@@ -434,10 +589,18 @@
 }
 
 /* Every item is the icon's square alone, the icon centered, as Figma's collapsed item is; the
-   padding before the icon is the open row's, so the icon stays where it was. */
+   padding before the icon is the open row's, so the icon stays where it was. At the small size the
+   square is a small control, centered in the column, its icon where the open row has it. */
 .smbk-sidebar--collapsed .smbk-sidebar__item:not(.smbk-sidebar__item--child) {
   width: var(--smbk-size-control-md);
   height: var(--smbk-size-control-md);
+}
+
+.smbk-sidebar--size-sm.smbk-sidebar--collapsed .smbk-sidebar__item:not(.smbk-sidebar__item--child) {
+  width: var(--smbk-size-control-sm);
+  height: var(--smbk-size-control-sm);
+  margin-inline: auto;
+  padding-left: calc((var(--smbk-size-control-sm) - var(--smbk-size-icon-sm)) / 2 - var(--smbk-border-width-hairline));
 }
 
 .smbk-sidebar--collapsed .smbk-sidebar__item-body {
@@ -448,7 +611,7 @@
    an item with children is still its disclosure. The group holding the current page is marked,
    as a flyout's opener is when kept closed, and an open group that does not hold it is not. */
 .smbk-sidebar--collapsed .smbk-sidebar__group:has([aria-current="page"]) > .smbk-sidebar__item:not(:hover) {
-  background: var(--smbk-color-surface-sunken);
+  background: var(--smbk-color-surface-selected);
   color: var(--smbk-color-text-default);
 }
 
@@ -461,13 +624,74 @@
    on a tapped item too, rather than dropping to its resting look. */
 @media (hover: none) {
   .smbk-sidebar--collapsed .smbk-sidebar__group:has([aria-current="page"]) > .smbk-sidebar__item:hover {
-    background: var(--smbk-color-surface-sunken);
+    background: var(--smbk-color-surface-selected);
     color: var(--smbk-color-text-default);
   }
 
   .smbk-sidebar--collapsed .smbk-sidebar__group[open]:not(:has([aria-current="page"])) > .smbk-sidebar__item:hover {
     background: transparent;
     color: var(--smbk-color-text-subtle);
+  }
+}
+
+/* ---- the glide: with the wrapper, the raised hover is one part that slides to the item under the mouse
+   (glide.ts) instead of each item raising on its own: a parent and its children are one list, so the
+   pointer in the gap between rows, between groups or in the padding still raises the nearest item. The
+   wrapper adds it as the navigation's first child and marks the navigation data-glide ("lit" while it
+   shows) and the lit item data-glide-lit; the sections are lifted over it. The lit item draws no fill of
+   its own, so the raised part shows through even on the current item, and takes the hover's text color.
+   It fades in where it lands and out as the pointer leaves, slides and takes a child's or the column's
+   size with the feedback purpose, and lands at once when the panel folds; under reduced motion it lands
+   at once and only fades. A touch screen draws none. The column's flyout is the dropdown's panel and
+   glides as the dropdown does. ---- */
+
+:where(.smbk-sidebar__nav[data-glide]) {
+  position: relative;
+}
+
+:where(.smbk-sidebar__nav[data-glide] > :not(.smbk-sidebar__glide)) {
+  position: relative;
+}
+
+.smbk-sidebar__glide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim);
+  border-radius: var(--smbk-radius-control-sm);
+  background: var(--smbk-color-surface-raised);
+  box-shadow: var(--smbk-elevation-control);
+  opacity: 0;
+  pointer-events: none;
+  transition-property: translate, width, height, opacity;
+  transition-duration: var(--smbk-motion-feedback-duration);
+  transition-timing-function: var(--smbk-motion-feedback-easing);
+}
+
+.smbk-sidebar__nav[data-glide="lit"] > .smbk-sidebar__glide {
+  opacity: 1;
+}
+
+.smbk-sidebar__glide[data-instant] {
+  transition-property: opacity;
+}
+
+.smbk-sidebar .smbk-sidebar__nav[data-glide] .smbk-sidebar__item[data-glide-lit]:not([aria-disabled="true"]),
+.smbk-sidebar__nav[data-glide] .smbk-sidebar__item[data-glide-lit]:not([aria-disabled="true"]) {
+  background: transparent;
+  color: var(--smbk-color-text-link-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-sidebar__glide {
+    transition-property: opacity;
+  }
+}
+
+@media (hover: none) {
+  .smbk-sidebar__glide {
+    display: none;
   }
 }
 
@@ -568,6 +792,11 @@
   width: 100%;
 }
 
+.smbk-sidebar--size-sm.smbk-sidebar--collapsed > .smbk-sidebar__panel[data-folding="closing"] .smbk-sidebar__item {
+  margin-inline: 0;
+  padding-left: calc((var(--smbk-size-control-md) - var(--smbk-size-icon-sm)) / 2 - var(--smbk-border-width-hairline));
+}
+
 .smbk-sidebar--collapsed > .smbk-sidebar__panel[data-folding="closing"] .smbk-sidebar__item-body {
   flex: 1 1 auto;
 }
@@ -621,8 +850,64 @@
   list-style: none;
 }
 
-.smbk-sidebar__flyout .smbk-dropdown__item[aria-current="page"] {
-  background: var(--smbk-color-surface-sunken);
+/* A flyout's link to the current page: the selected surface and its words a weight bolder, drawn by the dropdown's own
+   rule for a current link (dropdown/dropdown.css). */
+
+/* ---- touch: the logo's link and every row take an invisible press area ----
+   On a touch screen an invisible area, centred on the logo's link and on each row, takes the press out to the
+   comfortable target in each direction it falls short of it. A parent's children touch: between two of them each
+   keeps its own edge, and the first and the last reach only halfway to the parent and the next row. A child draws
+   its tree line with both of its own pseudo-elements, so its area hangs from its label, over the whole row. The
+   panel cuts the areas off at its edge. What is drawn and every place stay as they are. */
+
+@media (pointer: coarse) {
+  .smbk-sidebar__brand,
+  .smbk-sidebar__item {
+    position: relative;
+  }
+
+  .smbk-sidebar__brand::after,
+  .smbk-sidebar__item:not(.smbk-sidebar__item--child)::after,
+  .smbk-sidebar__item--child > .smbk-sidebar__item-label::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  /* Rows one under another in a list, and a parent over its open children, reach only halfway into the gap. */
+  .smbk-sidebar__list > li + li > .smbk-sidebar__item::after,
+  .smbk-sidebar__list > li + li > .smbk-sidebar__group > .smbk-sidebar__item::after {
+    inset-block-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-sm) / -2);
+  }
+
+  .smbk-sidebar__list > li:has(+ li) > .smbk-sidebar__item::after,
+  .smbk-sidebar__list > li:has(+ li) > .smbk-sidebar__group > .smbk-sidebar__item::after,
+  .smbk-sidebar__group[open] > .smbk-sidebar__item::after {
+    inset-block-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-sm) / -2);
+  }
+
+  /* Two sections with no label showing between them (none given, or folded in the column): the last row of one and
+     the first of the next stop halfway into the gap. */
+  :is(.smbk-sidebar--collapsed .smbk-sidebar__section, .smbk-sidebar__section) + :is(.smbk-sidebar--collapsed .smbk-sidebar__section, .smbk-sidebar__section:not(:has(> .smbk-sidebar__group-label))) > .smbk-sidebar__list > li:first-child > :is(.smbk-sidebar__item, .smbk-sidebar__group > .smbk-sidebar__item)::after {
+    inset-block-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-sm) / -2);
+  }
+
+  .smbk-sidebar--collapsed .smbk-sidebar__section:has(+ .smbk-sidebar__section) > .smbk-sidebar__list > li:last-child > :is(.smbk-sidebar__item, .smbk-sidebar__group > .smbk-sidebar__item)::after,
+  .smbk-sidebar__section:has(+ .smbk-sidebar__section:not(:has(> .smbk-sidebar__group-label))) > .smbk-sidebar__list > li:last-child > :is(.smbk-sidebar__item, .smbk-sidebar__group > .smbk-sidebar__item)::after {
+    inset-block-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-sm) / -2);
+  }
+
+  .smbk-sidebar__item--child > .smbk-sidebar__item-label::after {
+    inset-block: 0;
+  }
+
+  .smbk-sidebar__children > li:first-child > .smbk-sidebar__item--child > .smbk-sidebar__item-label::after {
+    inset-block-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-sm) / -2);
+  }
+
+  .smbk-sidebar__children > li:last-child > .smbk-sidebar__item--child > .smbk-sidebar__item-label::after {
+    inset-block-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-sm) / -2);
+  }
 }
 
 /* ---- high contrast (forced colors) ---- */
@@ -630,9 +915,11 @@
    user's own colors. Nothing here applies outside that mode. */
 
 @media (forced-colors: active) {
-  /* The current page, and in the column of icons the item whose group holds it (and a flyout's
-     opener that holds it), filled with Highlight, whether pointed at or not. */
+  /* The current page, and the item whose group holds it while its children are out of sight (closed,
+     or folded into the column of icons), and a flyout's opener that holds it, filled with Highlight,
+     whether pointed at or not. */
   .smbk-sidebar .smbk-sidebar__item[aria-current="page"],
+  .smbk-sidebar .smbk-sidebar__group:not([open]):has([aria-current="page"]) > .smbk-sidebar__item,
   .smbk-sidebar.smbk-sidebar--collapsed .smbk-sidebar__group:has([aria-current="page"]) > .smbk-sidebar__item,
   .smbk-sidebar .smbk-sidebar__group--flyout > .smbk-sidebar__item[data-current="true"],
   .smbk-sidebar__flyout .smbk-dropdown__item[aria-current="page"] {

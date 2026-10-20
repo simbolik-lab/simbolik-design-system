@@ -1,0 +1,179 @@
+/* smbk-timeline — Timeline. Figma "Timeline" 7607:118483 and "Timeline item" 7580:1607.
+ * Events one under another. Each has a rail, a 16 marker with a dot for its kind and a line down to the next
+ * event, beside its body: what happened and when on one line, who or what did it under that, and an optional
+ * detail in code type on a sunken box. The last event has no line below it. The dot's kind is also said in
+ * words, for screen readers; the words a reader sees say it too. */
+
+.smbk-timeline {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The block frames the words it hides for screen readers, so they stay inside it wherever it is placed: without a
+   frame they hang from the page itself and stretch it, past the end of an area that scrolls. No weight, so a parent
+   that places the block keeps its say. */
+:where(.smbk-timeline) {
+  position: relative;
+}
+
+.smbk-timeline__item {
+  /* The plain kind (default); each feedback kind sets these again below (the tone recipe). */
+  --smbk-tone-surface: var(--smbk-color-surface-sunken);
+  --smbk-tone-icon: var(--smbk-color-border-strong);
+  display: flex;
+  gap: var(--smbk-space-inline-md);
+  min-width: 0;
+}
+
+/* In forced colors the neutral dot takes the palette's text color (the high contrast block at the end); a feedback
+   kind's dot keeps its own color, set below. */
+@media (forced-colors: active) {
+  .smbk-timeline__item {
+    --smbk-tone-icon: CanvasText;
+  }
+}
+
+.smbk-timeline__rail {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--smbk-space-4);
+  width: var(--smbk-size-mark-sm);
+  padding-top: var(--smbk-space-2);
+}
+
+.smbk-timeline__marker {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--smbk-size-mark-sm);
+  height: var(--smbk-size-mark-sm);
+  border-radius: var(--smbk-radius-full);
+  background: var(--smbk-tone-surface);
+}
+
+.smbk-timeline__dot {
+  width: var(--smbk-size-8);
+  height: var(--smbk-size-8);
+  border-radius: var(--smbk-radius-full);
+  background: var(--smbk-tone-icon);
+}
+
+.smbk-timeline__line {
+  flex: 1 1 auto;
+  width: var(--smbk-border-width-emphasis);
+  background: var(--smbk-color-border-subtle);
+}
+
+.smbk-timeline__body {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: var(--smbk-space-2);
+  min-width: 0;
+  padding-bottom: var(--smbk-space-stack-lg);
+}
+
+/* The last event: no line below it, and no room kept for the next. */
+.smbk-timeline__item:last-child .smbk-timeline__line {
+  display: none;
+}
+
+.smbk-timeline__item:last-child .smbk-timeline__body {
+  padding-bottom: 0;
+}
+
+.smbk-timeline__top {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--smbk-space-inline-md);
+  min-width: 0;
+}
+
+.smbk-timeline__title {
+  flex: 1 1 0;
+  min-width: 0;
+  margin: 0;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-body-sm-medium-font-family);
+  font-size: var(--smbk-typography-body-sm-medium-font-size);
+  font-weight: var(--smbk-typography-body-sm-medium-font-weight);
+  line-height: var(--smbk-typography-body-sm-medium-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-medium-letter-spacing);
+  text-transform: var(--smbk-typography-body-sm-medium-text-transform);
+  overflow-wrap: anywhere;
+}
+
+.smbk-timeline__time,
+.smbk-timeline__meta {
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
+  text-transform: var(--smbk-typography-body-xs-text-transform);
+}
+
+.smbk-timeline__time {
+  flex: none;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.smbk-timeline__meta {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.smbk-timeline__detail {
+  margin: 0;
+  padding: var(--smbk-space-inset-xs) var(--smbk-space-inset-sm);
+  border-radius: var(--smbk-radius-control-sm);
+  background: var(--smbk-color-surface-sunken);
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-code-sm-font-family);
+  font-size: var(--smbk-typography-code-sm-font-size);
+  font-weight: var(--smbk-typography-code-sm-font-weight);
+  line-height: var(--smbk-typography-code-sm-line-height);
+  letter-spacing: var(--smbk-typography-code-sm-letter-spacing);
+  text-transform: var(--smbk-typography-code-sm-text-transform);
+  overflow-wrap: anywhere;
+}
+
+/* Words for screen readers only: the kind of event the dot shows. */
+/* .smbk-timeline__hidden: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
+/* ---- tone: the tone recipe, the marker in the kind's soft surface, the dot in its icon color ---- */
+
+.smbk-timeline__item--tone-info { --smbk-tone-surface: var(--smbk-color-feedback-info-surface-subtle); --smbk-tone-icon: var(--smbk-color-feedback-info-icon); }
+.smbk-timeline__item--tone-success { --smbk-tone-surface: var(--smbk-color-feedback-success-surface-subtle); --smbk-tone-icon: var(--smbk-color-feedback-success-icon); }
+.smbk-timeline__item--tone-warning { --smbk-tone-surface: var(--smbk-color-feedback-warning-surface-subtle); --smbk-tone-icon: var(--smbk-color-feedback-warning-icon); }
+.smbk-timeline__item--tone-danger { --smbk-tone-surface: var(--smbk-color-feedback-danger-surface-subtle); --smbk-tone-icon: var(--smbk-color-feedback-danger-icon); }
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills, so the dot and the line would vanish. The line and the
+   neutral dot take the palette's text color (the dot's is set beside the item rule, so a feedback kind's dot keeps
+   its own color). Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  .smbk-timeline__dot {
+    forced-color-adjust: none;
+  }
+
+  .smbk-timeline__line {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
+
+  .smbk-timeline__detail {
+    outline: var(--smbk-border-width-hairline) solid CanvasText;
+    outline-offset: calc(-1 * var(--smbk-border-width-hairline));
+  }
+}

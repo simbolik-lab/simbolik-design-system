@@ -1,0 +1,194 @@
+/* smbk-file-upload — File upload. Figma "File upload" 7110:345 (Type: Drop zone, Button only × State: Default,
+ * Drag-over, Focus, Disabled, Error).
+ * A native file input, unseen but in the tab order, inside a label drawn as the secondary button, so the browser's
+ * own picker always opens: from a press on the button, or Enter or Space on the focused input. The drop zone is a
+ * dashed area round an upload icon, a title over the line that says what is accepted, the button and, in error,
+ * the field message; dropping files on it is an extra. Button only is the button over the same line, for narrow
+ * places. Focus is the input's, drawn as the focus ring round the zone (round the button alone in the button-only
+ * form); disabled is the input's attribute; error and dragging are flags. While files are held over it the zone
+ * keeps its height and swaps its body for the drop layer: the upload icon and "Drop to add" over the same line,
+ * centred, on the sunken surface inside the brand edge. The chosen files are file rows in a list under it.
+ * The edge is drawn inside, so the paddings give its width back, at the hairline and at the emphasis width. */
+
+.smbk-file-upload {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+  min-width: 0;
+}
+
+/* The block frames the words it hides for screen readers, so they stay inside it wherever it is placed: without a
+   frame they hang from the page itself and stretch it, past the end of an area that scrolls. No weight, so a parent
+   that places the block keeps its say. */
+:where(.smbk-file-upload) {
+  position: relative;
+}
+
+/* ---- the drop zone ---- */
+
+.smbk-file-upload__zone {
+  box-sizing: border-box;
+  display: grid;
+  min-width: 0;
+  padding: calc(var(--smbk-space-inset-2xl) - var(--smbk-border-width-hairline));
+  border: var(--smbk-border-width-hairline) dashed var(--smbk-color-border-strong);
+  border-radius: var(--smbk-radius-container-md);
+  background: var(--smbk-color-surface-default);
+  text-align: center;
+}
+
+/* The body and the drop layer share one cell, so the zone is as tall as its body whichever shows. */
+.smbk-file-upload__body,
+.smbk-file-upload__drop {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--smbk-space-stack-lg);
+  min-width: 0;
+}
+
+.smbk-file-upload__drop {
+  justify-content: center;
+  visibility: hidden;
+}
+
+.smbk-file-upload__icon {
+  font-size: var(--smbk-size-icon-lg);
+  color: var(--smbk-color-icon-subtle);
+}
+
+.smbk-file-upload__text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--smbk-space-stack-xs);
+  min-width: 0;
+}
+
+.smbk-file-upload__title {
+  margin: 0;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-body-md-medium-font-family);
+  font-size: var(--smbk-typography-body-md-medium-font-size);
+  font-weight: var(--smbk-typography-body-md-medium-font-weight);
+  line-height: var(--smbk-typography-body-md-medium-line-height);
+  letter-spacing: var(--smbk-typography-body-md-medium-letter-spacing);
+}
+
+/* What is accepted: the types, the largest size, how many. */
+.smbk-file-upload__constraints {
+  margin: 0;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
+}
+
+/* The button is a label round the input, carrying the button's classes, so its looks are the button's. */
+.smbk-file-upload__button {
+  position: relative;
+  max-width: 100%;
+}
+
+/* The input stays in the page and the tab order, unseen; the button and the zone draw its focus. */
+/* .smbk-file-upload__input: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+.smbk-file-upload__input {
+  clip-path: inset(50%);
+}
+
+/* The field message across the zone's width, its words from the start edge, as Figma draws it. */
+.smbk-file-upload__message {
+  align-self: stretch;
+  text-align: start;
+}
+
+/* Focus: the ring goes round the zone, not the button inside it. */
+.smbk-file-upload--type-drop-zone .smbk-file-upload__zone:has(.smbk-file-upload__input:focus-visible) {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+.smbk-file-upload--type-drop-zone .smbk-file-upload__button:has(> .smbk-file-upload__input:focus-visible) {
+  outline: none;
+}
+
+/* Error: the danger edge at the emphasis width. */
+.smbk-file-upload--error .smbk-file-upload__zone {
+  padding: calc(var(--smbk-space-inset-2xl) - var(--smbk-border-width-emphasis));
+  border-width: var(--smbk-border-width-emphasis);
+  border-color: var(--smbk-color-feedback-danger-border);
+}
+
+/* Dragging: the brand edge at the emphasis width and the sunken surface, the drop layer in the body's place.
+   The button-only form takes no drop, so it has no dragging look. */
+.smbk-file-upload--dragging:not(.smbk-file-upload--type-button-only) .smbk-file-upload__zone {
+  padding: calc(var(--smbk-space-inset-2xl) - var(--smbk-border-width-emphasis));
+  border-width: var(--smbk-border-width-emphasis);
+  border-color: var(--smbk-color-border-brand);
+  background: var(--smbk-color-surface-sunken);
+}
+
+.smbk-file-upload--dragging:not(.smbk-file-upload--type-button-only) .smbk-file-upload__body {
+  visibility: hidden;
+}
+
+.smbk-file-upload--dragging:not(.smbk-file-upload--type-button-only) .smbk-file-upload__drop {
+  visibility: visible;
+}
+
+/* Disabled: the icon and the words take the disabled colors; the button takes its own disabled look. */
+.smbk-file-upload:has(.smbk-file-upload__input:disabled) .smbk-file-upload__icon {
+  color: var(--smbk-color-icon-disabled);
+}
+
+.smbk-file-upload:has(.smbk-file-upload__input:disabled) :is(.smbk-file-upload__title, .smbk-file-upload__constraints) {
+  color: var(--smbk-color-text-disabled);
+}
+
+/* ---- button only: the button over the line, stacked from the start edge, with no zone drawn ---- */
+
+.smbk-file-upload--type-button-only .smbk-file-upload__zone {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  text-align: start;
+}
+
+.smbk-file-upload--type-button-only .smbk-file-upload__body {
+  align-items: flex-start;
+  gap: var(--smbk-space-inline-md);
+}
+
+/* ---- the chosen files ---- */
+
+.smbk-file-upload__files {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.smbk-file-upload__file {
+  min-width: 0;
+}
+
+/* What changed, for a screen reader: in the page, not drawn. */
+/* .smbk-file-upload__announcement: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+.smbk-file-upload__announcement {
+  clip-path: inset(50%);
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* The dragging zone's sunken surface is dropped in Windows high-contrast mode, so its edge says it: Highlight. */
+
+@media (forced-colors: active) {
+  .smbk-file-upload--dragging:not(.smbk-file-upload--type-button-only) .smbk-file-upload__zone {
+    border-color: Highlight;
+  }
+}

@@ -1,0 +1,173 @@
+/* smbk-curve-editor — Curve editor. Figma "Curve editor" 7416:192 (Type: Ease, Overshoot; Numbers switch) and its
+ * "CurveHandle" 7416:121 (State: Default, Hover, Pressed, Focus).
+ * A motion curve, time across and movement up: a square plot on the sunken surface inside a subtle edge holds the unit
+ * square (a subtle line), the straight line from start to end (dashed, subtle), the two arms from the ends to the handles
+ * (strong hairlines), the curve itself (two pixels in the brand action color) and, when the curve passes its end or its
+ * start, a dashed strong line at how far it goes. Under it, four small number boxes give the same four numbers to type.
+ * The drawing is an inline SVG whose shapes the wrapper places from the numbers; the lines' colors and widths are here.
+ * The unit square sits as Figma places it, with room above it and less below, so a springy curve shows.
+ * Each handle is a 12 px dot on the default surface with a two pixel brand ring and the control shadow, inside a 24 px
+ * target. Hover lays the hover surface in it; pressed (data-pressed, while dragged) fills it with the brand color; when
+ * one of its two hidden range inputs has keyboard focus it draws the focus ring outside a gap of the default surface. */
+
+.smbk-curve-editor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+  width: 100%;
+  max-width: var(--smbk-size-width-240);
+  min-width: 0;
+}
+
+.smbk-curve-editor__plot {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  aspect-ratio: 1;
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  border-radius: var(--smbk-radius-control-md);
+  background: var(--smbk-color-surface-sunken);
+  touch-action: none;
+}
+
+.smbk-curve-editor__drawing {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.smbk-curve-editor__square,
+.smbk-curve-editor__line,
+.smbk-curve-editor__arm,
+.smbk-curve-editor__limit,
+.smbk-curve-editor__curve {
+  fill: none;
+  stroke-width: var(--smbk-border-width-hairline);
+  vector-effect: non-scaling-stroke;
+}
+
+.smbk-curve-editor__square,
+.smbk-curve-editor__line {
+  stroke: var(--smbk-color-border-subtle);
+}
+
+.smbk-curve-editor__arm,
+.smbk-curve-editor__limit {
+  stroke: var(--smbk-color-border-strong);
+}
+
+.smbk-curve-editor__line,
+.smbk-curve-editor__limit {
+  stroke-dasharray: var(--smbk-size-4) var(--smbk-size-4);
+}
+
+.smbk-curve-editor__curve {
+  stroke: var(--smbk-color-action-brand-background);
+  stroke-width: var(--smbk-border-width-2);
+  stroke-linecap: round;
+}
+
+/* ---- the handle (Figma's CurveHandle) ---- */
+
+.smbk-curve-editor__handle {
+  position: absolute;
+  box-sizing: border-box;
+  width: var(--smbk-size-12);
+  height: var(--smbk-size-12);
+  border: var(--smbk-border-width-2) solid var(--smbk-color-action-brand-background);
+  border-radius: var(--smbk-radius-full);
+  background: var(--smbk-color-surface-default);
+  box-shadow: var(--smbk-elevation-control);
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  touch-action: none;
+}
+
+/* A 24 px target round the 12 px dot, so a finger or a pointer finds it. */
+.smbk-curve-editor__handle::before {
+  content: '';
+  position: absolute;
+  inset: calc((var(--smbk-size-12) - var(--smbk-size-24)) / 2 - var(--smbk-border-width-2));
+  border-radius: var(--smbk-radius-full);
+}
+
+@media (hover: hover) {
+  .smbk-curve-editor__handle:hover {
+    background: var(--smbk-color-surface-hover);
+  }
+}
+
+.smbk-curve-editor__handle[data-pressed] {
+  background: var(--smbk-color-action-brand-background);
+  cursor: grabbing;
+}
+
+/* Figma's focus style: the default surface in a gap, then the focus ring. The transparent outline is what forced
+   colors mode paints, since it drops shadows. */
+.smbk-curve-editor__handle:has(:focus-visible) {
+  outline: var(--smbk-focus-ring-width) solid transparent;
+  outline-offset: var(--smbk-focus-ring-offset);
+  box-shadow:
+    0 0 0 var(--smbk-focus-ring-offset) var(--smbk-color-surface-default),
+    0 0 0 calc(var(--smbk-focus-ring-offset) + var(--smbk-focus-ring-width)) var(--smbk-color-border-focus);
+}
+
+/* The two hidden range inputs cover the dot, unseen; the handle takes the pointer. */
+.smbk-curve-editor__handle input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---- the four numbers ---- */
+
+.smbk-curve-editor__numbers {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--smbk-space-inline-sm);
+}
+
+/* ---- touch: a press anywhere inside a box lands on it ----
+   On a touch screen each number box's text control reaches over the small well's padding at both ends, so the
+   whole box takes the press, not only the figures; the four boxes stand apart by the row's gap. The figures stay
+   where they are drawn. */
+@media (pointer: coarse) {
+  .smbk-curve-editor__numbers .smbk-input__control {
+    margin-inline: calc(-1 * var(--smbk-space-inset-md));
+    padding-inline: var(--smbk-space-inset-md);
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+@media (forced-colors: active) {
+  .smbk-curve-editor__square,
+  .smbk-curve-editor__line,
+  .smbk-curve-editor__arm,
+  .smbk-curve-editor__limit {
+    stroke: GrayText;
+  }
+
+  .smbk-curve-editor__curve {
+    stroke: CanvasText;
+  }
+
+  .smbk-curve-editor__handle {
+    border-color: CanvasText;
+    background: Canvas;
+  }
+
+  .smbk-curve-editor__handle[data-pressed] {
+    background: Highlight;
+  }
+
+  .smbk-curve-editor__handle:has(:focus-visible) {
+    outline-color: Highlight;
+  }
+}

@@ -4,7 +4,7 @@
  * incompatible type. This is independent of Style Dictionary on purpose,
  * so that the build can explain a failure in the token's own terms.
  */
-import { isPureReference, referenceTarget, referencesIn, isDurationValue, isCubicBezierShape, cubicBezierXInRange, type Token } from './dtcg.js';
+import { isPureReference, referenceTarget, referencesIn, isDurationValue, isCubicBezierShape, cubicBezierXInRange, colorProblem, type Token } from './dtcg.js';
 import type { LoadedToken } from './load.js';
 
 export interface Problem {
@@ -22,9 +22,15 @@ const COMPOSITE_FIELD_TYPES: Record<string, Record<string, string>> = {
  * What a literal of each type must look like, where the standard is exact about it
  * and the build has no other way to notice. Returns the problem, or null when the
  * value is fine. The two motion types are the ones authored by hand in this
- * repository, so they are the ones a slip can reach.
+ * repository, so they are the ones a slip can reach. A colour is the standard's
+ * colour object, never a text: an export made with another colour mode is
+ * refused here rather than written into the CSS.
  */
 const LITERAL_SHAPES: Record<string, (v: unknown) => string | null> = {
+  color: (v) => {
+    const problem = colorProblem(v);
+    return problem ? `is a colour but ${problem} (${JSON.stringify(v)})` : null;
+  },
   duration: (v) => (isDurationValue(v) ? null : `is a duration but its value is not a number of ms or s (${JSON.stringify(v)})`),
   cubicBezier: (v) => {
     if (!isCubicBezierShape(v)) return `is a cubic Bézier curve but its value is not four numbers (${JSON.stringify(v)})`;
@@ -113,6 +119,9 @@ export class Resolver {
             if (target.token.$type !== expected) {
               problems.push({ path: token.path, message: `field "${field}" must be a ${expected} but aliases "{${target.path}}", which is a ${target.token.$type}` });
             }
+          } else if (expected) {
+            const shape = LITERAL_SHAPES[expected]?.(fv);
+            if (shape) problems.push({ path: token.path, message: `field "${field}" ${shape}` });
           }
         }
       }

@@ -1,9 +1,13 @@
 /* smbk-image-placeholder — Image placeholder. Figma "Image Placeholder" 1988:5921.
- * Takes the width it is given and the ratio of the picture it stands for. */
+ * Takes the width it is given and the ratio of the picture it stands for: a
+ * sunken block with a container's corner and a hairline edge, so it shows on
+ * the page color. */
 
 .smbk-image-placeholder {
+  box-sizing: border-box;
   display: block;
   width: 100%;
-  border-radius: var(--smbk-radius-control-lg);
-  background: var(--smbk-color-surface-default-disabled);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  border-radius: var(--smbk-radius-container-sm);
+  background: var(--smbk-color-surface-sunken);
 }

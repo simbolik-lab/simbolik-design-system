@@ -7,7 +7,11 @@
  * once the wrapper has placed it (motion rules at the end).
  * The items are columns of one row: equal by default, as Figma's items fill
  * their bar, each as wide as the widest and sharing any width the bar is
- * given; or each hugging its words. */
+ * given; or each hugging its words. An item shows its words, its icon alone
+ * (its words hidden but still its name, and shown in a tooltip by the
+ * wrapper), or its words with a short line under them (content axis).
+ * The theme look is the theme switch's: near-square items, a larger icon and the
+ * brand hover (look rules after the sizes). */
 
 .smbk-segmented {
   position: relative;
@@ -18,9 +22,10 @@
   align-items: stretch;
   gap: var(--smbk-space-inset-2xs);
   height: var(--smbk-size-control-lg);
-  /* Figma draws the edge inside the bar and lays the items over it, so the padding gives the edge's
-     width back: the large bar is 48 tall and its items 44. */
-  padding: calc(var(--smbk-space-inset-2xs) - var(--smbk-border-width-hairline));
+  /* Figma counts the edge in the bar's size and puts the padding inside it, so the items sit the smallest inset
+     plus the edge's width in from the outer edge, leaving the smallest inset between an item and the edge: the
+     large bar is 48 tall and its items 42. */
+  padding: var(--smbk-space-inset-2xs);
   border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
   border-radius: var(--smbk-radius-control-lg);
   background: var(--smbk-color-surface-canvas);
@@ -33,16 +38,15 @@
   align-items: center;
   justify-content: center;
   gap: var(--smbk-space-inline-sm);
-  padding: 0 var(--smbk-space-inset-lg);
+  padding: 0 var(--smbk-space-inset-xl);
   border: var(--smbk-border-width-hairline) solid transparent;
   border-radius: var(--smbk-radius-control-md);
   color: var(--smbk-color-text-subtle);
-  font-family: var(--smbk-typography-body-m-font-family);
-  font-size: var(--smbk-typography-body-m-font-size);
-  font-weight: var(--smbk-typography-body-m-font-weight);
-  line-height: var(--smbk-typography-body-m-line-height);
-  letter-spacing: var(--smbk-typography-body-m-letter-spacing);
-  text-box: trim-both cap alphabetic;
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
   white-space: nowrap;
   cursor: pointer;
   -webkit-user-select: none;
@@ -57,23 +61,13 @@
   }
 }
 
-.smbk-segmented__control {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-  border: 0;
-}
+/* .smbk-segmented__control: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
 
 .smbk-segmented__item:has(.smbk-segmented__control:checked) {
   background: var(--smbk-color-surface-raised);
-  border-color: var(--smbk-color-border-edge-highlight);
+  border-color: var(--smbk-color-border-rim);
   color: var(--smbk-color-text-default);
-  box-shadow: var(--smbk-elevation-0);
+  box-shadow: var(--smbk-elevation-control);
 }
 
 /* The chosen item's surface as one piece that slides from choice to choice. The wrapper places it
@@ -86,10 +80,10 @@
   top: 0;
   left: 0;
   box-sizing: border-box;
-  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim);
   border-radius: var(--smbk-radius-control-md);
   background: var(--smbk-color-surface-raised);
-  box-shadow: var(--smbk-elevation-0);
+  box-shadow: var(--smbk-elevation-control);
   pointer-events: none;
 }
 
@@ -114,9 +108,15 @@
   cursor: not-allowed;
 }
 
+/* The icon follows the text: 20 beside Body MD, 16 beside Body SM. */
 .smbk-segmented__icon {
-  font-size: var(--smbk-size-icon-sm);
+  font-size: var(--smbk-size-icon-md);
 }
+
+/* ---- content: icon. The icon alone, or a short word for a choice without one, at the size's side padding as Figma
+   draws it (44 by 34 at md); the label stays in the item, hidden from view, as the radio's name. ---- */
+
+/* .smbk-segmented--content-icon .smbk-segmented__label: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
 
 /* ---- item width: hug, each item as wide as its words, at the start of a bar given more room ---- */
 
@@ -125,11 +125,15 @@
   justify-content: start;
 }
 
-/* ---- sizes: the bar is the large, medium or small control height; the medium item keeps the
-   large one's padding and type, and the small one steps both down ---- */
+/* ---- sizes: the bar is the large, medium or small control height. The medium item keeps the
+   large one's type and icon and pads less; the small one steps the type, icon and gap down too ---- */
 
 .smbk-segmented--size-md {
   height: var(--smbk-size-control-md);
+}
+
+.smbk-segmented--size-md .smbk-segmented__item {
+  padding: 0 var(--smbk-space-inset-lg);
 }
 
 .smbk-segmented--size-sm {
@@ -141,12 +145,11 @@
   gap: var(--smbk-space-inline-xs);
   padding: 0 var(--smbk-space-inset-md);
   border-radius: var(--smbk-radius-control-sm);
-  font-family: var(--smbk-typography-body-t-font-family);
-  font-size: var(--smbk-typography-body-t-font-size);
-  font-weight: var(--smbk-typography-body-t-font-weight);
-  line-height: var(--smbk-typography-body-t-line-height);
-  letter-spacing: var(--smbk-typography-body-t-letter-spacing);
-  text-box: trim-both cap alphabetic;
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
 }
 
 .smbk-segmented--size-sm > .smbk-segmented__indicator {
@@ -154,16 +157,93 @@
 }
 
 .smbk-segmented--size-sm .smbk-segmented__icon {
-  font-size: var(--smbk-size-icon-xs);
+  font-size: var(--smbk-size-icon-sm);
 }
 
-/* The words carry the trim: the segment is a flex row, and a flex row does not pass the trim to its items. */
-.smbk-segmented__label {
-  text-box: trim-both cap alphabetic;
+/* ---- content: description. The label, with its icon before it, over a line of Body XS in the subtle text color,
+   at the text label step (the line heights give the air between them) and the large inset over and under, the edge
+   given back, centred, as Figma's item draws it at every size (66 tall at lg); the bar grows to hold them. These come
+   after the sizes, so they win over a size's bar height, its item padding and its gap. ---- */
+
+.smbk-segmented--content-description {
+  height: auto;
+}
+
+.smbk-segmented--content-description .smbk-segmented__item {
+  flex-wrap: wrap;
+  align-content: center;
+  row-gap: var(--smbk-space-text-label);
+  padding-block: calc(var(--smbk-space-inset-lg) - var(--smbk-border-width-hairline));
+  white-space: normal;
+  text-align: center;
+}
+
+.smbk-segmented__description {
+  flex-basis: 100%;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
+}
+
+.smbk-segmented__item:has(.smbk-segmented__control:disabled) .smbk-segmented__description {
+  color: var(--smbk-color-text-disabled);
+}
+
+/* ---- look: theme, the theme switch's (Figma "ThemeSwitch" 4209:19857 and "ThemeItem" 4207:19190) ----
+   A row of items, each as tall as the bar inside its inset and edge and as wide as the bar's height less its two insets, holding its icon alone, the icon a step
+   larger than the standard bar's: 24, 20 and 16 at the large, medium and small sizes. An item takes the type of the
+   page around it rather than the bar's label type, and hovers in the brand text color, where the standard item
+   takes the link hover, as Figma's ThemeItem draws it. A chosen item that is hovered keeps its default text color. ---- */
+
+.smbk-segmented--look-theme {
+  display: inline-flex;
+}
+
+.smbk-segmented--look-theme .smbk-segmented__item {
+  flex-shrink: 0;
+  gap: normal;
+  width: calc(var(--smbk-size-control-lg) - 2 * var(--smbk-space-inset-2xs));
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  white-space: inherit;
+}
+
+.smbk-segmented--look-theme.smbk-segmented--size-md .smbk-segmented__item {
+  width: calc(var(--smbk-size-control-md) - 2 * var(--smbk-space-inset-2xs));
+}
+
+.smbk-segmented--look-theme.smbk-segmented--size-sm .smbk-segmented__item {
+  width: calc(var(--smbk-size-control-sm) - 2 * var(--smbk-space-inset-2xs));
+}
+
+.smbk-segmented--look-theme .smbk-segmented__icon {
+  font-size: var(--smbk-size-icon-lg);
+}
+
+.smbk-segmented--look-theme.smbk-segmented--size-md .smbk-segmented__icon {
+  font-size: var(--smbk-size-icon-md);
+}
+
+.smbk-segmented--look-theme.smbk-segmented--size-sm .smbk-segmented__icon {
+  font-size: var(--smbk-size-icon-sm);
+}
+
+@media (hover: hover) {
+  :where(.smbk-segmented--look-theme) .smbk-segmented__item:hover {
+    color: var(--smbk-color-text-brand);
+  }
 }
 
 /* ---- motion: the indicator slides to the chosen item with the state purpose, as a switch's thumb
-   does, and the words change color with the feedback purpose. No movement under reduced motion. ---- */
+   does, and the words change color with the feedback purpose. Under reduced motion the indicator lands at
+   once and the color still fades. ---- */
 
 .smbk-segmented__item {
   transition: color var(--smbk-motion-feedback-duration) var(--smbk-motion-feedback-easing);
@@ -181,9 +261,29 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .smbk-segmented__item,
   .smbk-segmented[data-indicator] > .smbk-segmented__indicator {
     transition: none;
+  }
+}
+
+/* ---- touch: every item takes an invisible press area ----
+   On a touch screen an invisible area, centred on each item, takes the press out to the comfortable target above and
+   below, and side to side only halfway into the gap between two items, so each stays one press. The bar, the items,
+   the indicator and every place stay as drawn. */
+
+@media (pointer: coarse) {
+  .smbk-segmented__item::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  .smbk-segmented__item ~ .smbk-segmented__item::after {
+    inset-inline-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inset-2xs) / -2);
+  }
+
+  .smbk-segmented__item:has(~ .smbk-segmented__item)::after {
+    inset-inline-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inset-2xs) / -2);
   }
 }
 
@@ -209,7 +309,8 @@
     background: Highlight;
   }
 
-  .smbk-segmented__item:has(.smbk-segmented__control:disabled) {
+  .smbk-segmented__item:has(.smbk-segmented__control:disabled),
+  .smbk-segmented__item:has(.smbk-segmented__control:disabled) .smbk-segmented__description {
     color: GrayText;
   }
 }

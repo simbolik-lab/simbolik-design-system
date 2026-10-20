@@ -1,6 +1,8 @@
 /* smbk-logo — Logo. Figma "logo-simbolik" 363:14503.
- * Inline SVG colored through currentColor: the mark takes the brand text role,
- * the wordmark the default text role, so the logo follows the theme.
+ * Inline SVG: the mark takes the brand border color, the same red in both
+ * themes, and the wordmark the default text color, so it follows the theme.
+ * Or a site's own picture files (source picture, below), which keep their own
+ * colors.
  *
  * The block's own rule carries no weight (:where), as the icon's does: the part
  * rule of the component a logo sits in (the header's, the app bar's, the
@@ -8,17 +10,75 @@
 
 :where(.smbk-logo) {
   display: inline-block;
-  height: var(--smbk-size-display-xl);
+  height: var(--smbk-size-mark-xl);
   width: auto;
   vertical-align: middle;
 }
 
 .smbk-logo__mark {
-  fill: var(--smbk-color-text-brand);
+  fill: var(--smbk-color-border-brand);
 }
 
 .smbk-logo__type {
   fill: var(--smbk-color-text-default);
+}
+
+/* ---- source: picture ----
+   A site's logo file, drawn as an image so it keeps its own colors. The block takes the height its
+   place gives it, as the shapes do, and the picture fills that height at its own proportion. A dark
+   version, when given, shows under the dark theme in place of the light one: the theme is read from
+   the same attributes the tokens read (data-theme, or the system's setting when no theme is set), and a
+   light area inside a dark one shows the light picture again. */
+
+:where(.smbk-logo--source-picture) {
+  display: inline-flex;
+}
+
+.smbk-logo__picture,
+.smbk-logo__picture-dark {
+  display: block;
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.smbk-logo__picture-dark {
+  display: none;
+}
+
+[data-theme="dark"] .smbk-logo__picture:has(+ .smbk-logo__picture-dark) {
+  display: none;
+}
+
+[data-theme="dark"] .smbk-logo__picture-dark {
+  display: block;
+}
+
+[data-theme="dark"] [data-theme="light"] .smbk-logo__picture:has(+ .smbk-logo__picture-dark) {
+  display: block;
+}
+
+[data-theme="dark"] [data-theme="light"] .smbk-logo__picture-dark {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .smbk-logo__picture:has(+ .smbk-logo__picture-dark) {
+    display: none;
+  }
+
+  :root:not([data-theme]) .smbk-logo__picture-dark {
+    display: block;
+  }
+
+  :root:not([data-theme]) [data-theme="light"] .smbk-logo__picture:has(+ .smbk-logo__picture-dark) {
+    display: block;
+  }
+
+  :root:not([data-theme]) [data-theme="light"] .smbk-logo__picture-dark {
+    display: none;
+  }
 }
 
 /* ---- high contrast (forced colors) ---- */

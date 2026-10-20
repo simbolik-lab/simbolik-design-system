@@ -91,6 +91,41 @@ This is more verbose than the usual convention, and it is deliberate. Modifier c
 
 Block names match the component directory name. Axis and value names match the variant manifest exactly — if they diverge, the manifest is right and the CSS is wrong.
 
+### A component drawn by another's stylesheet
+
+A component that is another component in a form of its own keeps its own block and names the other in `drawnBy`, with only the choices it offers: its block class comes first, then the other's block, modifiers and parts, so its classes are still derived and no two components share a block (the toggle button is `smbk-toggle-button smbk-btn smbk-btn--tone-ghost`).
+
+---
+
+## Component properties
+
+A component's own custom property, one it sets and reads inside its stylesheet, carries the component's name after the prefix (`--smbk-switch-thumb`). It is not a design token and holds no design value of its own: it points at tokens.
+
+### The tone recipe
+
+The components with feedback tones (info, success, warning, danger) draw them from four shared properties:
+
+| Property | Takes the family's |
+|---|---|
+| `--smbk-tone-surface` | subtle surface, `--smbk-color-feedback-<family>-surface-subtle` |
+| `--smbk-tone-border` | border, `--smbk-color-feedback-<family>-border` |
+| `--smbk-tone-text` | text on the subtle surface, `--smbk-color-feedback-<family>-text-on-subtle` |
+| `--smbk-tone-icon` | icon, `--smbk-color-feedback-<family>-icon` |
+
+Each tone class sets them once, the block sets them to its neutral look, and the component's parts read them; a component sets only the ones it reads. Every stylesheet sets them itself, so a page that links one component's stylesheet still draws its tones, and since the block always sets them, a component never takes the tone of one around it. A site never sets them; it picks a tone with the tone class.
+
+---
+
+## React props
+
+**A word a component says is a prop.** Every word a component shows or says by itself, such as a close button's name, a key hint or a count read aloud, is a prop that keeps its English unless a page gives its own, so a page in another language can change it. The prop is named for what it labels: ending `Label` for a name (what a screen reader says for a control or a region, or the words on a button), `Text` for a message or a sentence shown on the page. A word built around a number or a name is a function given them, such as `pageLabel={(page) => …}`. A set of words for one part, such as a button whose name changes with its state, is one object keyed by the state. A component with many words of its own takes one `words` object instead, laid over its English one, as the charts and the editors do.
+
+**A callback is told a value, or the browser's event.** A wrapper over one native control (the input, the text area, the search field, the password field, the checkbox, the radio, the switch) passes on the browser's own event, as the element does: `onChange(event)`. A component that holds a value of its own (a choice, a number, a color, whether it is open) reports that value first, never an event in its place: `onChange(value)`, `onOpenChange(open)`, `onExpandedChange(expanded)`, with `null` for empty or nothing chosen, as the number field and the combobox report it. Whatever opens a layer over the page (the popover, the dropdown, the tooltip, the modal, the drawer, the command palette) takes `open`, `defaultOpen` and `onOpenChange(open)`: given `open`, the page holds the open state; without it, the component holds its own, starting from `defaultOpen`.
+
+**A dismissal is told only that it happened.** Write `onDismiss` (the alert, the banner, the toast), `onRemove` (the chip, the tag) and `onClear` (the search field) as `() => …`. None of them passes the click's event.
+
+**A title that is a heading takes its level.** The prop is `headingLevel`, a number; it defaults to the level the component has always drawn, and its description says which, usually one below the heading the component sits under.
+
 ---
 
 ## Project Piece classes

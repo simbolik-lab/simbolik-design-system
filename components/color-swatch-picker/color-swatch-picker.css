@@ -1,0 +1,92 @@
+/* smbk-color-swatch-picker — Color swatch picker. Figma "Color swatch picker" 7408:540 and its
+ * "ColorSwatchPickerItem" 7408:295.
+ * Rows of items that wrap, the extra small inline step apart both ways. Each item is a color swatch
+ * (smbk-color-swatch) inside the extra small inset, so a ring drawn inside the item's edge leaves a gap round
+ * the swatch: the chosen item's ring is the inverse border color, a shape as well as a color, so "chosen" is
+ * never told by color alone; the item with keyboard focus draws the ring in the focus color instead. Hover
+ * lays the hover surface behind the swatch; a disabled item is dimmed. */
+
+.smbk-color-swatch-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--smbk-space-inline-xs);
+  outline: none;
+}
+
+.smbk-color-swatch-picker__item {
+  display: inline-flex;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  padding: var(--smbk-space-inset-xs);
+  border-radius: var(--smbk-radius-container-sm);
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) {
+  .smbk-color-swatch-picker__item:hover {
+    background: var(--smbk-color-surface-hover);
+  }
+}
+
+.smbk-color-swatch-picker__item[aria-selected="true"] {
+  box-shadow: inset 0 0 0 var(--smbk-border-width-2) var(--smbk-color-border-inverse);
+}
+
+.smbk-color-swatch-picker__item:focus-visible {
+  box-shadow: inset 0 0 0 var(--smbk-border-width-2) var(--smbk-color-border-focus);
+}
+
+.smbk-color-swatch-picker__item[aria-disabled="true"] {
+  opacity: var(--smbk-opacity-disabled);
+  cursor: not-allowed;
+}
+
+@media (hover: hover) {
+  .smbk-color-swatch-picker__item[aria-disabled="true"]:hover {
+    background: none;
+  }
+}
+
+/* ---- small: a 24 px item; its square corner is the control's medium one ---- */
+
+.smbk-color-swatch-picker--size-sm .smbk-color-swatch-picker__item {
+  border-radius: var(--smbk-radius-control-md);
+}
+
+/* Round: dots in round items. Two classes, so it wins over the small size's corner. */
+.smbk-color-swatch-picker.smbk-color-swatch-picker--shape-round .smbk-color-swatch-picker__item {
+  border-radius: var(--smbk-radius-full);
+}
+
+/* ---- touch: every color takes an invisible press area ----
+   On a touch screen an invisible area, centred on each color, takes the press out to the comfortable target where it
+   can, but only halfway into the gap between the colors, so in rows this close each stays one press. The colors,
+   their ring and their places stay as drawn. */
+
+@media (pointer: coarse) {
+  .smbk-color-swatch-picker__item {
+    position: relative;
+  }
+
+  .smbk-color-swatch-picker__item::after {
+    content: '';
+    position: absolute;
+    inset: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-xs) / -2);
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* Shadows are dropped: the chosen ring and the focus ring become outlines in the reader's colors. */
+@media (forced-colors: active) {
+  .smbk-color-swatch-picker__item[aria-selected="true"] {
+    outline: var(--smbk-border-width-2) solid CanvasText;
+    outline-offset: calc(-1 * var(--smbk-border-width-2));
+  }
+
+  .smbk-color-swatch-picker__item:focus-visible {
+    outline: var(--smbk-border-width-2) solid Highlight;
+    outline-offset: calc(-1 * var(--smbk-border-width-2));
+  }
+}

@@ -1,8 +1,17 @@
-import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, type HTMLAttributes, type KeyboardEvent, type Ref, type RefObject } from 'react';
+import { useId, useLayoutEffect, useRef, useState, type HTMLAttributes, type KeyboardEvent, type Ref, type RefObject } from 'react';
+import { useObjectRef } from 'react-aria';
 import { select } from './select.manifest.js';
 import { input } from '../input/input.manifest.js';
 import { dropdown } from '../dropdown/dropdown.manifest.js';
 import { Icon } from '../icon/icon.js';
+import { InputWell } from '../input/input-well.js';
+import { readsField, useFieldControl } from '../field/field-context.js';
+import { useFloating } from '../floating.js';
+import { useDismiss } from '../dismiss.js';
+import { useControllable } from '../controllable.js';
+import { useTypeAhead } from '../type-ahead.js';
+import { useGlide } from '../glide.js';
+import { cx } from '../variants.js';
 import type { VariantProps } from '../variants.js';
 
 export interface SelectOption {
@@ -23,14 +32,22 @@ export interface SelectProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'onCh
   /** Form field name; the value travels in a hidden input. */
   name?: string;
   disabled?: boolean;
+  /** The choice can be read and reached with Tab, not changed: the list does not open, and the caret is not drawn. The value still travels with the form. */
+  readOnly?: boolean;
   /** A choice must be made. Said on the well; the field around it draws the mark. */
   required?: boolean;
+  /** What the value is, for the browser's autofill, e.g. "country-name" or "honorific-prefix". Given to the hidden input. */
+  autoComplete?: string;
   /**
    * The element the open list stays inside, such as the part of the page whose
    * end the list should not pass. The window and any scrolling part around the
    * select always bound it as well.
    */
   boundary?: RefObject<Element | null>;
+  /** Holds the list open or closed from outside, as in a test or a picture of the page. Pair it with onOpenChange; leave it out and the select opens and closes itself. */
+  open?: boolean;
+  /** Called when the select asks to open or close its list: a press, a key, a choice, a click outside or focus leaving. */
+  onOpenChange?: (open: boolean) => void;
   'aria-label'?: string;
   'aria-labelledby'?: string;
   /** Help text or an error message for the well, such as the field's line under it. */
@@ -42,130 +59,81 @@ export interface SelectProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'onCh
 /** How long typed letters keep adding to one search before a new one starts. */
 const TYPE_AHEAD_MS = 500;
 
-/** The first scrolling or clipping part around an element, and each one after it, up to the page. */
-function clippers(el: Element): Element[] {
-  const out: Element[] = [];
-  for (let p = el.parentElement; p && p !== document.documentElement; p = p.parentElement) {
-    const { overflowX, overflowY } = getComputedStyle(p);
-    if (overflowX !== 'visible' || overflowY !== 'visible') out.push(p);
-  }
-  return out;
-}
-
 /**
  * Select: a button that opens a list of choices. Closed it is the input's well; open, the
- * list is the dropdown panel and every choice a dropdown item, at the select's size.
+ * list is the dropdown panel and every choice a dropdown item, at the select's size. A read-only
+ * select stays in the tab order and never opens.
  * Its label and help text come from the field around it (Field).
  * Arrow keys move the highlight, Enter and Space choose, Escape and Tab close, and a
  * click outside or focus moving away closes. Typing jumps to the choice that starts with what was
  * typed. The value also lives in a hidden input for forms.
  *
- * The open list never runs past the room it has: the window, any scrolling
- * part around the select and the `boundary`, keeping from each the gap it
- * keeps from the well. A longer list scrolls inside itself, and opens above
- * the well when there is more room there (`data-side="above"`, for the
- * stylesheet). It opens scrolled to the chosen option, and the keyboard's
+ * The open list is the dropdown's floating panel (floating.ts): lifted over the
+ * page, so no clipping or scrolling part around the select cuts it off, as wide as
+ * the well, never taller than the list height (size/list/max-height) or than the
+ * room it has in the window and the `boundary`, and placed under the well, or above
+ * it when there is more room there (`data-side="above"`). A longer list scrolls
+ * inside itself. It opens scrolled to the chosen option, and the keyboard's
  * highlight is kept in view.
  */
-export function Select({ size, error, open: _open, options, value, defaultValue, onChange, placeholder, name, disabled, required, boundary, className, id, 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledby, 'aria-describedby': ariaDescribedby, ref, ...rest }: SelectProps) {
+export function Select(props: SelectProps) {
+  const { size, error, open: openProp, onOpenChange, options, value, defaultValue, onChange, placeholder, name, disabled, readOnly, required, autoComplete, boundary, className, id, 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledby, 'aria-describedby': ariaDescribedby, ref, ...rest } = useFieldControl(props);
   const reactId = useId();
   const baseId = id ?? `select${reactId}`;
   const listId = `${baseId}-list`;
-  const [internal, setInternal] = useState(defaultValue);
-  const current = value ?? internal;
-  const [open, setOpen] = useState(false);
+  const [current, keepValue] = useControllable({ value, defaultValue, onChange, name: 'Select value' });
+  // Open is the page's to hold when it gives `open`, the select's own otherwise; a disabled or read-only select never opens.
+  const [openState, keepOpen] = useControllable({ value: openProp, defaultValue: false, onChange: onOpenChange, name: 'Select open' });
+  const open = openState && !disabled && !readOnly;
+  const setOpen = (next: boolean) => {
+    if (next === open) return;
+    keepOpen(next);
+  };
   const [highlight, setHighlight] = useState(-1);
   const root = useRef<HTMLSpanElement>(null);
-  const well = useRef<HTMLButtonElement>(null);
+  // The well is the select's own and the page's: both refs reach the same button.
+  const well = useObjectRef(ref);
   const list = useRef<HTMLUListElement>(null);
+  const layer = useRef<HTMLDivElement>(null);
   // How the highlight last moved: only the keyboard scrolls the list to it,
   // because scrolling under a resting pointer would move a new option under it.
   const byKeys = useRef(false);
-  const typed = useRef({ text: '', at: 0 });
+  const typeAhead = useTypeAhead(TYPE_AHEAD_MS, { cycle: true });
   const chosen = options.find((o) => o.value === current);
-  // The well is the select's own and the page's: both refs reach the same button.
-  const wellRef = useCallback(
-    (el: HTMLButtonElement | null) => {
-      well.current = el;
-      if (typeof ref === 'function') {
-        const cleanup = ref(el);
-        if (typeof cleanup !== 'function') return undefined;
-        return () => {
-          well.current = null;
-          cleanup();
-        };
-      }
-      if (ref) ref.current = el;
-      return undefined;
-    },
-    [ref],
-  );
 
-  useEffect(() => {
-    if (!open) return;
-    const away = (e: MouseEvent) => {
-      if (root.current && !root.current.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener('mousedown', away);
-    return () => document.removeEventListener('mousedown', away);
-  }, [open]);
+  // A press outside, Escape and focus moving anywhere outside close the list while it is the top layer (dismiss.ts).
+  // Focus is on the well whenever it is inside, so it stays there.
+  const dismiss = useDismiss({ open, root, onClose: () => setOpen(false), blur: true });
 
-  // Place the list before it paints: which side of the well, and how tall it may be.
-  // The side is chosen once per opening; the height follows the page as it scrolls.
+  const { side } = useFloating({ target: well, layer, panel: list, open, boundary: boundary?.current, matchWidth: true });
+
+  // Once the list is placed, it opens on the chosen option, in the middle of the list where it can be.
+  const placed = side !== null;
   useLayoutEffect(() => {
     const l = list.current;
-    const w = well.current;
-    if (!open || !l || !w) return undefined;
-    delete l.dataset.side;
-    // The gap the stylesheet puts between the well and the list, read from offsets, which the drop-in motion does not move.
-    const gap = l.offsetTop - w.offsetTop - w.offsetHeight;
-    const room = () => {
-      let top = gap;
-      let bottom = window.innerHeight - gap;
-      const edges = clippers(l).map((c) => c.getBoundingClientRect());
-      const b = boundary?.current;
-      if (b) edges.push(b.getBoundingClientRect());
-      for (const r of edges) {
-        top = Math.max(top, r.top + gap);
-        bottom = Math.min(bottom, r.bottom - gap);
-      }
-      const wr = w.getBoundingClientRect();
-      return { below: bottom - wr.bottom - gap, above: wr.top - gap - top };
-    };
-    // The list's own height, whatever it is allowed now: its content and its edge.
-    const natural = () => l.scrollHeight + l.offsetHeight - l.clientHeight;
-    const first = room();
-    const above = natural() > first.below && first.above > first.below;
-    if (above) l.dataset.side = 'above';
-    const fit = () => {
-      const r = room();
-      const space = above ? r.above : r.below;
-      // Never so short it stops being a list: at least three rows, whatever the room.
-      const row = (l.querySelector('[role="option"]') as HTMLElement | null)?.offsetHeight ?? 0;
-      const least = Math.min(natural(), row * 3 + l.offsetHeight - l.clientHeight);
-      l.style.maxHeight = natural() > space ? `${Math.max(space, least)}px` : '';
-    };
-    fit();
-    // Open on the chosen option, in the middle of the list where it can be.
+    if (!open || !l || !placed) return;
     const on = l.querySelector('[aria-selected="true"]') as HTMLElement | null;
     if (on) l.scrollTop = on.offsetTop - (l.clientHeight - on.offsetHeight) / 2;
-    const onScroll = (e: Event) => {
-      if (e.target instanceof Node && l.contains(e.target)) return;
-      fit();
-    };
-    window.addEventListener('resize', fit);
-    window.addEventListener('scroll', onScroll, true);
-    return () => {
-      window.removeEventListener('resize', fit);
-      window.removeEventListener('scroll', onScroll, true);
-    };
-  }, [open, boundary]);
+  }, [open, placed]);
+
+  // The pointer's fill glides between the choices (glide.ts) and the choice it lights is Enter's target.
+  useGlide(list, {
+    rows: `.${select.part('option')}`,
+    fill: dropdown.part('glide'),
+    enabled: open,
+    onPick: (row) => {
+      const i = Number(row.dataset.index);
+      if (!Number.isInteger(i)) return;
+      byKeys.current = false;
+      setHighlight(i);
+    },
+  });
 
   // Keep the keyboard's highlight in view inside the list, clear of its padding.
   useLayoutEffect(() => {
     const l = list.current;
     if (!open || !l || !byKeys.current) return;
-    const o = l.children[highlight] as HTMLElement | undefined;
+    const o = document.getElementById(`${listId}-${highlight}`);
     if (!o) return;
     const pad = Number.parseFloat(getComputedStyle(l).paddingTop) || 0;
     if (o.offsetTop - pad < l.scrollTop) l.scrollTop = o.offsetTop - pad;
@@ -174,8 +142,7 @@ export function Select({ size, error, open: _open, options, value, defaultValue,
 
   const choose = (o: SelectOption) => {
     if (o.disabled) return;
-    if (value === undefined) setInternal(o.value);
-    onChange?.(o.value);
+    keepValue(o.value);
     setOpen(false);
   };
 
@@ -198,31 +165,21 @@ export function Select({ size, error, open: _open, options, value, defaultValue,
 
   // Typing jumps to the next choice that starts with the letters typed so far.
   // The same letter again steps through the choices that start with it.
-  const typeAhead = (key: string) => {
-    const now = Date.now();
-    const text = (now - typed.current.at < TYPE_AHEAD_MS ? typed.current.text : '') + key.toLowerCase();
-    typed.current = { text, at: now };
-    const same = [...text].every((c) => c === text[0]);
-    const find = same ? text[0]! : text;
+  const typeTo = (key: string) => {
     const from = open ? highlight : options.findIndex((o) => o.value === current);
-    for (let n = text.length === 1 || same ? 1 : 0; n <= options.length; n++) {
-      const i = (Math.max(from, 0) + n) % options.length;
-      const o = options[i];
-      if (o && !o.disabled && o.label.toLowerCase().startsWith(find)) {
-        if (!open) show(i);
-        byKeys.current = true;
-        setHighlight(i);
-        return;
-      }
-    }
+    const i = typeAhead.find(key, options.map((o) => (o.disabled ? null : o.label)), Math.max(from, 0));
+    if (i < 0) return;
+    if (!open) show(i);
+    byKeys.current = true;
+    setHighlight(i);
   };
 
   const onKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
-    if (disabled) return;
-    const typing = Date.now() - typed.current.at < TYPE_AHEAD_MS && typed.current.text !== '';
+    if (disabled || readOnly) return;
+    const typing = typeAhead.typing();
     if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey && (e.key !== ' ' || typing)) {
       e.preventDefault();
-      typeAhead(e.key);
+      typeTo(e.key);
     } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault();
       if (!open) show();
@@ -231,9 +188,8 @@ export function Select({ size, error, open: _open, options, value, defaultValue,
       e.preventDefault();
       if (!open) show();
       else if (options[highlight]) choose(options[highlight]!);
-    } else if (e.key === 'Escape' && open) {
-      e.preventDefault();
-      setOpen(false);
+    } else if (e.key === 'Escape') {
+      dismiss.onKeyDown(e);
     } else if (e.key === 'Tab' && open) {
       // Tab closes the list and moves on as usual; it chooses nothing.
       setOpen(false);
@@ -248,14 +204,21 @@ export function Select({ size, error, open: _open, options, value, defaultValue,
     }
   };
 
-  const classes = [select({ size, error, open }), className].filter(Boolean).join(' ');
+  const classes = cx(select({ size, error, open }), className);
+  // The list is the dropdown panel at the select's size; the dropdown names its sizes default and small.
+  const small = size === 'sm';
   return (
     <span ref={root} className={classes} {...rest}>
-      <button
-        ref={wellRef}
+      <InputWell
+        as="button"
+        ref={well}
         type="button"
         id={baseId}
-        className={`${input({ size, error })} ${select.part('well')}`}
+        className={select.part('well')}
+        size={size}
+        error={error}
+        nameCheck="Select"
+        end={!readOnly && <Icon name="CaretDown" className={`${input.part('icon')} ${select.part('icon')}`} />}
         role="combobox"
         aria-haspopup="listbox"
         aria-expanded={open}
@@ -265,30 +228,33 @@ export function Select({ size, error, open: _open, options, value, defaultValue,
         aria-activedescendant={open && highlight >= 0 ? `${listId}-${highlight}` : undefined}
         aria-invalid={error ? true : undefined}
         aria-required={required ? true : undefined}
+        aria-readonly={readOnly ? true : undefined}
         aria-describedby={ariaDescribedby}
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledby}
         disabled={disabled}
-        onClick={() => (open ? setOpen(false) : show())}
-        onKeyDown={onKeyDown}
-        // Focus moving anywhere outside closes the list. A blur with nowhere to go is a click, handled above.
-        onBlur={(e) => {
-          if (open && e.relatedTarget && !root.current?.contains(e.relatedTarget as Node)) setOpen(false);
+        onClick={() => {
+          if (readOnly) return;
+          if (open) setOpen(false);
+          else show();
         }}
+        onKeyDown={onKeyDown}
+        onBlur={dismiss.onBlur}
       >
-        <span className={[select.part('value'), chosen ? '' : `${select.part('value')}--placeholder`].filter(Boolean).join(' ')}>{chosen ? chosen.label : placeholder ?? ''}</span>
-        <Icon name="CaretDown" className={select.part('icon')} />
-      </button>
+        <span className={cx(select.part('value'), chosen ? '' : `${select.part('value')}--placeholder`)}>{chosen ? chosen.label : placeholder ?? ''}</span>
+      </InputWell>
       {open && (
-        <ul ref={list} id={listId} role="listbox" className={`${dropdown({ size })} ${select.part('list')}`} aria-labelledby={ariaLabelledby ?? (ariaLabel ? undefined : baseId)} aria-label={ariaLabel}>
+        <div ref={layer} className={dropdown.part('layer')}>
+        <ul ref={list} id={listId} role="listbox" className={`${dropdown({ size: small ? 'small' : 'default' })} ${select.part('list')}`} data-side={side ?? undefined} data-highlight={byKeys.current ? 'keys' : 'pointer'} aria-labelledby={ariaLabelledby ?? (ariaLabel ? undefined : baseId)} aria-label={ariaLabel}>
           {options.map((o, i) => (
             <li
               key={o.value}
               id={`${listId}-${i}`}
               role="option"
+              data-index={i}
               aria-selected={o.value === current}
               aria-disabled={o.disabled ? true : undefined}
-              className={[dropdown.part('item'), select.part('option'), i === highlight ? `${select.part('option')}--highlighted` : ''].filter(Boolean).join(' ')}
+              className={cx(dropdown.part('item'), select.part('option'), i === highlight ? `${select.part('option')}--highlighted` : '')}
               onMouseEnter={() => {
                 byKeys.current = false;
                 setHighlight(i);
@@ -301,9 +267,11 @@ export function Select({ size, error, open: _open, options, value, defaultValue,
             </li>
           ))}
         </ul>
+        </div>
       )}
       {/* A disabled select sends nothing with its form, as a disabled native control does. */}
-      {name && <input type="hidden" name={name} value={current ?? ''} disabled={disabled} />}
+      {name && <input type="hidden" name={name} value={current ?? ''} disabled={disabled} autoComplete={autoComplete} />}
     </span>
   );
 }
+readsField(Select);

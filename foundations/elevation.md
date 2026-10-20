@@ -19,7 +19,7 @@ How far a surface appears to sit above the page, expressed as a shadow. Elevatio
 
 ## How it is structured
 
-A short run of levels, from a barely-there resting lift through hover and floating emphasis to the clear lift of a surface that genuinely sits above the page, plus inset shadows for surfaces that are pressed into their parent. Each level is a stack of shadow layers, pre-composed, so that a level is used whole.
+A short run of named lifts: a barely-there one for controls, one for raised surfaces and a stronger one for hover, and the clear lift of an overlay that sits above the whole page, plus a soft and a strong inset shadow for surfaces pressed into their parent. Each level is a stack of shadow layers, pre-composed, so that a level is used whole.
 
 The shadow colors are not literal. Every layer points at one of the semantic shadow tints from the color foundation, which is what lets a shadow change with the theme — a cool tint over light surfaces, a neutral darkening over dark ones — while looking the same in Figma in both.
 
@@ -39,8 +39,8 @@ Density and text size do not touch elevation.
 
 ### Do
 
-- Give a lifted surface the resting level at rest and the next level on hover, so hover reads as lift.
-- Give menus, popovers and dialogs the floating level, and reserve the highest level for surfaces that genuinely live above the whole page.
+- Give a raised surface the raised lift at rest and the stronger one on hover, so hover reads as lift.
+- Give menus, popovers and dialogs the overlay lift, the highest, because they live above the whole page.
 - Use an inset shadow for a well: a pressed toggle track, a code area, a sunken input.
 - Pair elevation with a border or a surface change. Elevation must not be the only cue that a surface holds something.
 

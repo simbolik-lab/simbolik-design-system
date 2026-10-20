@@ -1,0 +1,484 @@
+/* The bar both the app bar (smbk-app-bar) and the header (smbk-header) draw: Figma builds the header from the
+ * app bar's parts, so what the two draw the same way is written once, here, each rule naming both blocks' classes.
+ * No class is added: each component keeps its own block and parts, so markup written by hand keeps working.
+ *
+ * What is here: the bar itself and the surface it draws, the five looks, the bar's own room (zone), the frost behind
+ * it, the second row, the row's common arrangement (the start, the brand and its logo, the end, the links), the
+ * menu button and the narrow-only and wide-only parts, the open menu's movement and the press area of the brand's
+ * link. What stays in each component's own stylesheet is what differs: the app bar's row is flexible and its
+ * padding the medium inset, the header's a grid of three columns and its padding the large one; the app bar's
+ * search, actions, title, hide on scroll and Showroom arrangements; the header's links, call to action, menu groups
+ * and fade between backgrounds. A rule that sets one value in the app bar and another in the header is split: the
+ * common declarations here, the differing one in each component's stylesheet. The rules that outweigh each other
+ * are kept in the order they had, so nothing changes where the two meet. */
+
+.smbk-app-bar,
+.smbk-header {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim);
+  border-radius: var(--smbk-radius-container-sm);
+  background: var(--smbk-color-surface-default);
+  color: var(--smbk-color-text-default);
+  box-shadow: var(--smbk-elevation-raised);
+}
+
+/* Background off: no fill, edge or shadow; the bar sits on the page. The open menu keeps the surface,
+   because its links stack over the page below. */
+.smbk-app-bar--background-off:not(.smbk-app-bar--expanded),
+.smbk-header--background-off:not(.smbk-header--expanded) {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+
+/* ---- the panel: the surface inside the bar's room. Without a room or a frost it is no box of its own and the
+   block draws the surface, as markup without it always has. ---- */
+
+.smbk-app-bar__panel,
+.smbk-header__panel {
+  display: contents;
+}
+
+/* With its own room, or with a frost behind it, the block is the room and the panel inside it draws the bar. */
+.smbk-app-bar.smbk-app-bar--zone,
+.smbk-app-bar.smbk-app-bar--frosted,
+.smbk-header.smbk-header--zone,
+.smbk-header.smbk-header--frosted {
+  position: relative;
+  isolation: isolate;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+:is(.smbk-app-bar--zone, .smbk-app-bar--frosted) > .smbk-app-bar__panel,
+:is(.smbk-header--zone, .smbk-header--frosted) > .smbk-header__panel {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim);
+  border-radius: var(--smbk-radius-container-sm);
+  background: var(--smbk-color-surface-default);
+  box-shadow: var(--smbk-elevation-raised);
+  transition-property: background-color, border-color, box-shadow;
+  transition-duration: var(--smbk-motion-state-duration);
+  transition-timing-function: var(--smbk-motion-state-easing);
+}
+
+.smbk-app-bar--background-off:not(.smbk-app-bar--expanded) > .smbk-app-bar__panel,
+.smbk-header--background-off:not(.smbk-header--expanded) > .smbk-header__panel {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* ---- the zone: the bar's own room, as Figma draws it. The medium inset above and below a floating bar and the
+   extra-large one at the sides in a wide space, the extra-small gutter at the sides in a narrow one; a flat bar has
+   none. The row inside is held to the content width: past it, the panel keeps its surface across the room and
+   moves the row in from both sides. ---- */
+
+.smbk-app-bar.smbk-app-bar--zone,
+.smbk-header.smbk-header--zone {
+  padding: var(--smbk-space-inset-md) var(--smbk-space-inset-2xl);
+}
+
+@container style(--smbk-layout: narrow) {
+  .smbk-app-bar.smbk-app-bar--zone,
+  .smbk-header.smbk-header--zone {
+    padding: var(--smbk-space-inset-md) var(--smbk-space-gutter-xs);
+  }
+}
+
+.smbk-app-bar--zone.smbk-app-bar--look-flat,
+.smbk-header--zone.smbk-header--look-flat {
+  padding: 0;
+}
+
+.smbk-app-bar--zone > .smbk-app-bar__panel {
+  padding-inline: max(var(--smbk-space-0), calc((100% - var(--smbk-size-layout-container-default)) / 2 - var(--smbk-space-inset-md)));
+}
+
+.smbk-header--zone > .smbk-header__panel {
+  padding-inline: max(var(--smbk-space-0), calc((100% - var(--smbk-size-layout-container-default)) / 2 - var(--smbk-space-inset-xl)));
+}
+
+.smbk-app-bar--zone.smbk-app-bar--look-split > .smbk-app-bar__panel,
+.smbk-header--zone.smbk-header--look-split > .smbk-header__panel {
+  padding-inline: max(var(--smbk-space-0), calc((100% - var(--smbk-size-layout-container-default)) / 2));
+}
+
+/* ---- frosted: a blur behind the bar, strongest at the top and gone by its foot. Three layers side by side (a blur
+   nested in another would only blur its parent, not the page), each blurring what is behind it and each masked to
+   fade out further up, add up to that one progressive blur. They sit behind the panel, so the bar itself is never
+   blurred. The masks read only how opaque their paint is, so the text color stands in for "shown". ---- */
+
+.smbk-app-bar__frost,
+.smbk-header__frost {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  backdrop-filter: blur(var(--smbk-blur-4));
+  mask-image: linear-gradient(to bottom, currentColor, transparent);
+}
+
+:is(.smbk-app-bar__frost, .smbk-header__frost) + :is(.smbk-app-bar__frost, .smbk-header__frost) {
+  backdrop-filter: blur(var(--smbk-blur-8));
+  mask-image: linear-gradient(to bottom, currentColor, transparent 70%);
+}
+
+:is(.smbk-app-bar__frost, .smbk-header__frost) + :is(.smbk-app-bar__frost, .smbk-header__frost) + :is(.smbk-app-bar__frost, .smbk-header__frost) {
+  backdrop-filter: blur(var(--smbk-blur-14));
+  mask-image: linear-gradient(to bottom, currentColor, transparent 40%);
+}
+
+@media (forced-colors: active) {
+  .smbk-app-bar__frost,
+  .smbk-header__frost {
+    display: none;
+  }
+}
+
+/* ---- flat: square, no edge or shadow, a hairline of the subtle border color along the foot (the line axis). The
+   edge stays as a clear hairline, so the bar measures as the floating one does. ---- */
+
+.smbk-app-bar.smbk-app-bar--look-flat,
+.smbk-header.smbk-header--look-flat,
+:is(.smbk-app-bar--zone, .smbk-app-bar--frosted).smbk-app-bar--look-flat > .smbk-app-bar__panel,
+:is(.smbk-header--zone, .smbk-header--frosted).smbk-header--look-flat > .smbk-header__panel {
+  border-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.smbk-app-bar--look-flat.smbk-app-bar--line-on:not(.smbk-app-bar--zone, .smbk-app-bar--frosted),
+.smbk-header--look-flat.smbk-header--line-on:not(.smbk-header--zone, .smbk-header--frosted),
+:is(.smbk-app-bar--zone, .smbk-app-bar--frosted).smbk-app-bar--look-flat.smbk-app-bar--line-on > .smbk-app-bar__panel,
+:is(.smbk-header--zone, .smbk-header--frosted).smbk-header--look-flat.smbk-header--line-on > .smbk-header__panel {
+  border-bottom-color: var(--smbk-color-border-subtle);
+}
+
+/* ---- floating hug: in a wide space the bar is only as wide as its content, centered in its room. ---- */
+
+.smbk-app-bar.smbk-app-bar--look-floating-hug:not(.smbk-app-bar--zone, .smbk-app-bar--frosted),
+.smbk-header.smbk-header--look-floating-hug:not(.smbk-header--zone, .smbk-header--frosted) {
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+}
+
+:is(.smbk-app-bar--zone, .smbk-app-bar--frosted).smbk-app-bar--look-floating-hug > .smbk-app-bar__panel,
+:is(.smbk-header--zone, .smbk-header--frosted).smbk-header--look-floating-hug > .smbk-header__panel {
+  align-self: center;
+  max-width: 100%;
+}
+
+@container style(--smbk-layout: narrow) {
+  .smbk-app-bar.smbk-app-bar--look-floating-hug:not(.smbk-app-bar--zone, .smbk-app-bar--frosted),
+  .smbk-header.smbk-header--look-floating-hug:not(.smbk-header--zone, .smbk-header--frosted) {
+    width: 100%;
+    margin-inline: 0;
+  }
+
+  :is(.smbk-app-bar--zone, .smbk-app-bar--frosted).smbk-app-bar--look-floating-hug > .smbk-app-bar__panel,
+  :is(.smbk-header--zone, .smbk-header--frosted).smbk-header--look-floating-hug > .smbk-header__panel {
+    align-self: stretch;
+  }
+}
+
+/* ---- split: no surface of its own. The start and the trail (the links and the end) are islands, each a surface
+   of its own lined up with the room's edges; the second row and the open menu are islands under them, the small
+   stack step apart. ---- */
+
+.smbk-app-bar.smbk-app-bar--look-split,
+.smbk-header.smbk-header--look-split,
+.smbk-app-bar--look-split > .smbk-app-bar__panel,
+.smbk-header--look-split > .smbk-header__panel {
+  gap: var(--smbk-space-stack-sm);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.smbk-app-bar__trail,
+.smbk-header__trail {
+  display: contents;
+}
+
+.smbk-app-bar--look-split .smbk-app-bar__start,
+.smbk-app-bar--look-split .smbk-app-bar__trail,
+.smbk-app-bar--look-split .smbk-app-bar__second-row,
+.smbk-app-bar--look-split .smbk-app-bar__menu,
+.smbk-header--look-split .smbk-header__start,
+.smbk-header--look-split .smbk-header__trail,
+.smbk-header--look-split .smbk-header__second-row,
+.smbk-header--look-split .smbk-header__menu {
+  box-sizing: border-box;
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim);
+  border-radius: var(--smbk-radius-container-sm);
+  background: var(--smbk-color-surface-default);
+  box-shadow: var(--smbk-elevation-raised);
+}
+
+.smbk-app-bar--look-split.smbk-app-bar--background-off :is(.smbk-app-bar__start, .smbk-app-bar__trail, .smbk-app-bar__second-row),
+.smbk-header--look-split.smbk-header--background-off :is(.smbk-header__start, .smbk-header__trail, .smbk-header__second-row) {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+.smbk-app-bar--look-split .smbk-app-bar__trail,
+.smbk-header--look-split .smbk-header__trail {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-lg);
+}
+
+/* ---- the second row: under the bar, a divider and then a row of further navigation, such as line tabs, a control
+   tall. The bar gives up its foot padding for the medium stack step to it. ---- */
+
+.smbk-app-bar__second-row,
+.smbk-header__second-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+  min-width: 0;
+}
+
+.smbk-app-bar__bar:has(+ .smbk-app-bar__second-row),
+.smbk-header__bar:has(+ .smbk-header__second-row) {
+  padding-bottom: var(--smbk-space-stack-md);
+}
+
+.smbk-app-bar--look-split .smbk-app-bar__bar:has(+ .smbk-app-bar__second-row),
+.smbk-header--look-split .smbk-header__bar:has(+ .smbk-header__second-row) {
+  padding-bottom: 0;
+}
+
+.smbk-app-bar__second-row-nav,
+.smbk-header__second-row-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-md);
+  min-width: 0;
+  min-height: var(--smbk-size-control-md);
+}
+
+/* ==== The row both draw ==== */
+
+/* The bar's row: the surface's padding, which each gives the edge's width back, and its arrangement are each
+   component's own (a flexible row, a grid of three columns). The row clips what it cannot hold until the page's
+   script has measured it, so the page never scrolls sideways. */
+.smbk-app-bar__bar,
+.smbk-header__bar {
+  box-sizing: border-box;
+  align-items: center;
+  overflow-x: clip;
+}
+
+/* The start: the brand and what goes beside it, never narrower than they are. */
+.smbk-app-bar__start,
+.smbk-header__start {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-md);
+  min-width: max-content;
+}
+
+.smbk-app-bar__brand,
+.smbk-header__brand {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: inherit;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.smbk-app-bar__brand:focus-visible,
+.smbk-header__brand:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+  border-radius: var(--smbk-radius-control-xs);
+}
+
+/* The whole logo in the wide bar, the extra-large icon size tall, as Figma's AppBarStart draws its Logo (the app
+   bar's mark alone in the narrow bar is the same size). */
+.smbk-app-bar__logo,
+.smbk-header__logo {
+  height: var(--smbk-size-icon-xl);
+  width: auto;
+}
+
+/* The links: navigation items in a row, the extra-small inline step apart. */
+.smbk-app-bar__nav,
+.smbk-header__links {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-xs);
+}
+
+/* The end: what comes after the links, the small inline step apart. */
+.smbk-app-bar__end,
+.smbk-header__end {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+}
+
+/* The open menu under the bar: a column, hidden until the narrow form or a fold opens it. */
+.smbk-app-bar__menu,
+.smbk-header__menu {
+  display: none;
+  flex-direction: column;
+}
+
+/* ---- the two forms. Wide shows the links and the controls in the bar; narrow shows the menu button and stacks the
+   rest under the bar. The selectors carry the block so they outweigh the display rule of the button or logo they
+   hide, whichever stylesheet comes later. ---- */
+
+.smbk-app-bar .smbk-app-bar__narrow-only,
+.smbk-header .smbk-header__narrow-only {
+  display: none;
+}
+
+.smbk-app-bar--fold-links .smbk-app-bar__menu-button,
+.smbk-header--fold-links .smbk-header__menu-button {
+  display: inline-flex;
+}
+
+.smbk-app-bar--fold-links.smbk-app-bar--expanded .smbk-app-bar__menu,
+.smbk-header--fold-links.smbk-header--expanded .smbk-header__menu {
+  display: flex;
+  block-size: auto;
+  transition-duration: var(--smbk-motion-enter-duration);
+  transition-timing-function: var(--smbk-motion-enter-easing);
+}
+
+/* ---- the looks' rows (their surfaces are above) ---- */
+
+/* Floating hug: the three places side by side, the extra-extra-large inline step apart. */
+.smbk-app-bar--look-floating-hug .smbk-app-bar__bar,
+.smbk-header--look-floating-hug .smbk-header__bar {
+  gap: var(--smbk-space-inline-2xl);
+}
+
+/* Split: the row holds the two islands at its two ends; each island has the bar's padding. */
+.smbk-app-bar--look-split .smbk-app-bar__bar,
+.smbk-header--look-split .smbk-header__bar {
+  padding: 0;
+  overflow-x: visible;
+}
+
+.smbk-app-bar--look-split.smbk-app-bar--fold-links.smbk-app-bar--expanded .smbk-app-bar__menu,
+.smbk-header--look-split.smbk-header--fold-links.smbk-header--expanded .smbk-header__menu {
+  padding-top: calc(var(--smbk-space-inset-md) - var(--smbk-border-width-hairline));
+}
+
+/* The narrow bar: the wide-only parts go, the narrow-only ones show, and the open menu is drawn. */
+@container style(--smbk-layout: narrow) {
+  .smbk-app-bar .smbk-app-bar__wide-only,
+  .smbk-header .smbk-header__wide-only {
+    display: none;
+  }
+
+  .smbk-app-bar .smbk-app-bar__narrow-only,
+  .smbk-header .smbk-header__narrow-only {
+    display: inline-flex;
+  }
+
+  .smbk-app-bar--expanded .smbk-app-bar__menu,
+  .smbk-header--expanded .smbk-header__menu {
+    display: flex;
+    block-size: auto;
+    transition-duration: var(--smbk-motion-enter-duration);
+    transition-timing-function: var(--smbk-motion-enter-easing);
+  }
+
+  /* Floating hug is the floating bar in a narrow space. */
+  .smbk-app-bar--look-floating-hug .smbk-app-bar__bar,
+  .smbk-header--look-floating-hug .smbk-header__bar {
+    gap: var(--smbk-space-inline-lg);
+  }
+
+  /* Split: the two islands keep the narrow bar's padding; the open menu is an island of its own. */
+  .smbk-app-bar--look-split .smbk-app-bar__bar,
+  .smbk-header--look-split .smbk-header__bar {
+    padding: 0;
+  }
+
+  .smbk-app-bar--look-split.smbk-app-bar--expanded .smbk-app-bar__menu,
+  .smbk-header--look-split.smbk-header--expanded .smbk-header__menu {
+    padding-top: calc(var(--smbk-space-inset-md) - var(--smbk-border-width-hairline));
+  }
+
+  /* Centred: the brand in the middle of the row, the end group at its end. */
+  .smbk-app-bar--look-centred .smbk-app-bar__bar,
+  .smbk-header--look-centred .smbk-header__bar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+  }
+
+  .smbk-app-bar--look-centred .smbk-app-bar__start,
+  .smbk-header--look-centred .smbk-header__start {
+    grid-area: 1 / 2;
+  }
+
+  .smbk-app-bar--look-centred .smbk-app-bar__end,
+  .smbk-header--look-centred .smbk-header__end {
+    grid-area: 1 / 3;
+  }
+}
+
+/* ---- motion: the menu grows from no height to its own under the bar with the enter purpose, and shrinks back with
+   the exit purpose. Its display changes at the end of the exit, so it stays drawn while it closes. It is clipped
+   while it moves, to a focus ring's reach. A browser that cannot animate to a natural height opens it at once. No
+   movement under reduced motion. ---- */
+
+.smbk-app-bar__menu,
+.smbk-header__menu {
+  interpolate-size: allow-keywords;
+  block-size: 0;
+  overflow: clip;
+  overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+  transition-property: block-size, padding-bottom, display;
+  transition-duration: var(--smbk-motion-exit-duration);
+  transition-timing-function: var(--smbk-motion-exit-easing);
+  transition-behavior: allow-discrete;
+}
+
+/* Each component's own stylesheet ends with the rule that says where the menu starts (@starting-style), after the
+   foot padding it sets: that rule only wins if it comes later than the padding it replaces, which a shared
+   stylesheet loaded before the header's cannot promise. */
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-app-bar__menu,
+  .smbk-header__menu {
+    transition: none;
+  }
+}
+
+/* ---- touch: the brand's link takes an invisible press area ----
+   On a touch screen an invisible area, centred on it, takes the press out to the comfortable target in each direction
+   it falls short of it; its look, its focus ring and its place stay as drawn. */
+
+@media (pointer: coarse) {
+  .smbk-app-bar__brand,
+  .smbk-header__brand {
+    position: relative;
+  }
+
+  .smbk-app-bar__brand::after,
+  .smbk-header__brand::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+}

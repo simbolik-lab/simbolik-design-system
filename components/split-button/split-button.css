@@ -1,0 +1,12 @@
+/* smbk-split-button — Split button. Figma "Split button" 7115:1869: Tone × Size × State, 27 variants.
+ * Built on the button group, as Figma builds it: the markup carries the group's segmented classes at the same
+ * tone and size as well as this block, so the corners, the hairline between the two buttons and the outline
+ * bar's edge are the group's. The first child is the default action, a button; the second the dropdown's anchor,
+ * whose opener is an icon-only button with a caret, square at the button's size. The menu hangs under the bar,
+ * lined up with its end edge. This sheet adds only what the split button draws differently from a group. */
+
+/* Outline: the line between the action and the caret is the outline edge itself, as strong as the bar's
+   outer edge, where a segmented outline bar draws a fainter line between equal choices. */
+.smbk-split-button.smbk-split-button--tone-outline:not(.smbk-btn-group--orientation-vertical) > .smbk-btn + .smbk-dropdown__anchor > .smbk-btn {
+  border-inline-start-color: var(--smbk-color-action-outline-border);
+}

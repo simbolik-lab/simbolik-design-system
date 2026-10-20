@@ -1,5 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 import { buttonGroup } from './button-group.manifest.js';
+import { cx } from '../variants.js';
 import type { VariantProps } from '../variants.js';
 
 export interface ButtonGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'>, VariantProps<typeof buttonGroup.manifest> {
@@ -10,7 +11,7 @@ export interface ButtonGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, '
 
 /** Button group: a labelled group of Button elements. The layout and the fused edges are CSS. */
 export function ButtonGroup({ type, tone, size, orientation, label, className, children, ...rest }: ButtonGroupProps) {
-  const classes = [buttonGroup({ type, tone, size, orientation }), className].filter(Boolean).join(' ');
+  const classes = cx(buttonGroup({ type, tone, size, orientation }), className);
   return (
     <div role="group" aria-label={label} className={classes} {...rest}>
       {children}

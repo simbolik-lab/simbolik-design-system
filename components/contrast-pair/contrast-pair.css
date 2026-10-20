@@ -1,0 +1,103 @@
+/* smbk-contrast-pair — Contrast pair. Figma "Contrast pair" 7416:115 (Result: AAA, AA, AA large, Fails).
+ * One color pair drawn as it is, on the default surface inside a subtle edge: a 48 px sample (the background color with
+ * "Aa" in Heading XS in the text color), then the ratio in Label MD with a small soft badge (smbk-badge) that says the
+ * result in words, and under them the two roles' names in Body XS. The sample's two colors are data: the wrapper writes
+ * them to two custom properties on the block, and only the sample reads them. The badge's type follows the result. */
+
+.smbk-contrast-pair {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-lg);
+  min-width: 0;
+  padding: var(--smbk-space-inset-md);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  border-radius: var(--smbk-radius-container-sm);
+  background: var(--smbk-color-surface-default);
+}
+
+/* The block frames the words it hides for screen readers, so they stay inside it wherever it is placed: without a
+   frame they hang from the page itself and stretch it, past the end of an area that scrolls. No weight, so a parent
+   that places the block keeps its say. */
+:where(.smbk-contrast-pair) {
+  position: relative;
+}
+
+.smbk-contrast-pair__sample {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: var(--smbk-size-48);
+  height: var(--smbk-size-48);
+  overflow: hidden;
+  border-radius: var(--smbk-radius-control-md);
+  background: var(--smbk-contrast-pair-background);
+  color: var(--smbk-contrast-pair-foreground);
+  font-family: var(--smbk-typography-heading-xs-font-family);
+  font-size: var(--smbk-typography-heading-xs-font-size);
+  font-weight: var(--smbk-typography-heading-xs-font-weight);
+  line-height: var(--smbk-typography-heading-xs-line-height);
+  letter-spacing: var(--smbk-typography-heading-xs-letter-spacing);
+  forced-color-adjust: none;
+}
+
+/* The sample's edge, drawn inside and over the color, as the color swatch draws its own. */
+.smbk-contrast-pair__sample::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-shade-subtle);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.smbk-contrast-pair__text {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-xs);
+  min-width: 0;
+}
+
+.smbk-contrast-pair__result {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+}
+
+.smbk-contrast-pair__ratio {
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-label-md-font-family);
+  font-size: var(--smbk-typography-label-md-font-size);
+  font-weight: var(--smbk-typography-label-md-font-weight);
+  line-height: var(--smbk-typography-label-md-line-height);
+  letter-spacing: var(--smbk-typography-label-md-letter-spacing);
+  font-variant-numeric: tabular-nums;
+}
+
+.smbk-contrast-pair__names {
+  margin: 0;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
+  overflow-wrap: anywhere;
+}
+
+/* Words for screen readers only: the ratio said in full. */
+/* .smbk-contrast-pair__hidden: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
+/* ---- high contrast (forced colors) ---- */
+/* The sample keeps its two colors, since they are what it shows; its edge and the block's take the reader's text color. */
+@media (forced-colors: active) {
+  .smbk-contrast-pair,
+  .smbk-contrast-pair__sample::after {
+    border-color: CanvasText;
+  }
+}

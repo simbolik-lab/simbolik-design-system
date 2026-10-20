@@ -1,0 +1,96 @@
+/* smbk-spinner — Spinner. Figma "Spinner" 7110:461: Size × Tone × Reduced motion, 12 variants; the words are content.
+ * A ring of two arcs that turns for a wait with no known end, alone, beside words, or inside a button while its
+ * action runs.
+ * Reduced motion is not an axis: under the reader's setting the ring stands still and the words show, so they
+ * carry the meaning when nothing moves. */
+
+.smbk-spinner {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-xs);
+  vertical-align: middle;
+  color: var(--smbk-color-icon-default);
+}
+
+/* The block frames the words it hides for screen readers, so they stay inside it wherever it is placed: without a
+   frame they hang from the page itself and stretch it, past the end of an area that scrolls. No weight, so a parent
+   that places the block keeps its say. */
+:where(.smbk-spinner) {
+  position: relative;
+}
+
+.smbk-spinner--tone-subtle {
+  color: var(--smbk-color-icon-subtle);
+}
+
+/* The ring: two arcs facing each other, the top and bottom quarters of a circle drawn as the box's top and bottom
+   edges in the current color, the side edges clear, turning once per spin duration at an even speed (an eased
+   turn would speed up and slow down). The box is the icon size of its step, so the ring stands where an icon of
+   that step would and nothing around it moves while it turns. The arcs keep the emphasis border's width at every
+   size. A ring written as the notched-circle icon, as before, draws its arcs the same way and no glyph. */
+.smbk-spinner__ring {
+  box-sizing: border-box;
+  flex: none;
+  width: var(--smbk-size-icon-md);
+  height: var(--smbk-size-icon-md);
+  border: var(--smbk-border-width-emphasis) solid transparent;
+  border-block-color: currentColor;
+  border-radius: var(--smbk-radius-full);
+  color: inherit;
+  font-size: 0;
+  animation: smbk-spinner-turn var(--smbk-motion-spin-duration) linear infinite;
+}
+
+.smbk-spinner--size-sm .smbk-spinner__ring {
+  width: var(--smbk-size-icon-sm);
+  height: var(--smbk-size-icon-sm);
+}
+
+.smbk-spinner--size-lg .smbk-spinner__ring {
+  width: var(--smbk-size-icon-lg);
+  height: var(--smbk-size-icon-lg);
+}
+
+@keyframes smbk-spinner-turn {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.smbk-spinner__label {
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+  white-space: nowrap;
+}
+
+/* Without the label flag the words are still in the page, for a screen reader, but not drawn. */
+.smbk-spinner:not(.smbk-spinner--label) .smbk-spinner__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
+}
+
+/* Reduced motion: the ring stands still and the words show. */
+@media (prefers-reduced-motion: reduce) {
+  .smbk-spinner__ring {
+    animation: none;
+  }
+
+  .smbk-spinner:not(.smbk-spinner--label) .smbk-spinner__label {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+  }
+}

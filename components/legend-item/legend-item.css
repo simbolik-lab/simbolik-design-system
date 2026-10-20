@@ -1,0 +1,60 @@
+/* smbk-legend-item — Legend item. Figma "Legend item" 7580:15.
+ * One line: a small square swatch in the series' data color, the name filling the line, and the value at its
+ * end in the subtle color. A chart's legend is a list of these. The swatch only repeats the color of the
+ * series; the name says which series it is. */
+
+.smbk-legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+  min-width: 0;
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+  text-transform: var(--smbk-typography-body-sm-text-transform);
+  list-style: none;
+}
+
+.smbk-legend-item__swatch {
+  flex: none;
+  width: var(--smbk-size-12);
+  height: var(--smbk-size-12);
+  border-radius: var(--smbk-radius-2);
+  background: var(--smbk-color-data-categorical-1);
+}
+
+.smbk-legend-item__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: var(--smbk-color-text-default);
+  overflow-wrap: anywhere;
+}
+
+.smbk-legend-item__value {
+  flex: none;
+  color: var(--smbk-color-text-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- swatch: the series' color ---- */
+
+.smbk-legend-item--swatch-2 .smbk-legend-item__swatch { background: var(--smbk-color-data-categorical-2); }
+.smbk-legend-item--swatch-3 .smbk-legend-item__swatch { background: var(--smbk-color-data-categorical-3); }
+.smbk-legend-item--swatch-4 .smbk-legend-item__swatch { background: var(--smbk-color-data-categorical-4); }
+.smbk-legend-item--swatch-5 .smbk-legend-item__swatch { background: var(--smbk-color-data-categorical-5); }
+.smbk-legend-item--swatch-6 .smbk-legend-item__swatch { background: var(--smbk-color-data-categorical-6); }
+.smbk-legend-item--swatch-7 .smbk-legend-item__swatch { background: var(--smbk-color-data-categorical-7); }
+.smbk-legend-item--swatch-8 .smbk-legend-item__swatch { background: var(--smbk-color-data-categorical-8); }
+.smbk-legend-item--swatch-series .smbk-legend-item__swatch { background: var(--smbk-color-data-series); }
+.smbk-legend-item--swatch-muted .smbk-legend-item__swatch { background: var(--smbk-color-surface-track); }
+
+/* ---- high contrast (forced colors) ---- */
+/* The swatch keeps its series' color, so it still matches the chart's marks. */
+
+@media (forced-colors: active) {
+  .smbk-legend-item__swatch {
+    forced-color-adjust: none;
+  }
+}

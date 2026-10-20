@@ -1,0 +1,196 @@
+/* smbk-donut-chart — Donut chart. Figma "Donut chart" 7580:1283.
+ * A ring of two to eight parts, clockwise from the top in the categorical colors, a small gap between each, the
+ * figure in the middle with its caption under it, and a legend beside the ring naming each part with its value.
+ * A ninth part and the rest are gathered as one, in the muted gray. In a narrow layout the legend goes under
+ * the ring. The first time the chart comes into view the ring sweeps round from the top; pointing at a part fades
+ * the others. Nothing takes focus. */
+
+.smbk-donut-chart {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-xl);
+  min-width: 0;
+  max-width: var(--smbk-size-width-400);
+}
+
+/* The block frames the words it hides for screen readers, so they stay inside it wherever it is placed: without a
+   frame they hang from the page itself and stretch it, past the end of an area that scrolls. No weight, so a parent
+   that places the block keeps its say. */
+:where(.smbk-donut-chart) {
+  position: relative;
+}
+
+.smbk-donut-chart__ring {
+  position: relative;
+  flex: none;
+  width: var(--smbk-size-chart-donut);
+  height: var(--smbk-size-chart-donut);
+}
+
+.smbk-donut-chart__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.smbk-donut-chart__part {
+  fill: var(--smbk-color-data-categorical-1);
+  stroke: none;
+}
+
+/* ---- each part's color ---- */
+
+.smbk-donut-chart__part--swatch-2 { fill: var(--smbk-color-data-categorical-2); }
+.smbk-donut-chart__part--swatch-3 { fill: var(--smbk-color-data-categorical-3); }
+.smbk-donut-chart__part--swatch-4 { fill: var(--smbk-color-data-categorical-4); }
+.smbk-donut-chart__part--swatch-5 { fill: var(--smbk-color-data-categorical-5); }
+.smbk-donut-chart__part--swatch-6 { fill: var(--smbk-color-data-categorical-6); }
+.smbk-donut-chart__part--swatch-7 { fill: var(--smbk-color-data-categorical-7); }
+.smbk-donut-chart__part--swatch-8 { fill: var(--smbk-color-data-categorical-8); }
+.smbk-donut-chart__part--swatch-muted { fill: var(--smbk-color-surface-track); }
+
+/* The figure and its caption, centred in the hole. */
+.smbk-donut-chart__center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.smbk-donut-chart__figure {
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-heading-xs-font-family);
+  font-size: var(--smbk-typography-heading-xs-font-size);
+  font-weight: var(--smbk-typography-heading-xs-font-weight);
+  line-height: var(--smbk-typography-heading-xs-line-height);
+  letter-spacing: var(--smbk-typography-heading-xs-letter-spacing);
+  text-transform: var(--smbk-typography-heading-xs-text-transform);
+  font-variant-numeric: tabular-nums;
+}
+
+.smbk-donut-chart__caption {
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
+  text-transform: var(--smbk-typography-body-xs-text-transform);
+}
+
+.smbk-donut-chart__legend {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-sm);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* The table, for screen readers only, unless the page shows it in the disclosure under the chart. */
+/* .smbk-donut-chart__table: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
+/* A table takes the room its rows need whatever width and height it is given, so the hidden one is full size, only
+   unseen. It hangs from the block's end corner, reaching back and up, the way a page never scrolls: it adds no room
+   to the block or to any area that scrolls around it, and stays a table for screen readers. */
+.smbk-donut-chart__table {
+  inset-block-end: 0;
+  inset-inline-end: 0;
+}
+
+/* The disclosure that shows the table takes the chart's whole width, under the ring and the legend. */
+.smbk-donut-chart:has(> .smbk-donut-chart__data) {
+  flex-wrap: wrap;
+}
+
+.smbk-donut-chart__data {
+  flex: 1 0 100%;
+}
+
+/* A narrow space puts the legend under the ring. */
+@container style(--smbk-layout: narrow) {
+  .smbk-donut-chart {
+    flex-direction: column;
+    align-items: stretch;
+    max-width: none;
+  }
+
+  .smbk-donut-chart__ring {
+    align-self: center;
+  }
+}
+
+/* ---- pointing at a part ----
+   Where there is a mouse, pointing at a part of the ring fades every other part to the faded opacity, half, so the
+   one pointed at stands out; with nothing pointed at, the parts wait the hover close delay before coming back, so
+   crossing the thin gap between two parts never flashes the whole ring; the fade moves with the feedback purpose, under reduced motion too, since nothing moves. The middle
+   lets the pointer through to the ring under it. Nothing is told by the fade alone: the legend and the table name
+   every part with its value. Parts take no focus, so the keyboard has nothing to point with. At rest every part is
+   whole. */
+
+@media (hover: hover) {
+  .smbk-donut-chart__center {
+    pointer-events: none;
+  }
+
+  .smbk-donut-chart__svg:has(.smbk-donut-chart__part:hover) .smbk-donut-chart__part:not(:hover) {
+    opacity: var(--smbk-opacity-faded);
+    transition-delay: 0s;
+  }
+
+  .smbk-donut-chart__svg:has(.smbk-donut-chart__part:hover) .smbk-donut-chart__part:hover {
+    transition-delay: 0s;
+  }
+
+  .smbk-donut-chart__part {
+    transition: opacity var(--smbk-motion-feedback-duration) var(--smbk-motion-feedback-easing) var(--smbk-motion-hover-close-delay);
+  }
+}
+
+/* ---- motion: the entrance ----
+   The wrapper marks the chart `data-entrance` the first time it comes into view (simbolik/components/entrance.ts):
+   waiting while it is out of view, the ring hidden; playing once it is seen, the ring uncovered clockwise from the
+   top, the way its parts run, with the chart entrance purpose: a conic mask whose edge turns from nothing to the
+   whole circle. --smbk-donut-chart-sweep is that edge, as a share of the circle; it is registered so it can move
+   smoothly. The middle and the legend stay. Without the mark (markup written by hand, the rendered pictures, after
+   the entrance) the ring is simply drawn, and under reduced motion nothing moves. Only the mask changes, so
+   nothing shifts. The mask reads only how opaque its paint is, so the text color stands in for "shown". */
+
+@property --smbk-donut-chart-sweep {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 100;
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  .smbk-donut-chart[data-entrance] .smbk-donut-chart__svg {
+    mask-image: conic-gradient(currentcolor calc(var(--smbk-donut-chart-sweep) * 1%), transparent 0);
+  }
+
+  .smbk-donut-chart[data-entrance="waiting"] .smbk-donut-chart__svg {
+    --smbk-donut-chart-sweep: 0;
+  }
+
+  .smbk-donut-chart:is([data-entrance="load"], [data-entrance="playing"]) .smbk-donut-chart__svg {
+    animation: smbk-donut-chart-sweep var(--smbk-motion-chart-entrance-reveal-duration) var(--smbk-motion-chart-entrance-easing) backwards;
+  }
+}
+
+@keyframes smbk-donut-chart-sweep {
+  from {
+    --smbk-donut-chart-sweep: 0;
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* The parts keep their colors, so each still matches its legend swatch. */
+
+@media (forced-colors: active) {
+  .smbk-donut-chart__svg {
+    forced-color-adjust: none;
+  }
+}

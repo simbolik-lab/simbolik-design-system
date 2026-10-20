@@ -1,0 +1,26 @@
+/* smbk-corner-sample — Corner sample. Figma "Corner sample" 7429:1037 (Radius: None, xs, sm, md, lg, xl, 2xl, 3xl, 4xl, Full).
+ * One corner drawn at one radius: a 24 px square in the subtle neutral surface whose top and left edges are drawn two
+ * pixels wide in the control border color, so it reads in both themes, with its top left corner rounded. The radius is
+ * data: the wrapper writes it to a custom property on the block. A radius larger than the square, the capsule, draws
+ * as the square's own size, as Figma draws Full. It is a picture: the words beside it name the step. */
+
+.smbk-corner-sample {
+  display: inline-block;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: var(--smbk-size-24);
+  height: var(--smbk-size-24);
+  border-top: var(--smbk-border-width-2) solid var(--smbk-color-border-control);
+  border-left: var(--smbk-border-width-2) solid var(--smbk-color-border-control);
+  border-top-left-radius: min(var(--smbk-corner-sample-radius, var(--smbk-space-0)), var(--smbk-size-24));
+  background: var(--smbk-color-surface-neutral-subtle);
+  vertical-align: middle;
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* The fill is dropped; the two edges take the reader's text color, so the corner still shows. */
+@media (forced-colors: active) {
+  .smbk-corner-sample {
+    border-color: CanvasText;
+  }
+}

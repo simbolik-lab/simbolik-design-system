@@ -22,14 +22,30 @@ export interface Finding {
   kind?: string;
 }
 
+/** A use of a custom property on its way out: not a violation while the name still exists. */
+export interface Leaving {
+  file: string;
+  line: number;
+  name: string;
+  /** What to use instead. */
+  instead: string;
+}
+
 export class Collector {
   readonly findings: Finding[] = [];
+  readonly leaving: Leaving[] = [];
   private readonly seen = new Set<string>();
   add(f: Finding): void {
     const key = `${f.rule}\u0001${f.file}\u0001${f.line}\u0001${f.text}`;
     if (this.seen.has(key)) return;
     this.seen.add(key);
     this.findings.push(f);
+  }
+  leave(l: Leaving): void {
+    const key = `leaving\u0001${l.file}\u0001${l.line}\u0001${l.name}`;
+    if (this.seen.has(key)) return;
+    this.seen.add(key);
+    this.leaving.push(l);
   }
 }
 
@@ -133,7 +149,11 @@ export function checkPropertyRef(ctx: Ctx, raw: string, line: number): void {
   const text = partial ? `${name}…` : name;
   if (!name.startsWith('--smbk-')) return;
   const props = ctx.system.properties;
-  if (partial ? [...props].some((p) => p.startsWith(name)) : props.has(name)) return;
+  if (partial ? [...props].some((p) => p.startsWith(name)) : props.has(name)) {
+    const instead = partial ? undefined : ctx.system.deprecated.get(name);
+    if (instead) ctx.out.leave({ file: ctx.file, line, name, instead });
+    return;
+  }
 
   const primitive = ctx.system.primitives.get(name);
   if (primitive || (!partial && looksPrimitive(name))) {

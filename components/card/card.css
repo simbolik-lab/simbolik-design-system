@@ -1,147 +1,631 @@
-/* smbk-card — Card. Figma "Card" 4255:7087 and its header, body and footer.
- * Content is a column with the container inset; the footer is separated by
- * the divider's two edge lines. With a background picture the content sits at
- * the bottom over a frosted overlay and reads in the on-media text color. */
+/* smbk-card — Card. Figma "Card" 7363:823 (Surface × Layout) with "CardHeader" 7357:668,
+ * "CardBody" 7361:535 and "CardFooter" 7362:518, read on 14 October 2026.
+ * A column: an optional picture, then the content (header, body, footer). The surface decides the fill,
+ * the shadow and the edge; the layout where the picture goes and how much room the parts get. Selected,
+ * the brackets and the two edges draw over the rim. The old media classes answer beside the layouts that
+ * replaced them, for markup written by hand.
+ * The card clips nothing, so the selected edge and the brackets can cover its rim; a part that meets the
+ * card's rounded edge takes the card's corner itself. */
 
 .smbk-card {
   box-sizing: border-box;
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
-  border-radius: var(--smbk-radius-container-md);
+  padding: var(--smbk-space-inset-md);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim);
+  border-radius: var(--smbk-radius-container-lg);
   background: var(--smbk-color-surface-default);
   color: var(--smbk-color-text-default);
-  box-shadow: var(--smbk-elevation-1);
+  box-shadow: var(--smbk-elevation-raised);
 }
+
+/* ---- surface ---- */
+
+.smbk-card--surface-raised {
+  background: var(--smbk-color-surface-raised);
+  box-shadow: var(--smbk-elevation-raised-strong);
+}
+
+.smbk-card--surface-float {
+  background: var(--smbk-color-surface-raised);
+  box-shadow: var(--smbk-elevation-overlay);
+}
+
+/* Cut into the page; its picture stands raised inside it. */
+.smbk-card--surface-well {
+  background: var(--smbk-color-surface-sunken);
+  box-shadow: var(--smbk-elevation-inset-strong);
+}
+
+.smbk-card--surface-well > .smbk-card__media {
+  outline: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim);
+  outline-offset: calc(-1 * var(--smbk-border-width-hairline));
+  box-shadow: var(--smbk-elevation-raised);
+}
+
+.smbk-card--surface-outline {
+  border-color: var(--smbk-color-border-subtle);
+  border-radius: var(--smbk-radius-container-md);
+  background: none;
+  box-shadow: none;
+}
+
+/* ---- the picture ---- */
 
 .smbk-card__media {
   display: block;
   flex-shrink: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  border-radius: var(--smbk-radius-container-sm);
+  object-fit: cover;
+  background: var(--smbk-color-surface-disabled);
+}
+
+/* A picture given as an element (a placeholder, a picture with sources): the frame takes the corners. */
+div.smbk-card__media {
+  overflow: hidden;
+}
+
+div.smbk-card__media > * {
+  display: block;
   width: 100%;
   object-fit: cover;
-  background: var(--smbk-color-surface-default-disabled);
+}
+
+/* The picture's shape, when the page wants one rather than the picture's own. */
+.smbk-card__media--ratio-16-9 {
+  aspect-ratio: 16 / 9;
+}
+
+.smbk-card__media--ratio-4-3 {
+  aspect-ratio: 4 / 3;
+}
+
+.smbk-card__media--ratio-1-1 {
+  aspect-ratio: 1 / 1;
+}
+
+div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-4-3, .smbk-card__media--ratio-1-1) > * {
+  height: 100%;
 }
 
 .smbk-card__content {
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
-  gap: var(--smbk-space-stack-xl);
+  gap: var(--smbk-space-stack-lg);
   min-width: 0;
-  padding: var(--smbk-space-inset-2xl);
+  padding: var(--smbk-space-inset-xl);
 }
+
+/* ---- layout: side, the picture beside the words; stacked on a narrow layout ---- */
+
+.smbk-card--layout-side {
+  flex-direction: row;
+}
+
+.smbk-card--layout-side > .smbk-card__media {
+  width: var(--smbk-size-width-240);
+  max-width: 40%;
+  align-self: stretch;
+}
+
+@container style(--smbk-layout: narrow) {
+  .smbk-card--layout-side {
+    flex-direction: column;
+  }
+
+  .smbk-card--layout-side > .smbk-card__media {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+/* ---- layout: panel, the parts edge to edge for a dashboard ---- */
+
+.smbk-card--layout-panel {
+  padding: 0;
+}
+
+.smbk-card--layout-panel > .smbk-card__content {
+  gap: 0;
+  padding: 0;
+}
+
+/* The header on a shaded band: sunken on the slab, the default surface on the others. */
+.smbk-card--layout-panel > .smbk-card__content > .smbk-card__header {
+  padding: var(--smbk-space-inset-lg) var(--smbk-space-inset-xl);
+  background: var(--smbk-color-surface-default);
+}
+
+.smbk-card--layout-panel.smbk-card--surface-slab > .smbk-card__content > .smbk-card__header {
+  background: var(--smbk-color-surface-sunken);
+}
+
+/* The band meets the card's rounded top, inside its edge: its corners are the card's less the edge's width, so
+   its fill follows the rim's inner curve and never shows past the corners. The card clips nothing, so the band
+   rounds itself. */
+.smbk-card--layout-panel > .smbk-card__content:first-child > .smbk-card__header:first-child {
+  border-start-start-radius: calc(var(--smbk-radius-container-lg) - var(--smbk-border-width-hairline));
+  border-start-end-radius: calc(var(--smbk-radius-container-lg) - var(--smbk-border-width-hairline));
+}
+
+.smbk-card--layout-panel.smbk-card--surface-outline > .smbk-card__content:first-child > .smbk-card__header:first-child {
+  border-start-start-radius: calc(var(--smbk-radius-container-md) - var(--smbk-border-width-hairline));
+  border-start-end-radius: calc(var(--smbk-radius-container-md) - var(--smbk-border-width-hairline));
+}
+
+.smbk-card--layout-panel > .smbk-card__content > .smbk-card__body,
+.smbk-card--layout-panel > .smbk-card__content > .smbk-card__footer {
+  padding: var(--smbk-space-inset-lg) var(--smbk-space-inset-xl);
+}
+
+/* The divider runs edge to edge above the footer; the footer's own rule stays off. */
+.smbk-card--layout-panel > .smbk-card__content > .smbk-card__footer {
+  border-top: 0;
+}
+
+/* ---- layout: compact, the tight card for a grid ---- */
+
+.smbk-card--layout-compact {
+  padding: 0;
+  border-radius: var(--smbk-radius-container-md);
+}
+
+.smbk-card--layout-compact > .smbk-card__content {
+  gap: var(--smbk-space-stack-md);
+  padding: var(--smbk-space-inset-lg);
+}
+
+/* In the panel and compact layouts the picture meets the card's top edge and takes its corners there. */
+:is(.smbk-card--layout-panel, .smbk-card--layout-compact) > .smbk-card__media:first-child {
+  border-start-start-radius: inherit;
+  border-start-end-radius: inherit;
+}
+
+/* ---- layout: behind, the picture fills the card and the words sit at its foot on the scrim, dark enough
+   in both themes for the on-media text on any picture ---- */
+
+.smbk-card--layout-behind {
+  min-height: var(--smbk-size-content-sm);
+  padding: 0;
+  color: var(--smbk-color-text-on-media);
+}
+
+.smbk-card--layout-behind > .smbk-card__media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.smbk-card--layout-behind > .smbk-card__content {
+  position: relative;
+  flex: 0 0 auto;
+  margin-top: auto;
+  border-end-start-radius: inherit;
+  border-end-end-radius: inherit;
+  background: var(--smbk-color-surface-scrim);
+}
+
+.smbk-card--layout-behind :is(.smbk-card__eyebrow, .smbk-card__title, .smbk-card__number, .smbk-card__meta, .smbk-card__body, .smbk-card__footer, .smbk-card__footer-row) {
+  color: var(--smbk-color-text-on-media);
+}
+
+/* The quiet button's label reads on the scrim too; the brand button keeps its own. */
+.smbk-card--layout-behind .smbk-card__footer .smbk-btn--tone-ghost {
+  color: var(--smbk-color-text-on-media);
+}
+
+/* ---- selected, the brackets and the edges, drawn over the rim ---- */
+
+.smbk-card--selected {
+  outline: var(--smbk-border-width-emphasis) solid var(--smbk-color-border-brand);
+  outline-offset: calc(-1 * var(--smbk-border-width-emphasis));
+}
+
+/* Four corner marks: one edge kept only at the corners. Decoration, so nothing reads it or takes a press. */
+.smbk-card--brackets::before {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--smbk-border-width-hairline));
+  border: var(--smbk-border-width-emphasis) solid var(--smbk-color-border-brand);
+  border-radius: var(--smbk-radius-container-sm);
+  pointer-events: none;
+  mask:
+    linear-gradient(var(--smbk-color-border-brand) 0 0) top left / var(--smbk-size-16) var(--smbk-size-16) no-repeat,
+    linear-gradient(var(--smbk-color-border-brand) 0 0) top right / var(--smbk-size-16) var(--smbk-size-16) no-repeat,
+    linear-gradient(var(--smbk-color-border-brand) 0 0) bottom left / var(--smbk-size-16) var(--smbk-size-16) no-repeat,
+    linear-gradient(var(--smbk-color-border-brand) 0 0) bottom right / var(--smbk-size-16) var(--smbk-size-16) no-repeat;
+}
+
+.smbk-card--warning-edge {
+  border-color: var(--smbk-color-feedback-warning-border);
+}
+
+.smbk-card--danger-edge {
+  border-color: var(--smbk-color-feedback-danger-border);
+}
+
+/* ---- dragged: lifted off its column while it moves ---- */
+
+.smbk-card--dragged {
+  box-shadow: var(--smbk-elevation-overlay);
+}
+
+/* ---- a card that opens something: the title is a link or a button whose box covers the card, so the whole
+   card is the one place to press. The edge turns strong on hover and the focus ring goes round the card. ---- */
+
+.smbk-card__link {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: start;
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.smbk-card__link::after {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--smbk-border-width-hairline));
+  border-radius: var(--smbk-radius-container-lg);
+}
+
+:is(.smbk-card--surface-outline, .smbk-card--layout-compact) .smbk-card__link::after {
+  border-radius: var(--smbk-radius-container-md);
+}
+
+@media (hover: hover) {
+  .smbk-card:not(.smbk-card--warning-edge, .smbk-card--danger-edge):has(.smbk-card__link:hover) {
+    border-color: var(--smbk-color-border-strong);
+  }
+}
+
+.smbk-card__link:focus-visible::after {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+/* With its picture behind, the words' band stops holding the link's box, so the press covers the whole card;
+   the picture goes under the band instead, inside the card. */
+.smbk-card--layout-behind:has(.smbk-card__link) {
+  isolation: isolate;
+}
+
+.smbk-card--layout-behind:has(.smbk-card__link) > .smbk-card__media {
+  z-index: -1;
+}
+
+.smbk-card--layout-behind:has(.smbk-card__link) > .smbk-card__content {
+  position: static;
+}
+
+/* On a touch screen a second invisible area over the card reaches above and below it to the comfortable target,
+   so even a card holding only a short title is a full press. The card, its focus ring and its place stay as drawn. */
+@media (pointer: coarse) {
+  .smbk-card__link::before {
+    content: "";
+    position: absolute;
+    inset-inline: calc(-1 * var(--smbk-border-width-hairline));
+    inset-block: min(calc(-1 * var(--smbk-border-width-hairline)), (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+}
+
+/* ---- header: a title with its meta, and kinds with an icon, a person, a number or a window bar.
+   Markup written by hand without a kind stacks its parts, as before. ---- */
 
 .smbk-card__header {
   display: flex;
   flex-direction: column;
-  gap: var(--smbk-space-inline-xl);
+  gap: var(--smbk-space-stack-xs);
+  min-width: 0;
 }
 
+.smbk-card__header:is(.smbk-card__header--type-title, .smbk-card__header--type-person, .smbk-card__header--type-number, .smbk-card__header--type-window) {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--smbk-space-inline-md);
+}
+
+.smbk-card__header:is(.smbk-card__header--type-person, .smbk-card__header--type-window) {
+  align-items: center;
+}
+
+.smbk-card__header--type-icon {
+  gap: var(--smbk-space-stack-lg);
+}
+
+/* The icon kind's top row: the icon well, and the trailing parts at the end. */
+.smbk-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--smbk-space-inline-md);
+}
+
+.smbk-card__icon-tile {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--smbk-size-control-lg);
+  height: var(--smbk-size-control-lg);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim);
+  border-radius: var(--smbk-radius-control-lg);
+  background: var(--smbk-color-surface-sunken);
+  color: var(--smbk-color-text-default);
+  box-shadow: var(--smbk-elevation-inset-strong);
+}
+
+.smbk-card__icon-tile--color-brand {
+  color: var(--smbk-color-icon-brand);
+}
+
+/* An icon written by hand straight into the header keeps its old size. */
 .smbk-card__icon {
   font-size: var(--smbk-size-icon-xl);
+}
+
+.smbk-card__icon-tile .smbk-card__icon {
+  font-size: var(--smbk-size-icon-lg);
+}
+
+.smbk-card__avatar {
+  flex: none;
+}
+
+.smbk-card__lights {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--smbk-space-inline-xs);
+}
+
+.smbk-card__header-text {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-xs);
+  min-width: 0;
 }
 
 .smbk-card__eyebrow {
   margin: 0;
   color: var(--smbk-color-text-brand);
-  font-family: var(--smbk-typography-label-m-font-family);
-  font-size: var(--smbk-typography-label-m-font-size);
-  font-weight: var(--smbk-typography-label-m-font-weight);
-  line-height: var(--smbk-typography-label-m-line-height);
-  letter-spacing: var(--smbk-typography-label-m-letter-spacing);
-  text-box: trim-both cap alphabetic;
-  text-transform: var(--smbk-typography-label-m-text-transform);
+  font-family: var(--smbk-typography-label-sm-font-family);
+  font-size: var(--smbk-typography-label-sm-font-size);
+  font-weight: var(--smbk-typography-label-sm-font-weight);
+  line-height: var(--smbk-typography-label-sm-line-height);
+  letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
 }
 
+.smbk-card__title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+  min-width: 0;
+}
+
+/* The title: md by default, as in an app. */
 .smbk-card__title {
   margin: 0;
-  font-family: var(--smbk-typography-h5-font-family);
-  font-size: var(--smbk-typography-h5-font-size);
-  font-weight: var(--smbk-typography-h5-font-weight);
-  line-height: var(--smbk-typography-h5-line-height);
-  letter-spacing: var(--smbk-typography-h5-letter-spacing);
-  text-box: trim-both cap alphabetic;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-label-lg-font-family);
+  font-size: var(--smbk-typography-label-lg-font-size);
+  font-weight: var(--smbk-typography-label-lg-font-weight);
+  line-height: var(--smbk-typography-label-lg-line-height);
+  letter-spacing: var(--smbk-typography-label-lg-letter-spacing);
 }
 
-.smbk-card__header .smbk-card__eyebrow + .smbk-card__title {
-  margin-top: calc(var(--smbk-space-inline-lg) - var(--smbk-space-inline-xl));
+.smbk-card__header--size-lg .smbk-card__title {
+  font-family: var(--smbk-typography-heading-2xs-font-family);
+  font-size: var(--smbk-typography-heading-2xs-font-size);
+  font-weight: var(--smbk-typography-heading-2xs-font-weight);
+  line-height: var(--smbk-typography-heading-2xs-line-height);
+  letter-spacing: var(--smbk-typography-heading-2xs-letter-spacing);
 }
 
-/* A block, not a flex column, so the trim reaches its words: a flex box does
-   not pass the trim to text inside it. Children keep the same gap as margins. */
+.smbk-card__header--size-sm .smbk-card__title {
+  font-family: var(--smbk-typography-label-md-font-family);
+  font-size: var(--smbk-typography-label-md-font-size);
+  font-weight: var(--smbk-typography-label-md-font-weight);
+  line-height: var(--smbk-typography-label-md-line-height);
+  letter-spacing: var(--smbk-typography-label-md-letter-spacing);
+}
+
+/* A number before the title, such as an issue's, in the title's style and the quietest text color. */
+.smbk-card__number {
+  margin-inline-end: var(--smbk-space-inline-sm);
+  color: var(--smbk-color-text-subtlest);
+}
+
+/* The window bar's title: a path in code type, centred in the bar. */
+.smbk-card__window-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  color: var(--smbk-color-text-subtle);
+  text-align: center;
+  font-family: var(--smbk-typography-code-sm-font-family);
+  font-size: var(--smbk-typography-code-sm-font-size);
+  font-weight: var(--smbk-typography-code-sm-font-weight);
+  line-height: var(--smbk-typography-code-sm-line-height);
+  letter-spacing: var(--smbk-typography-code-sm-letter-spacing);
+}
+
+.smbk-card__meta {
+  margin: 0;
+  color: var(--smbk-color-text-subtlest);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+.smbk-card__header--size-lg .smbk-card__meta {
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
+}
+
+.smbk-card__trailing {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--smbk-space-inline-xs);
+  margin-inline-start: auto;
+}
+
+.smbk-card__arrow {
+  font-size: var(--smbk-size-icon-md);
+}
+
+/* ---- body: text by default, or a slot that stacks what the page puts in it ---- */
+
+/* A block, not a flex column: paragraphs keep the same gap as margins. */
 .smbk-card__body {
   display: block;
   margin: 0;
   color: var(--smbk-color-text-subtle);
-  font-family: var(--smbk-typography-subheading-font-family);
-  font-size: var(--smbk-typography-subheading-font-size);
-  font-weight: var(--smbk-typography-subheading-font-weight);
-  line-height: var(--smbk-typography-subheading-line-height);
-  letter-spacing: var(--smbk-typography-subheading-letter-spacing);
-  text-box: trim-both cap alphabetic;
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
 }
+
 .smbk-card__body > * {
   margin-block: 0;
 }
 
 .smbk-card__body > * + * {
-  margin-block-start: var(--smbk-space-inline-lg);
+  margin-block-start: var(--smbk-space-stack-md);
 }
 
+/* The slot: the system's other components, one under another. */
+.smbk-card__body--type-slot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+  min-width: 0;
+}
+
+.smbk-card__body--type-slot > * + * {
+  margin-block-start: 0;
+}
+
+/* ---- footer: a rule, then one row. Markup written by hand without a kind keeps its content as it is. ---- */
 
 .smbk-card__footer {
   display: flex;
   flex-direction: column;
-  gap: var(--smbk-space-stack-xl);
+  gap: var(--smbk-space-stack-lg);
   margin-top: auto;
-  padding-top: var(--smbk-space-stack-xl);
-  border-top: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-top);
-  box-shadow: inset 0 var(--smbk-border-width-hairline) 0 var(--smbk-color-border-edge-bottom);
+  padding-top: var(--smbk-space-stack-lg);
+  border-top: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
 }
 
-/* ---- media placements ---- */
-
-/* The picture's own shape. Given its size, the height follows from the width,
-   and the browser holds that shape before the picture loads. */
-.smbk-card--media-top .smbk-card__media {
-  height: auto;
+.smbk-card__footer--rule-off {
+  padding-top: 0;
+  border-top: 0;
 }
 
-.smbk-card--media-side {
-  flex-direction: row;
+.smbk-card__footer-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+  min-width: 0;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
 }
 
-.smbk-card--media-side .smbk-card__media {
-  width: var(--smbk-size-content-sm);
-  max-width: 40%;
-  height: auto;
-  align-self: stretch;
+.smbk-card__footer-start,
+.smbk-card__footer-end {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+  min-width: 0;
 }
 
-.smbk-card--media-background {
-  border: 0;
-  color: var(--smbk-color-text-on-media);
+.smbk-card__footer-end {
+  margin-inline-start: auto;
 }
 
-.smbk-card--media-background .smbk-card__media {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+/* Meta: a person's name, and the reading time at the end. */
+.smbk-card__footer--type-meta .smbk-card__footer-start {
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-label-md-font-family);
+  font-size: var(--smbk-typography-label-md-font-size);
+  font-weight: var(--smbk-typography-label-md-font-weight);
+  line-height: var(--smbk-typography-label-md-line-height);
+  letter-spacing: var(--smbk-typography-label-md-letter-spacing);
 }
 
-.smbk-card--media-background .smbk-card__content {
-  position: relative;
-  justify-content: flex-end;
-  min-height: var(--smbk-size-content-sm);
-  background: var(--smbk-color-surface-overlay);
-  backdrop-filter: blur(var(--smbk-blur-8));
-  margin-top: auto;
+.smbk-card__footer--type-meta .smbk-card__footer-end {
+  color: var(--smbk-color-text-subtlest);
 }
 
-.smbk-card--media-background .smbk-card__eyebrow,
-.smbk-card--media-background .smbk-card__body {
-  color: var(--smbk-color-text-on-media);
+/* Total: the figure at the end. */
+.smbk-card__footer--type-total .smbk-card__footer-end {
+  color: var(--smbk-color-text-default);
+  font-variant-numeric: tabular-nums;
+  font-family: var(--smbk-typography-label-md-font-family);
+  font-size: var(--smbk-typography-label-md-font-size);
+  font-weight: var(--smbk-typography-label-md-font-weight);
+  line-height: var(--smbk-typography-label-md-line-height);
+  letter-spacing: var(--smbk-typography-label-md-letter-spacing);
+}
+
+/* Note: the note takes the room, its button at the end. */
+.smbk-card__footer--type-note .smbk-card__footer-start {
+  flex: 1 1 auto;
+}
+
+/* Full button: one button across the card. */
+.smbk-card__footer--type-full-button .smbk-card__footer-row > * {
+  flex: 1 1 auto;
+}
+
+/* ---- the panel's divider above the footer is the divider component, edge to edge ---- */
+
+.smbk-card__divider {
+  flex: none;
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops shadows; this puts the meaning back with the user's own colors.
+   Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  .smbk-card--dragged {
+    outline: var(--smbk-focus-ring-width) dashed CanvasText;
+  }
+
+  .smbk-card__link:focus-visible::after {
+    outline-color: Highlight;
+  }
 }

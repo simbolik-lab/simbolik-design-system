@@ -61,8 +61,18 @@
  *   Anywhere else   Escape closes it, as when the pointer opened it; focus stays where it is.
  *   A click or tap outside closes it, and so does focus moving anywhere outside.
  *
- * Movement belongs to the stylesheet: the panel drops in from the opener and fades, and does not move
- * under reduced motion. The wrapper holds no styling: the stylesheet draws everything.
+ * Placing (floating.ts, with React Aria): while open, the panel is lifted over the page, so no clipping or
+ * scrolling part around the opener cuts it off, and placed beside the opener on the side with room: under it,
+ * or above it when there is more room there. It is never taller than that room or the list height, and a
+ * longer list scrolls inside it, with a shade at its foot while there is more below. It stays beside the opener
+ * as the page scrolls. Without script it hangs under the opener.
+ *
+ * Pointing (glide.ts): one hover fill per panel slides to the item under the mouse, the nearest one when the
+ * pointer is between items or in the padding, and a press there presses the lit item. The keyboard's focused
+ * item keeps its own fill and ring; touch draws no fill.
+ *
+ * Movement belongs to the stylesheet: the panel drops in from the opener (rises, when it opens above) and
+ * fades, and does not move under reduced motion. The wrapper holds no styling: the stylesheet draws everything.
  */
 import {
   Children,
@@ -74,10 +84,8 @@ import {
   useEffect,
   useId,
   useRef,
-  useState,
   type AnchorHTMLAttributes,
   type ButtonHTMLAttributes,
-  type FocusEvent,
   type HTMLAttributes,
   type KeyboardEvent,
   type MouseEvent,
@@ -89,6 +97,12 @@ import { Icon } from '../icon/icon.js';
 import { Kbd } from '../kbd/kbd.js';
 import { checkbox } from '../checkbox/checkbox.manifest.js';
 import { Divider } from '../divider/divider.js';
+import { useFloating } from '../floating.js';
+import { useDismiss } from '../dismiss.js';
+import { useControllable } from '../controllable.js';
+import { motionMs } from '../motion.js';
+import { useGlide } from '../glide.js';
+import { cx } from '../variants.js';
 import type { VariantProps } from '../variants.js';
 
 export type DropdownPurpose = 'actions' | 'navigation';
@@ -164,25 +178,22 @@ export function Dropdown(props: DropdownProps) {
 
 const noop = () => {};
 
+/** The rows the pointer's fill glides between (glide.ts): every item, the disabled ones skipped. */
+const GLIDE = { rows: `.${dropdown.part('item')}`, fill: dropdown.part('glide') };
+
 /** The panel alone. Opening, placing and keyboard movement belong to whoever shows it. */
 function DropdownPanel({ label, size, align, trigger: _trigger, purpose = 'actions', open: _open, defaultOpen: _defaultOpen, onOpenChange: _onOpenChange, openOnHover: _openOnHover, className, children, ...rest }: DropdownProps) {
   const id = useId();
+  const panel = useRef<HTMLDivElement>(null);
+  useGlide(panel, GLIDE);
   return (
-    <div role={panelRole(purpose)} aria-label={label} className={[dropdown({ size, align }), className].filter(Boolean).join(' ')} {...rest}>
+    <div ref={panel} role={panelRole(purpose)} aria-label={label} className={cx(dropdown({ size, align }), className)} {...rest}>
       <Context.Provider value={{ purpose, managed: false, chosen: noop }}>{grouped(children, id)}</Context.Provider>
     </div>
   );
 }
 
 type FocusTarget = 'first' | 'last' | 'opener' | null;
-
-/** A hover delay from the motion tokens, in milliseconds, read from the element's computed style. */
-function hoverDelay(element: Element, which: 'open' | 'close'): number {
-  const value = getComputedStyle(element).getPropertyValue(`--smbk-motion-hover-${which}-delay`).trim();
-  const amount = parseFloat(value);
-  if (!Number.isFinite(amount)) return 0;
-  return value.endsWith('ms') ? amount : amount * 1000;
-}
 
 /** Closes the dropdown the pointer opened, if one is open, so a pointer moving along a bar never shows two. */
 let closeHovered: (() => void) | null = null;
@@ -193,9 +204,10 @@ function DropdownWithOpener({ label, size, align, trigger, purpose = 'actions', 
   const openerProps = trigger.props as { id?: string; onClick?: (e: MouseEvent<HTMLElement>) => void; onKeyDown?: (e: KeyboardEvent<HTMLElement>) => void };
   const openerId = openerProps.id ?? `${id}-opener`;
   const panelId = `${id}-panel`;
-  const [uncontrolled, setUncontrolled] = useState(defaultOpen);
-  const open = controlled ?? uncontrolled;
+  const [open, keepOpen] = useControllable({ value: controlled, defaultValue: defaultOpen, onChange: onOpenChange, name: 'Dropdown open' });
   const anchor = useRef<HTMLSpanElement>(null);
+  const layer = useRef<HTMLDivElement>(null);
+  const panel = useRef<HTMLDivElement>(null);
   const pendingFocus = useRef<FocusTarget>(null);
   // Hover: whether the pointer opened it (a press did not), the waiting timer, and the state as it is now,
   // for the timer to read when it fires.
@@ -227,8 +239,7 @@ function DropdownWithOpener({ label, size, align, trigger, purpose = 'actions', 
     }
     isOpen.current = next;
     pendingFocus.current = focus;
-    if (controlled === undefined) setUncontrolled(next);
-    onOpenChange?.(next);
+    keepOpen(next);
   };
 
   // The pointer resting on the opener or the panel opens it; leaving both closes what the pointer opened.
@@ -247,14 +258,14 @@ function DropdownWithOpener({ label, size, align, trigger, purpose = 'actions', 
       closeHovered = closeMe.current;
       setOpen(true);
       byHover.current = true;
-    }, hoverDelay(anchor.current, 'open'));
+    }, motionMs(anchor.current, 'hover-open-delay'));
   };
 
   const onPointerLeave = (e: ReactPointerEvent<HTMLSpanElement>) => {
     if (e.pointerType !== 'mouse' || !anchor.current) return;
     window.clearTimeout(hoverTimer.current);
     if (!isOpen.current || !byHover.current) return;
-    hoverTimer.current = window.setTimeout(() => setOpen(false), hoverDelay(anchor.current, 'close'));
+    hoverTimer.current = window.setTimeout(() => setOpen(false), motionMs(anchor.current, 'hover-close-delay'));
   };
 
   // Once closed, it no longer counts as the one the pointer opened; unmounting stops any wait.
@@ -276,29 +287,10 @@ function DropdownWithOpener({ label, size, align, trigger, purpose = 'actions', 
     moveFocus(target);
   }, [open]);
 
-  // A click or tap anywhere outside closes it.
-  useEffect(() => {
-    if (!open) return;
-    const away = (e: PointerEvent) => {
-      if (anchor.current && !anchor.current.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener('pointerdown', away);
-    return () => document.removeEventListener('pointerdown', away);
-  });
-
-  // Escape closes it wherever focus is: a panel the pointer opened, or one opened by a click that did not focus
-  // the opener (Safari), has no focus inside it. The opener and the panel handle Escape first and stop it; this
-  // takes what reaches the page, and returns focus to the opener only if focus was inside.
-  useEffect(() => {
-    if (!open) return;
-    const escape = (e: globalThis.KeyboardEvent) => {
-      if (e.key !== 'Escape' || e.defaultPrevented) return;
-      e.preventDefault();
-      setOpen(false, anchor.current?.contains(document.activeElement) ? 'opener' : null);
-    };
-    document.addEventListener('keydown', escape);
-    return () => document.removeEventListener('keydown', escape);
-  });
+  // A press outside, Escape wherever focus is (a panel the pointer opened, or one opened by a click that did not
+  // focus the opener, as in Safari, has no focus inside it) and focus moving anywhere outside close it while it is the
+  // top layer (dismiss.ts); Escape with focus inside, on the opener or an item, puts focus back on the opener.
+  const dismiss = useDismiss({ open, root: anchor, onClose: (back) => setOpen(false, back ? 'opener' : null), blur: true });
 
   const onOpenerClick = (e: MouseEvent<HTMLElement>) => {
     openerProps.onClick?.(e);
@@ -316,10 +308,6 @@ function DropdownWithOpener({ label, size, align, trigger, purpose = 'actions', 
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault();
       setOpen(true, e.key === 'ArrowDown' ? 'first' : 'last');
-    } else if (e.key === 'Escape' && open) {
-      e.preventDefault();
-      e.stopPropagation();
-      setOpen(false);
     }
   };
 
@@ -336,17 +324,7 @@ function DropdownWithOpener({ label, size, align, trigger, purpose = 'actions', 
     else if (e.key === 'ArrowUp') go(at < 0 ? list.length - 1 : at - 1);
     else if (e.key === 'Home') go(0);
     else if (e.key === 'End') go(list.length - 1);
-    else if (e.key === 'Escape') {
-      e.preventDefault();
-      e.stopPropagation();
-      setOpen(false, 'opener');
-    } else if (e.key === 'Tab' && purpose === 'actions') setOpen(false);
-  };
-
-  // Focus moving to anything outside closes it. A blur with nowhere to go is a click, handled above.
-  const onBlur = (e: FocusEvent<HTMLSpanElement>) => {
-    const next = e.relatedTarget as Node | null;
-    if (open && next && anchor.current && !anchor.current.contains(next)) setOpen(false);
+    else if (e.key === 'Tab' && purpose === 'actions') setOpen(false);
   };
 
   const opener = cloneElement(trigger as ReactElement<Record<string, unknown>>, {
@@ -360,25 +338,32 @@ function DropdownWithOpener({ label, size, align, trigger, purpose = 'actions', 
 
   const chosen = () => setOpen(false, purpose === 'actions' ? 'opener' : null);
 
+  const { side } = useFloating({ target: anchor, layer, panel, open, align: align === 'end' ? 'end' : 'start' });
+  useGlide(panel, GLIDE);
+
   return (
     <span
       ref={anchor}
       className={dropdown.part('anchor')}
-      onBlur={onBlur}
+      {...dismiss}
       onPointerEnter={openOnHover ? onPointerEnter : undefined}
       onPointerLeave={openOnHover ? onPointerLeave : undefined}
     >
       {opener}
-      <div
-        id={panelId}
-        role={panelRole(purpose)}
-        aria-label={label}
-        className={[dropdown({ size, align }), className].filter(Boolean).join(' ')}
-        hidden={!open}
-        onKeyDown={onPanelKeyDown}
-        {...rest}
-      >
-        <Context.Provider value={{ purpose, managed: true, chosen }}>{grouped(children, id)}</Context.Provider>
+      <div ref={layer} className={dropdown.part('layer')}>
+        <div
+          ref={panel}
+          id={panelId}
+          role={panelRole(purpose)}
+          aria-label={label}
+          className={cx(dropdown({ size, align }), className)}
+          hidden={!open}
+          data-side={side ?? undefined}
+          onKeyDown={onPanelKeyDown}
+          {...rest}
+        >
+          <Context.Provider value={{ purpose, managed: true, chosen }}>{grouped(children, id)}</Context.Provider>
+        </div>
       </div>
     </span>
   );
@@ -391,7 +376,7 @@ export interface DropdownLabelProps extends HTMLAttributes<HTMLDivElement> {
 /** A short heading over a group of items. The dropdown groups it with the items after it and names the group by it. */
 export function DropdownLabel({ className, children, ...rest }: DropdownLabelProps) {
   return (
-    <div role="presentation" className={[dropdown.part('label'), className].filter(Boolean).join(' ')} {...rest}>
+    <div role="presentation" className={cx(dropdown.part('label'), className)} {...rest}>
       {children}
     </div>
   );
@@ -450,7 +435,7 @@ export function DropdownItem(props: DropdownItemProps) {
   const actions = (context?.purpose ?? 'actions') === 'actions';
   const ticks = checked !== undefined;
   const item = dropdown.part('item');
-  const classes = [item, danger ? `${item}--danger` : '', className].filter(Boolean).join(' ');
+  const classes = cx(item, danger ? `${item}--danger` : '', className);
   // In a managed menu the arrow keys move focus between items, so Tab skips them and leaves.
   const shared = {
     role: actions ? (ticks ? 'menuitemcheckbox' : 'menuitem') : undefined,
@@ -465,8 +450,8 @@ export function DropdownItem(props: DropdownItemProps) {
   const inner = (
     <>
       {ticks && (
-        <span className={`${checkbox({ size: 'small' })} ${dropdown.part('checkbox')}`} aria-hidden="true">
-          <span className={[checkbox.part('box'), checked ? `${checkbox.part('box')}--checked` : ''].filter(Boolean).join(' ')}>
+        <span className={`${checkbox({ size: 'sm' })} ${dropdown.part('checkbox')}`} aria-hidden="true">
+          <span className={cx(checkbox.part('box'), checked ? `${checkbox.part('box')}--checked` : '')}>
             <Icon name="Check" className={checkbox.part('icon')} />
           </span>
         </span>

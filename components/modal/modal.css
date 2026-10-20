@@ -2,7 +2,7 @@
  * A centered dialog over a scrim, built on the native dialog element. The three
  * widths are the modal size tokens, carried from Figma's frames, used as
  * maximums so the panel shrinks with the window. The sections are spaced with
- * the stack steps whose values match the frame.
+ * the extra-large stack step, as Figma binds them.
  * The inline flag shows the panel in place, for previews and documentation.
  * The panel fades and rises into place over a fading scrim (motion rules at the end). */
 
@@ -13,25 +13,21 @@
   z-index: var(--smbk-layer-modal);
   display: none;
   flex-direction: column;
-  gap: var(--smbk-space-stack-lg);
+  gap: var(--smbk-space-stack-xl);
   width: 100%;
   max-width: var(--smbk-size-modal-sm);
   max-height: 100%;
   margin: auto;
   padding: var(--smbk-space-inset-2xl);
-  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim);
   border-radius: var(--smbk-radius-container-lg);
   background: var(--smbk-color-surface-default);
   color: var(--smbk-color-text-default);
-  box-shadow: var(--smbk-elevation-3);
+  box-shadow: var(--smbk-elevation-overlay);
 }
 
 .smbk-modal[open] {
   display: flex;
-}
-
-.smbk-modal::backdrop {
-  background: var(--smbk-color-overlay-scrim);
 }
 
 /* The icon and the title on one line, as Figma draws them. The title keeps
@@ -45,30 +41,28 @@
 }
 
 .smbk-modal__icon {
-  font-size: var(--smbk-size-icon-xl);
+  flex-shrink: 0;
+  font-size: var(--smbk-size-icon-lg);
 }
 
 .smbk-modal__title {
   margin: 0;
-  font-family: var(--smbk-typography-body-l-bold-font-family);
-  font-size: var(--smbk-typography-body-l-bold-font-size);
-  font-weight: var(--smbk-typography-body-l-bold-font-weight);
-  line-height: var(--smbk-typography-body-l-bold-line-height);
-  letter-spacing: var(--smbk-typography-body-l-bold-letter-spacing);
-  text-box: trim-both cap alphabetic;
+  font-family: var(--smbk-typography-heading-2xs-bold-font-family);
+  font-size: var(--smbk-typography-heading-2xs-bold-font-size);
+  font-weight: var(--smbk-typography-heading-2xs-bold-font-weight);
+  line-height: var(--smbk-typography-heading-2xs-bold-line-height);
+  letter-spacing: var(--smbk-typography-heading-2xs-bold-letter-spacing);
 }
 
-/* Figma places the close button in the modal's corner, the large inset from
-   its top and end edges, over the padding: the header sits the modal's own
-   padding (and its hairline edge) in from those edges, so the button is moved
-   back out by the difference. */
+/* The close button sits in the modal's corner, the large inset from its top and end edges, over the
+   padding, as Figma places it: the header sits the modal's own padding (and its hairline
+   edge) in from those edges, so the button is moved back out by the difference. */
 .smbk-modal__close {
   position: absolute;
   top: calc(var(--smbk-space-inset-lg) - var(--smbk-space-inset-2xl) - var(--smbk-border-width-hairline));
   inset-inline-end: calc(var(--smbk-space-inset-lg) - var(--smbk-space-inset-2xl) - var(--smbk-border-width-hairline));
 }
 
-/* The body scrolls, so its text keeps its full line box: a box trimmed to the cap height under clipping cuts off descenders. */
 .smbk-modal__body {
   flex: 1 1 auto;
   min-height: 0;
@@ -77,11 +71,11 @@
   scrollbar-width: thin;
   scrollbar-color: var(--smbk-color-border-subtle) transparent;
   color: var(--smbk-color-text-subtle);
-  font-family: var(--smbk-typography-body-s-font-family);
-  font-size: var(--smbk-typography-body-s-font-size);
-  font-weight: var(--smbk-typography-body-s-font-weight);
-  line-height: var(--smbk-typography-body-s-line-height);
-  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
 }
 
 .smbk-modal__body > :first-child {
@@ -95,7 +89,7 @@
 .smbk-modal__footer {
   display: flex;
   justify-content: flex-end;
-  gap: var(--smbk-space-inline-xl);
+  gap: var(--smbk-space-inline-lg);
 }
 
 /* ---- sizes ---- */
@@ -117,58 +111,7 @@
   margin: 0;
 }
 
-/* ---- motion: the panel fades in and rises a spacing step into place with the enter purpose,
-   over a scrim that fades in, and fades out dropping a smaller step with the exit purpose.
-   Its display and its place in the top layer change at the end of the exit, so it stays drawn
-   while it leaves. Inline modals do not move. No movement under reduced motion. ---- */
-
-.smbk-modal:not(.smbk-modal--inline),
-.smbk-modal:not(.smbk-modal--inline)::backdrop {
-  transition-property: translate, opacity, display, overlay;
-  transition-duration: var(--smbk-motion-exit-duration);
-  transition-timing-function: var(--smbk-motion-exit-easing);
-  transition-behavior: allow-discrete;
-}
-
-.smbk-modal[open]:not(.smbk-modal--inline),
-.smbk-modal[open]:not(.smbk-modal--inline)::backdrop {
-  transition-duration: var(--smbk-motion-enter-duration);
-  transition-timing-function: var(--smbk-motion-enter-easing);
-}
-
-.smbk-modal:not(.smbk-modal--inline):not([open]) {
-  opacity: 0;
-  translate: 0 var(--smbk-space-8);
-}
-
-.smbk-modal:not(.smbk-modal--inline):not([open])::backdrop {
-  opacity: 0;
-}
-
-@starting-style {
-  .smbk-modal[open]:not(.smbk-modal--inline) {
-    opacity: 0;
-    translate: 0 var(--smbk-space-16);
-  }
-
-  .smbk-modal[open]:not(.smbk-modal--inline)::backdrop {
-    opacity: 0;
-  }
-}
-
-/* As heavy as the rule that sets the transitions, so it wins over it. */
-@media (prefers-reduced-motion: reduce) {
-  .smbk-modal:not(.smbk-modal--inline),
-  .smbk-modal:not(.smbk-modal--inline)::backdrop {
-    transition: none;
-  }
-}
-
-/* ---- the page behind: while the modal is open over the page, the page does not scroll under it. Its
-   scrollbar's room is kept, so the page does not shift sideways as the scrollbar goes. An inline
-   modal is not over the page and changes nothing. ---- */
-
-:root:has(.smbk-modal:modal) {
-  overflow: hidden;
-  scrollbar-gutter: stable;
-}
+/* ---- over the page: the scrim, the motion (the panel fades in and rises a spacing step into place over a scrim
+   that fades in, and fades out dropping a smaller step; under reduced motion it fades in place) and the page held
+   still behind it are the dialogs' own, shared with the drawer and the command palette: dialog/dialog.css. Inline
+   modals do not move. ---- */

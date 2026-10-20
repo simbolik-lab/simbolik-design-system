@@ -1,14 +1,10 @@
 /* smbk-search — Search field. Figma "Search Field" 4212:26902.
  * Built on the input: the block always sits on an smbk-input well, and the
  * magnifier is the input's icon part. This stylesheet adds only what a search
- * needs — a tighter side padding, a clear control and an optional key hint.
- * Hover, focus, error, disabled and the small size are the input's own, so a
- * change to the input reaches the search field. */
-
-/* Figma binds the side padding one step tighter than the input's, at both sizes. */
-.smbk-input.smbk-search {
-  padding: 0 var(--smbk-space-inline-md);
-}
+ * needs: a clear control, an optional key hint and the large size. The
+ * padding, the icon sizes, hover, focus, error, read-only, disabled and the
+ * small size are the input's own, so a change to the input reaches the
+ * search field. */
 
 .smbk-search__control {
   appearance: none;
@@ -19,24 +15,42 @@
   appearance: none;
 }
 
+/* The cross is the field's icon size, inside a 24 px box, the least a press needs; the box reaches past
+   the cross into the gap and the padding, so the cross sits where Figma draws it. */
 .smbk-search__clear {
+  box-sizing: border-box;
   display: inline-flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
+  width: var(--smbk-size-target-min);
+  height: var(--smbk-size-target-min);
+  margin: calc((var(--smbk-size-icon-md) - var(--smbk-size-target-min)) / 2);
   padding: 0;
   border: 0;
   background: none;
   color: var(--smbk-color-text-subtlest);
-  font-size: var(--smbk-size-icon-sm);
   cursor: pointer;
   appearance: none;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
 
+.smbk-search__clear > .smbk-icon {
+  font-size: var(--smbk-size-icon-md);
+}
+
+.smbk-input--size-sm .smbk-search__clear {
+  margin: calc((var(--smbk-size-icon-sm) - var(--smbk-size-target-min)) / 2);
+}
+
+.smbk-input--size-sm .smbk-search__clear > .smbk-icon {
+  font-size: var(--smbk-size-icon-sm);
+}
+
 .smbk-search__clear:focus-visible {
   outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
-  outline-offset: var(--smbk-focus-ring-offset);
+  outline-offset: 0;
   border-radius: var(--smbk-radius-full);
 }
 
@@ -45,11 +59,50 @@
   pointer-events: none;
 }
 
+/* ---- large (lg): 48 tall, Body LG, a wider side padding; the icons, the gap, the corner, the clear
+   box and the key hint stay the md field's. Two classes, so it wins over the input's md rules
+   whichever stylesheet loads first. ---- */
+
+.smbk-input.smbk-search--size-lg {
+  height: var(--smbk-size-control-lg);
+  padding: 0 var(--smbk-space-inset-xl);
+  font-family: var(--smbk-typography-body-lg-font-family);
+  font-size: var(--smbk-typography-body-lg-font-size);
+  font-weight: var(--smbk-typography-body-lg-font-weight);
+  line-height: var(--smbk-typography-body-lg-line-height);
+  letter-spacing: var(--smbk-typography-body-lg-letter-spacing);
+}
+
 /* The key hint is a small Kbd at the far end. */
 .smbk-search__kbd {
   flex-shrink: 0;
 }
 
 .smbk-search:has(.smbk-input__control:disabled) .smbk-search__kbd {
-  opacity: var(--smbk-opacity-media-disabled);
+  opacity: var(--smbk-opacity-disabled);
+}
+
+/* ---- touch: the clear button takes an invisible press area ----
+   On a touch screen an invisible area, centred on it, takes the press out to the comfortable target in each direction
+   it falls short of it; its look, its focus ring and its place stay as drawn. */
+
+@media (pointer: coarse) {
+  .smbk-search__clear {
+    position: relative;
+  }
+
+  .smbk-search__clear::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  /* Right after the value, halfway into the gap: the well's gap less the margin the cross gives back round its icon. */
+  .smbk-input > :is(.smbk-input__control, .smbk-combobox__values) + .smbk-search__clear::after {
+    inset-inline-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), (var(--smbk-space-inline-md) + (var(--smbk-size-icon-md) - var(--smbk-size-target-min)) / 2) / -2);
+  }
+
+  .smbk-input--size-sm > :is(.smbk-input__control, .smbk-combobox__values) + .smbk-search__clear::after {
+    inset-inline-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), (var(--smbk-space-inline-sm) + (var(--smbk-size-icon-sm) - var(--smbk-size-target-min)) / 2) / -2);
+  }
 }

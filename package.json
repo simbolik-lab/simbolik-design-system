@@ -1,6 +1,6 @@
 {
   "name": "simbolik",
-  "version": "0.1.2-alpha",
+  "version": "0.2.0-alpha",
   "private": true,
   "license": "MIT",
   "description": "The Simbolik design system as code: design tokens, CSS components, React components and a conformance checker.",
@@ -34,8 +34,11 @@
     "@fontsource/funnel-display": "^5.3.0",
     "@fontsource/geist": "^5.3.0",
     "@fontsource/geist-mono": "^5.3.0",
+    "@internationalized/date": "^3.12.4",
     "@phosphor-icons/web": "^2.1.2",
     "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "react-aria": "^3.53.1",
+    "react-dom": "^19.3.0",
+    "react-stately": "^3.51.0"
   }
 }

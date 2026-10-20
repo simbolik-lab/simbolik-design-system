@@ -1,0 +1,44 @@
+/* smbk-field-message — Field message. Figma "Field message" 7101:46 (Type: Help, Warning, Error).
+ * The line under a field or a group of choices: help that says what to enter,
+ * a warning to notice (a password field's Caps Lock notice), or an error that
+ * says what is wrong. Body SM. The warning and the error lead with an icon at
+ * the small icon size, so neither is told by color alone; help has none. */
+
+.smbk-field-message {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--smbk-space-inline-xs);
+  margin: 0;
+  color: var(--smbk-color-text-subtlest);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+/* The icon's box is as tall as the text's line, so the icon sits on the first line's middle. */
+.smbk-field-message__icon {
+  height: calc(var(--smbk-typography-body-sm-font-size) * var(--smbk-typography-body-sm-line-height));
+  font-size: var(--smbk-size-icon-sm);
+}
+
+.smbk-field-message__text {
+  min-width: 0;
+}
+
+.smbk-field-message--type-warning {
+  color: var(--smbk-color-text-subtle);
+}
+
+.smbk-field-message--type-warning .smbk-field-message__icon {
+  color: var(--smbk-color-feedback-warning-icon);
+}
+
+.smbk-field-message--type-error {
+  color: var(--smbk-color-feedback-danger-text-on-subtle);
+}
+
+.smbk-field-message--type-error .smbk-field-message__icon {
+  color: var(--smbk-color-feedback-danger-icon);
+}

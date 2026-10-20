@@ -1,6 +1,7 @@
 import type { AnchorHTMLAttributes, ReactNode } from 'react';
 import { link } from './link.manifest.js';
 import { Icon } from '../icon/icon.js';
+import { cx } from '../variants.js';
 import type { VariantProps } from '../variants.js';
 
 export interface LinkProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'children'>, VariantProps<typeof link.manifest> {
@@ -11,8 +12,8 @@ export interface LinkProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>,
   children: ReactNode;
 }
 
-export function Link({ size, underline, leadingIcon, trailingIcon, disabled, className, href, children, ...rest }: LinkProps) {
-  const classes = [link({ size, underline }), className].filter(Boolean).join(' ');
+export function Link({ size, standalone, leadingIcon, trailingIcon, disabled, className, href, children, ...rest }: LinkProps) {
+  const classes = cx(link({ size, standalone }), className);
   const iconPart = link.part('icon');
   return (
     <a className={classes} href={disabled ? undefined : href} aria-disabled={disabled ? true : undefined} {...rest}>

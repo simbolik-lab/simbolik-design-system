@@ -15,7 +15,7 @@ status: experimental
 
 ## Purpose
 
-The backdrop blur behind frosted surfaces: a caption over an image, a glass panel, sticky chrome over scrolling content. It is the depth companion to elevation, used where a surface should reveal what is behind it rather than sit opaquely on top.
+The backdrop blur behind frosted surfaces: a glass panel, sticky chrome over scrolling content. It is the depth companion to elevation, used where a surface should reveal what is behind it rather than sit opaquely on top.
 
 ## How it is structured
 
@@ -35,5 +35,6 @@ Primitive only, and it reaches CSS. There is no semantic role yet because no two
 ### Don't
 
 - Write a blur length in component CSS. The conformance checker rejects it.
+- Set words over a photograph on glass. A bright picture shows through the frost and the words fade; put them on the scrim, as the card with its picture behind does.
 - Use blur on a surface that has text directly behind it, unless the overlay tint is strong enough that the text behind cannot be read. Half-legible text behind a panel is worse than none.
 - Animate the blur amount, or blur more than you need. Backdrop blur is costly to draw, and a large blurred region that scrolls slows the page on low-end devices. Use the smallest step that reads.

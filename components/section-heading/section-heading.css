@@ -1,0 +1,95 @@
+/* smbk-section-heading — Section heading. Figma "Section heading" 7115:943 (Size × Layout; Count, Summary and Action
+ * booleans). The heading row of a section or a panel: the title in Heading XS (Heading 2XS when small) with its count
+ * as a default badge beside it, a line in Body SM under them, and one action at the row's end, centred on the block.
+ * The count sits outside the heading element, so the heading's name is the title alone. In a narrow layout the
+ * action moves under the line, at its start. */
+
+.smbk-section-heading {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-lg);
+}
+
+/* The block frames the words it hides for screen readers, so they stay inside it wherever it is placed: without a
+   frame they hang from the page itself and stretch it, past the end of an area that scrolls. No weight, so a parent
+   that places the block keeps its say. */
+:where(.smbk-section-heading) {
+  position: relative;
+}
+
+.smbk-section-heading__text {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-lg);
+}
+
+.smbk-section-heading__title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-md);
+}
+
+.smbk-section-heading__title {
+  margin: 0;
+  min-width: 0;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-heading-xs-font-family);
+  font-size: var(--smbk-typography-heading-xs-font-size);
+  font-weight: var(--smbk-typography-heading-xs-font-weight);
+  line-height: var(--smbk-typography-heading-xs-line-height);
+  letter-spacing: var(--smbk-typography-heading-xs-letter-spacing);
+  text-transform: var(--smbk-typography-heading-xs-text-transform);
+}
+
+.smbk-section-heading__count {
+  flex: none;
+}
+
+/* Figures of one width, so a line that counts, such as "Updated 12 s ago", never moves the words after the number. */
+.smbk-section-heading__summary {
+  margin: 0;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+  font-variant-numeric: tabular-nums;
+}
+
+.smbk-section-heading__action {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+}
+
+/* .smbk-section-heading__hidden: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
+/* ---- small: the title a heading step smaller ---- */
+
+.smbk-section-heading--size-sm .smbk-section-heading__title {
+  font-family: var(--smbk-typography-heading-2xs-font-family);
+  font-size: var(--smbk-typography-heading-2xs-font-size);
+  font-weight: var(--smbk-typography-heading-2xs-font-weight);
+  line-height: var(--smbk-typography-heading-2xs-line-height);
+  letter-spacing: var(--smbk-typography-heading-2xs-letter-spacing);
+  text-transform: var(--smbk-typography-heading-2xs-text-transform);
+}
+
+/* ---- narrow: the action goes under the line, at its start ---- */
+
+@container style(--smbk-layout: narrow) {
+  .smbk-section-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--smbk-space-stack-lg);
+  }
+
+  .smbk-section-heading__text {
+    align-self: stretch;
+  }
+}

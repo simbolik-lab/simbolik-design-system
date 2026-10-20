@@ -1,0 +1,192 @@
+/* smbk-toolbar — Toolbar. Figma "Toolbar" 7343:1575 (Placement: Floating, Docked), holding ToolbarContext 7339:1264,
+ * ToolbarTools 7341:1454 and ToolbarActions 7342:1452.
+ * A column on the raised surface, the medium inset all round: a row of zones (what the bar acts on, one or two groups
+ * of tools, the overflow menu and the main action), and under it, when there is one, a row of details (the filters
+ * applied and the result count). Each zone is a row of the system's own controls at their small size, 32 tall, the
+ * small inline space apart; zones sit the medium inline space apart, and a tools or actions zone starts with a
+ * vertical divider. Every tool keeps its own look: this sheet draws only the bar, the zones and a few words.
+ * The edge is drawn inside, as Figma draws it, so each padding gives its width back: the bar is 48 tall.
+ * Narrow (the layout switch): a part marked wide-only goes, and one marked narrow-only comes, so a phone can fold the
+ * tools into one opener or the overflow menu. */
+
+.smbk-toolbar {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-inline-md);
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  padding: calc(var(--smbk-space-inset-md) - var(--smbk-border-width-hairline));
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim);
+  border-radius: var(--smbk-radius-container-md);
+  background: var(--smbk-color-surface-raised);
+  box-shadow: var(--smbk-elevation-raised);
+  color: var(--smbk-color-text-default);
+}
+
+/* Docked: flat across the top of a panel, as wide as it, with a subtle line under it and no corners or shadow. */
+.smbk-toolbar--placement-docked {
+  inline-size: auto;
+  padding: var(--smbk-space-inset-md) var(--smbk-space-inset-md) calc(var(--smbk-space-inset-md) - var(--smbk-border-width-hairline));
+  border: 0;
+  border-block-end: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* ---- the row of zones: wraps onto a second line rather than pushing the page sideways ---- */
+
+.smbk-toolbar__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--smbk-space-inline-md);
+  min-inline-size: 0;
+}
+
+.smbk-toolbar__context,
+.smbk-toolbar__tools,
+.smbk-toolbar__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+  min-block-size: var(--smbk-size-control-sm);
+  min-inline-size: 0;
+}
+
+/* Docked: the free room goes before the actions, so they sit at the bar's end. */
+.smbk-toolbar--placement-docked .smbk-toolbar__actions {
+  margin-inline-start: auto;
+}
+
+/* The divider that starts a zone: the vertical divider, 24 tall in the 32 row, as Figma draws it. A divider that
+   would start the whole row has nothing to divide, so it goes. */
+.smbk-toolbar .smbk-toolbar__divider {
+  align-self: center;
+  block-size: var(--smbk-size-24);
+  min-block-size: var(--smbk-size-20);
+}
+
+.smbk-toolbar__row > :first-child > .smbk-toolbar__divider:first-child {
+  display: none;
+}
+
+/* ---- the bar's own words ---- */
+
+/* What the bar acts on, the period a calendar shows, a setting's value: Label MD in the primary text color. */
+.smbk-toolbar__title,
+.smbk-toolbar__value {
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-label-md-font-family);
+  font-size: var(--smbk-typography-label-md-font-size);
+  font-weight: var(--smbk-typography-label-md-font-weight);
+  line-height: var(--smbk-typography-label-md-line-height);
+  letter-spacing: var(--smbk-typography-label-md-letter-spacing);
+  white-space: nowrap;
+}
+
+/* Figures of one width in all the bar's words, so a number that changes in place (a count of what is selected, a
+   status such as "Updated 12 s ago", a value) never moves the words after it. */
+.smbk-toolbar__title,
+.smbk-toolbar__value,
+.smbk-toolbar__text,
+.smbk-toolbar__meta {
+  font-variant-numeric: tabular-nums;
+}
+
+/* A line of status, a summary, a setting's name, a note beside an action: Body SM in the secondary text color. */
+.smbk-toolbar__text,
+.smbk-toolbar__meta {
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+  white-space: nowrap;
+}
+
+/* Something quieter after it, such as when it last changed: the same type in the faintest text color. */
+.smbk-toolbar__meta {
+  color: var(--smbk-color-text-subtlest);
+}
+
+/* An icon before the title, the size Label MD's text takes. */
+.smbk-toolbar .smbk-toolbar__icon {
+  flex: none;
+  font-size: var(--smbk-size-icon-sm);
+  color: var(--smbk-color-icon-default);
+}
+
+/* A status: its dot or the spinner's ring, its words, and a quieter note, read out when they change. */
+.smbk-toolbar__status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+}
+
+/* A field in the bar (a list to pick what it acts on, a search field, a time range), at the width Figma draws it,
+   since a field fills the room it is given; never wider than the bar. */
+.smbk-toolbar__field {
+  display: flex;
+  flex: none;
+  inline-size: var(--smbk-size-toolbar-field-width);
+  max-inline-size: 100%;
+}
+
+/* ---- the details under the row: the filters applied, then the result count at the end. Never wider than the
+   row: its own content does not widen the bar, and its chips wrap instead. ---- */
+
+.smbk-toolbar__details {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+  contain: inline-size;
+}
+
+.smbk-toolbar__details > .smbk-filter-bar__count {
+  margin-inline-start: auto;
+}
+
+/* ---- wide and narrow ---- */
+
+.smbk-toolbar .smbk-toolbar__narrow-only {
+  display: none;
+}
+
+@container style(--smbk-layout: narrow) {
+  .smbk-toolbar .smbk-toolbar__wide-only {
+    display: none;
+  }
+
+  /* Anything else marked narrow-only is a wrapper that lends its content to the row or the menu around it. */
+  .smbk-toolbar .smbk-toolbar__narrow-only {
+    display: contents;
+  }
+
+  .smbk-toolbar .smbk-toolbar__narrow-only:is(.smbk-toolbar__context, .smbk-toolbar__tools, .smbk-toolbar__actions) {
+    display: flex;
+  }
+}
+
+/* ---- touch: the tools stop their press areas halfway to each other ----
+   Every button takes an invisible press area on a touch screen. In the toolbar's rows of tools and actions, which
+   stand closer than that and wrap, each area reaches only halfway into the row's gap, side to side and up and down,
+   so every tool stays one press. Nothing drawn moves. */
+
+@media (pointer: coarse) {
+  :is(.smbk-toolbar__tools, .smbk-toolbar__actions) .smbk-btn::after {
+    inset: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-sm) / -2);
+  }
+
+  :is(.smbk-toolbar__tools, .smbk-toolbar__actions) .smbk-segmented__item::after,
+  :is(.smbk-toolbar__tools, .smbk-toolbar__actions) .smbk-btn-group .smbk-btn::after {
+    inset-block: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-sm) / -2);
+  }
+
+  :is(.smbk-toolbar__tools, .smbk-toolbar__actions) :is(button, a[href]).smbk-chip::after {
+    inset: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-sm) / -2);
+  }
+}

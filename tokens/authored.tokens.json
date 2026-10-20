@@ -74,7 +74,12 @@
      "value": 240,
      "unit": "px"
     },
-    "$description": "Width of the dropdown menu panel. A fixed frame width in Figma with no variable behind it; it should become one."
+    "$description": "Least width of the dropdown menu panel, which grows from it to fit its longest item on one line. A fixed frame width in Figma with no variable behind it; it should become one."
+   },
+   "max-width": {
+    "$type": "dimension",
+    "$value": "{size.width.320}",
+    "$description": "Greatest width of the dropdown menu panel: past it a long item's words wrap inside the panel. Not in Figma, which draws the panel at one width."
    }
   },
   "command-palette": {
@@ -126,6 +131,121 @@
     },
     "$description": "Width of the popover panel. A fixed frame width in Figma with no variable behind it; it should become one."
    }
+  },
+  "field": {
+   "control": {
+    "width": {
+     "$type": "dimension",
+     "$value": {
+      "value": 200,
+      "unit": "px"
+     },
+     "$description": "Width of the control in a side-by-side field, the label taking the rest of the row. A fixed frame width in Figma with no variable behind it; it should become one."
+    }
+   }
+  },
+  "button-note": {
+   "width": {
+    "$type": "dimension",
+    "$value": {
+     "value": 240,
+     "unit": "px"
+    },
+    "$description": "Width of the note beside, under or at the end of a button: beside it, the note stays there while this much room is left after the button and moves under it otherwise. A fixed frame width in Figma with no variable behind it; it should become one."
+   }
+  },
+  "date-picker": {
+   "date-min-width": {
+    "$type": "dimension",
+    "$value": {
+     "value": 168,
+     "unit": "px"
+    },
+    "$description": "Least width of the date field beside the time field in a date and time picker; with less room the time field moves under it. A fixed frame width in Figma with no variable behind it; it should become one."
+   },
+   "time-width": {
+    "$type": "dimension",
+    "$value": {
+     "value": 144,
+     "unit": "px"
+    },
+    "$description": "Width of the time field beside the date field in a date and time picker. A fixed frame width in Figma with no variable behind it; it should become one."
+   }
+  },
+  "filter-bar": {
+   "sort-width": {
+    "$type": "dimension",
+    "$value": {
+     "value": 240,
+     "unit": "px"
+    },
+    "$description": "Width of the sort list in a wide filter bar, beside the search field and the filters button. A fixed frame width in Figma with no variable behind it; it should become one."
+   }
+  },
+  "toolbar": {
+   "field-width": {
+    "$type": "dimension",
+    "$value": {
+     "value": 200,
+     "unit": "px"
+    },
+    "$description": "Width of a field in a toolbar: the list that picks what the bar acts on, a search field, a time range. A fixed frame width in Figma (the Picker, the Filter tools' search) with no variable behind it; it should become one."
+   }
+  },
+  "chart": {
+   "plot-height": {
+    "$type": "dimension",
+    "$value": {
+     "value": 196,
+     "unit": "px"
+    },
+    "$description": "Height of a line or bar chart's plot, the grid lines and the marks between its value labels. A fixed frame height in Figma with no variable behind it; it should become one."
+   },
+   "donut": {
+    "$type": "dimension",
+    "$value": {
+     "value": 140,
+     "unit": "px"
+    },
+    "$description": "Width and height of a donut chart's ring. A fixed frame size in Figma with no variable behind it; it should become one."
+   }
+  },
+  "progress-ring": {
+   "$description": "Width and height of a progress ring at each size. Fixed frame sizes in Figma with no variable behind them; they should become variables.",
+   "md": {
+    "$type": "dimension",
+    "$value": {
+     "value": 72,
+     "unit": "px"
+    }
+   },
+   "sm": {
+    "$type": "dimension",
+    "$value": {
+     "value": 36,
+     "unit": "px"
+    }
+   }
+  },
+  "color-area": {
+   "width": {
+    "$type": "dimension",
+    "$value": {
+     "value": 224,
+     "unit": "px"
+    },
+    "$description": "Greatest width of the color area, which is square and fills the width it is given up to this. A fixed frame width in Figma with no variable behind it; it should become one."
+   }
+  },
+  "color-picker": {
+   "width": {
+    "$type": "dimension",
+    "$value": {
+     "value": 256,
+     "unit": "px"
+    },
+    "$description": "Width of the color picker panel. A fixed frame width in Figma with no variable behind it; it should become one."
+   }
   }
  },
  "breakpoint": {
@@ -152,117 +272,232 @@
     "$value": 700,
     "$description": "Figma's primitives stop at semibold, but its components set titles and button labels in Geist Bold. It lives here rather than in Figma."
    }
+  },
+  "fallback": {
+   "$description": "What a browser draws each family in until its web font has arrived, or if it never does, so the page draws in a sans close to the real one and barely moves when the real one arrives. The token build writes each family's stack after it in every text style that names it; the bundle writes each stand-in face, a font already on the reader's device scaled and spaced to match, into the font style sheets. The measures are each font's own (Capsize's metrics, as Next.js uses them), against Arial, and Geist Mono's against Courier New. Figma has no place for any of it.",
+   "body": {
+    "stack": {
+     "$type": "fontFamily",
+     "$value": [
+      "Geist Fallback",
+      "system-ui",
+      "sans-serif"
+     ],
+     "$description": "What follows Geist in every text style that names it: its stand-in face, then the system's own."
+    },
+    "local": {
+     "$type": "fontFamily",
+     "$value": [
+      "Arial",
+      "Helvetica"
+     ],
+     "$description": "The fonts already on the reader's device that the stand-in face draws with: Arial, or Helvetica where Arial is missing."
+    },
+    "size-adjust": {
+     "$type": "number",
+     "$value": 1.0476,
+     "$description": "How much the stand-in face scales Arial so its average letter is as wide as Geist's."
+    },
+    "ascent": {
+     "$type": "number",
+     "$value": 0.9594,
+     "$description": "Geist's height above the baseline, as a share of the stand-in face's scaled size."
+    },
+    "descent": {
+     "$type": "number",
+     "$value": 0.2816,
+     "$description": "Geist's depth below the baseline, as a share of the stand-in face's scaled size."
+    },
+    "line-gap": {
+     "$type": "number",
+     "$value": 0,
+     "$description": "Geist's extra room between lines, as a share of the stand-in face's scaled size."
+    }
+   },
+   "display": {
+    "stack": {
+     "$type": "fontFamily",
+     "$value": [
+      "Funnel Display Fallback",
+      "system-ui",
+      "sans-serif"
+     ],
+     "$description": "What follows Funnel Display in every text style that names it: its stand-in face, then the system's own."
+    },
+    "local": {
+     "$type": "fontFamily",
+     "$value": [
+      "Arial",
+      "Helvetica"
+     ],
+     "$description": "The fonts already on the reader's device that the stand-in face draws with: Arial, or Helvetica where Arial is missing."
+    },
+    "size-adjust": {
+     "$type": "number",
+     "$value": 1.0655,
+     "$description": "How much the stand-in face scales Arial so its average letter is as wide as Funnel Display's."
+    },
+    "ascent": {
+     "$type": "number",
+     "$value": 0.9385,
+     "$description": "Funnel Display's height above the baseline, as a share of the stand-in face's scaled size."
+    },
+    "descent": {
+     "$type": "number",
+     "$value": 0.2346,
+     "$description": "Funnel Display's depth below the baseline, as a share of the stand-in face's scaled size."
+    },
+    "line-gap": {
+     "$type": "number",
+     "$value": 0,
+     "$description": "Funnel Display's extra room between lines, as a share of the stand-in face's scaled size."
+    }
+   },
+   "mono": {
+    "stack": {
+     "$type": "fontFamily",
+     "$value": [
+      "Geist Mono Fallback",
+      "ui-monospace",
+      "monospace"
+     ],
+     "$description": "What follows Geist Mono in every text style that names it: its stand-in face, then the system's own."
+    },
+    "local": {
+     "$type": "fontFamily",
+     "$value": [
+      "Courier New",
+      "Courier"
+     ],
+     "$description": "The fonts already on the reader's device that the stand-in face draws with: Courier New, or Courier where it is missing."
+    },
+    "size-adjust": {
+     "$type": "number",
+     "$value": 0.9998,
+     "$description": "How much the stand-in face scales Courier New so its average letter is as wide as Geist Mono's."
+    },
+    "ascent": {
+     "$type": "number",
+     "$value": 1.0052,
+     "$description": "Geist Mono's height above the baseline, as a share of the stand-in face's scaled size."
+    },
+    "descent": {
+     "$type": "number",
+     "$value": 0.295,
+     "$description": "Geist Mono's depth below the baseline, as a share of the stand-in face's scaled size."
+    },
+    "line-gap": {
+     "$type": "number",
+     "$value": 0,
+     "$description": "Geist Mono's extra room between lines, as a share of the stand-in face's scaled size."
+    }
+   }
   }
  },
  "typography": {
-  "$description": "Weight variants of the Figma text styles. Figma has no text style for them; its components apply the weight as an override on top of the regular style. They live here, not in Figma.",
-  "body-l-bold": {
+  "$description": "Weight variants of the Figma text styles that Figma has no text style for; its components apply the weight as an override on top of the regular style. They live here, not in Figma.",
+  "body-lg-bold": {
    "$type": "typography",
    "$value": {
     "fontFamily": "{font.family.body}",
     "fontWeight": "{font.weight.bold}",
     "fontSize": "{text.body-lg}",
-    "lineHeight": 1.4,
+    "lineHeight": 1.5,
     "letterSpacing": {
      "value": 0,
      "unit": "px"
     }
    },
-   "$description": "Body L in bold: drawer and modal titles."
+   "$description": "Body LG in bold: a title over body text."
   },
-  "body-m-bold": {
-   "$type": "typography",
-   "$value": {
-    "fontFamily": "{font.family.body}",
-    "fontWeight": "{font.weight.bold}",
-    "fontSize": "{text.body-md}",
-    "lineHeight": 1.4,
-    "letterSpacing": {
-     "value": 0,
-     "unit": "px"
-    }
-   },
-   "$description": "Body M in bold. Kept for the sites built on the system; the system's own components use semibold for button labels."
-  },
-  "body-s-bold": {
-   "$type": "typography",
-   "$value": {
-    "fontFamily": "{font.family.body}",
-    "fontWeight": "{font.weight.bold}",
-    "fontSize": "{text.body-sm}",
-    "lineHeight": 1.4,
-    "letterSpacing": "{font.letter-spacing.none}"
-   },
-   "$description": "Body S in bold. Kept for the sites built on the system; the system's own components use semibold for small button labels."
-  },
-  "body-m-medium": {
-   "$type": "typography",
-   "$value": {
-    "fontFamily": "{font.family.body}",
-    "fontWeight": "{font.weight.medium}",
-    "fontSize": "{text.body-md}",
-    "lineHeight": 1.4,
-    "letterSpacing": {
-     "value": 0,
-     "unit": "px"
-    }
-   },
-   "$description": "Body M in medium: alert and toast titles, card footer titles, avatar initials."
-  },
-  "body-m-semibold": {
-   "$type": "typography",
-   "$value": {
-    "fontFamily": "{font.family.body}",
-    "fontWeight": "{font.weight.semibold}",
-    "fontSize": "{text.body-md}",
-    "lineHeight": 1.4,
-    "letterSpacing": {
-     "value": 0,
-     "unit": "px"
-    }
-   },
-   "$description": "Body M in semibold: button labels."
-  },
-  "body-s-semibold": {
-   "$type": "typography",
-   "$value": {
-    "fontFamily": "{font.family.body}",
-    "fontWeight": "{font.weight.semibold}",
-    "fontSize": "{text.body-sm}",
-    "lineHeight": 1.4,
-    "letterSpacing": "{font.letter-spacing.none}"
-   },
-   "$description": "Body S in semibold: small button labels."
-  },
-  "body-l-light": {
-   "$type": "typography",
-   "$value": {
-    "fontFamily": "{font.family.body}",
-    "fontWeight": "{font.weight.light}",
-    "fontSize": "{text.body-lg}",
-    "lineHeight": 1.4,
-    "letterSpacing": {
-     "value": 0,
-     "unit": "px"
-    }
-   },
-   "$description": "Body L in light: a section's or an opener's lede, where Figma sets Geist Light."
-  },
-  "h4-light": {
+  "heading-2xs-bold": {
    "$type": "typography",
    "$value": {
     "fontFamily": "{font.family.display}",
-    "fontWeight": "{font.weight.light}",
-    "fontSize": "{text.heading-sm}",
+    "fontWeight": "{font.weight.bold}",
+    "fontSize": "{text.heading-2xs}",
     "lineHeight": 1.2,
+    "letterSpacing": {
+     "value": 0,
+     "unit": "px"
+    }
+   },
+   "$description": "Heading 2XS in bold: drawer and modal titles."
+  },
+  "body-md-bold": {
+   "$type": "typography",
+   "$value": {
+    "fontFamily": "{font.family.body}",
+    "fontWeight": "{font.weight.bold}",
+    "fontSize": "{text.body-md}",
+    "lineHeight": 1.5,
+    "letterSpacing": {
+     "value": 0,
+     "unit": "px"
+    }
+   },
+   "$description": "Body MD in bold. Kept for the sites built on the system; the system's own components use semibold for button labels."
+  },
+  "body-sm-bold": {
+   "$type": "typography",
+   "$value": {
+    "fontFamily": "{font.family.body}",
+    "fontWeight": "{font.weight.bold}",
+    "fontSize": "{text.body-sm}",
+    "lineHeight": 1.5,
     "letterSpacing": "{font.letter-spacing.none}"
    },
-   "$description": "H4 in light: the titles of named points, such as a list of principles."
+   "$description": "Body SM in bold. Kept for the sites built on the system; the system's own components use semibold for small button labels."
+  },
+  "body-md-semibold": {
+   "$type": "typography",
+   "$value": {
+    "fontFamily": "{font.family.body}",
+    "fontWeight": "{font.weight.semibold}",
+    "fontSize": "{text.body-md}",
+    "lineHeight": 1.5,
+    "letterSpacing": {
+     "value": 0,
+     "unit": "px"
+    }
+   },
+   "$description": "Body MD in semibold: button labels."
+  },
+  "body-sm-semibold": {
+   "$type": "typography",
+   "$value": {
+    "fontFamily": "{font.family.body}",
+    "fontWeight": "{font.weight.semibold}",
+    "fontSize": "{text.body-sm}",
+    "lineHeight": 1.5,
+    "letterSpacing": "{font.letter-spacing.none}"
+   },
+   "$description": "Body SM in semibold: small button labels."
+  },
+  "body-lg-light": {
+   "$type": "typography",
+   "$value": {
+    "fontFamily": "{font.family.body}",
+    "fontWeight": "{font.weight.light}",
+    "fontSize": "{text.body-lg}",
+    "lineHeight": 1.5,
+    "letterSpacing": {
+     "value": 0,
+     "unit": "px"
+    }
+   },
+   "$description": "Body LG in light: a section's or an opener's lede, where Figma sets Geist Light."
   }
  },
  "duration": {
   "$type": "duration",
   "$description": "Raw durations, named by their length in milliseconds. Figma has no motion design, so they are authored here. Components never read these; they read a motion purpose.",
+  "50": {
+   "$value": {
+    "value": 50,
+    "unit": "ms"
+   }
+  },
   "80": {
    "$value": {
     "value": 80,
@@ -284,6 +519,12 @@
   "320": {
    "$value": {
     "value": 320,
+    "unit": "ms"
+   }
+  },
+  "500": {
+   "$value": {
+    "value": 500,
     "unit": "ms"
    }
   },
@@ -341,6 +582,15 @@
     1
    ],
    "$description": "Eases in and out symmetrically."
+  },
+  "steep-out": {
+   "$value": [
+    0,
+    0.7,
+    0.5,
+    1
+   ],
+   "$description": "Starts at full speed and settles gently over most of its length."
   }
  },
  "motion": {
@@ -417,6 +667,13 @@
     "$value": "{duration.22000}"
    }
   },
+  "spin": {
+   "$description": "A ring that turns while something is worked on, with no known end: one whole turn per duration, at an even speed, again until the work is done. Stopped under reduced motion.",
+   "duration": {
+    "$type": "duration",
+    "$value": "{duration.1000}"
+   }
+  },
   "live-pulse": {
    "$description": "The pulse of something really live, open or running. A state, never decoration.",
    "duration": {
@@ -455,6 +712,33 @@
    "easing": {
     "$type": "cubicBezier",
     "$value": "{easing.cubic-in-out}"
+   }
+  },
+  "chart-entrance": {
+   "$description": "A chart drawing itself the first time it comes into view, once: bars grow from the baseline one after another, a line and its area are uncovered from the start of the plot to its end, a ring sweeps round from the top. Changes after that land at once. Stopped under reduced motion, when the chart is simply there.",
+   "grow-duration": {
+    "$type": "duration",
+    "$value": "{duration.500}",
+    "$description": "How long each bar takes to grow to its height."
+   },
+   "reveal-duration": {
+    "$type": "duration",
+    "$value": "{duration.1000}",
+    "$description": "How long a line takes to be uncovered across the plot, or a ring to sweep round."
+   },
+   "stagger": {
+    "$type": "duration",
+    "$value": "{duration.50}",
+    "$description": "The wait added for each bar after the first."
+   },
+   "stagger-span": {
+    "$type": "duration",
+    "$value": "{duration.500}",
+    "$description": "The longest the last bar waits: with many bars the wait per bar shrinks, so the last still starts within half a second."
+   },
+   "easing": {
+    "$type": "cubicBezier",
+    "$value": "{easing.steep-out}"
    }
   }
  }

@@ -19,7 +19,7 @@ The fade applied to a whole element when it should read as unavailable. Opacity 
 
 ## How it is structured
 
-Deliberately small: it holds only the fade for disabled media, and a new fade is added only when something needs it.
+Deliberately small: the fade for disabled media, and three see-through levels, faint, light and strong, for a hint of a fill, dimmed media and content set back but still readable. A new fade is added only when something needs it.
 
 ## Tiers
 
@@ -29,7 +29,7 @@ Primitive only, and it reaches CSS. It has no semantic tier because it is alread
 
 ### Do
 
-- Fade disabled images and media with this value.
+- Fade disabled images and media with the disabled fade.
 - Pair any disabled fade with the real disabled state — the attribute or the pointer rule — so that what looks unavailable is unavailable. Disabled styling must stay perceivable and understandable, and a fade alone is neither.
 
 ### Don't

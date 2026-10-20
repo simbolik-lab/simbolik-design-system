@@ -1,0 +1,125 @@
+/* smbk-filter-bar — Filter bar. Figma "Filter bar" 7117:565: Layout (Wide, Narrow) × Condition (Pristine, Query
+ * entered, Filters applied, Loading), 8 variants.
+ * A column of up to three rows, the large stack space apart: the controls (the search field, the filters opener, the
+ * sort list, the view switch), the filters applied as chips with Clear all, shown only while any are applied, and the
+ * result count. The bar has no fill or edge of its own; its controls keep theirs. Every control is the system's own
+ * component, at the medium size as Figma draws them; this sheet only lays them out.
+ * Narrow (the layout switch): the search field and the filters opener stay; the sort list and the view switch go,
+ * since a narrow page reaches them where its filters open, such as a drawer. A page that gives a narrow opener of its
+ * own (narrow-filters) shows it in place of the filters part. */
+
+.smbk-filter-bar {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-lg);
+  min-inline-size: 0;
+}
+
+/* ---- the controls: the search field takes the room left over ---- */
+
+.smbk-filter-bar__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-md);
+  min-inline-size: 0;
+}
+
+.smbk-filter-bar__search {
+  display: flex;
+  flex: 1 1 0;
+  min-inline-size: 0;
+}
+
+.smbk-filter-bar__filters,
+.smbk-filter-bar__view {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+}
+
+.smbk-filter-bar__narrow-filters {
+  display: none;
+  flex: none;
+  align-items: center;
+}
+
+.smbk-filter-bar__sort {
+  display: flex;
+  flex: none;
+  inline-size: var(--smbk-size-filter-bar-sort-width);
+}
+
+/* The filters opener: the outline button, and beside it the number of filters applied in the small badge. The
+   number is the badge's to show and the button's to say: the button's name carries it in words. */
+.smbk-filter-bar__opener {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--smbk-space-inline-xs);
+}
+
+/* ---- the filters applied: small removable chips that wrap onto more rows, Clear all after the last ---- */
+
+.smbk-filter-bar__applied {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+}
+
+/* Clear all is a button drawn as the small link, since it acts on the page rather than going anywhere. */
+.smbk-filter-bar__clear {
+  flex: none;
+}
+
+/* ---- the result count: Body SM in the secondary text color; while results load, the spinner's ring and words
+   that say so in its place ---- */
+
+.smbk-filter-bar__count {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-xs);
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- narrow ---- */
+
+@container style(--smbk-layout: narrow) {
+  .smbk-filter-bar__sort,
+  .smbk-filter-bar__view,
+  .smbk-filter-bar__controls:has(> .smbk-filter-bar__narrow-filters) > .smbk-filter-bar__filters {
+    display: none;
+  }
+
+  .smbk-filter-bar__narrow-filters {
+    display: inline-flex;
+  }
+}
+
+/* ---- touch: the filters applied and Clear all stop their press areas halfway to each other ----
+   On a touch screen each remove cross and Clear all take an invisible area, centred on them; in the row of filters
+   applied, which wraps, each reaches only halfway into the row's gaps, so every filter stays one press. Nothing drawn
+   moves. */
+
+@media (pointer: coarse) {
+  .smbk-filter-bar__clear {
+    position: relative;
+  }
+
+  .smbk-filter-bar__clear::after {
+    content: '';
+    position: absolute;
+  }
+
+  .smbk-filter-bar__applied .smbk-chip__remove::after,
+  .smbk-filter-bar__applied .smbk-filter-bar__clear::after {
+    inset: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-sm) / -2);
+  }
+}

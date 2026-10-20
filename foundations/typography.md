@@ -15,17 +15,17 @@ status: stable
 
 ## Purpose
 
-The vocabulary of text: which faces exist, which sizes exist, and the named presets that combine face, size, weight, line height, letter spacing and case into a role such as page title, body copy or uppercase label. Components consume presets. They do not compose text from raw values.
+The vocabulary of text: which faces exist, which sizes exist, and the named presets that combine face, size, weight, line height, letter spacing and case into a role such as page title, body copy or control label. Components consume presets. They do not compose text from raw values.
 
 ## How it is structured
 
 Three groups, stacked.
 
-At the bottom, the **typographic primitives**: the font families — a display face for headings, a body face for reading, and a monospace face for labels and code — plus runs of sizes, weights and letter-spacing steps. These are ingredients and reach nothing directly.
+At the bottom, the **typographic primitives**: the font families — a display face for headings, a body face for reading, and a monospace face for code and keys — plus runs of sizes, weights and letter-spacing steps. These are ingredients and reach nothing directly.
 
 In the middle, the **text sizes**: a semantic run of named sizes for display, heading, body and label roles. This is the only layer that changes with the viewport, and it is the layer the presets read their size from.
 
-On top, the **presets**: display registers, heading levels, a subtitle and a subheading, body sizes and label sizes. Each preset is one composite token. The label presets are uppercase and set in the monospace face; the case is carried out of the composite as a setting the component applies, because the token standard's text recipe has no slot for it.
+On top, the **presets**: display registers and heading levels, each with a light version, body sizes with their medium, semibold and bold versions, label sizes, a small field size and code sizes. Each preset is one composite token. Labels are set in the body face at a medium weight, in sentence case. A preset set in capitals carries the case out of the composite as a setting the component applies, because the token standard's text recipe has no slot for it.
 
 The shape follows role families — display, heading, body, label — with headings independent of the HTML heading level a page chooses.
 
@@ -33,7 +33,7 @@ Tabular figures, digits of equal width for columns, counters and timers, are a C
 
 ## Tiers
 
-Every text box in Figma is trimmed to its cap height, so a title sits exactly as far from the line above and below as its letters, not its line box. Components apply the same trim to their text parts, which is why a stack of text in the browser measures the same as its Figma frame. The line height still applies between lines.
+Text keeps its full line box, in Figma and in the components: nothing is trimmed to the cap height. The space between two texts is the gap between their boxes plus each line's own leading, so the text spacing tokens are set for untrimmed text, and a stack of text in the browser measures the same as its Figma frame.
 
 Font families, sizes, weights and letter-spacing steps are primitives and do not reach CSS as custom properties, for the same reason primitive colors do not: the text ramp compresses at narrow widths, and a component reading a raw size would be blind to that. Semantic text sizes and the presets are what reach CSS. A preset becomes one custom property per part — family, size, weight, line height, letter spacing and text transform — because no single CSS property carries all of them without losing some.
 
@@ -61,5 +61,5 @@ Theme and density do not touch typography.
 - Apply uppercase to a body or display preset.
 - Override one part of a preset with another preset's part. Mixing a heading's size with a body face is a new preset, and new presets are decided in Figma.
 - Use a viewport media query on text inside a component. The text sizes already follow the viewport; a component that wants a different size at a different width wants a different preset.
-- Leave any of the three faces unloaded. The font families carry no fallback fonts, so text set in a face that did not load will not appear as intended.
+- Leave any of the three faces unloaded. Each family names backups after it, a stand-in face sized to match and then the system's own font, so a page drawn before its face arrives keeps its layout. But the backups only stand in; they are not the system's type.
 - Use a display preset more than once on a page, or in a product screen. Display presets are for one moment on a marketing or brand page; product screens stop at the largest heading.

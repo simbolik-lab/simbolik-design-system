@@ -1,0 +1,204 @@
+/* smbk-shadow-editor — Shadow editor. Figma "Shadow editor" 7417:172 (Preview and Add layer switches) and its
+ * "ShadowLayer" 7417:87 (Remove switch).
+ * A column, the medium stack step apart: a preview (a card on the default surface, raised by the shadow being edited, in
+ * a well of the canvas color inside a subtle edge), the layers from top to bottom, and the Add layer button.
+ * Each layer is a card on the default surface inside a subtle edge, the medium inset round it and the small stack step
+ * between its rows: a head (the move handle and the layer's name in Label MD, and the Remove button), a row of four
+ * small number boxes (X, Y, Blur, Spread) and a row of the color picker's field with the opacity box, each box under its
+ * label in Body XS. The shadow on the preview's card is data: the wrapper writes it to a custom property on the block. */
+
+.smbk-shadow-editor {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--smbk-space-stack-md);
+  min-width: 0;
+}
+
+/* The block frames the words it hides for screen readers, so they stay inside it wherever it is placed: without a
+   frame they hang from the page itself and stretch it, past the end of an area that scrolls. No weight, so a parent
+   that places the block keeps its say. */
+:where(.smbk-shadow-editor) {
+  position: relative;
+}
+
+.smbk-shadow-editor__preview,
+.smbk-shadow-editor__layers {
+  align-self: stretch;
+}
+
+/* The preview: a 64 tall card in the middle of a 128 tall well. Figma's card is 112 wide, written here as the 48 and 64
+   size steps together, since no one size step is 112. */
+.smbk-shadow-editor__preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding-block: var(--smbk-space-inset-3xl);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  border-radius: var(--smbk-radius-container-sm);
+  background: var(--smbk-color-surface-canvas);
+}
+
+.smbk-shadow-editor__card {
+  width: calc(var(--smbk-size-48) + var(--smbk-size-64));
+  height: var(--smbk-size-64);
+  border-radius: var(--smbk-radius-container-sm);
+  background: var(--smbk-color-surface-default);
+  box-shadow: var(--smbk-shadow-editor-shadow, none);
+}
+
+.smbk-shadow-editor__layers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---- a layer (Figma's ShadowLayer) ---- */
+
+.smbk-shadow-editor__layer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-sm);
+  box-sizing: border-box;
+  min-width: 0;
+  padding: var(--smbk-space-inset-md);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  border-radius: var(--smbk-radius-container-sm);
+  background: var(--smbk-color-surface-default);
+}
+
+.smbk-shadow-editor__layer[data-dragging] {
+  box-shadow: var(--smbk-elevation-raised);
+}
+
+.smbk-shadow-editor__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--smbk-size-control-xs);
+}
+
+.smbk-shadow-editor__title {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-xs);
+  min-width: 0;
+}
+
+.smbk-shadow-editor__name {
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-label-md-font-family);
+  font-size: var(--smbk-typography-label-md-font-size);
+  font-weight: var(--smbk-typography-label-md-font-weight);
+  line-height: var(--smbk-typography-label-md-line-height);
+  letter-spacing: var(--smbk-typography-label-md-letter-spacing);
+}
+
+/* The move handle: Figma's 16 px DotsSixVertical icon, in a 24 px target that moves the layer. */
+.smbk-shadow-editor__handle {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--smbk-size-icon-sm);
+  height: var(--smbk-size-icon-sm);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--smbk-radius-control-xs);
+  background: none;
+  color: var(--smbk-color-text-subtle);
+  cursor: grab;
+  touch-action: none;
+  outline: none;
+}
+
+.smbk-shadow-editor__handle::before {
+  content: '';
+  position: absolute;
+  inset: calc((var(--smbk-size-icon-sm) - var(--smbk-size-control-xs)) / 2);
+}
+
+.smbk-shadow-editor__handle .smbk-icon {
+  font-size: var(--smbk-size-icon-sm);
+}
+
+@media (hover: hover) {
+  .smbk-shadow-editor__handle:hover {
+    color: var(--smbk-color-text-default);
+  }
+}
+
+.smbk-shadow-editor__layer[data-dragging] .smbk-shadow-editor__handle {
+  cursor: grabbing;
+}
+
+.smbk-shadow-editor__handle:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+.smbk-shadow-editor__fields,
+.smbk-shadow-editor__paint {
+  display: grid;
+  gap: var(--smbk-space-inline-sm);
+}
+
+.smbk-shadow-editor__fields {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* The color takes the room the opacity box, Figma's 64, leaves. */
+.smbk-shadow-editor__paint {
+  grid-template-columns: minmax(0, 1fr) var(--smbk-size-64);
+}
+
+.smbk-shadow-editor__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-xs);
+  min-width: 0;
+}
+
+.smbk-shadow-editor__label {
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
+}
+
+/* Words for screen readers only: a label's unit, a move's hint and what changed. */
+/* .smbk-shadow-editor__hidden: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
+/* ---- touch: the move handle's area reaches the comfortable target ----
+   On a touch screen the handle's invisible area grows from the smallest target to the comfortable one; the dots, the
+   focus ring and every place stay as drawn. */
+
+@media (pointer: coarse) {
+  .smbk-shadow-editor__handle::before {
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+@media (forced-colors: active) {
+  .smbk-shadow-editor__preview,
+  .smbk-shadow-editor__layer {
+    border-color: CanvasText;
+  }
+
+  .smbk-shadow-editor__card {
+    outline: var(--smbk-border-width-hairline) solid CanvasText;
+  }
+
+  .smbk-shadow-editor__handle:focus-visible {
+    outline-color: Highlight;
+  }
+}

@@ -1,42 +1,93 @@
-/* smbk-skeleton — Skeleton. Figma "Skeleton" 915:9.
+/* smbk-skeleton — Skeleton. Figma "Skeleton" 915:9 (Shape × Size, 39 variants).
  * Widths in Figma are example widths and not bound; a skeleton takes the width
- * it is given. The text, title and label shapes are as tall as the text they
- * stand in for, as this system draws it: trimmed to its capital height (on
- * purpose, where Figma draws other heights). Each takes its preset's face,
- * size and line height so the cap and line units measure that text: one line
- * is one cap tall, and the lines of a paragraph (line parts, written by the
- * wrapper for more than one line) stand one line height apart, so a skeleton
- * paragraph is exactly as tall as the paragraph it stands in for. The avatar
- * and button match those components' sizes; the media shape takes the
- * proportion of the media it replaces, set by the wrapper.
- * While it waits, a band of the sunken surface sweeps across it with the
- * loading motion (rules at the end). */
+ * it is given. The text, paragraph, title and label shapes take the room of
+ * the text they stand in for: each takes its preset's face, size and line
+ * height (body, heading and label, one step per size), so one line is one
+ * line height tall, with a bar as tall as the text's capitals drawn in its
+ * middle, and the lines of a paragraph (line parts, written by the wrapper for
+ * more than one line) stand one line height apart, so a skeleton paragraph is
+ * exactly as tall as the paragraph it stands in for. The icon, avatar, badge,
+ * button and input match those components' sizes at each size; the media
+ * shape takes the proportion of the media it replaces, set by the wrapper, 16:9
+ * by default. The list item, card and table row shapes are built from the
+ * other shapes, so each bar inside them is a line of the text it stands for.
+ * While it waits, a lighter band sweeps across it a few times with the
+ * loading motion, then it rests (rules at the end). */
 
 .smbk-skeleton {
   display: block;
+  box-sizing: border-box;
   width: 100%;
-  height: 1cap;
+  height: 1lh;
+  padding-block: calc((1lh - 1cap) / 2);
+  background-clip: content-box;
   border-radius: var(--smbk-radius-control-xs);
-  background-color: var(--smbk-color-surface-raised);
-  font-family: var(--smbk-typography-body-m-font-family);
-  font-size: var(--smbk-typography-body-m-font-size);
-  font-weight: var(--smbk-typography-body-m-font-weight);
-  line-height: var(--smbk-typography-body-m-line-height);
+  background-color: var(--smbk-color-surface-skeleton);
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
 }
+
+/* ---- size: the text shape's body style, one step per size ---- */
+
+.smbk-skeleton--size-sm {
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+}
+
+.smbk-skeleton--size-lg {
+  font-family: var(--smbk-typography-body-lg-font-family);
+  font-size: var(--smbk-typography-body-lg-font-size);
+  font-weight: var(--smbk-typography-body-lg-font-weight);
+  line-height: var(--smbk-typography-body-lg-line-height);
+}
+
+/* ---- title and label: the heading and label styles, one step per size ---- */
 
 .smbk-skeleton--shape-title {
   border-radius: var(--smbk-radius-control-sm);
-  font-family: var(--smbk-typography-h5-font-family);
-  font-size: var(--smbk-typography-h5-font-size);
-  font-weight: var(--smbk-typography-h5-font-weight);
-  line-height: var(--smbk-typography-h5-line-height);
+  font-family: var(--smbk-typography-heading-md-font-family);
+  font-size: var(--smbk-typography-heading-md-font-size);
+  font-weight: var(--smbk-typography-heading-md-font-weight);
+  line-height: var(--smbk-typography-heading-md-line-height);
+}
+
+.smbk-skeleton--shape-title.smbk-skeleton--size-sm {
+  font-family: var(--smbk-typography-heading-sm-font-family);
+  font-size: var(--smbk-typography-heading-sm-font-size);
+  font-weight: var(--smbk-typography-heading-sm-font-weight);
+  line-height: var(--smbk-typography-heading-sm-line-height);
+}
+
+.smbk-skeleton--shape-title.smbk-skeleton--size-lg {
+  font-family: var(--smbk-typography-heading-lg-font-family);
+  font-size: var(--smbk-typography-heading-lg-font-size);
+  font-weight: var(--smbk-typography-heading-lg-font-weight);
+  line-height: var(--smbk-typography-heading-lg-line-height);
 }
 
 .smbk-skeleton--shape-label {
-  font-family: var(--smbk-typography-label-s-font-family);
-  font-size: var(--smbk-typography-label-s-font-size);
-  font-weight: var(--smbk-typography-label-s-font-weight);
-  line-height: var(--smbk-typography-label-s-line-height);
+  font-family: var(--smbk-typography-label-md-font-family);
+  font-size: var(--smbk-typography-label-md-font-size);
+  font-weight: var(--smbk-typography-label-md-font-weight);
+  line-height: var(--smbk-typography-label-md-line-height);
+}
+
+.smbk-skeleton--shape-label.smbk-skeleton--size-sm {
+  font-family: var(--smbk-typography-label-sm-font-family);
+  font-size: var(--smbk-typography-label-sm-font-size);
+  font-weight: var(--smbk-typography-label-sm-font-weight);
+  line-height: var(--smbk-typography-label-sm-line-height);
+}
+
+.smbk-skeleton--shape-label.smbk-skeleton--size-lg {
+  font-family: var(--smbk-typography-label-lg-font-family);
+  font-size: var(--smbk-typography-label-lg-font-size);
+  font-weight: var(--smbk-typography-label-lg-font-weight);
+  line-height: var(--smbk-typography-label-lg-line-height);
 }
 
 /* A paragraph: the block holds its lines, one line height apart, and draws nothing itself. */
@@ -45,6 +96,7 @@
   flex-direction: column;
   gap: calc(1lh - 1cap);
   height: auto;
+  padding-block: calc((1lh - 1cap) / 2);
   background: none;
   animation: none;
 }
@@ -53,42 +105,218 @@
   display: block;
   height: 1cap;
   border-radius: inherit;
-  background-color: var(--smbk-color-surface-raised);
+  background-color: var(--smbk-color-surface-skeleton);
 }
 
+/* The paragraph shape ends on a shorter line, as a paragraph does. */
+.smbk-skeleton--shape-paragraph > .smbk-skeleton__line:last-child:not(:first-child) {
+  width: 60%;
+}
+
+/* ---- the solid shapes: a block of the skeleton's color, no text box ---- */
+
+.smbk-skeleton:is(
+  .smbk-skeleton--shape-icon,
+  .smbk-skeleton--shape-avatar,
+  .smbk-skeleton--shape-badge,
+  .smbk-skeleton--shape-button,
+  .smbk-skeleton--shape-input,
+  .smbk-skeleton--shape-media
+) {
+  padding-block: 0;
+  background-clip: border-box;
+}
+
+.smbk-skeleton--shape-icon {
+  width: var(--smbk-size-icon-md);
+  height: var(--smbk-size-icon-md);
+}
+
+.smbk-skeleton--shape-icon.smbk-skeleton--size-sm {
+  width: var(--smbk-size-icon-sm);
+  height: var(--smbk-size-icon-sm);
+}
+
+.smbk-skeleton--shape-icon.smbk-skeleton--size-lg {
+  width: var(--smbk-size-icon-lg);
+  height: var(--smbk-size-icon-lg);
+}
+
+/* The avatar's own steps: the avatar does not change with density, so neither does its skeleton. */
 .smbk-skeleton--shape-avatar {
-  width: var(--smbk-size-control-md);
-  height: var(--smbk-size-control-md);
+  flex-shrink: 0;
+  width: var(--smbk-size-40);
+  height: var(--smbk-size-40);
   border-radius: var(--smbk-radius-full);
 }
 
-.smbk-skeleton--shape-media {
-  height: auto;
-  border-radius: var(--smbk-radius-container-sm);
+.smbk-skeleton--shape-avatar.smbk-skeleton--size-sm {
+  width: var(--smbk-size-32);
+  height: var(--smbk-size-32);
 }
 
+.smbk-skeleton--shape-avatar.smbk-skeleton--size-lg {
+  width: var(--smbk-size-48);
+  height: var(--smbk-size-48);
+}
+
+/* The badge's pill heights; the widths are Figma's examples, a short word's room. */
+.smbk-skeleton--shape-badge {
+  width: var(--smbk-size-56);
+  height: var(--smbk-size-mark-md);
+  border-radius: var(--smbk-radius-full);
+}
+
+.smbk-skeleton--shape-badge.smbk-skeleton--size-sm {
+  width: var(--smbk-size-48);
+  height: var(--smbk-size-mark-sm);
+}
+
+.smbk-skeleton--shape-badge.smbk-skeleton--size-lg {
+  width: var(--smbk-size-64);
+  height: var(--smbk-size-mark-lg);
+}
+
+/* The button's control heights and corners; three times as wide as it is tall, a short label's room. */
 .smbk-skeleton--shape-button {
   width: auto;
-  min-width: var(--smbk-size-content-sm);
+  max-width: 100%;
+  aspect-ratio: 3 / 1;
+  height: var(--smbk-size-control-md);
+  border-radius: var(--smbk-radius-control-sm);
+}
+
+.smbk-skeleton--shape-button.smbk-skeleton--size-sm {
+  height: var(--smbk-size-control-sm);
+}
+
+.smbk-skeleton--shape-button.smbk-skeleton--size-lg {
   height: var(--smbk-size-control-lg);
   border-radius: var(--smbk-radius-control-md);
 }
 
+/* The input's control heights and corners, as wide as it is given. */
+.smbk-skeleton--shape-input {
+  height: var(--smbk-size-control-md);
+  border-radius: var(--smbk-radius-control-sm);
+}
+
+.smbk-skeleton--shape-input.smbk-skeleton--size-sm {
+  height: var(--smbk-size-control-sm);
+}
+
+.smbk-skeleton--shape-input.smbk-skeleton--size-lg {
+  height: var(--smbk-size-control-lg);
+  border-radius: var(--smbk-radius-control-md);
+}
+
+.smbk-skeleton--shape-media {
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--smbk-radius-container-sm);
+}
+
+/* ---- the blocks: list item, card and table row, laid out from the other shapes ----
+   The block draws nothing of the skeleton's itself (the card draws its frame); each shape inside
+   draws and sweeps on its own. */
+
+/* No more weight than one class, so each block's own rules below set its height, padding and corner. */
+.smbk-skeleton:where(.smbk-skeleton--shape-list-item, .smbk-skeleton--shape-card, .smbk-skeleton--shape-table-row) {
+  height: auto;
+  padding-block: 0;
+  border-radius: 0;
+  background: none;
+  animation: none;
+}
+
+.smbk-skeleton__text {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--smbk-space-text-label);
+  min-width: 0;
+}
+
+/* The list item: an avatar beside a label line over a shorter text line, as a person or a file in a list. */
+.smbk-skeleton--shape-list-item {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-lg);
+}
+
+.smbk-skeleton--shape-list-item .smbk-skeleton__text > :first-child {
+  width: 50%;
+}
+
+/* The card: its frame, then a 16:9 picture, a title line and two text lines, the second shorter. */
+.smbk-skeleton--shape-card {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+  padding: var(--smbk-space-inset-lg);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  border-radius: var(--smbk-radius-container-md);
+}
+
+.smbk-skeleton--shape-card.smbk-skeleton--size-sm {
+  padding: var(--smbk-space-inset-md);
+}
+
+.smbk-skeleton--shape-card > .smbk-skeleton--shape-title,
+.smbk-skeleton--shape-card > .smbk-skeleton--shape-text:not(.smbk-skeleton--shape-paragraph) {
+  width: 66%;
+}
+
+/* The table row: the row's control height with its rule along the foot, a selection box, then one
+   label line per column, the columns sharing the row. */
+.smbk-skeleton--shape-table-row {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-2xl);
+  height: var(--smbk-size-control-md);
+  padding-inline: var(--smbk-space-inset-md);
+  border-bottom: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+}
+
+.smbk-skeleton--shape-table-row.smbk-skeleton--size-sm {
+  height: var(--smbk-size-control-sm);
+}
+
+.smbk-skeleton--shape-table-row.smbk-skeleton--size-lg {
+  height: var(--smbk-size-control-lg);
+}
+
+.smbk-skeleton--shape-table-row > .smbk-skeleton--shape-icon {
+  flex-shrink: 0;
+  width: var(--smbk-size-icon-sm);
+  height: var(--smbk-size-icon-sm);
+}
+
+.smbk-skeleton--shape-table-row > .smbk-skeleton--shape-label {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
 /* ---- motion: the sweep ----
-   A band of the sunken surface, half the skeleton's width, fading in and out at its edges, crosses
+   A band of the default surface, half the skeleton's width, fading in and out at its edges, crosses
    the skeleton from just past its start edge to just past its end edge with the loading purpose,
-   then starts again. Both ends lie outside the skeleton, so a sweep starts and ends on the plain
-   surface, and where motion is stopped (reduced motion, the rendered pictures) the skeleton is the
-   plain surface at rest. The distances are the skeleton's own width: half for the band, and the
-   positions that put it just outside either edge. */
+   three times, then stops: three sweeps of the loading duration end inside five seconds, after
+   which nothing may move on its own beside other content. The skeleton's color is see-through,
+   and the opaque band over it reads on every surface. Both ends lie
+   outside the skeleton, so a sweep starts and ends on the plain shape, and where motion is stopped
+   (reduced motion, the rendered pictures, the end of the third sweep) the skeleton is the plain
+   shape at rest. The distances are the skeleton's own width: half for the band, and the positions
+   that put it just outside either edge. */
 
 .smbk-skeleton,
 .smbk-skeleton__line {
-  background-image: linear-gradient(to right, transparent, var(--smbk-color-surface-sunken), transparent);
+  background-image: linear-gradient(to right, transparent, var(--smbk-color-surface-default), transparent);
   background-position: -100% 0;
   background-repeat: no-repeat;
   background-size: 50% 100%;
-  animation: smbk-skeleton-sweep var(--smbk-motion-loading-duration) var(--smbk-motion-loading-easing) infinite;
+  animation: smbk-skeleton-sweep var(--smbk-motion-loading-duration) var(--smbk-motion-loading-easing) 3;
 }
 
 @keyframes smbk-skeleton-sweep {
@@ -114,8 +342,8 @@
 .smbk-skeleton--shape-component:not(.smbk-skeleton--loaded) > * {
   border-color: transparent !important;
   outline-color: transparent !important;
-  background-color: var(--smbk-color-surface-raised) !important;
-  background-image: linear-gradient(to right, transparent, var(--smbk-color-surface-sunken), transparent) !important;
+  background-color: var(--smbk-color-surface-skeleton) !important;
+  background-image: linear-gradient(to right, transparent, var(--smbk-color-surface-default), transparent) !important;
   background-origin: border-box !important;
   background-position: -100% 0;
   background-repeat: no-repeat !important;
@@ -123,7 +351,7 @@
   box-shadow: none !important;
   color: transparent !important;
   pointer-events: none;
-  animation: smbk-skeleton-sweep var(--smbk-motion-loading-duration) var(--smbk-motion-loading-easing) infinite !important;
+  animation: smbk-skeleton-sweep var(--smbk-motion-loading-duration) var(--smbk-motion-loading-easing) 3 !important;
 }
 
 .smbk-skeleton--shape-component:not(.smbk-skeleton--loaded) > * * {
@@ -149,8 +377,9 @@
 @media (forced-colors: active) {
   /* The shapes are backgrounds, which forced colors drops; each is outlined in GrayText inside
      its own box instead, so it shows as a placeholder without taking room. A paragraph outlines
-     its lines, not itself. A wrapped component keeps its own shape, its edge in GrayText. */
-  .smbk-skeleton:not(:has(> .smbk-skeleton__line)),
+     its lines, and a list item or a table row the shapes inside it, not itself; a card keeps its
+     frame. A wrapped component keeps its own shape, its edge in GrayText. */
+  .smbk-skeleton:not(:has(> .smbk-skeleton__line), .smbk-skeleton--shape-list-item, .smbk-skeleton--shape-card, .smbk-skeleton--shape-table-row, .smbk-skeleton--shape-component),
   .smbk-skeleton__line {
     outline: var(--smbk-border-width-hairline) solid GrayText;
     outline-offset: calc(-1 * var(--smbk-border-width-hairline));

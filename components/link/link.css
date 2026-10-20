@@ -2,35 +2,45 @@
  * An inline box, not a flex box: a link inside a sentence wraps across lines
  * like the words around it. The icon is inline too, so its glyph joins the
  * word beside it as one more letter would: a line never breaks between them,
- * and the icon travels with its word.
- * No cap-height trim, unlike other text parts: trimming does not reach an
- * inline box, and where a link stands alone in a flex or grid parent a trimmed
- * box would pull the focus ring through the descenders. */
+ * and the icon travels with its word. */
 
 .smbk-link {
   display: inline;
   color: var(--smbk-color-text-link);
-  font-family: var(--smbk-typography-body-l-font-family);
-  font-size: var(--smbk-typography-body-l-font-size);
-  font-weight: var(--smbk-typography-body-l-font-weight);
-  line-height: var(--smbk-typography-body-l-line-height);
-  letter-spacing: var(--smbk-typography-body-l-letter-spacing);
-  text-decoration: none;
+  font-family: var(--smbk-typography-body-lg-font-family);
+  font-size: var(--smbk-typography-body-lg-font-size);
+  font-weight: var(--smbk-typography-body-lg-font-weight);
+  line-height: var(--smbk-typography-body-lg-line-height);
+  letter-spacing: var(--smbk-typography-body-lg-letter-spacing);
+  text-decoration: underline;
   text-decoration-color: var(--smbk-color-text-link-underline);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
 
+/* A button can carry the link's classes for an action that sits among words and acts on the page rather than going
+   anywhere, such as a filter bar's Clear all: the button's own box goes, and the link's look stays. */
+button.smbk-link {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: inherit;
+  appearance: none;
+}
+
 @media (hover: hover) {
-  .smbk-link:hover {
+  .smbk-link:hover,
+  .smbk-link--standalone:hover {
     color: var(--smbk-color-text-link-hover);
     text-decoration: underline;
     text-decoration-color: var(--smbk-color-text-link-underline-hover);
   }
 }
 
-.smbk-link:active {
+.smbk-link:active,
+.smbk-link--standalone:active {
   color: var(--smbk-color-text-link-pressed);
   text-decoration: underline;
 }
@@ -43,19 +53,21 @@
 
 .smbk-link[aria-disabled="true"] {
   color: var(--smbk-color-text-link-disabled);
-  text-decoration: none;
   pointer-events: none;
 }
 
-.smbk-link--underline {
-  text-decoration: underline;
+/* A link standing on its own, outside running text, shows its underline on hover and press only.
+   Inside a sentence the underline stays, so a link never reads as plain words. */
+.smbk-link--standalone {
+  text-decoration: none;
 }
 
 /* Not a box of its own, which would let the line break before it. Sitting on
-   the text baseline centers Phosphor's glyph on the capitals. */
+   the text baseline centers Phosphor's glyph on the capitals. The icon follows
+   the text: 20 beside the large link, 16 beside the medium, 12 beside the small. */
 .smbk-link__icon {
   display: inline;
-  font-size: var(--smbk-size-icon-sm);
+  font-size: var(--smbk-size-icon-md);
 }
 
 .smbk-link__icon:first-child {
@@ -67,23 +79,65 @@
 }
 
 .smbk-link--size-md {
-  font-family: var(--smbk-typography-body-m-font-family);
-  font-size: var(--smbk-typography-body-m-font-size);
-  font-weight: var(--smbk-typography-body-m-font-weight);
-  line-height: var(--smbk-typography-body-m-line-height);
-  letter-spacing: var(--smbk-typography-body-m-letter-spacing);
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
+}
+
+.smbk-link--size-md .smbk-link__icon {
+  font-size: var(--smbk-size-icon-sm);
 }
 
 .smbk-link--size-sm {
-  font-family: var(--smbk-typography-body-s-font-family);
-  font-size: var(--smbk-typography-body-s-font-size);
-  font-weight: var(--smbk-typography-body-s-font-weight);
-  line-height: var(--smbk-typography-body-s-line-height);
-  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
 }
 
 .smbk-link--size-sm .smbk-link__icon {
   font-size: var(--smbk-size-icon-xs);
+}
+
+/* The size of the text around it, as in a heading or a card title: every part of the face comes from
+   the parent, and the icon takes the text's size. The underline stays. */
+.smbk-link--size-inherit {
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+.smbk-link--size-inherit .smbk-link__icon {
+  font-size: inherit;
+}
+
+/* ---- touch: a link standing on its own takes an invisible press area ----
+   On a touch screen an invisible area, centred on a standalone link, takes the press out to the comfortable target
+   in each direction it falls short of it, and halfway to a link standing right under it; its words, its underline,
+   its focus ring and its place stay as drawn. A
+   link inside a sentence keeps its line, so a press on the words round it never follows the link. */
+
+@media (pointer: coarse) {
+  .smbk-link--standalone {
+    position: relative;
+  }
+
+  .smbk-link--standalone::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  /* Links standing one under another, a stack's gap apart: halfway into it. */
+  .smbk-link--standalone + .smbk-link--standalone::after {
+    inset-block-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-md) / -2);
+  }
+
+  .smbk-link--standalone:has(+ .smbk-link--standalone)::after {
+    inset-block-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-md) / -2);
+  }
 }
 
 /* ---- high contrast (forced colors) ---- */

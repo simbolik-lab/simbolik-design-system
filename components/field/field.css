@@ -1,10 +1,13 @@
-/* smbk-field — Field. Figma "Field" 4800:63897 (Error: No, Yes).
+/* smbk-field — Field. Figma "Field" 4800:63897 (State: Default, Error, Disabled, Read-only × Layout: Stacked, Side by side).
  * A column: the label component in its subtle tone with the optional required
  * mark, then the control Figma's slot holds (an input, a select or a text
- * area, each drawing its own well), then a line of help text. The control is
- * not wrapped: it is the field's own child, so its width and states are its
- * own. In error, the label and the line take the danger text color, as
- * Figma binds them, and the control draws its danger border. */
+ * area, each drawing its own well), then the field message: a line of help
+ * text, or the error message in its place. The control is not wrapped: it is
+ * the field's own child, so its width and states are its own. In error, the
+ * label and the message take the danger text color, as Figma binds them, the
+ * message leads with an icon, and the control draws its danger border and
+ * icon. Disabled, the label, its mark and the help text take the disabled
+ * text color. Side by side, the label sits on the left of the control. */
 
 .smbk-field {
   box-sizing: border-box;
@@ -20,18 +23,56 @@
   align-self: flex-start;
 }
 
-.smbk-field__description {
-  margin: 0;
-  color: var(--smbk-color-text-subtlest);
-  font-family: var(--smbk-typography-body-t-font-family);
-  font-size: var(--smbk-typography-body-t-font-size);
-  font-weight: var(--smbk-typography-body-t-font-weight);
-  line-height: var(--smbk-typography-body-t-line-height);
-  letter-spacing: var(--smbk-typography-body-t-letter-spacing);
-  text-box: trim-both cap alphabetic;
-}
-
+/* The line under the control is the field message, whose own stylesheet draws it. The field's description class
+   only turns its words to the danger color in an error and to the disabled color when disabled. */
 .smbk-field--error .smbk-field__label,
 .smbk-field--error .smbk-field__description {
   color: var(--smbk-color-feedback-danger-text-on-subtle);
+}
+
+.smbk-field--disabled .smbk-field__label,
+.smbk-field--disabled .smbk-label__required,
+.smbk-field--disabled .smbk-field__description {
+  color: var(--smbk-color-text-disabled);
+}
+
+/* The warning's place, kept on the page while there is no warning so a screen reader hears one arrive, takes
+   no room and no gap until it has words. */
+.smbk-field__warning:empty {
+  position: absolute;
+}
+
+/* ---- side by side: the label in a column on the left, as tall as a small control so its words sit
+   on the control's middle; the control on the right at Figma's width, its message under it. The order
+   in the page stays label, control, message: only the layout moves. ---- */
+
+.smbk-field--layout-side-by-side {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, var(--smbk-size-field-control-width));
+  align-items: start;
+  column-gap: var(--smbk-space-stack-md);
+  row-gap: var(--smbk-space-stack-xs);
+}
+
+.smbk-field--layout-side-by-side > * {
+  grid-column: 2;
+}
+
+.smbk-field--layout-side-by-side > .smbk-field__label {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  justify-self: start;
+  min-height: var(--smbk-size-control-sm);
+}
+
+/* A narrow space has no room for two columns: the field stacks. */
+@container style(--smbk-layout: narrow) {
+  .smbk-field--layout-side-by-side {
+    display: flex;
+    gap: var(--smbk-space-stack-sm);
+  }
+
+  .smbk-field--layout-side-by-side > .smbk-field__label {
+    min-height: 0;
+  }
 }

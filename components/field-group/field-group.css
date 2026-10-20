@@ -1,0 +1,59 @@
+/* smbk-field-group — Field group. Figma "Field group" 7101:469 (State: Default, Disabled, Error × Layout: Vertical, Horizontal).
+ * Several radios, checkboxes or choice cards under one question: a fieldset
+ * whose legend is the label component in its strong tone, an optional line of
+ * help under it, the options, and one field message for the whole group in
+ * error. Each radio or checkbox in it is Figma's Choice option (7101:128): the
+ * body text a step larger than a lone control's, a wider gap to its mark, and
+ * an optional line under the label. Disabled, the fieldset disables every
+ * option; the legend and the help keep their colors, as Figma draws them. */
+
+.smbk-field-group {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* Floated, the legend is a row like the others, not drawn in the fieldset's edge; it still names the group. */
+.smbk-field-group__legend {
+  float: inline-start;
+  padding: 0;
+}
+
+/* The question and its help sit together; the options and the message follow at the medium stack step. */
+.smbk-field-group > :not(:first-child) {
+  margin-block-start: var(--smbk-space-stack-md);
+}
+
+.smbk-field-group > .smbk-field-group__legend + .smbk-field-group__description {
+  margin-block-start: var(--smbk-space-text-label);
+}
+
+.smbk-field-group__options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-md);
+}
+
+/* Horizontal: the options hug their labels and wrap; only for a few short labels without lines under them. */
+.smbk-field-group--layout-horizontal .smbk-field-group__options {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  column-gap: var(--smbk-space-inline-2xl);
+  row-gap: var(--smbk-space-stack-md);
+}
+
+/* Figma's Choice option: a radio or a checkbox with its label in Body MD and the mark a medium inline step
+   away. Two classes, so it wins over the control's own row whichever stylesheet loads first. */
+.smbk-field-group__option:is(.smbk-radio, .smbk-checkbox) {
+  gap: var(--smbk-space-inline-md);
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
+}

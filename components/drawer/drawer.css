@@ -17,11 +17,11 @@
   max-height: none;
   margin: 0;
   padding: 0;
-  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim);
   border-radius: var(--smbk-radius-container-md) 0 0 var(--smbk-radius-container-md);
-  background: var(--smbk-color-surface-default);
+  background: var(--smbk-color-surface-raised);
   color: var(--smbk-color-text-default);
-  box-shadow: var(--smbk-elevation-3);
+  box-shadow: var(--smbk-elevation-overlay);
   overflow: hidden;
 }
 
@@ -34,10 +34,6 @@
   outline: none;
 }
 
-.smbk-drawer::backdrop {
-  background: var(--smbk-color-overlay-scrim);
-}
-
 .smbk-drawer__header {
   position: relative;
   display: flex;
@@ -46,43 +42,41 @@
   padding: var(--smbk-space-inset-2xl) var(--smbk-space-inset-2xl) 0;
 }
 
+/* The title sits straight on its description: the line heights give the air. */
 .smbk-drawer__heading {
   display: flex;
   flex-direction: column;
-  gap: var(--smbk-space-inline-xl);
+  gap: var(--smbk-space-text-label);
   padding-right: var(--smbk-size-control-md);
 }
 
 .smbk-drawer__title {
   margin: 0;
-  font-family: var(--smbk-typography-body-l-bold-font-family);
-  font-size: var(--smbk-typography-body-l-bold-font-size);
-  font-weight: var(--smbk-typography-body-l-bold-font-weight);
-  line-height: var(--smbk-typography-body-l-bold-line-height);
-  letter-spacing: var(--smbk-typography-body-l-bold-letter-spacing);
-  text-box: trim-both cap alphabetic;
+  font-family: var(--smbk-typography-heading-2xs-bold-font-family);
+  font-size: var(--smbk-typography-heading-2xs-bold-font-size);
+  font-weight: var(--smbk-typography-heading-2xs-bold-font-weight);
+  line-height: var(--smbk-typography-heading-2xs-bold-line-height);
+  letter-spacing: var(--smbk-typography-heading-2xs-bold-letter-spacing);
 }
 
 .smbk-drawer__description {
   margin: 0;
   color: var(--smbk-color-text-subtlest);
-  font-family: var(--smbk-typography-body-s-font-family);
-  font-size: var(--smbk-typography-body-s-font-size);
-  font-weight: var(--smbk-typography-body-s-font-weight);
-  line-height: var(--smbk-typography-body-s-line-height);
-  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
-  text-box: trim-both cap alphabetic;
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
 }
 
-/* Figma sets the close button the large inset from the panel's top and end edges, so it sits on the
-   title's line and clear of the divider under a title alone. */
+/* The close button is centred on the title's first line, its end edge the large inset from the panel's
+   end edge (the panel's hairline edge counted in), as Figma places it. */
 .smbk-drawer__close {
   position: absolute;
-  top: var(--smbk-space-inset-lg);
-  right: var(--smbk-space-inset-lg);
+  top: calc(var(--smbk-space-inset-2xl) + (var(--smbk-typography-heading-2xs-bold-font-size) * var(--smbk-typography-heading-2xs-bold-line-height) - var(--smbk-size-control-md)) / 2);
+  right: calc(var(--smbk-space-inset-lg) - var(--smbk-border-width-hairline));
 }
 
-/* The body scrolls, so its text keeps its full line box: a box trimmed to the cap height under clipping cuts off descenders. */
 .smbk-drawer__body {
   flex: 1 1 auto;
   min-height: 0;
@@ -92,11 +86,11 @@
   scrollbar-width: thin;
   scrollbar-color: var(--smbk-color-border-subtle) transparent;
   color: var(--smbk-color-text-subtle);
-  font-family: var(--smbk-typography-body-s-font-family);
-  font-size: var(--smbk-typography-body-s-font-size);
-  font-weight: var(--smbk-typography-body-s-font-weight);
-  line-height: var(--smbk-typography-body-s-line-height);
-  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
 }
 
 .smbk-drawer__body > :first-child {
@@ -117,7 +111,7 @@
 .smbk-drawer__actions {
   display: flex;
   justify-content: flex-end;
-  gap: var(--smbk-space-inline-xl);
+  gap: var(--smbk-space-inline-lg);
 }
 
 /* ---- positions: the corners facing the page are rounded ---- */
@@ -160,23 +154,10 @@
 }
 
 /* ---- motion: the panel slides in from its own edge by its own size with the enter purpose,
-   over a scrim that fades in, and slides back out with the exit purpose. Its display and its
-   place in the top layer change at the end of the exit, so it stays drawn while it leaves.
-   Inline drawers do not move. No movement under reduced motion. ---- */
-
-.smbk-drawer:not(.smbk-drawer--inline),
-.smbk-drawer:not(.smbk-drawer--inline)::backdrop {
-  transition-property: translate, opacity, display, overlay;
-  transition-duration: var(--smbk-motion-exit-duration);
-  transition-timing-function: var(--smbk-motion-exit-easing);
-  transition-behavior: allow-discrete;
-}
-
-.smbk-drawer[open]:not(.smbk-drawer--inline),
-.smbk-drawer[open]:not(.smbk-drawer--inline)::backdrop {
-  transition-duration: var(--smbk-motion-enter-duration);
-  transition-timing-function: var(--smbk-motion-enter-easing);
-}
+   over a scrim that fades in, and slides back out with the exit purpose. Under reduced motion the panel appears in
+   place and fades in and out with the same purposes, over the scrim that fades as before. The transitions, the scrim
+   and the page held still behind the drawer are the dialogs' own, shared with the modal and the command palette:
+   dialog/dialog.css; the slide from each edge is the drawer's. Inline drawers do not move. ---- */
 
 /* Closed, and where it starts from as it opens: just past its own edge. */
 .smbk-drawer:not(.smbk-drawer--inline):not([open]) {
@@ -195,10 +176,6 @@
   translate: 0 100%;
 }
 
-.smbk-drawer:not(.smbk-drawer--inline):not([open])::backdrop {
-  opacity: 0;
-}
-
 @starting-style {
   .smbk-drawer[open]:not(.smbk-drawer--inline) {
     translate: 100% 0;
@@ -215,25 +192,19 @@
   .smbk-drawer--position-bottom[open]:not(.smbk-drawer--inline) {
     translate: 0 100%;
   }
-
-  .smbk-drawer[open]:not(.smbk-drawer--inline)::backdrop {
-    opacity: 0;
-  }
 }
 
-/* As heavy as the rule that sets the transitions, so it wins over it. */
 @media (prefers-reduced-motion: reduce) {
-  .smbk-drawer:not(.smbk-drawer--inline),
-  .smbk-drawer:not(.smbk-drawer--inline)::backdrop {
-    transition: none;
+  /* As heavy as each position's closed rule and later, so it wins over all four. */
+  .smbk-drawer:not(.smbk-drawer--inline):not([open]) {
+    opacity: 0;
+    translate: none;
   }
-}
 
-/* ---- the page behind: while the drawer is open over the page, the page does not scroll under it. Its
-   scrollbar's room is kept, so the page does not shift sideways as the scrollbar goes. An inline
-   drawer is not over the page and changes nothing. ---- */
-
-:root:has(.smbk-drawer:modal) {
-  overflow: hidden;
-  scrollbar-gutter: stable;
+  @starting-style {
+    .smbk-drawer[open]:not(.smbk-drawer--inline) {
+      opacity: 0;
+      translate: none;
+    }
+  }
 }

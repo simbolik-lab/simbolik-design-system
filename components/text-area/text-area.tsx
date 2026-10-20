@@ -2,6 +2,9 @@ import type { Ref, TextareaHTMLAttributes } from 'react';
 import { textArea } from './text-area.manifest.js';
 import { input } from '../input/input.manifest.js';
 import { Icon } from '../icon/icon.js';
+import { InputWell } from '../input/input-well.js';
+import { readsField, useFieldControl } from '../field/field-context.js';
+import { cx } from '../variants.js';
 import type { VariantProps } from '../variants.js';
 
 export interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement>, VariantProps<typeof textArea.manifest> {
@@ -13,15 +16,15 @@ export interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElemen
 
 /**
  * Text area: the input's well around a native textarea. The well carries the
- * chrome; the textarea carries the value and the attributes. Three rows tall
+ * chrome; the textarea carries the value and the attributes. Two rows tall
  * unless `rows` says otherwise, which is the height Figma draws.
  */
-export function TextArea({ error, className, rows = 3, ref, ...rest }: TextAreaProps) {
-  const classes = [input({ error }), textArea({ error }), className].filter(Boolean).join(' ');
+export function TextArea(props: TextAreaProps) {
+  const { error, className, rows = 2, ref, ...rest } = useFieldControl(props);
   return (
-    <span className={classes}>
+    <InputWell className={cx(textArea({ error }), className)} error={error} nameCheck="TextArea" end={<Icon name="Notches" className={textArea.part('grip')} />}>
       <textarea ref={ref} className={`${input.part('control')} ${textArea.part('control')}`} rows={rows} aria-invalid={error ? true : undefined} {...rest} />
-      <Icon name="Notches" className={textArea.part('grip')} />
-    </span>
+    </InputWell>
   );
 }
+readsField(TextArea);

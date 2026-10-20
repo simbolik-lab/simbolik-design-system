@@ -1,0 +1,64 @@
+/* smbk-board — Board. Figma "Board" 7118:1603 (Platform: Desktop, Mobile; the layout switch here).
+ * Columns of cards side by side on a wide screen, the large inline gap apart, in a frame that scrolls
+ * sideways when they run past it; in a narrow space they stack, one under another at full width, the
+ * large stack gap apart, and nothing scrolls sideways. Where the browser hides its own scrollbar until the
+ * frame scrolls (a phone, a trackpad), a thin bar along the frame's foot shows that there is more
+ * sideways, drawn with the table's track and thumb. */
+
+.smbk-board {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  /* The system's scrollbar: thin, in the subtle border color, on a clear track. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--smbk-color-border-subtle) transparent;
+}
+
+/* A frame that scrolls is a region the keyboard reaches: its ring is drawn inside its edge, which clips. */
+.smbk-board:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: calc(-1 * var(--smbk-focus-ring-width));
+}
+
+.smbk-board__columns {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--smbk-space-inline-lg);
+  width: max-content;
+  min-width: 100%;
+}
+
+/* ---- the scroll hint (the shared script marks the frame `data-scroll-hint`) ---- */
+
+.smbk-board__scroll-hint {
+  display: none;
+}
+
+.smbk-board[data-scroll-hint] .smbk-board__scroll-hint {
+  position: sticky;
+  left: 0;
+  display: block;
+  padding: var(--smbk-space-inset-xs) var(--smbk-space-inset-sm);
+  pointer-events: none;
+}
+
+/* ---- the narrow form: the columns stack and the frame no longer scrolls sideways ---- */
+
+@container style(--smbk-layout: narrow) {
+  .smbk-board {
+    overflow-x: visible;
+  }
+
+  .smbk-board__columns {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--smbk-space-stack-lg);
+    width: auto;
+  }
+
+  .smbk-board__scroll-hint {
+    display: none;
+  }
+}

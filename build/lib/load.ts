@@ -79,7 +79,26 @@ export function loadTokenSource(dir: string): TokenSource {
   }
 
   const all = [...base, ...Object.values(modifiers).flatMap((ctx) => Object.values(ctx).flat())];
+  withFallbacks(all);
   return { dir, resolver, all, base, modifiers };
+}
+
+/**
+ * Each font family followed by its backups: a family token `font.family.<role>` takes the authored
+ * `font.fallback.<role>.stack` after its own name, so every text style that names the family, and every output,
+ * names the backups too (the token build's documents, What is added here). A family that is a reference or
+ * already a list is left as it is.
+ */
+function withFallbacks(tokens: LoadedToken[]): void {
+  const stacks = new Map<string, unknown>();
+  for (const t of tokens) if (/^font\.fallback\.[^.]+\.stack$/.test(t.path)) stacks.set(t.segments[2]!, t.token.$value);
+  for (const t of tokens) {
+    const role = /^font\.family\.([^.]+)$/.exec(t.path)?.[1];
+    const stack = role === undefined ? undefined : stacks.get(role);
+    const family = t.token.$value;
+    if (!Array.isArray(stack) || typeof family !== 'string' || family.startsWith('{')) continue;
+    t.token = { ...t.token, $value: [family, ...(stack as string[])] };
+  }
 }
 
 /** Every reachable combination of contexts, default first. */

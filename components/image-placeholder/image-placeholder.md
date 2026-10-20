@@ -12,7 +12,7 @@ status: candidate
 
 ## Purpose
 
-A flat, rounded block that holds the place of a picture that is missing or not yet chosen: an empty avatar slot, a card without a cover, a mockup. It is a static state, which is what separates it from the skeleton, which stands in while something loads.
+A flat, rounded block with a hairline edge, so it shows on the page color, that holds the place of a picture that is missing or not yet chosen: an empty avatar slot, a card without a cover, a mockup. It is a static state, which is what separates it from the skeleton, which stands in while something loads.
 
 ## Anatomy
 
@@ -25,7 +25,7 @@ One element. No parts.
 
 ## When not to use
 
-- While a picture is loading. Use the skeleton's media shape.
+- While a picture is loading. Use the [skeleton](../skeleton/skeleton.md)'s media shape.
 
 ## Behavior
 
@@ -33,7 +33,17 @@ None.
 
 ## Accessibility
 
-Decorative unless given a label, in which case it is announced as an image with that name.
+### What it does for you
+
+- It is decorative unless given a label, in which case it is announced as an image with that name.
+
+### What you must do
+
+- Give it a label when it should be announced as an image.
+
+### How to test
+
+- With a screen reader, an unlabeled placeholder is skipped and a labeled one is read as an image by its label.
 
 ## Composition
 
@@ -48,5 +58,5 @@ Contains nothing. Sits wherever an image would.
 
 ## Related
 
-- Skeleton: the loading state.
-- Card: often holds one.
+- [Skeleton](../skeleton/skeleton.md): the loading state.
+- [Card](../card/card.md): often holds one.

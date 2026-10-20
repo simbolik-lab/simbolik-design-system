@@ -51,7 +51,7 @@ A named axis of a component's appearance or composition, declared once and used 
 _Avoid_: option, modifier, setting
 
 **Optional Part**:
-A part of a component that can be shown or left out, such as a button's leading icon, an alert's close button or the sidebar's foot button: what Figma draws as a boolean. In code it is a prop of the wrapper, not a class; the Showroom's preview offers each as a switch under Show.
+A part of a component that can be shown or left out, such as a button's leading icon, an alert's close button or the sidebar's foot button: what Figma draws as a boolean. In code it is a prop of the wrapper, not a class; the Showroom's preview offers each under Show.
 _Avoid_: option (that word is kept away from Component Variants), toggle
 
 **Status**:

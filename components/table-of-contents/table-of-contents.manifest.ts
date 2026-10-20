@@ -3,13 +3,13 @@ import { defineVariants } from '../variants.js';
 /**
  * Table of contents. Figma "TableofContents" 4505:11351 (Platform: Desktop, Mobile; Open) over
  * "TableofContentsItem" (State × Type: Parent, Child). Platform is the layout switch, not an axis:
- * the card in a wide space, the folding box in a narrow one, as Figma draws them.
- * The extra part (content under the list, inside the card) is not drawn in Figma.
+ * the box in a wide space, the folding box in a narrow one, drawn alike, as Figma draws them.
+ * The extra part (content under the list, inside the box) is not drawn in Figma.
  */
 export const tableOfContents = defineVariants({
   name: 'table-of-contents',
   block: 'smbk-toc',
-  summary: 'A card listing the sections of the page, children indented, the one in view marked; in a narrow space a box whose heading row opens and closes the list.',
+  summary: 'A box listing the sections of the page, children indented, the one in view marked; in a narrow space its heading row opens and closes the list.',
   adapt: 'css',
   axes: {},
   flags: {

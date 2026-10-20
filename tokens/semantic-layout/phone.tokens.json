@@ -1,0 +1,699 @@
+{
+  "$extensions": {
+    "tokens-bruecke-meta": {
+      "useDTCG": true,
+      "spec": "https://www.designtokens.org/tr/2025.10/format/",
+      "colorMode": "srgb-dtcg",
+      "variableCollections": [
+        "Primitives",
+        "Semantic Color",
+        "Semantic Dimension",
+        "Semantic Typography",
+        "Semantic",
+        "Semantic Layout"
+      ],
+      "createdAt": "2026-10-13T11:06:03.073Z"
+    }
+  },
+  "space": {
+    "layout": {
+      "gutter": {
+        "$value": "{space.gutter.xs}",
+        "$type": "dimension",
+        "$description": "A section’s outer side padding: the strip of page between the screen edge and the section’s band. There is no page gutter: the page frame has no padding, and every section, the header and the footer carry this on their own sides. 8 on a phone, 12 on a desktop (comfortable). Each value points to a density token, so compact density still applies.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:78",
+            "collection": {
+              "id": "VariableCollectionId:7070:77",
+              "name": "Semantic Layout",
+              "defaultModeId": "7070:0"
+            },
+            "scopes": [
+              "GAP"
+            ]
+          }
+        }
+      },
+      "section": {
+        "xs": {
+          "$value": "{space.inset.xl}",
+          "$type": "dimension",
+          "$description": "Space above and below a page section, xs. Phones get less: 16 | 24 (phone | desktop).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7070:79",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "GAP"
+              ]
+            }
+          }
+        },
+        "sm": {
+          "$value": "{space.stack.2xl}",
+          "$type": "dimension",
+          "$description": "Space above and below a page section, sm. Phones get less: 32 | 48 (phone | desktop).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7070:80",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "GAP"
+              ]
+            }
+          }
+        },
+        "md": {
+          "$value": "{space.section.md}",
+          "$type": "dimension",
+          "$description": "Space above and below a page section, md. Phones get less: 64 | 96 (phone | desktop).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7070:81",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "GAP"
+              ]
+            }
+          }
+        },
+        "lg": {
+          "$value": "{space.section.md}",
+          "$type": "dimension",
+          "$description": "Space above and below a page section, lg. Phones get less: 64 | 128 (phone | desktop).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7070:82",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "GAP"
+              ]
+            }
+          }
+        }
+      },
+      "inset": {
+        "$value": "{space.inset.xl}",
+        "$type": "dimension",
+        "$description": "The sides inside a section’s band, from its edge to its content: 16 on a phone, 32 on a desktop (comfortable). It comes on top of space/layout/gutter, which sits outside the band. Each value points to a density token, so compact density still applies.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:83",
+            "collection": {
+              "id": "VariableCollectionId:7070:77",
+              "name": "Semantic Layout",
+              "defaultModeId": "7070:0"
+            },
+            "scopes": [
+              "GAP"
+            ]
+          }
+        }
+      },
+      "heading": {
+        "$value": "{space.stack.3xl}",
+        "$type": "dimension",
+        "$description": "From a section heading to its content: 40 on a phone, 56 on a desktop (comfortable). Each value points to a density token, so compact density still applies.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:84",
+            "collection": {
+              "id": "VariableCollectionId:7070:77",
+              "name": "Semantic Layout",
+              "defaultModeId": "7070:0"
+            },
+            "scopes": [
+              "GAP"
+            ]
+          }
+        }
+      },
+      "gap": {
+        "md": {
+          "$value": "{space.stack.2xl}",
+          "$type": "dimension",
+          "$description": "Between blocks and grid items: 32 (comfortable). Each value points to a density token, so compact density still applies.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7070:85",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "GAP"
+              ]
+            }
+          }
+        },
+        "lg": {
+          "$value": "{space.stack.2xl}",
+          "$type": "dimension",
+          "$description": "Beside a split: 32 on a phone, 48 on a desktop (comfortable). Each value points to a density token, so compact density still applies.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7070:86",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "GAP"
+              ]
+            }
+          }
+        }
+      },
+      "panel": {
+        "$value": "{space.inset.2xl}",
+        "$type": "dimension",
+        "$description": "Padding inside a raised panel that holds a section: a hero card, a feature block, a call-to-action box. Smaller on phones.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7140:27",
+            "collection": {
+              "id": "VariableCollectionId:7070:77",
+              "name": "Semantic Layout",
+              "defaultModeId": "7070:0"
+            },
+            "scopes": [
+              "GAP"
+            ]
+          }
+        }
+      },
+      "grid": {
+        "gap": {
+          "$value": "{space.inline.xl}",
+          "$type": "dimension",
+          "$description": "The space between the columns of the page grid, and between cards laid out on it.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7140:28",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "GAP"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "text": {
+      "heading": {
+        "$value": "{space.stack.md}",
+        "$type": "dimension",
+        "$description": "A heading to its first paragraph or list: 12 on phones, 16 on wide screens.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7078:4",
+            "collection": {
+              "id": "VariableCollectionId:7070:77",
+              "name": "Semantic Layout",
+              "defaultModeId": "7070:0"
+            },
+            "scopes": [
+              "GAP"
+            ]
+          }
+        }
+      },
+      "caption": {
+        "$value": "{space.stack.xs}",
+        "$type": "dimension",
+        "$description": "A title to the small grey line under it: 4 on phones, 8 on wide screens.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7078:5",
+            "collection": {
+              "id": "VariableCollectionId:7070:77",
+              "name": "Semantic Layout",
+              "defaultModeId": "7070:0"
+            },
+            "scopes": [
+              "GAP"
+            ]
+          }
+        }
+      },
+      "section": {
+        "$value": "{space.stack.xl}",
+        "$type": "dimension",
+        "$description": "The end of one block of text to the next heading: 24 on phones, 32 on wide screens.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7078:6",
+            "collection": {
+              "id": "VariableCollectionId:7070:77",
+              "name": "Semantic Layout",
+              "defaultModeId": "7070:0"
+            },
+            "scopes": [
+              "GAP"
+            ]
+          }
+        }
+      },
+      "paragraph": {
+        "$value": "{space.stack.lg}",
+        "$type": "dimension",
+        "$description": "Between two paragraphs (16). Text is not trimmed, so each line’s own leading adds to it.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7078:7",
+            "collection": {
+              "id": "VariableCollectionId:7070:77",
+              "name": "Semantic Layout",
+              "defaultModeId": "7070:0"
+            },
+            "scopes": [
+              "GAP"
+            ]
+          }
+        }
+      },
+      "list": {
+        "$value": "{space.stack.sm}",
+        "$type": "dimension",
+        "$description": "Between the items of a list (8).",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7078:8",
+            "collection": {
+              "id": "VariableCollectionId:7070:77",
+              "name": "Semantic Layout",
+              "defaultModeId": "7070:0"
+            },
+            "scopes": [
+              "GAP"
+            ]
+          }
+        }
+      },
+      "label": {
+        "$value": "{space.0}",
+        "$type": "dimension",
+        "$description": "Between a label or title and the line of supporting text right under it, inside a component. None: untrimmed line height already spaces the two lines.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7194:2",
+            "collection": {
+              "id": "VariableCollectionId:7070:77",
+              "name": "Semantic Layout",
+              "defaultModeId": "7070:0"
+            },
+            "scopes": [
+              "GAP"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "size": {
+    "header": {
+      "height": {
+        "$value": "{size.56}",
+        "$type": "dimension",
+        "$description": "The sticky header’s height, for scroll padding so a focused item is never hidden under it: 56 on a phone, 80 on a desktop. Each value points to a density token, so compact density still applies.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7070:87",
+            "collection": {
+              "id": "VariableCollectionId:7070:77",
+              "name": "Semantic Layout",
+              "defaultModeId": "7070:0"
+            },
+            "scopes": [
+              "WIDTH_HEIGHT"
+            ]
+          }
+        }
+      }
+    },
+    "column": {
+      "min": {
+        "sm": {
+          "$value": "{size.width.240}",
+          "$type": "dimension",
+          "$description": "The narrowest grid column, small: 240. Each value points to a density token, so compact density still applies.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7070:88",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ]
+            }
+          }
+        },
+        "md": {
+          "$value": "{size.width.320}",
+          "$type": "dimension",
+          "$description": "The narrowest grid column, medium: 320. Each value points to a density token, so compact density still applies.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7070:89",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ]
+            }
+          }
+        },
+        "lg": {
+          "$value": "{size.width.400}",
+          "$type": "dimension",
+          "$description": "The narrowest grid column, large: 400. Each value points to a density token, so compact density still applies.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7070:90",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "layout": {
+      "container": {
+        "md": {
+          "$value": "{size.width.720}",
+          "$type": "dimension",
+          "$description": "Page container max width, 720 px.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7140:22",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ]
+            }
+          }
+        },
+        "default": {
+          "$value": "{size.layout.container.3xl}",
+          "$type": "dimension",
+          "$description": "The default page container max width: 3xl, 1360 px. Full width (the space available) is the Fill sizing in Figma and size/layout/container/full (100%) in code, which Figma cannot hold as a number.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7140:23",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ]
+            }
+          }
+        },
+        "3xl": {
+          "$value": "{size.width.1360}",
+          "$type": "dimension",
+          "$description": "Page container max width, 1360 px.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7140:24",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ]
+            }
+          }
+        },
+        "xs": {
+          "$value": "{size.width.480}",
+          "$type": "dimension",
+          "$description": "Page container max width, 480 px.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7190:7",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ]
+            }
+          }
+        },
+        "sm": {
+          "$value": "{size.width.640}",
+          "$type": "dimension",
+          "$description": "Page container max width, 640 px.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7190:8",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ]
+            }
+          }
+        },
+        "lg": {
+          "$value": "{size.width.960}",
+          "$type": "dimension",
+          "$description": "Page container max width, 960 px.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7190:9",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ]
+            }
+          }
+        },
+        "xl": {
+          "$value": "{size.width.1200}",
+          "$type": "dimension",
+          "$description": "Page container max width, 1200 px.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7190:10",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ]
+            }
+          }
+        },
+        "2xl": {
+          "$value": "{size.width.1280}",
+          "$type": "dimension",
+          "$description": "Page container max width, 1280 px.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7190:11",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ]
+            }
+          }
+        },
+        "4xl": {
+          "$value": "{size.width.1440}",
+          "$type": "dimension",
+          "$description": "Page container max width, 1440 px.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7190:12",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ]
+            }
+          }
+        },
+        "5xl": {
+          "$value": "{size.width.1920}",
+          "$type": "dimension",
+          "$description": "Page container max width, 1920 px.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7190:13",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ]
+            }
+          }
+        }
+      },
+      "measure": {
+        "body": {
+          "$value": "{size.width.640}",
+          "$type": "dimension",
+          "$description": "Longest a line of running text may be: about 70 to 80 characters of Body MD. Paragraphs stop here even inside a wider container.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7140:25",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ]
+            }
+          }
+        },
+        "heading": {
+          "$value": "{size.content.md}",
+          "$type": "dimension",
+          "$description": "Longest a heading or a lede may run before it wraps, so a big title does not stretch across the whole page.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7140:26",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "radius": {
+    "layout": {
+      "section": {
+        "md": {
+          "$value": "{radius.container.sm}",
+          "$type": "dimension",
+          "$description": "The corner of a section drawn as a card: 8 on a phone, 12 on a desktop.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7078:2",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "CORNER_RADIUS"
+              ]
+            }
+          }
+        },
+        "lg": {
+          "$value": "{radius.container.sm}",
+          "$type": "dimension",
+          "$description": "The corner of a raised section: 8 on a phone, 16 on a desktop.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7078:3",
+              "collection": {
+                "id": "VariableCollectionId:7070:77",
+                "name": "Semantic Layout",
+                "defaultModeId": "7070:0"
+              },
+              "scopes": [
+                "CORNER_RADIUS"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "layout": {
+    "grid": {
+      "columns": {
+        "$value": 4,
+        "$type": "number",
+        "$description": "How many columns the page grid has: 4 on phones, 12 on wide screens. Content spans whole columns.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7140:29",
+            "collection": {
+              "id": "VariableCollectionId:7070:77",
+              "name": "Semantic Layout",
+              "defaultModeId": "7070:0"
+            }
+          }
+        }
+      }
+    }
+  }
+}

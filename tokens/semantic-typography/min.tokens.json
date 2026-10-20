@@ -3,21 +3,23 @@
     "tokens-bruecke-meta": {
       "useDTCG": true,
       "spec": "https://www.designtokens.org/tr/2025.10/format/",
-      "colorMode": "hex",
+      "colorMode": "srgb-dtcg",
       "variableCollections": [
         "Primitives",
         "Semantic Color",
         "Semantic Dimension",
         "Semantic Typography",
-        "Semantic"
+        "Semantic",
+        "Semantic Layout"
       ],
-      "createdAt": "2026-09-22T17:39:58.765Z"
+      "createdAt": "2026-10-13T11:06:03.073Z"
     }
   },
   "text": {
     "display-xl": {
       "$value": "{font.size.56}",
       "$type": "dimension",
+      "$description": "Font size for Display XL, phone (min) and desktop (max).",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4055:9363",
@@ -35,6 +37,7 @@
     "display-lg": {
       "$value": "{font.size.48}",
       "$type": "dimension",
+      "$description": "Font size for Display LG, phone (min) and desktop (max).",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4055:9364",
@@ -52,6 +55,7 @@
     "heading-xl": {
       "$value": "{font.size.40}",
       "$type": "dimension",
+      "$description": "Font size for Heading XL, phone (min) and desktop (max).",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4055:9365",
@@ -69,6 +73,7 @@
     "heading-lg": {
       "$value": "{font.size.32}",
       "$type": "dimension",
+      "$description": "Font size for Heading LG, phone (min) and desktop (max).",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4055:9366",
@@ -86,6 +91,7 @@
     "heading-md": {
       "$value": "{font.size.28}",
       "$type": "dimension",
+      "$description": "Font size for Heading MD, phone (min) and desktop (max).",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4055:9367",
@@ -103,6 +109,7 @@
     "heading-sm": {
       "$value": "{font.size.24}",
       "$type": "dimension",
+      "$description": "Font size for Heading SM, phone (min) and desktop (max).",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4055:9368",
@@ -120,6 +127,7 @@
     "heading-xs": {
       "$value": "{font.size.20}",
       "$type": "dimension",
+      "$description": "Font size for Heading XS, phone (min) and desktop (max).",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4055:9369",
@@ -135,8 +143,9 @@
       }
     },
     "heading-2xs": {
-      "$value": "{font.size.20}",
+      "$value": "{font.size.18}",
       "$type": "dimension",
+      "$description": "Font size for Heading 2XS, phone (min) and desktop (max); 18 on a phone so each step has its own size.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4055:9370",
@@ -154,6 +163,7 @@
     "body-lg": {
       "$value": "{font.size.20}",
       "$type": "dimension",
+      "$description": "Font size for Body LG, phone (min) and desktop (max).",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4055:9371",
@@ -171,6 +181,7 @@
     "body-md": {
       "$value": "{font.size.16}",
       "$type": "dimension",
+      "$description": "Font size for Body MD, phone (min) and desktop (max). Fields use it: it never goes below 16 on a phone.",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4055:9372",
@@ -188,6 +199,7 @@
     "body-sm": {
       "$value": "{font.size.14}",
       "$type": "dimension",
+      "$description": "Font size for Body SM, phone (min) and desktop (max).",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4055:9373",
@@ -205,6 +217,7 @@
     "body-xs": {
       "$value": "{font.size.12}",
       "$type": "dimension",
+      "$description": "Font size for Body XS, phone (min) and desktop (max).",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4055:9374",
@@ -222,6 +235,7 @@
     "label-lg": {
       "$value": "{font.size.16}",
       "$type": "dimension",
+      "$description": "Font size for Label LG, phone (min) and desktop (max).",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4055:9375",
@@ -239,6 +253,7 @@
     "label-md": {
       "$value": "{font.size.14}",
       "$type": "dimension",
+      "$description": "Font size for Label MD, phone (min) and desktop (max).",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4055:9376",
@@ -256,9 +271,28 @@
     "label-sm": {
       "$value": "{font.size.12}",
       "$type": "dimension",
+      "$description": "Font size for Label SM, phone (min) and desktop (max).",
       "$extensions": {
         "figma": {
           "variableId": "VariableID:4055:9377",
+          "collection": {
+            "id": "VariableCollectionId:4054:9351",
+            "name": "Semantic Typography",
+            "defaultModeId": "4054:6"
+          },
+          "scopes": [
+            "FONT_SIZE"
+          ]
+        }
+      }
+    },
+    "field-sm": {
+      "$value": "{font.size.16}",
+      "$type": "dimension",
+      "$description": "Font size for the text inside a small field (input, select, search field): 14 on a desktop, 16 on a phone, because iPhones zoom into a field with text under 16.",
+      "$extensions": {
+        "figma": {
+          "variableId": "VariableID:7087:2",
           "collection": {
             "id": "VariableCollectionId:4054:9351",
             "name": "Semantic Typography",

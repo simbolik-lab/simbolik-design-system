@@ -3,15 +3,16 @@
     "tokens-bruecke-meta": {
       "useDTCG": true,
       "spec": "https://www.designtokens.org/tr/2025.10/format/",
-      "colorMode": "hex",
+      "colorMode": "srgb-dtcg",
       "variableCollections": [
         "Primitives",
         "Semantic Color",
         "Semantic Dimension",
         "Semantic Typography",
-        "Semantic"
+        "Semantic",
+        "Semantic Layout"
       ],
-      "createdAt": "2026-09-22T17:39:58.765Z"
+      "createdAt": "2026-10-13T11:06:03.073Z"
     }
   },
   "space": {
@@ -19,6 +20,7 @@
       "2xs": {
         "$value": "{space.2}",
         "$type": "dimension",
+        "$description": "Padding inside a component, smallest.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4055:9524",
@@ -36,6 +38,7 @@
       "xs": {
         "$value": "{space.4}",
         "$type": "dimension",
+        "$description": "Padding inside a component, extra small.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4054:9323",
@@ -53,6 +56,7 @@
       "sm": {
         "$value": "{space.4}",
         "$type": "dimension",
+        "$description": "Padding inside a component, small.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4054:9324",
@@ -70,6 +74,7 @@
       "md": {
         "$value": "{space.6}",
         "$type": "dimension",
+        "$description": "Padding inside a component, medium.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4054:9325",
@@ -87,6 +92,7 @@
       "lg": {
         "$value": "{space.8}",
         "$type": "dimension",
+        "$description": "Padding inside a component, large.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4054:9326",
@@ -104,6 +110,7 @@
       "xl": {
         "$value": "{space.12}",
         "$type": "dimension",
+        "$description": "Padding inside a component, extra large.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4054:9327",
@@ -121,6 +128,7 @@
       "2xl": {
         "$value": "{space.16}",
         "$type": "dimension",
+        "$description": "Padding inside a component, 2× large.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4054:9328",
@@ -138,6 +146,7 @@
       "3xl": {
         "$value": "{space.24}",
         "$type": "dimension",
+        "$description": "Padding inside a component, 3× large.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4621:34203",
@@ -147,7 +156,7 @@
               "defaultModeId": "4052:4"
             },
             "scopes": [
-              "ALL_SCOPES"
+              "GAP"
             ]
           }
         }
@@ -157,6 +166,7 @@
       "xs": {
         "$value": "{space.4}",
         "$type": "dimension",
+        "$description": "Gap between things stacked one above another, extra small.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4054:9329",
@@ -174,6 +184,7 @@
       "sm": {
         "$value": "{space.6}",
         "$type": "dimension",
+        "$description": "Gap between things stacked one above another, small.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4054:9330",
@@ -191,6 +202,7 @@
       "md": {
         "$value": "{space.8}",
         "$type": "dimension",
+        "$description": "Gap between things stacked one above another, medium.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4054:9331",
@@ -208,6 +220,7 @@
       "lg": {
         "$value": "{space.12}",
         "$type": "dimension",
+        "$description": "Gap between things stacked one above another, large.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4054:9332",
@@ -225,6 +238,7 @@
       "xl": {
         "$value": "{space.16}",
         "$type": "dimension",
+        "$description": "Gap between things stacked one above another, extra large.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4054:9333",
@@ -242,6 +256,7 @@
       "2xl": {
         "$value": "{space.24}",
         "$type": "dimension",
+        "$description": "Gap between things stacked one above another, 2× large.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4054:9334",
@@ -259,6 +274,7 @@
       "3xl": {
         "$value": "{space.32}",
         "$type": "dimension",
+        "$description": "Gap between things stacked one above another, 3× large.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4172:16024",
@@ -276,6 +292,7 @@
       "4xl": {
         "$value": "{space.40}",
         "$type": "dimension",
+        "$description": "Gap between things stacked one above another, 4× large.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4173:16300",
@@ -293,6 +310,7 @@
       "5xl": {
         "$value": "{space.48}",
         "$type": "dimension",
+        "$description": "Gap between things stacked one above another, 5× large.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4173:16302",
@@ -312,6 +330,7 @@
       "xs": {
         "$value": "{space.4}",
         "$type": "dimension",
+        "$description": "Gap between things side by side, extra small.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4054:9336",
@@ -329,6 +348,7 @@
       "sm": {
         "$value": "{space.4}",
         "$type": "dimension",
+        "$description": "Gap between things side by side, small.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4054:9338",
@@ -346,6 +366,7 @@
       "md": {
         "$value": "{space.6}",
         "$type": "dimension",
+        "$description": "Gap between things side by side, medium.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4054:9339",
@@ -363,6 +384,7 @@
       "lg": {
         "$value": "{space.8}",
         "$type": "dimension",
+        "$description": "Gap between things side by side, large.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4054:9340",
@@ -380,6 +402,7 @@
       "xl": {
         "$value": "{space.12}",
         "$type": "dimension",
+        "$description": "Gap between things side by side, extra large.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4054:9341",
@@ -397,6 +420,7 @@
       "2xl": {
         "$value": "{space.16}",
         "$type": "dimension",
+        "$description": "Gap between things side by side, 2× large.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4054:9342",
@@ -414,62 +438,10 @@
       "3xl": {
         "$value": "{space.24}",
         "$type": "dimension",
+        "$description": "Gap between things side by side, 3× large.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4163:4522",
-            "collection": {
-              "id": "VariableCollectionId:4052:9322",
-              "name": "Semantic Dimension",
-              "defaultModeId": "4052:4"
-            },
-            "scopes": [
-              "GAP"
-            ]
-          }
-        }
-      }
-    },
-    "section": {
-      "sm": {
-        "$value": "{space.32}",
-        "$type": "dimension",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4054:9343",
-            "collection": {
-              "id": "VariableCollectionId:4052:9322",
-              "name": "Semantic Dimension",
-              "defaultModeId": "4052:4"
-            },
-            "scopes": [
-              "GAP"
-            ]
-          }
-        }
-      },
-      "md": {
-        "$value": "{space.48}",
-        "$type": "dimension",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4054:9344",
-            "collection": {
-              "id": "VariableCollectionId:4052:9322",
-              "name": "Semantic Dimension",
-              "defaultModeId": "4052:4"
-            },
-            "scopes": [
-              "GAP"
-            ]
-          }
-        }
-      },
-      "lg": {
-        "$value": "{space.64}",
-        "$type": "dimension",
-        "$extensions": {
-          "figma": {
-            "variableId": "VariableID:4054:9345",
             "collection": {
               "id": "VariableCollectionId:4052:9322",
               "name": "Semantic Dimension",
@@ -486,6 +458,7 @@
       "xs": {
         "$value": "{space.4}",
         "$type": "dimension",
+        "$description": "A section’s outer side padding on a phone (space/layout/gutter points here). The page itself has no gutter: each section carries its own.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4381:1817",
@@ -503,9 +476,84 @@
       "sm": {
         "$value": "{space.8}",
         "$type": "dimension",
+        "$description": "A section’s outer side padding on a desktop (space/layout/gutter points here). The page itself has no gutter: each section carries its own.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4172:16026",
+            "collection": {
+              "id": "VariableCollectionId:4052:9322",
+              "name": "Semantic Dimension",
+              "defaultModeId": "4052:4"
+            },
+            "scopes": [
+              "GAP"
+            ]
+          }
+        }
+      }
+    },
+    "section": {
+      "sm": {
+        "$value": "{space.32}",
+        "$type": "dimension",
+        "$description": "Rhythm of page sections, small.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4054:9343",
+            "collection": {
+              "id": "VariableCollectionId:4052:9322",
+              "name": "Semantic Dimension",
+              "defaultModeId": "4052:4"
+            },
+            "scopes": [
+              "GAP"
+            ]
+          }
+        }
+      },
+      "md": {
+        "$value": "{space.48}",
+        "$type": "dimension",
+        "$description": "Rhythm of page sections, medium.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4054:9344",
+            "collection": {
+              "id": "VariableCollectionId:4052:9322",
+              "name": "Semantic Dimension",
+              "defaultModeId": "4052:4"
+            },
+            "scopes": [
+              "GAP"
+            ]
+          }
+        }
+      },
+      "lg": {
+        "$value": "{space.64}",
+        "$type": "dimension",
+        "$description": "Rhythm of page sections, large.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:4054:9345",
+            "collection": {
+              "id": "VariableCollectionId:4052:9322",
+              "name": "Semantic Dimension",
+              "defaultModeId": "4052:4"
+            },
+            "scopes": [
+              "GAP"
+            ]
+          }
+        }
+      },
+      "xl": {
+        "$value": "{space.96}",
+        "$type": "dimension",
+        "$description": "Rhythm of page sections, the largest: the space above and below a hero or a landing section. Compact density shrinks it.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:7140:21",
             "collection": {
               "id": "VariableCollectionId:4052:9322",
               "name": "Semantic Dimension",
@@ -524,6 +572,7 @@
       "xs": {
         "$value": "{size.24}",
         "$type": "dimension",
+        "$description": "Height of the extra-small control: 24 in both densities, the smallest target allowed. Dashboard recipe: use compact density; 40 for the page’s one main action and for forms; 32 for toolbars and filters, the size used most; 28 for actions inside table rows and cards. On phones switch to comfortable density, or give small controls an invisible 44 px tap area (size/target/comfortable).",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4170:14255",
@@ -541,6 +590,7 @@
       "sm": {
         "$value": "{size.28}",
         "$type": "dimension",
+        "$description": "Height of a small control: 32 comfortable, 28 compact. Dashboard recipe: use compact density; 40 for the page’s one main action and for forms; 32 for toolbars and filters, the size used most; 28 for actions inside table rows and cards. On phones switch to comfortable density, or give small controls an invisible 44 px tap area (size/target/comfortable).",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4054:9346",
@@ -558,6 +608,7 @@
       "md": {
         "$value": "{size.32}",
         "$type": "dimension",
+        "$description": "Height of a medium control, where controls insert by default: 40 comfortable, 32 compact. Dashboard recipe: use compact density; 40 for the page’s one main action and for forms; 32 for toolbars and filters, the size used most; 28 for actions inside table rows and cards. On phones switch to comfortable density, or give small controls an invisible 44 px tap area (size/target/comfortable).",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4054:9347",
@@ -575,6 +626,7 @@
       "lg": {
         "$value": "{size.40}",
         "$type": "dimension",
+        "$description": "Height of a large control: 48 comfortable, 40 compact. A page may use it for its main call to action; apps use md. Dashboard recipe: use compact density; 40 for the page’s one main action and for forms; 32 for toolbars and filters, the size used most; 28 for actions inside table rows and cards. On phones switch to comfortable density, or give small controls an invisible 44 px tap area (size/target/comfortable).",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4054:9348",

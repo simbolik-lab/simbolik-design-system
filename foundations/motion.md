@@ -30,11 +30,13 @@ The purposes for interaction:
 
 **Stagger** is a delay, not a duration. It is added once per item when several things enter one after another, and the items still move with the enter purpose.
 
+**Chart entrance** is a chart drawing itself once, the first time it comes into view: bars grow up from the baseline one after another, a line and the area under it are uncovered from left to right, a ring sweeps round from the top. It has its own durations (one for a bar to grow, one for a line or a ring to be uncovered), its own small step between bars, a span the last bar always starts within, and a curve that starts at full speed and settles gently. It is the one movement a reader may see as a page loads, when a chart is already in view; changes to a chart after it land at once.
+
 The rest are loops, each tied to one behavior: **loading**, the sweep across a skeleton while it waits for its content, the one loop a system component uses; and four for the sites built on the system: **marquee**, a strip that scrolls on its own at a constant speed; **live pulse**, the pulse of something really live, open or running; **cursor**, a blinking text cursor that blinks in steps rather than along a curve; and **ambient**, a slow background drift the eye should never have to follow.
 
 The curves only decelerate or accelerate. There is no bounce, no overshoot and no elastic curve. Figma has no motion design, so this group is authored in the token source.
 
-**Reduced motion.** When a reader's system asks for less motion, every component drops its movement: things appear, disappear and change state at once. Nothing else changes. Content, focus and state all arrive exactly as they would with motion (MOT-001, MOT-002). This is a rule in each component's stylesheet rather than a token context, because no value changes; the movement is simply removed.
+**Reduced motion.** When a reader's system asks for less motion, the motion gets fewer and gentler, not gone. Everything that travels stops: slides, rises and drops, growing and shrinking, sweeps and turns land at once. Fades stay, at their usual durations, because a fade changes nothing's place and helps the eye follow what changed: a modal fades in without rising, a drawer appears in place and fades in instead of sliding, a toast fades without rising, and a color change still eases. Things that only move, such as a spinner's turn, a skeleton's sweep and a marquee, stand still, and a chart's entrance is drawn at once. Content, focus and state all arrive exactly as they would with motion (MOT-001, MOT-002). This is a rule in each component's stylesheet rather than a token context, because no value changes; the movement is simply removed and the fade kept.
 
 The marquee and the cursor have no easing token. The marquee runs at a constant speed and the cursor blinks in steps, so neither follows a curve.
 
@@ -51,7 +53,7 @@ The Tailwind theme carries the easing curves and the purposes' easings as utilit
 - Choose the purpose first, then use its duration and its easing together.
 - Enter with the enter purpose and leave with the exit purpose, so leaving is always quicker than arriving.
 - Move what explains the change: position, size and opacity. A slide should travel from where the thing came from, such as the edge a drawer belongs to or the button a menu hangs from.
-- Give every movement a reduced-motion rule that removes it, and check that nothing is lost without it.
+- Give every movement a reduced-motion rule that removes the travel and keeps the fade, and check that nothing is lost without it.
 - Keep a staggered sequence short, so nobody waits for its last item.
 - Use the live pulse only for something that is really live, open or running.
 

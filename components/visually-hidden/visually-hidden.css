@@ -1,0 +1,56 @@
+/*
+ * Visually hidden: out of sight, still in the page for a screen reader and the keyboard. Words only a screen reader
+ * needs (a chart's table, a status said aloud, a link's "opens in a new tab"), and a native control another part
+ * draws (a checkbox's input under its box), all hidden by this one rule.
+ *
+ * Put smbk-visually-hidden on any element to hide it this way. Each component's own hidden part is named here too,
+ * so markup written with it, by hand or by the React wrapper, keeps working; a component's stylesheet adds only
+ * what its part needs beyond this (the file upload's and the log's clip-path). The spinner hides its label with its own
+ * rule, because under reduced motion the same rule shows it again.
+ */
+.smbk-visually-hidden,
+.smbk-avatar-group__hidden,
+.smbk-bar-chart__table,
+.smbk-checkbox__control,
+.smbk-code__status,
+.smbk-color-picker__name,
+.smbk-color-range__hidden,
+.smbk-combobox__announcement,
+.smbk-command-palette__status,
+.smbk-contrast-pair__hidden,
+.smbk-description-list__hidden,
+.smbk-diff-stat__hidden,
+.smbk-donut-chart__table,
+.smbk-empty-state__hidden,
+.smbk-file-upload__input,
+.smbk-file-upload__announcement,
+.smbk-footer__new-tab,
+.smbk-heatmap__table,
+.smbk-heatmap__hidden,
+.smbk-line-chart__table,
+.smbk-log__announcement,
+.smbk-nav-item__pause,
+.smbk-page-header__hidden,
+.smbk-radio__control,
+.smbk-section-heading__hidden,
+.smbk-segmented__control,
+.smbk-segmented--content-icon .smbk-segmented__label,
+.smbk-shadow-editor__hidden,
+.smbk-sidebar__item-said,
+.smbk-stepper__hidden,
+.smbk-switch__control,
+.smbk-table__caption,
+.smbk-tabs__pause,
+.smbk-timeline__hidden,
+.smbk-tree-view__hidden,
+.smbk-uptime-bar__hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}

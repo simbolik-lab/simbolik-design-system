@@ -1,0 +1,148 @@
+/* smbk-empty-state — Empty state. Figma "Empty state" 7117:731 (Scope × Tone; Icon, Description and Reference
+ * booleans). A block of words that stands in for missing or failed content: an icon in the tone's icon colour, the
+ * title over a line saying what to do, the actions (a brand button, then a link), and an optional reference in Code
+ * SM. Inline lines it all up at the start, tight to its edges; Centered and Page centre it, with more room round it,
+ * a larger title and line, and the larger icon. It draws no surface: it fills whatever holds it. */
+
+.smbk-empty-state {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--smbk-space-stack-xl);
+  padding: var(--smbk-space-inset-md);
+  border-radius: var(--smbk-radius-container-md);
+}
+
+.smbk-empty-state__icon {
+  flex: none;
+  color: var(--smbk-color-icon-subtle);
+  font-size: var(--smbk-size-icon-lg);
+}
+
+.smbk-empty-state__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-text-caption);
+  align-self: stretch;
+}
+
+.smbk-empty-state__title {
+  margin: 0;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-heading-sm-font-family);
+  font-size: var(--smbk-typography-heading-sm-font-size);
+  font-weight: var(--smbk-typography-heading-sm-font-weight);
+  line-height: var(--smbk-typography-heading-sm-line-height);
+  letter-spacing: var(--smbk-typography-heading-sm-letter-spacing);
+  text-transform: var(--smbk-typography-heading-sm-text-transform);
+  text-wrap: pretty;
+}
+
+.smbk-empty-state__description {
+  margin: 0;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+  text-wrap: pretty;
+}
+
+.smbk-empty-state__context {
+  align-self: stretch;
+}
+
+.smbk-empty-state__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--smbk-space-inline-lg);
+}
+
+.smbk-empty-state__reference {
+  margin: 0;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-code-sm-font-family);
+  font-size: var(--smbk-typography-code-sm-font-size);
+  font-weight: var(--smbk-typography-code-sm-font-weight);
+  line-height: var(--smbk-typography-code-sm-line-height);
+  letter-spacing: var(--smbk-typography-code-sm-letter-spacing);
+}
+
+/* The status a screen reader reads the words from, when the page asks for it; the words show above. */
+/* .smbk-empty-state__hidden: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
+/* ---- tone: the icon's colour; the words carry the meaning. The default tone is the block's own look. ---- */
+
+.smbk-empty-state--tone-warning .smbk-empty-state__icon {
+  color: var(--smbk-color-feedback-warning-icon);
+}
+
+.smbk-empty-state--tone-danger .smbk-empty-state__icon {
+  color: var(--smbk-color-feedback-danger-icon);
+}
+
+/* ---- centered and page: centred in the space, with room round it and a measure for the words ---- */
+
+.smbk-empty-state--scope-centered,
+.smbk-empty-state--scope-page {
+  align-items: center;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.smbk-empty-state--scope-centered .smbk-empty-state__actions,
+.smbk-empty-state--scope-page .smbk-empty-state__actions {
+  justify-content: center;
+}
+
+.smbk-empty-state--scope-centered .smbk-empty-state__icon,
+.smbk-empty-state--scope-page .smbk-empty-state__icon {
+  font-size: var(--smbk-size-icon-2xl);
+}
+
+.smbk-empty-state--scope-centered {
+  max-width: var(--smbk-size-width-640);
+  padding: var(--smbk-space-inset-3xl);
+}
+
+.smbk-empty-state--scope-centered .smbk-empty-state__title {
+  font-family: var(--smbk-typography-heading-md-font-family);
+  font-size: var(--smbk-typography-heading-md-font-size);
+  font-weight: var(--smbk-typography-heading-md-font-weight);
+  line-height: var(--smbk-typography-heading-md-line-height);
+  letter-spacing: var(--smbk-typography-heading-md-letter-spacing);
+  text-transform: var(--smbk-typography-heading-md-text-transform);
+}
+
+.smbk-empty-state--scope-centered .smbk-empty-state__description {
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
+}
+
+.smbk-empty-state--scope-page {
+  max-width: var(--smbk-size-content-md);
+  padding: var(--smbk-space-section-md);
+}
+
+.smbk-empty-state--scope-page .smbk-empty-state__title {
+  font-family: var(--smbk-typography-heading-lg-font-family);
+  font-size: var(--smbk-typography-heading-lg-font-size);
+  font-weight: var(--smbk-typography-heading-lg-font-weight);
+  line-height: var(--smbk-typography-heading-lg-line-height);
+  letter-spacing: var(--smbk-typography-heading-lg-letter-spacing);
+  text-transform: var(--smbk-typography-heading-lg-text-transform);
+}
+
+.smbk-empty-state--scope-page .smbk-empty-state__description {
+  font-family: var(--smbk-typography-body-lg-font-family);
+  font-size: var(--smbk-typography-body-lg-font-size);
+  font-weight: var(--smbk-typography-body-lg-font-weight);
+  line-height: var(--smbk-typography-body-lg-line-height);
+  letter-spacing: var(--smbk-typography-body-lg-letter-spacing);
+}

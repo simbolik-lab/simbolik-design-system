@@ -1,0 +1,233 @@
+/* smbk-page-header — Page header. Figma "Page header" 7115:869 (Composition × Layout × State). The top of one page:
+ * small breadcrumbs, then the title (Heading XL, Heading LG in a narrow layout) with an optional status badge beside
+ * it, the introduction in Body LG and a line of facts in Body SM, the actions at the row's end centred on the title's
+ * line, and the tabs last. A narrow layout puts the actions under the words, the main one filling the row and the rest
+ * behind "More actions". The block ends with the space a heading block leaves before what follows, except when it
+ * ends with tabs, whose views follow straight under them. It draws no surface. */
+
+.smbk-page-header {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-lg);
+  padding-block-end: var(--smbk-space-layout-heading);
+}
+
+/* The block frames the words it hides for screen readers, so they stay inside it wherever it is placed: without a
+   frame they hang from the page itself and stretch it, past the end of an area that scrolls. No weight, so a parent
+   that places the block keeps its say. */
+:where(.smbk-page-header) {
+  position: relative;
+}
+
+.smbk-page-header--composition-tabbed {
+  padding-block-end: 0;
+}
+
+.smbk-page-header__breadcrumbs {
+  min-width: 0;
+}
+
+.smbk-page-header__main {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--smbk-space-inline-lg);
+}
+
+.smbk-page-header__body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-text-caption);
+}
+
+.smbk-page-header__title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--smbk-space-inline-md);
+}
+
+.smbk-page-header__title {
+  margin: 0;
+  min-width: 0;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-heading-xl-font-family);
+  font-size: var(--smbk-typography-heading-xl-font-size);
+  font-weight: var(--smbk-typography-heading-xl-font-weight);
+  line-height: var(--smbk-typography-heading-xl-line-height);
+  letter-spacing: var(--smbk-typography-heading-xl-letter-spacing);
+  text-transform: var(--smbk-typography-heading-xl-text-transform);
+}
+
+.smbk-page-header__status {
+  flex: none;
+}
+
+.smbk-page-header__description {
+  margin: 0;
+  max-width: var(--smbk-size-content-lg);
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-lg-font-family);
+  font-size: var(--smbk-typography-body-lg-font-size);
+  font-weight: var(--smbk-typography-body-lg-font-weight);
+  line-height: var(--smbk-typography-body-lg-line-height);
+  letter-spacing: var(--smbk-typography-body-lg-letter-spacing);
+}
+
+.smbk-page-header__meta {
+  margin: 0;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+/* The actions sit in a box one title line tall, in the title's type, so they are centred on the title's first line. */
+.smbk-page-header__actions {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+  min-height: 1lh;
+  font-family: var(--smbk-typography-heading-xl-font-family);
+  font-size: var(--smbk-typography-heading-xl-font-size);
+  line-height: var(--smbk-typography-heading-xl-line-height);
+}
+
+/* Each "More actions" opener shows in one layout only: the narrow one also holds the actions the narrow row hides. */
+.smbk-page-header__more {
+  display: flex;
+}
+
+.smbk-page-header__more--narrow {
+  display: none;
+}
+
+/* ---- tabs: last, as wide as they need up to the row; a cue at the end while more tabs lie past it ---- */
+
+.smbk-page-header__tabs {
+  position: relative;
+  display: flex;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.smbk-page-header__tabs > .smbk-tabs {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.smbk-page-header__tabs-cue {
+  display: none;
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--smbk-size-control-xs);
+  background: var(--smbk-color-surface-default);
+  color: var(--smbk-color-icon-subtle);
+  pointer-events: none;
+}
+
+.smbk-page-header__tabs-cue .smbk-icon {
+  font-size: var(--smbk-size-icon-sm);
+}
+
+.smbk-page-header__tabs[data-more] .smbk-page-header__tabs-cue {
+  display: flex;
+}
+
+.smbk-page-header__tabs-skeleton {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-2xl);
+  height: var(--smbk-size-control-md);
+}
+
+/* ---- loading: skeleton lines in the type of the words they stand for, so nothing moves when the words come ---- */
+
+.smbk-page-header .smbk-page-header__title > .smbk-skeleton,
+.smbk-page-header .smbk-page-header__description > .smbk-skeleton,
+.smbk-page-header .smbk-page-header__meta > .smbk-skeleton {
+  font: inherit;
+  line-height: inherit;
+}
+
+.smbk-page-header .smbk-page-header__title > .smbk-skeleton {
+  width: var(--smbk-size-width-320);
+  max-width: 100%;
+}
+
+.smbk-page-header .smbk-page-header__description > .smbk-skeleton {
+  width: var(--smbk-size-width-480);
+  max-width: 100%;
+}
+
+.smbk-page-header .smbk-page-header__meta > .smbk-skeleton {
+  width: var(--smbk-size-width-240);
+  max-width: 100%;
+}
+
+.smbk-page-header .smbk-page-header__description > .smbk-skeleton > .smbk-skeleton__line:nth-child(n + 2) {
+  display: none;
+}
+
+.smbk-page-header__tabs-skeleton > .smbk-skeleton {
+  width: var(--smbk-size-72);
+}
+
+.smbk-page-header__tabs-skeleton > .smbk-skeleton:nth-child(2n) {
+  width: var(--smbk-size-88);
+}
+
+/* .smbk-page-header__hidden: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
+
+/* ---- narrow: the title a step smaller, the actions under the words, the main one filling the row ---- */
+
+@container style(--smbk-layout: narrow) {
+  .smbk-page-header__main {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--smbk-space-stack-lg);
+  }
+
+  .smbk-page-header__title {
+    font-family: var(--smbk-typography-heading-lg-font-family);
+    font-size: var(--smbk-typography-heading-lg-font-size);
+    font-weight: var(--smbk-typography-heading-lg-font-weight);
+    line-height: var(--smbk-typography-heading-lg-line-height);
+    letter-spacing: var(--smbk-typography-heading-lg-letter-spacing);
+    text-transform: var(--smbk-typography-heading-lg-text-transform);
+  }
+
+  .smbk-page-header__actions {
+    min-height: 0;
+  }
+
+  .smbk-page-header__action--primary {
+    flex: 1 1 auto;
+  }
+
+  .smbk-page-header__action--secondary,
+  .smbk-page-header__more--wide {
+    display: none;
+  }
+
+  .smbk-page-header__more--narrow {
+    display: flex;
+  }
+
+  .smbk-page-header .smbk-page-header__title > .smbk-skeleton,
+  .smbk-page-header .smbk-page-header__description > .smbk-skeleton {
+    width: var(--smbk-size-width-240);
+  }
+
+  .smbk-page-header .smbk-page-header__description > .smbk-skeleton > .smbk-skeleton__line:nth-child(n + 2) {
+    display: block;
+  }
+}

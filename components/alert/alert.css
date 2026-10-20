@@ -1,96 +1,112 @@
 /* smbk-alert — Alert. Figma "Alert" 4139:6031. */
 
 .smbk-alert {
+  /* The neutral tone; each feedback tone sets these again below (the tone recipe). */
+  --smbk-tone-surface: var(--smbk-color-surface-default);
+  --smbk-tone-border: var(--smbk-color-border-rim);
+  --smbk-tone-text: var(--smbk-color-text-default);
+  --smbk-tone-icon: var(--smbk-color-icon-subtle);
   box-sizing: border-box;
   display: flex;
   align-items: flex-start;
   gap: var(--smbk-space-inline-lg);
   width: 100%;
-  padding: var(--smbk-space-inset-xl);
-  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-edge-highlight);
-  border-radius: var(--smbk-radius-control-lg);
-  background: var(--smbk-color-surface-default);
-  color: var(--smbk-color-text-default);
+  padding: var(--smbk-space-inset-lg) var(--smbk-space-inset-xl);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-tone-border);
+  border-radius: var(--smbk-radius-container-sm);
+  background: var(--smbk-tone-surface);
+  color: var(--smbk-tone-text);
 }
 
+/* The icon's box is as tall as the title's line, so the icon sits on the first line's middle. */
 .smbk-alert__icon {
+  display: inline-flex;
   flex-shrink: 0;
+  align-items: center;
+  height: calc(var(--smbk-typography-label-lg-font-size) * var(--smbk-typography-label-lg-line-height));
+  color: var(--smbk-tone-icon);
   font-size: var(--smbk-size-icon-md);
 }
 
+/* The title sits on its text with no gap: the line heights give the air. */
 .smbk-alert__body {
   display: flex;
-  flex: 1 1 auto;
+  flex: 1 1 0;
   flex-direction: column;
-  gap: var(--smbk-space-inset-lg);
+  gap: var(--smbk-space-text-label);
   min-width: 0;
-  padding: var(--smbk-space-inset-xs) 0;
 }
 
 .smbk-alert__title {
   margin: 0;
-  font-family: var(--smbk-typography-body-m-medium-font-family);
-  font-size: var(--smbk-typography-body-m-medium-font-size);
-  font-weight: var(--smbk-typography-body-m-medium-font-weight);
-  line-height: var(--smbk-typography-body-m-medium-line-height);
-  letter-spacing: var(--smbk-typography-body-m-medium-letter-spacing);
-  text-box: trim-both cap alphabetic;
+  font-family: var(--smbk-typography-label-lg-font-family);
+  font-size: var(--smbk-typography-label-lg-font-size);
+  font-weight: var(--smbk-typography-label-lg-font-weight);
+  line-height: var(--smbk-typography-label-lg-line-height);
+  letter-spacing: var(--smbk-typography-label-lg-letter-spacing);
+  text-transform: var(--smbk-typography-label-lg-text-transform);
 }
 
 .smbk-alert__description {
   margin: 0;
   color: var(--smbk-color-text-subtle);
-  font-family: var(--smbk-typography-body-s-font-family);
-  font-size: var(--smbk-typography-body-s-font-size);
-  font-weight: var(--smbk-typography-body-s-font-weight);
-  line-height: var(--smbk-typography-body-s-line-height);
-  letter-spacing: var(--smbk-typography-body-s-letter-spacing);
-  text-box: trim-both cap alphabetic;
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
 }
 
+/* The description holds a sentence, several paragraphs or a short bulleted list, in its own text
+   style: paragraphs a paragraph apart, list items a line of list spacing apart, the bullets inside
+   the alert's box. */
+.smbk-alert__description > :where(p, ul, ol) {
+  margin: 0;
+}
+
+.smbk-alert__description > * + * {
+  margin-block-start: var(--smbk-space-text-paragraph);
+}
+
+.smbk-alert__description :where(ul, ol) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-text-list);
+  padding-inline-start: var(--smbk-space-inset-xl);
+}
+
+/* One action or several; several wrap when the room runs out. */
 .smbk-alert__action {
+  display: flex;
   flex-shrink: 0;
+  flex-wrap: wrap;
+  gap: var(--smbk-space-inline-md);
 }
 
-.smbk-alert__dismiss {
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: inherit;
-  font-size: var(--smbk-size-icon-md);
-  cursor: pointer;
-  appearance: none;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
+/* .smbk-alert__dismiss: the cross is the size of the icon, in a box big enough to press, centred on the title's line;
+   the box reaches past the glyph by the same amount on every side, so the glyph sits where Figma draws it. It is the
+   small press box, with its focus ring and its press area on a touch screen, shared in press-box/press-box.css. */
+
+/* ---- feedback tones: the tone recipe, each family's subtle surface, its border, its text and its icon ---- */
+
+.smbk-alert--tone-info { --smbk-tone-surface: var(--smbk-color-feedback-info-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-info-border); --smbk-tone-text: var(--smbk-color-feedback-info-text-on-subtle); --smbk-tone-icon: var(--smbk-color-feedback-info-icon); }
+.smbk-alert--tone-success { --smbk-tone-surface: var(--smbk-color-feedback-success-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-success-border); --smbk-tone-text: var(--smbk-color-feedback-success-text-on-subtle); --smbk-tone-icon: var(--smbk-color-feedback-success-icon); }
+.smbk-alert--tone-warning { --smbk-tone-surface: var(--smbk-color-feedback-warning-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-warning-border); --smbk-tone-text: var(--smbk-color-feedback-warning-text-on-subtle); --smbk-tone-icon: var(--smbk-color-feedback-warning-icon); }
+.smbk-alert--tone-danger { --smbk-tone-surface: var(--smbk-color-feedback-danger-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-danger-border); --smbk-tone-text: var(--smbk-color-feedback-danger-text-on-subtle); --smbk-tone-icon: var(--smbk-color-feedback-danger-icon); }
+
+/* ---- the narrow form: the action goes under the title and description, lined up with them, so
+   the words keep the alert's full width (Figma's Narrow layout). The cross stays on the first line. ---- */
+
+@container style(--smbk-layout: narrow) {
+  .smbk-alert {
+    flex-wrap: wrap;
+    row-gap: var(--smbk-space-stack-sm);
+  }
+
+  .smbk-alert__action {
+    box-sizing: border-box;
+    flex-basis: 100%;
+    order: 1;
+    padding-inline-start: calc(var(--smbk-size-icon-md) + var(--smbk-space-inline-lg));
+  }
 }
-
-.smbk-alert__dismiss:focus-visible {
-  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
-  outline-offset: var(--smbk-focus-ring-offset);
-  border-radius: var(--smbk-radius-full);
-}
-
-/* ---- feedback tones: subtle surface, matching border and text; smaller icon ---- */
-
-.smbk-alert--tone-info,
-.smbk-alert--tone-success,
-.smbk-alert--tone-warning,
-.smbk-alert--tone-danger {
-  gap: var(--smbk-space-inset-lg);
-}
-
-.smbk-alert--tone-info .smbk-alert__icon,
-.smbk-alert--tone-success .smbk-alert__icon,
-.smbk-alert--tone-warning .smbk-alert__icon,
-.smbk-alert--tone-danger .smbk-alert__icon {
-  font-size: var(--smbk-size-icon-sm);
-}
-
-.smbk-alert--tone-info { background: var(--smbk-color-feedback-info-surface-subtle); border-color: var(--smbk-color-feedback-info-border); color: var(--smbk-color-feedback-info-text-on-subtle); }
-.smbk-alert--tone-success { background: var(--smbk-color-feedback-success-surface-subtle); border-color: var(--smbk-color-feedback-success-border); color: var(--smbk-color-feedback-success-text-on-subtle); }
-.smbk-alert--tone-warning { background: var(--smbk-color-feedback-warning-surface-subtle); border-color: var(--smbk-color-feedback-warning-border); color: var(--smbk-color-feedback-warning-text-on-subtle); }
-.smbk-alert--tone-danger { background: var(--smbk-color-feedback-danger-surface-subtle); border-color: var(--smbk-color-feedback-danger-border); color: var(--smbk-color-feedback-danger-text-on-subtle); }
