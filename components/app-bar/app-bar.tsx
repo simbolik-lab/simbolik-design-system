@@ -1,3 +1,5 @@
+'use client';
+
 import { cloneElement, isValidElement, useEffect, useId, useRef, useState, type HTMLAttributes, type ReactElement, type ReactNode, type RefObject } from 'react';
 import { useControllable } from '../controllable.js';
 import { appBar } from './app-bar.manifest.js';

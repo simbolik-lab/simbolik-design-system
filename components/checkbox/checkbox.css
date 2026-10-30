@@ -1,7 +1,8 @@
 /* smbk-checkbox — Checkbox. Figma "Checkbox" 4068:10770 (Size × State × Checked × Variant, the tone here).
  * A real checkbox control, visually hidden, drives a drawn box beside its label.
  * The default box is raised with a lift; the subtle box is sunken with the strong border, for dense places like table rows.
- * Checked shows the tick; mixed (the control's indeterminate state) shows a dash instead. */
+ * Checked shows the tick; mixed (the control's indeterminate state) shows a dash instead.
+ * Ticking fills the box from a little smaller as it fades in, then draws the tick (see the motion rules at the end). */
 
 /* .smbk-checkbox__control: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css.
    The row, its type, the disabled colour, the label over a line under it, the focus ring on the box and the touch area are shared
@@ -21,6 +22,22 @@
   background: var(--smbk-color-surface-raised);
   color: var(--smbk-color-text-inverse);
   box-shadow: var(--smbk-elevation-control);
+  position: relative;
+  isolation: isolate;
+}
+
+/* The fill: a layer over the whole box, its edge included, drawn in the ticked colours under the tick. It shows
+   while the box is ticked or mixed, when the box itself draws nothing, so the two are never drawn over each other. */
+.smbk-checkbox__box::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: calc(-1 * var(--smbk-border-width-hairline));
+  box-sizing: border-box;
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-control-selected);
+  border-radius: inherit;
+  background: var(--smbk-color-surface-inverse);
+  opacity: 0;
 }
 
 /* The subtle tone. */
@@ -39,13 +56,20 @@
 }
 
 /* Ticked or mixed by its control, or drawn ticked where the box stands alone inside another control
-   (a dropdown item that ticks), which carries the state itself. */
+   (a dropdown item that ticks), which carries the state itself: the fill shows, and the box clears its own
+   colours and drops its lift. */
 .smbk-checkbox__control:checked + .smbk-checkbox__box,
 .smbk-checkbox__control:indeterminate + .smbk-checkbox__box,
 .smbk-checkbox__box--checked {
-  background: var(--smbk-color-surface-inverse);
-  border-color: var(--smbk-color-border-control-selected);
+  border-color: transparent;
+  background: transparent;
   box-shadow: none;
+}
+
+.smbk-checkbox__control:checked + .smbk-checkbox__box::before,
+.smbk-checkbox__control:indeterminate + .smbk-checkbox__box::before,
+.smbk-checkbox__box--checked::before {
+  opacity: 1;
 }
 
 .smbk-checkbox__control:checked:not(:indeterminate) + .smbk-checkbox__box .smbk-checkbox__icon,
@@ -62,27 +86,44 @@
 
   .smbk-checkbox:hover .smbk-checkbox__control:enabled:checked + .smbk-checkbox__box,
   .smbk-checkbox:hover .smbk-checkbox__control:enabled:indeterminate + .smbk-checkbox__box {
-    border-color: var(--smbk-color-border-control-selected);
+    border-color: transparent;
+  }
+
+  .smbk-checkbox:hover .smbk-checkbox__control:enabled:checked + .smbk-checkbox__box::before,
+  .smbk-checkbox:hover .smbk-checkbox__control:enabled:indeterminate + .smbk-checkbox__box::before {
     background: var(--smbk-color-action-inverse-background-hover);
   }
 }
 
-/* Error: an empty box takes the danger edge; a ticked or mixed one keeps its fill inside a danger ring.
-   Two classes, so the error stays under the pointer. */
-.smbk-checkbox.smbk-checkbox--error .smbk-checkbox__control:enabled + .smbk-checkbox__box {
+/* Error: an empty box takes the danger edge; a ticked or mixed one keeps its fill, to its edge, inside a danger ring.
+   Two classes, so the error stays under the pointer. The control marked aria-invalid="true" draws the same. */
+.smbk-checkbox.smbk-checkbox--error .smbk-checkbox__control:enabled + .smbk-checkbox__box,
+.smbk-checkbox .smbk-checkbox__control[aria-invalid="true"]:enabled + .smbk-checkbox__box {
   border-color: var(--smbk-color-feedback-danger-border);
 }
 
 .smbk-checkbox.smbk-checkbox--error .smbk-checkbox__control:enabled:checked + .smbk-checkbox__box,
-.smbk-checkbox.smbk-checkbox--error .smbk-checkbox__control:enabled:indeterminate + .smbk-checkbox__box {
+.smbk-checkbox.smbk-checkbox--error .smbk-checkbox__control:enabled:indeterminate + .smbk-checkbox__box,
+.smbk-checkbox .smbk-checkbox__control[aria-invalid="true"]:enabled:checked + .smbk-checkbox__box,
+.smbk-checkbox .smbk-checkbox__control[aria-invalid="true"]:enabled:indeterminate + .smbk-checkbox__box {
   border-color: transparent;
   box-shadow: 0 0 0 var(--smbk-border-width-emphasis) var(--smbk-color-feedback-danger-border);
 }
 
+.smbk-checkbox.smbk-checkbox--error .smbk-checkbox__control:enabled + .smbk-checkbox__box::before,
+.smbk-checkbox .smbk-checkbox__control[aria-invalid="true"]:enabled + .smbk-checkbox__box::before {
+  border-color: transparent;
+}
+
+/* Disabled, ticked or not, the box draws itself in the disabled colours, with no fill over it. */
 .smbk-checkbox__control:disabled + .smbk-checkbox__box {
   background: var(--smbk-color-surface-disabled);
   border-color: var(--smbk-color-border-control-disabled);
   color: var(--smbk-color-text-disabled);
+}
+
+.smbk-checkbox__control:disabled + .smbk-checkbox__box::before {
+  content: none;
 }
 
 /* ---- small (sm) ---- */
@@ -95,6 +136,66 @@
 
 .smbk-checkbox--size-sm :is(.smbk-checkbox__icon, .smbk-checkbox__mixed-icon) {
   font-size: var(--smbk-size-icon-xs);
+}
+
+/* ---- motion: ticking fills the box, then draws the tick. The fill grows from a little smaller than the
+   box as it fades in, with the fill purpose, while the box's own colours and lift fade under it; once the box
+   has nearly filled, the tick draws itself from its start to its tip with the draw purpose, uncovered
+   across the box as it fades in. Unticking erases the tick back the same way, without the wait, while the
+   fill shrinks away. The mixed dash draws without the wait. Only a change moves: a box ticked as the page
+   loads is simply ticked. Under reduced motion the fill and the tick only fade. ---- */
+
+.smbk-checkbox__box {
+  transition-property: border-color, background-color, box-shadow;
+  transition-duration: var(--smbk-motion-fill-duration);
+  transition-timing-function: var(--smbk-motion-fill-easing);
+}
+
+.smbk-checkbox__box::before {
+  scale: 0.7;
+  transition-property: opacity, scale;
+  transition-duration: var(--smbk-motion-fill-duration);
+  transition-timing-function: var(--smbk-motion-fill-easing);
+}
+
+.smbk-checkbox__control:checked + .smbk-checkbox__box::before,
+.smbk-checkbox__control:indeterminate + .smbk-checkbox__box::before,
+.smbk-checkbox__box--checked::before {
+  scale: none;
+}
+
+.smbk-checkbox__icon,
+.smbk-checkbox__mixed-icon {
+  opacity: 0;
+  clip-path: inset(0 100% 0 0);
+  transition-property: visibility, opacity, clip-path;
+  transition-duration: var(--smbk-motion-draw-duration);
+  transition-timing-function: var(--smbk-motion-draw-easing);
+}
+
+.smbk-checkbox__control:checked:not(:indeterminate) + .smbk-checkbox__box .smbk-checkbox__icon,
+.smbk-checkbox__box--checked .smbk-checkbox__icon,
+.smbk-checkbox__control:indeterminate + .smbk-checkbox__box .smbk-checkbox__mixed-icon {
+  opacity: 1;
+  clip-path: inset(0);
+  transition-delay: var(--smbk-motion-draw-delay);
+}
+
+.smbk-checkbox__control:indeterminate + .smbk-checkbox__box .smbk-checkbox__mixed-icon {
+  transition-delay: 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-checkbox__box::before {
+    scale: none;
+    transition-property: opacity;
+  }
+
+  .smbk-checkbox__icon,
+  .smbk-checkbox__mixed-icon {
+    clip-path: none;
+    transition-property: visibility, opacity;
+  }
 }
 
 /* ---- high contrast (forced colors) ---- */

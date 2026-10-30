@@ -1,5 +1,21 @@
 /* smbk-theme-switch — Theme switch. Figma "ThemeSwitch" 4209:19857 and "ThemeItem" 4207:19190.
  * The theme switch is the segmented control in its theme look, smbk-segmented smbk-segmented--look-theme, drawn by
  * segmented-control/segmented-control.css: the bar, the square items, the larger icons, the brand hover, the sliding
- * indicator, the touch areas and the forced colors are all there.
- * This file holds no rules: the theme switch's own class is only its mark in markup. */
+ * indicator, the touch areas and the forced colors are all there. The switch's own class is only its mark in markup.
+ *
+ * This file holds the theme wipe: applyTheme(), beside the switch, changes the page's theme inside one of the
+ * browser's view transitions and marks <html> with data-theme-wipe while it runs. The browser's own cross-fade is
+ * turned off for it, so only the circle moves, and only a view transition the wipe started is touched. The page in
+ * the new theme starts as a circle of nothing at the pressed option (--smbk-theme-switch-wipe-x and -y, in pixels
+ * from the window's corner); the script grows it with the theme wipe's motion, since how far it must reach at each
+ * moment depends on the window. */
+
+html[data-theme-wipe]::view-transition-old(root),
+html[data-theme-wipe]::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html[data-theme-wipe]::view-transition-new(root) {
+  clip-path: circle(0 at var(--smbk-theme-switch-wipe-x) var(--smbk-theme-switch-wipe-y));
+}

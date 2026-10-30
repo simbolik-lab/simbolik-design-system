@@ -1,3 +1,5 @@
+'use client';
+
 import { useMemo, useState, type HTMLAttributes, type KeyboardEvent, type Ref } from 'react';
 import { useLocale, useObjectRef } from 'react-aria';
 import { parseColor, type Color } from 'react-stately';

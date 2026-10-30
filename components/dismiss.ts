@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * One rule for closing what is open over the page: an outside press or Escape closes the top open layer, and only it.
  *

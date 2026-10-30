@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Filter bar: search, filters, sort and Clear all together above a list or a table, a search landmark.
  *

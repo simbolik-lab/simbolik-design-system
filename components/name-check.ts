@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * The name check: in development, a warning in the console when a part that needs a name is drawn
  * without one. For the fields, when an input, a search field, a select or a text area is on the page

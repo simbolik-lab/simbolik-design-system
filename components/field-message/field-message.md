@@ -36,6 +36,8 @@ The line under a control or a group of choices. It says what to enter, flags som
 
 Three types. Help is quiet text with no icon. A warning leads with the warning icon in the warning color, its words in the secondary text color. An error leads with the circled cross and turns its words the danger color. Nothing moves.
 
+It is a paragraph, for a line of words. With `as="div"` it is a div, its words in a div too, for words written as blocks, such as paragraphs or a list, which a paragraph cannot hold; the component that places it spaces the blocks, as the field group does.
+
 ## Accessibility
 
 ### What it does for you

@@ -1,3 +1,5 @@
+'use client';
+
 import { Children, createContext, isValidElement, useContext, useEffect } from 'react';
 import type { HTMLAttributes, ReactNode } from 'react';
 import { card } from './card.manifest.js';

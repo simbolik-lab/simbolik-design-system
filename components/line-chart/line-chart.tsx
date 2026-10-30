@@ -1,3 +1,5 @@
+'use client';
+
 import type { HTMLAttributes, Ref } from 'react';
 import { ChartData } from '../chart-data.js';
 import { chartFormat } from '../format.js';

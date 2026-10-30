@@ -1,3 +1,5 @@
+'use client';
+
 import type { InputHTMLAttributes, ReactNode, Ref } from 'react';
 import { choiceCard } from './choice-card.manifest.js';
 import { radio } from '../radio/radio.manifest.js';

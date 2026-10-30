@@ -13,6 +13,6 @@ export const sparkline = defineVariants({
   flags: {
     area: { description: 'The soft fill under the line.' },
   },
-  parts: ['svg', 'area', 'line', 'dot'],
+  parts: ['plot', 'svg', 'area', 'line', 'dot'],
   figmaNodeId: '7580:152',
 });

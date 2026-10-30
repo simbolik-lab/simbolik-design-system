@@ -25,7 +25,7 @@ The top of one page or one thing: where the reader is, the page's one main headi
 - The status part, optional: a badge beside the title, for the state of the thing the page is about.
 - The description part, optional: a short introduction in a large body style and the subtle text color.
 - The meta part, optional: a quiet line of facts in a small body style, such as when it changed and who owns it.
-- The actions part, optional: the action parts, the main one a brand button and the others outline buttons, then the more part, a "More actions" button opening a menu.
+- The actions part, optional: the action parts, the main one a brand button and the others outline buttons, then the more part, a "More actions" button opening a menu. When the page's main action sits elsewhere, every action part is an outline button. An action part can be the system's own button or button note, which the header gives its action classes.
 - The tabs part, optional: tabs that switch the page's views, last; the tabs-cue part shows at their end while more tabs lie past it.
 - While loading, the tabs-skeleton part takes the tabs' place, and the hidden part holds what a screen reader hears as the heading.
 
@@ -45,6 +45,10 @@ The composition follows from what the header is given: simple, object with a sta
 ## Behavior
 
 In a wide layout the actions sit at the row's end, centred on the title's first line. In a narrow layout they move under the words: the main action fills the row, and the other actions move behind "More actions" with the actions that are always there. Up to three actions show as buttons; give the rest as `moreActions`. An action given past the third is never dropped: it goes behind "More actions", after the ones always kept there.
+
+When the page's main action sits somewhere else, such as at the end of the app's toolbar, set `mainAction={false}`: every action is then an outline button, and in a narrow layout all of them move behind "More actions". In markup written by hand, mark each action `smbk-page-header__action--secondary`.
+
+An action can be drawn by the system's own button instead of the header's, given as its `button`: a Button that shows a state, such as one disabled while its job runs, or a button note that says what pressing it does or why it cannot be pressed now (with the note under the button, lined up with the header's end). Give it the header's look, the medium size, brand for the main action and outline for the rest. The header still places it and folds it behind "More actions" in a narrow layout, where its menu item is drawn from the action's label, icon and press, without the note. With a note, the buttons in the row line up by their tops, still centered on the title's first line, and the note hangs under its button. While the header is loading, it draws its own disabled button in that place.
 
 Tabs come last and are as wide as they need, up to the row; when there are more than fit, the row scrolls sideways inside itself and a cue at its end shows there are more. Give the tabs the id of the one panel under the header that shows each view, so the view follows straight under them. The header ends with the space a heading block leaves before what follows, except when it ends with tabs.
 
@@ -81,7 +85,7 @@ Holds breadcrumbs, a heading, a status badge, a description, a line of facts, ac
 
 ### Do
 
-- Keep one main action, the one most people come to the page for.
+- Keep one main action, the one most people come to the page for, or none when it already sits in the app's toolbar.
 - Keep the introduction to a sentence or two.
 - Put a destructive action behind "More actions".
 

@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useId, useLayoutEffect, useRef, useState, type DragEvent, type InputHTMLAttributes, type KeyboardEvent, type ReactNode, type Ref } from 'react';
 import { useObjectRef } from 'react-aria';
 import { fileUpload } from './file-upload.manifest.js';

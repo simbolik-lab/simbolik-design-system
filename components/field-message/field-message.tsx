@@ -13,6 +13,11 @@ export interface FieldMessageProps extends Omit<HTMLAttributes<HTMLParagraphElem
   children: ReactNode;
   /** Extra classes for the icon. */
   iconClassName?: string;
+  /**
+   * The element: a paragraph (the default) for a line of words, or a div for words written as blocks, such as
+   * paragraphs, a list or code, which a paragraph cannot hold.
+   */
+  as?: 'p' | 'div';
 }
 
 /** The icon each type leads with; help has none. */
@@ -24,13 +29,14 @@ export const fieldMessageIcon = { help: undefined, warning: 'Warning', error: 'X
  * aria-describedby at it, so it is read with the control. An error is an alert, so a screen reader reads it as it
  * appears; pass another role to change that.
  */
-export function FieldMessage({ type = 'help', role, className, iconClassName, id, children, ...rest }: FieldMessageProps) {
+export function FieldMessage({ type = 'help', role, className, iconClassName, id, as: Element = 'p', children, ...rest }: FieldMessageProps) {
   const icon = fieldMessageIcon[type];
   const said = children != null && children !== false;
+  const Text = Element === 'div' ? 'div' : 'span';
   return (
-    <p id={id} role={role ?? (type === 'error' ? 'alert' : undefined)} className={cx(fieldMessage({ type }), className)} {...rest}>
+    <Element id={id} role={role ?? (type === 'error' ? 'alert' : undefined)} className={cx(fieldMessage({ type }), className)} {...rest}>
       {said && icon && <Icon name={icon} className={cx(fieldMessage.part('icon'), iconClassName)} />}
-      {said && <span className={fieldMessage.part('text')}>{children}</span>}
-    </p>
+      {said && <Text className={fieldMessage.part('text')}>{children}</Text>}
+    </Element>
   );
 }

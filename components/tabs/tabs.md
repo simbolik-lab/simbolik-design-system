@@ -59,7 +59,7 @@ On a touch screen every tab keeps its size and takes an invisible press area out
 ### What it does for you
 
 - The bar is a tab list. In the links form it is a navigation of links instead, with no tab roles.
-- Left and right arrows (up and down when vertical) move between tabs and select as they go; Home and End jump to the ends. Disabled tabs are skipped.
+- Left and right arrows (up and down when vertical) move between tabs and select as they go, following the reading direction, so in a right-to-left page the left arrow moves to the next tab; Home and End jump to the ends. Disabled tabs are skipped.
 - Only the selected tab is in the tab order; Tab from it lands on the panel, which is focusable so its content can be reached. When no enabled tab is selected (the value names none, or a disabled one), the first enabled tab is in the tab order instead, so the list can always be reached.
 - The focus ring is drawn just inside the tab's edge, because the bar's padding is too thin to hold it outside and a bar that scrolls cuts off anything past its padding.
 - Each panel is labeled by its tab.
@@ -87,7 +87,7 @@ On a touch screen every tab keeps its size and takes an invisible press area out
 | Key | What it does |
 |---|---|
 | Tab | Moves focus to the selected tab, or to the first enabled tab when none is selected; pressed again, moves to the panel. |
-| Right Arrow or Left Arrow | Moves to the next or previous tab and selects it. In vertical tabs, Down Arrow and Up Arrow do this instead. |
+| Right Arrow or Left Arrow | Moves to the next or previous tab and selects it; in a right-to-left page, Left Arrow moves to the next. In vertical tabs, Down Arrow and Up Arrow do this instead. |
 | Home or End | Moves to the first or last enabled tab and selects it. |
 | Enter | In the links form, follows the focused link, or opens and closes the more tab's menu. |
 | Escape | In the links form, closes the more tab's menu and returns focus to the more tab. |

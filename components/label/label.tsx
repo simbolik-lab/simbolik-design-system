@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useRef, type LabelHTMLAttributes, type ReactNode, type RefObject } from 'react';
 import { label } from './label.manifest.js';
 import { Icon } from '../icon/icon.js';
@@ -35,7 +37,7 @@ export function Label({ as: Tag = 'label', tone, type, required, info, className
  * attribute) has keyboard focus, so a reader who never points sees them too.
  */
 function Info({ text, control }: { text: string; control?: string }) {
-  const { targetRef, hoverProps, show, hide, tip } = useTip({ text, arrow: 'bottom-center', inverse: true, purpose: 'name' });
+  const { targetRef, hoverProps, show, hide, tip } = useTip({ text, arrow: 'bottom-center', inverse: true, purpose: 'name', help: true });
   const toggle = useRef({ show, hide });
   toggle.current = { show, hide };
 

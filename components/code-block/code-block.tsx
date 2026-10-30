@@ -1,3 +1,5 @@
+'use client';
+
 import { useId, useState, type HTMLAttributes, type MouseEventHandler, type ReactNode } from 'react';
 import { codeBlock } from './code-block.manifest.js';
 import { codeLanguage, highlight, type CodeLanguage } from './highlight.js';
@@ -145,7 +147,7 @@ export function CodeBlock({ bare, label, icon, language, lineNumbers = true, tab
         ref={body}
         className={codeBlock.part('body')}
         id={bodyId}
-        {...(tabbed ? { role: 'tabpanel', 'aria-labelledby': shown !== undefined ? `${bodyId}-tab-${shown}` : undefined, tabIndex: 0 } : region)}
+        {...(tabbed ? { 'data-scrollbar': region['data-scrollbar'], role: 'tabpanel', 'aria-labelledby': shown !== undefined ? `${bodyId}-tab-${shown}` : undefined, tabIndex: 0 } : region)}
         dir="ltr"
       >
         {/* Code reads left to right whatever the page's direction, its numbers on the left. */}

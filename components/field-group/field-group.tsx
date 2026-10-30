@@ -1,9 +1,12 @@
-import { useId, type FieldsetHTMLAttributes, type ReactNode } from 'react';
+'use client';
+
+import { useId, useRef, type FieldsetHTMLAttributes, type ReactNode } from 'react';
 import { fieldGroup } from './field-group.manifest.js';
 import { FieldGroupContext, type FieldGroupValue } from './field-group-context.js';
 import { Label } from '../label/label.js';
 import { FieldMessage } from '../field-message/field-message.js';
 import { useControllable } from '../controllable.js';
+import { useFormReset } from '../form.js';
 import { cx } from '../variants.js';
 import type { VariantProps } from '../variants.js';
 
@@ -12,7 +15,10 @@ export interface FieldGroupProps extends Omit<FieldsetHTMLAttributes<HTMLFieldSe
   legend: ReactNode;
   /** Shows the required mark, and marks the radios required. */
   required?: boolean;
-  /** Help under the question: what the choice decides, or how many to pick. */
+  /**
+   * Help under the question: what the choice decides, or how many to pick. Words alone are a line; anything else is
+   * drawn in a div, so it can hold blocks: paragraphs, a list, code. Either way it describes the group.
+   */
   description?: ReactNode;
   /**
    * The answer is invalid: every option takes its error look, and this message under the options says what to
@@ -49,10 +55,18 @@ export function FieldGroup({ legend, required, description, error, disabled, lay
   // The group holds the chosen value only when the page gives one or a start; otherwise each radio holds its own.
   const holds = value !== undefined || defaultValue !== undefined;
   const [chosen, choose] = useControllable<string | null>({ value, defaultValue: defaultValue ?? null, onChange, name: 'FieldGroup value' });
+  // The form's reset puts the starting choice back when the group holds it; radios that hold their own reset as the
+  // browser's do.
+  const legendRef = useRef<HTMLLegendElement>(null);
+  useFormReset(legendRef, () => {
+    if (holds) choose(defaultValue ?? null);
+  });
   const invalid = Boolean(error);
   const message = invalid ? (error === true ? description : error) : undefined;
   const help = invalid && error === true ? undefined : description;
   const helpId = help ? `group${reactId}-description` : undefined;
+  // Words alone are a paragraph; anything else may hold blocks, which a paragraph cannot.
+  const block = (node: ReactNode) => (typeof node === 'string' || typeof node === 'number' ? 'p' : 'div');
   const messageId = message ? `group${reactId}-message` : undefined;
   const describedBy = [rest['aria-describedby'], helpId, messageId].filter(Boolean).join(' ') || undefined;
   const context: FieldGroupValue = {
@@ -67,13 +81,13 @@ export function FieldGroup({ legend, required, description, error, disabled, lay
   const classes = cx(fieldGroup({ layout, error: invalid, disabled }), className);
   return (
     <fieldset className={classes} disabled={disabled} {...rest} aria-describedby={describedBy}>
-      <legend className={fieldGroup.part('legend')}>
+      <legend ref={legendRef} className={fieldGroup.part('legend')}>
         <Label as="span" tone="strong" required={required}>
           {legend}
         </Label>
       </legend>
       {help && (
-        <FieldMessage id={helpId} className={fieldGroup.part('description')}>
+        <FieldMessage id={helpId} as={block(help)} className={fieldGroup.part('description')}>
           {help}
         </FieldMessage>
       )}
@@ -81,7 +95,7 @@ export function FieldGroup({ legend, required, description, error, disabled, lay
         <FieldGroupContext.Provider value={context}>{children}</FieldGroupContext.Provider>
       </div>
       {message && (
-        <FieldMessage key="message" type="error" id={messageId} className={fieldGroup.part('message')}>
+        <FieldMessage key="message" type="error" id={messageId} as={block(message)} className={fieldGroup.part('message')}>
           {message}
         </FieldMessage>
       )}

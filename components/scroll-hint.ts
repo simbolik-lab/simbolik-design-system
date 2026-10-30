@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * The scroll region, shared by the parts that scroll inside themselves (the board's frame and its columns, the code
  * block's body, the table's frame): it says whether a part runs past its size, so the part becomes a region the
@@ -8,11 +10,17 @@
  * scrollbar takes no room, so it hides until the frame scrolls (a phone, a trackpad), the frame is marked
  * `data-scroll-hint` and a thin bar along its foot shows that there is more sideways and how much of it is in view,
  * following the scroll. Where the browser's scrollbar takes room it always shows, and the hint stays away, so there
- * is never a second bar. The thumb is the element `thumb` reaches, inside a track whose width is the bar's length;
- * the bar is drawn with the table's track and thumb classes. A part with no thumb gets no hint.
+ * is never a second bar; the system's own scrollbar drawn over the part (scrollbar.ts) takes no room, so the hint
+ * shows beside it, and the stylesheet fades the hint while that bar shows. The thumb is the element `thumb` reaches,
+ * inside a track whose width is the bar's length; the bar is drawn with the table's track and thumb classes. A part
+ * with no thumb gets no hint.
+ *
+ * The part also gets the system's scrollbar (scrollbar.ts), along `bar` (the axis, unless the part scrolls more ways
+ * than it is named for, as a table with a sticky heading row does): `region` carries its mark, so spread it always.
  */
 
 import { useEffect, useRef, useState, type RefObject } from 'react';
+import { useScrollbar } from './scrollbar.js';
 
 export interface ScrollRegionOptions<T extends HTMLElement> {
   /** Which way the part scrolls: sideways (the default, with the hint), down, or both. */
@@ -25,6 +33,8 @@ export interface ScrollRegionOptions<T extends HTMLElement> {
   always?: boolean;
   /** The part, when the component holds its ref already (one the page's ref reaches too); otherwise `frame` is made here. */
   frame?: RefObject<T | null>;
+  /** Which way the scrollbar runs, when not the axis. */
+  bar?: 'x' | 'y' | 'both';
 }
 
 export interface ScrollRegion<T extends HTMLElement> {
@@ -34,13 +44,14 @@ export interface ScrollRegion<T extends HTMLElement> {
   thumb: RefObject<HTMLSpanElement | null>;
   /** Whether the part runs past its size now. */
   overflows: boolean;
-  /** Spread on the part: a Tab stop, and with a name a region, while it scrolls (or `always`); nothing otherwise. */
-  region: { role?: 'region'; 'aria-label'?: string; 'aria-labelledby'?: string; tabIndex?: 0 };
+  /** Spread on the part: the scrollbar's mark; a Tab stop, and with a name a region, while it scrolls (or `always`). */
+  region: { role?: 'region'; 'aria-label'?: string; 'aria-labelledby'?: string; tabIndex?: 0; 'data-scrollbar'?: '' };
 }
 
-export function useScrollRegion<T extends HTMLElement = HTMLDivElement>({ axis = 'x', label, labelledBy, always = false, frame: given }: ScrollRegionOptions<T> = {}): ScrollRegion<T> {
+export function useScrollRegion<T extends HTMLElement = HTMLDivElement>({ axis = 'x', label, labelledBy, always = false, frame: given, bar: along = axis }: ScrollRegionOptions<T> = {}): ScrollRegion<T> {
   const made = useRef<T>(null);
   const frame = given ?? made;
+  const scrollbar = useScrollbar(frame, { axis: along });
   const thumb = useRef<HTMLSpanElement>(null);
   const [overflows, setOverflows] = useState(false);
   useEffect(() => {
@@ -77,5 +88,5 @@ export function useScrollRegion<T extends HTMLElement = HTMLDivElement>({ axis =
     };
   }, [axis]);
   const name = labelledBy !== undefined ? { role: 'region' as const, 'aria-labelledby': labelledBy } : label !== undefined ? { role: 'region' as const, 'aria-label': label } : {};
-  return { frame, thumb, overflows, region: always || overflows ? { ...name, tabIndex: 0 } : {} };
+  return { frame, thumb, overflows, region: always || overflows ? { ...scrollbar, ...name, tabIndex: 0 } : scrollbar };
 }

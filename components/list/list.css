@@ -244,14 +244,24 @@
   font-weight: var(--smbk-typography-body-md-medium-font-weight);
 }
 
-/* A chosen option: the see-through selected fill and its tick. The fill shows on the page and on a card alike;
-   the sunken fill is the page's own color, so on the page only the tick would show. */
+/* A chosen option: the see-through selected fill and its tick. The fill shows on the page and on a card alike,
+   and is the fill made for chosen items, as in the sidebar. */
 .smbk-list__item[aria-selected="true"] > .smbk-list__row {
   background: var(--smbk-color-surface-selected);
 }
 
 .smbk-list__item[aria-selected="true"] > .smbk-list__row .smbk-list__check {
   visibility: visible;
+}
+
+/* Tickless: a row that opens as it is chosen keeps the fill and takes the title one weight bolder, as the current row
+   does, so it never shows by color alone; the tick takes no room. */
+.smbk-list--tickless .smbk-list__check {
+  display: none;
+}
+
+.smbk-list--tickless .smbk-list__item[aria-selected="true"] > .smbk-list__row .smbk-list__item-title {
+  font-weight: var(--smbk-typography-body-md-medium-font-weight);
 }
 
 .smbk-list__row:is(:disabled, [aria-disabled="true"]),

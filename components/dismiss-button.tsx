@@ -1,3 +1,5 @@
+'use client';
+
 import type { MouseEventHandler } from 'react';
 import { Button } from './button/button.js';
 import { Icon } from './icon/icon.js';

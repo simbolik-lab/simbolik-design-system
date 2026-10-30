@@ -1,3 +1,5 @@
+'use client';
+
 import type { FocusEvent, Ref } from 'react';
 import { useColorField, useObjectRef } from 'react-aria';
 import { useColorFieldState, type Color } from 'react-stately';

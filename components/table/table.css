@@ -390,6 +390,13 @@
   min-height: var(--smbk-size-control-sm);
 }
 
+/* A row that cannot be chosen, in a table whose rows can: the room the small choose box takes, its box and the room
+   the choice row keeps after it, kept empty, so the row's first value lines up with the others'. */
+.smbk-table__choose-space {
+  flex: none;
+  width: calc(var(--smbk-size-selection-sm) + var(--smbk-space-inline-sm));
+}
+
 /* An icon before the value sits the small inline gap from it, as a 16 icon beside 14 px text does across the system. */
 .smbk-table__value {
   display: inline-flex;
@@ -505,8 +512,7 @@
 }
 
 /* The rule under a sticking heading, and the hairline between headings, drawn by the heading itself. */
-.smbk-table--sticky-header .smbk-table__header::after,
-.smbk-table--pin-first .smbk-table__header:first-child::after {
+.smbk-table--sticky-header .smbk-table__header::after {
   content: '';
   position: absolute;
   right: 0;
@@ -531,7 +537,9 @@
 }
 
 /* ---- a wide table: the first column stays in view ----
-   The pinned cells are painted on the page canvas, with the row's hover laid over it, and carry their row's rule themselves. */
+   The pinned cells are painted on the page canvas, with the row's hover laid over it. They move only sideways, along
+   the rules the table draws across each row, so those rules show through them, on the same pixels as in every other
+   cell; a copy of its own in a pinned cell draws a pixel off them in every browser. */
 
 .smbk-table--pin-first {
   isolation: isolate;
@@ -545,12 +553,13 @@
 
 .smbk-table--pin-first .smbk-table__header:first-child {
   z-index: var(--smbk-layer-sticky);
-  border-bottom-color: transparent;
   background: var(--smbk-color-surface-default);
 }
 
+/* Raised, so what a later cell positions (a bar's track, a meter) passes under the held names rather than over them;
+   the first heading stays above it, and the scroll hint, coming after it, over it. */
 .smbk-table--pin-first .smbk-table__cell:first-child {
-  z-index: var(--smbk-layer-base);
+  z-index: var(--smbk-layer-raised);
   background: var(--smbk-color-surface-canvas);
 }
 
@@ -568,45 +577,28 @@
   background: linear-gradient(var(--smbk-color-feedback-info-surface-subtle), var(--smbk-color-feedback-info-surface-subtle)), var(--smbk-color-surface-canvas);
 }
 
-/* A sticking cell leaves its collapsed border behind, so a ruled-off row's pinned cell draws its rule itself. */
-.smbk-table--pin-first .smbk-table__row--rule-above > .smbk-table__cell:first-child {
-  box-shadow: inset 0 var(--smbk-border-width-hairline) 0 0 var(--smbk-color-border-strong);
+/* A pinned row's brand edge, in a held cell: a strip of its own along the cell's start side, inside its edges, so its
+   row's rules cross it as everywhere else. The inset shadow the edge is in other tables, Firefox draws along a held
+   cell's foot as well, over its row's rule. */
+.smbk-table--pin-first .smbk-table__row--pinned > .smbk-table__cell:first-child {
+  box-shadow: none;
 }
 
-.smbk-table--pin-first .smbk-table__row--pinned.smbk-table__row--rule-above > .smbk-table__cell:first-child {
-  box-shadow: inset var(--smbk-border-width-accent) 0 0 0 var(--smbk-color-border-brand), inset 0 var(--smbk-border-width-hairline) 0 0 var(--smbk-color-border-strong);
-}
-
-.smbk-table--pin-first .smbk-table__row--pinned.smbk-table__row--rule-above > .smbk-table__cell:first-child:dir(rtl) {
-  box-shadow: inset calc(-1 * var(--smbk-border-width-accent)) 0 0 0 var(--smbk-color-border-brand), inset 0 var(--smbk-border-width-hairline) 0 0 var(--smbk-color-border-strong);
+.smbk-table--pin-first .smbk-table__row--pinned > .smbk-table__cell:first-child::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  inset-inline-start: 0;
+  width: var(--smbk-border-width-accent);
+  background: var(--smbk-color-border-brand);
+  pointer-events: none;
 }
 
 /* A group heading spans the table: its label sticks at the start while the columns scroll sideways. */
 .smbk-table--pin-first .smbk-table__group-label {
   position: sticky;
   left: var(--smbk-space-inset-lg);
-}
-
-.smbk-table--pin-first .smbk-table__cell:first-child::after {
-  content: '';
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: var(--smbk-border-width-hairline);
-  background: var(--smbk-color-border-subtle);
-}
-
-.smbk-table--pin-first .smbk-table__row:last-child .smbk-table__cell:first-child::after {
-  content: none;
-}
-
-.smbk-table--pin-first .smbk-table__table > tbody:not(:last-child) > .smbk-table__row:last-child .smbk-table__cell:first-child::after {
-  content: '';
-}
-
-.smbk-table--pin-first .smbk-table__table > tbody:last-child > .smbk-table__row:has(+ .smbk-table__detail-row[hidden]:last-child) .smbk-table__cell:first-child::after {
-  content: none;
 }
 
 /* The pinned column's right edge, so the columns sliding under it read as passing behind. */
@@ -641,6 +633,12 @@
   pointer-events: none;
 }
 
+/* While the system's scrollbar shows over the frame (scrollbar.ts), in the same strip, the hint's bar fades out of
+   its way, so there is never a second bar. The board's hint does the same. */
+.smbk-table[data-scroll-hint]:has(> .smbk-scrollbar[data-shown]) .smbk-table__scroll-track {
+  opacity: 0;
+}
+
 /* In a long table the rows scroll under the hint, so it takes the heading row's floor. */
 .smbk-table--sticky-header[data-scroll-hint] .smbk-table__scroll-hint {
   background: var(--smbk-color-surface-default);
@@ -648,6 +646,7 @@
 
 .smbk-table__scroll-track {
   position: relative;
+  transition: opacity var(--smbk-motion-feedback-duration) var(--smbk-motion-feedback-easing);
   height: var(--smbk-size-4);
   overflow: hidden;
   border-radius: var(--smbk-radius-full);
@@ -685,7 +684,7 @@
    On a touch screen an invisible area, centred on the sort, copy and caret buttons (the filter and info buttons and a
    choose box take their own), takes the press out to the comfortable target where it falls short of it, but never
    past its own row, so the rows above and below keep theirs. Inside a cell, a button or a choose box beside another
-   reaches only halfway into the gap between them. The lines the heading and the pinned cells draw for themselves take
+   reaches only halfway into the gap between them. The lines a sticking heading draws for itself take
    no press, so they never cut the edge off an area, and a pinned column keeps what the frame scrolls to out from under
    it. What is drawn and every place stay as they are. */
 
@@ -715,9 +714,10 @@
     inset-block: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
   }
 
-  /* Beside each other in a cell: halfway into the cell's gap. */
+  /* Beside each other in a cell: halfway into the cell's gap. A choose box beside words alone (a heading that does not
+     sort, a value with no link or button) keeps its whole area. */
   .smbk-table__header-cell > .smbk-table__sort:has(~ :is(.smbk-btn, :has(.smbk-btn)))::after,
-  :is(.smbk-table__header-cell, .smbk-table__content) > .smbk-checkbox::after,
+  :is(.smbk-table__header-cell, .smbk-table__content) > .smbk-checkbox:has(+ :is(a, button), + * :is(a, button))::after,
   .smbk-table__content > .smbk-btn:has(+ .smbk-btn)::after {
     inset-inline-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-md) / -2);
   }

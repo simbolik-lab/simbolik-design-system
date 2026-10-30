@@ -49,12 +49,13 @@
 }
 
 /* Pressed while chosen keeps the brand edge, not the lift; in error the danger edge below stays. */
-.smbk-choice-card:not(.smbk-choice-card--error):is(.smbk-radio, .smbk-checkbox):active:has(:enabled:checked) {
+.smbk-choice-card:not(.smbk-choice-card--error, :has([aria-invalid="true"])):is(.smbk-radio, .smbk-checkbox):active:has(:enabled:checked) {
   box-shadow: inset 0 0 0 calc(var(--smbk-border-width-emphasis) - var(--smbk-border-width-hairline)) var(--smbk-color-border-brand);
 }
 
-/* Error, chosen or not: the danger edge at the emphasis width. */
-.smbk-choice-card.smbk-choice-card--error:is(.smbk-radio, .smbk-checkbox):has(:enabled) {
+/* Error, chosen or not: the danger edge at the emphasis width; its control marked aria-invalid="true" draws the same. */
+.smbk-choice-card.smbk-choice-card--error:is(.smbk-radio, .smbk-checkbox):has(:enabled),
+.smbk-choice-card:is(.smbk-radio, .smbk-checkbox):has(:enabled[aria-invalid="true"]) {
   border-color: var(--smbk-color-feedback-danger-border);
   box-shadow: inset 0 0 0 calc(var(--smbk-border-width-emphasis) - var(--smbk-border-width-hairline)) var(--smbk-color-feedback-danger-border), var(--smbk-elevation-control);
 }

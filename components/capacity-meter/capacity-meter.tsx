@@ -1,3 +1,5 @@
+'use client';
+
 import type { HTMLAttributes, ReactNode, Ref } from 'react';
 import { capacityMeter } from './capacity-meter.manifest.js';
 import { useNameWarning } from '../name-check.js';

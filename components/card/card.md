@@ -20,7 +20,7 @@ A bounded box about one thing — an article, a product, a person, a queue, a fi
 - The media part, an optional picture: on top, beside the content, edge to edge at the top, or behind everything. It is a picture element, or a frame holding any element given in its place, such as an image placeholder.
 - The content part, the column holding the header, the body and the footer, each optional.
 - The header part, in one of five kinds: a title with an optional eyebrow and a quiet meta line; an icon in a sunken well over the title; a person, their avatar beside their name and role; a number before the title; or a window bar, three dots and a title in code type. Each comes in three sizes, lg for marketing pages, md for apps and sm for dense boards. A count, a status badge, a link, an arrow and a menu button can sit after the title or at the end.
-- The body part, in one of two kinds: text, or a slot that stacks the system's other components, such as a stat, a list, a description list, a progress bar, a code block, an empty state or a chart.
+- The body part, in one of two kinds: text, or a slot that stacks the system's other components, such as a stat, a list, a description list, a progress bar, a code block, an empty state or a chart. A stat in the slot drops its own padding and surface, so it lines up with the header.
 - The footer part, a hairline rule and one row, in one of nine kinds: buttons at the end, a link with buttons, one button across the card, a link, a person with the reading time, tags, people, a total, or a note beside a button. The rule can be left out.
 - In the panel layout, a divider runs edge to edge above the footer in place of its rule.
 

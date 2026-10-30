@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Folding a bar's parts away when its row does not fit: the app bar's and the header's links (and the app bar's
  * actions before them) give way to the menu button in a wide space too narrow for them.

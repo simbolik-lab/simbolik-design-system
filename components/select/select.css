@@ -6,8 +6,9 @@
  * instance, and here the list carries smbk-dropdown and each choice is a
  * dropdown item, so the panel, the rows, their two heights and their icons
  * are the dropdown's own. This stylesheet only places the list under the
- * well, at the well's width, no taller than the list height, and lets it scroll. The label and the help text
- * around a select are the field's. */
+ * well, at the well's width, no taller than the list height, and lets it scroll, and draws what the dropdown has no
+ * part for: options in groups under the dropdown's label, and the rich option (Figma's "RichOption" 8204:3194). The
+ * label and the help text around a select are the field's. */
 
 .smbk-select {
   position: relative;
@@ -85,14 +86,14 @@
   background: var(--smbk-color-surface-hover);
 }
 
-.smbk-select__list[data-glide="lit"] > .smbk-select__option--highlighted {
+.smbk-select__list[data-glide="lit"] .smbk-select__option--highlighted {
   background: transparent;
 }
 
 /* While the well has focus and the keys moved the highlight, the highlighted choice is where focus is: it
    carries the focus ring, drawn just inside its edge, because the fill alone is too faint to find. A choice
    under the pointer takes the hover fill alone, as any item under the pointer does. */
-.smbk-select:focus-within [data-highlight="keys"] > .smbk-select__option--highlighted {
+.smbk-select:focus-within [data-highlight="keys"] .smbk-select__option--highlighted {
   outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
   outline-offset: calc(-1 * var(--smbk-focus-ring-width));
 }
@@ -105,6 +106,80 @@
   overflow-clip-margin: var(--smbk-space-inset-xs);
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* ---- groups: the dropdown's label heads its options, and the dropdown's divider comes before each group that
+   follows something. The group's element only holds them; the options' own list is the dropdown's group, spaced as
+   the panel is, so grouping adds nothing on screen but the heading and the line. ---- */
+
+.smbk-select__group {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.smbk-select__group > .smbk-dropdown__group {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---- the rich option: an avatar or an icon, the label with a second line under it, and the tick when chosen
+   (Figma's RichOption). One height at either size, as Figma draws one: the small inset above and below, the large
+   inset at the sides and the medium gap, the label in Body MD and the line under it in Body SM, subtle, with no
+   space between them; the icons at the medium size. Written against the list and the dropdown's item, so it wins
+   over the small item whatever order the stylesheets load in. ---- */
+
+.smbk-select__list .smbk-dropdown__item.smbk-select__option--rich {
+  gap: var(--smbk-space-inline-md);
+  padding: var(--smbk-space-inset-sm) var(--smbk-space-inset-lg);
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
+}
+
+.smbk-select__list .smbk-select__option--rich .smbk-dropdown__icon {
+  font-size: var(--smbk-size-icon-md);
+}
+
+.smbk-select__option-lead {
+  flex-shrink: 0;
+}
+
+.smbk-select__option-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-text-label);
+}
+
+/* The second line stays on one line, cut short as the label is, so every rich row keeps its height. */
+.smbk-select__option-description {
+  overflow-x: clip;
+  overflow-y: visible;
+  overflow-clip-margin: var(--smbk-space-inset-xs);
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* A disabled option dims its second line with its label, and its avatar as Figma binds it. The combobox's option sets
+   the same line after its label. */
+.smbk-select__option[aria-disabled="true"] .smbk-select__option-description,
+.smbk-combobox__option[aria-disabled="true"] .smbk-select__option-description {
+  color: var(--smbk-color-text-disabled);
+}
+
+.smbk-select__option[aria-disabled="true"] .smbk-avatar.smbk-select__option-lead {
+  opacity: var(--smbk-opacity-disabled);
 }
 
 /* ---- small: the well is the input's small size and the rows the dropdown's small items; the list follows the well's height ---- */
@@ -148,7 +223,8 @@
     color: HighlightText;
   }
 
-  .smbk-select__option--highlighted .smbk-dropdown__icon {
+  .smbk-select__option--highlighted .smbk-dropdown__icon,
+  .smbk-select__option--highlighted .smbk-select__option-description {
     color: inherit;
   }
 }

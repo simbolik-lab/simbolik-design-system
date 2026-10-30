@@ -1,8 +1,11 @@
+'use client';
+
 import { useEffect, useId, useLayoutEffect, useRef, type HTMLAttributes, type KeyboardEvent, type ReactNode } from 'react';
 import { tabs } from './tabs.manifest.js';
 import { Icon } from '../icon/icon.js';
 import { Dropdown, DropdownItem } from '../dropdown/dropdown.js';
 import { placeIndicator } from '../indicator.js';
+import { useScrollbar } from '../scrollbar.js';
 import { useControllable } from '../controllable.js';
 import { cx } from '../variants.js';
 import type { VariantProps } from '../variants.js';
@@ -55,6 +58,7 @@ export function Tabs({ look, size, orientation, 'item-width': itemWidth, label, 
   const tabStop = items.some((t) => t.value === selected && !t.disabled) ? selected : firstEnabled;
   const vertical = orientation === 'vertical';
   const listRef = useRef<HTMLDivElement>(null);
+  const bar = useScrollbar(listRef, { axis: 'x' });
   const markRef = useRef<HTMLSpanElement>(null);
   const shown = useRef<string | undefined>(undefined);
   const keys = items.map((t) => t.value).join('\u0000');
@@ -78,8 +82,10 @@ export function Tabs({ look, size, orientation, 'item-width': itemWidth, label, 
   }, [keys]);
 
   const onKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
-    const forward = vertical ? 'ArrowDown' : 'ArrowRight';
-    const back = vertical ? 'ArrowUp' : 'ArrowLeft';
+    // Across, the arrows follow the reading direction: in a right-to-left bar the left arrow moves forward.
+    const rtl = !vertical && getComputedStyle(event.currentTarget).direction === 'rtl';
+    const forward = vertical ? 'ArrowDown' : rtl ? 'ArrowLeft' : 'ArrowRight';
+    const back = vertical ? 'ArrowUp' : rtl ? 'ArrowRight' : 'ArrowLeft';
     const enabled = items.map((t, i) => (t.disabled ? -1 : i)).filter((i) => i >= 0);
     if (!enabled.length) return;
     const position = enabled.indexOf(index);
@@ -99,7 +105,7 @@ export function Tabs({ look, size, orientation, 'item-width': itemWidth, label, 
 
   return (
     <div className={cx(tabs({ look, size, orientation, 'item-width': itemWidth }), className)} {...rest}>
-      <div ref={listRef} role="tablist" aria-label={label} aria-orientation={vertical ? 'vertical' : undefined} className={tabs.part('list')}>
+      <div ref={listRef} role="tablist" aria-label={label} aria-orientation={vertical ? 'vertical' : undefined} className={tabs.part('list')} {...bar}>
         <span ref={markRef} className={tabs.part('indicator')} aria-hidden="true" />
         {items.map((t, i) => {
           const isSelected = t.value === selected;
@@ -176,6 +182,7 @@ export interface TabsNavProps extends Omit<HTMLAttributes<HTMLElement>, 'childre
  */
 export function TabsNav({ look, size, orientation, 'item-width': itemWidth, label, items, max, moreLabel = 'More', className, ...rest }: TabsNavProps) {
   const listRef = useRef<HTMLDivElement>(null);
+  const bar = useScrollbar(listRef, { axis: 'x' });
   const markRef = useRef<HTMLSpanElement>(null);
   const placed = useRef<string | undefined>(undefined);
   const shown = max === undefined || max >= items.length ? items : items.slice(0, Math.max(0, max));
@@ -213,7 +220,7 @@ export function TabsNav({ look, size, orientation, 'item-width': itemWidth, labe
 
   return (
     <nav aria-label={label} className={cx(tabs({ look, size, orientation, 'item-width': itemWidth }), className)} {...rest}>
-      <div ref={listRef} className={tabs.part('list')}>
+      <div ref={listRef} className={tabs.part('list')} {...bar}>
         <span ref={markRef} className={tabs.part('indicator')} aria-hidden="true" />
         {shown.map((item) => (
           <a key={item.href} href={item.href} aria-current={item.current ? 'page' : undefined} className={tab}>
@@ -229,7 +236,7 @@ export function TabsNav({ look, size, orientation, 'item-width': itemWidth, labe
             label={moreLabel}
             purpose="navigation"
             align="end"
-            size={size === 'sm' ? 'small' : 'default'}
+            size={size === 'sm' ? 'sm' : 'md'}
             trigger={
               <button type="button" className={cx(tab, tabs.part('more'))} data-current={foldedCurrent ? '' : undefined}>
                 <span className={tabs.part('label')} data-label={foldedCurrent?.label ?? moreLabel}>

@@ -28,6 +28,14 @@
   color: var(--smbk-color-text-default);
   box-shadow: var(--smbk-elevation-overlay);
   text-align: start;
+  /* Its words wrap wherever it opens: a table heading or a bar keeps its own on one line, and the panel would take that
+     and scroll sideways. */
+  white-space: normal;
+}
+
+/* The panel takes focus as it opens when it holds no field, as a container, not a control: no ring of its own. */
+.smbk-popover:focus {
+  outline: none;
 }
 
 /* ---- header ---- */
@@ -171,7 +179,8 @@
 }
 
 /* Placed in the lifted layer, it is never taller than the room on its side of the opener (the wrapper sets that
-   height), and a panel taller than that scrolls inside itself, with the system's thin scrollbar. */
+   height), and a panel taller than that scrolls inside itself, with the system's scrollbar over it (scrollbar.ts), or
+   the browser's thin one in markup written by hand. */
 .smbk-popover__layer:popover-open > .smbk-popover {
   overflow-y: auto;
   overscroll-behavior: contain;

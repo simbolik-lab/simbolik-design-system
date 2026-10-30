@@ -28,6 +28,7 @@ Fills an area when what belongs there is missing or failed to load: a list with 
 
 - In place of a list, a table or a panel that has nothing to show: on first use, or after everything was cleared.
 - In place of results, when a search or a filter matches nothing.
+- Small, in one panel of a dashboard or a side panel that has nothing to show, among panels that do.
 - When the content cannot be shown: no permission, offline, not found, an error on the server, or only part of it loaded.
 - As a whole page, for a missing page or a page that failed to load.
 
@@ -40,6 +41,8 @@ Fills an area when what belongs there is missing or failed to load: a list with 
 ## Behavior
 
 Inline lines everything up at the start, close to its edges, for the list or panel it stands in for. Centered places it in the middle of a larger area with more room round it, a larger icon, title and line. Page does the same for a whole page. Centered and page keep their words to a readable width and centre themselves in the space they are given; inline fills it. The words wrap.
+
+Two sizes. Medium, the default, titles it in a heading style. Small is for one panel among many, as on a dashboard: the title in a label style straight over its line, a smaller icon and smaller gaps, so an empty panel reads no louder than the panels beside it or its own heading. Small keeps the scope's alignment: inline at the start, centered in the middle with less room round it.
 
 With `announce`, a screen reader reads the title and the line as they appear, and again when they change, without moving focus: for an empty result after a search or a filter.
 
@@ -79,12 +82,14 @@ Holds an icon, a title, a description, free content, up to two actions and a ref
 - Name the cause: "No notes match these filters", not "Nothing here".
 - Offer the step that fixes it: "Clear filters" for no results, "Ask for access" for no permission.
 - Offer "Try again" and a reference only when the cause is an error on the server.
+- Use the small size inside a panel or a card among others, with small buttons and links, and set the heading level under the panel's own title.
 
 ### Don't
 
 - Show it before the content has had its chance to load.
 - Use "Something went wrong" when the cause is known.
 - Put a long explanation or the error's details in it.
+- Use the medium size in one panel of a dashboard: its heading outweighs the panel's own title and the page's.
 
 ## Related
 

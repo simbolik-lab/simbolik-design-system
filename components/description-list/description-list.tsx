@@ -1,4 +1,6 @@
-import type { HTMLAttributes, MouseEvent, ReactNode, Ref } from 'react';
+'use client';
+
+import { createContext, useContext, type HTMLAttributes, type MouseEvent, type ReactNode, type Ref } from 'react';
 import { descriptionList } from './description-list.manifest.js';
 import { Icon } from '../icon/icon.js';
 import { Link } from '../link/link.js';
@@ -17,16 +19,22 @@ export interface DescriptionListProps extends HTMLAttributes<HTMLDivElement>, Va
   ref?: Ref<HTMLDivElement>;
 }
 
+/** The list's size, which its rows' action links and loading lines follow. */
+const SizeContext = createContext<'md' | 'sm'>('md');
+
 /**
  * Description list: a heading over a real dl, each DescriptionListRow a div holding a dt and its dd.
- * It takes no focus of its own; each row's action link is a stop in the tab order.
+ * It takes no focus of its own; each row's action link is a stop in the tab order. Small, its rows draw the small
+ * link and a loading line of the small text.
  */
-export function DescriptionList({ layout, heading, headingLevel = 3, className, children, ...rest }: DescriptionListProps) {
+export function DescriptionList({ layout, size, heading, headingLevel = 3, className, children, ...rest }: DescriptionListProps) {
   const Heading = `h${headingLevel}` as const;
   return (
-    <div className={cx(descriptionList({ layout }), className)} {...rest}>
+    <div className={cx(descriptionList({ layout, size }), className)} {...rest}>
       {heading !== undefined && heading !== null && heading !== false && <Heading className={descriptionList.part('heading')}>{heading}</Heading>}
-      <dl className={descriptionList.part('rows')}>{children}</dl>
+      <dl className={descriptionList.part('rows')}>
+        <SizeContext.Provider value={size ?? 'md'}>{children}</SizeContext.Provider>
+      </dl>
     </div>
   );
 }
@@ -71,11 +79,12 @@ export interface DescriptionListRowProps extends Omit<HTMLAttributes<HTMLDivElem
 export function DescriptionListRow({ term, children, missing, redacted, loading, missingText = 'Not provided', redactedText = 'Hidden', loadingText = 'Loading', action, className, ...rest }: DescriptionListRowProps) {
   const empty = children === undefined || children === null || children === false || children === '';
   const part = descriptionList.part;
+  const size = useContext(SizeContext);
   let value: ReactNode = children;
   if (loading) {
     value = (
       <>
-        <Skeleton shape="text" />
+        <Skeleton shape="text" size={size} />
         <span className={part('hidden')}>{loadingText}</span>
       </>
     );
@@ -98,7 +107,7 @@ export function DescriptionListRow({ term, children, missing, redacted, loading,
       </dd>
       {action && (
         <dd className={part('action')}>
-          <Link size="md" href={action.href} onClick={action.onClick}>
+          <Link size={size} href={action.href} onClick={action.onClick}>
             {action.label ?? 'Change'}
             {hidden && <span className={part('hidden')}> {hidden}</span>}
           </Link>

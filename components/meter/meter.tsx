@@ -1,3 +1,5 @@
+'use client';
+
 import type { HTMLAttributes } from 'react';
 import { meter } from './meter.manifest.js';
 import { progress } from '../progress/progress.manifest.js';

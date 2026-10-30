@@ -36,7 +36,7 @@ Two to five named choices side by side in one bar, exactly one of them chosen, t
 
 ## Behavior
 
-Choosing raises the chosen item and lowers the previous one: the raised surface slides from the old choice to the new one with the state motion, and the words change color with the feedback motion. Hover colors a label and its icon with the link hover text, or an icon with the brand text in the theme look. In a bar of icons alone, pointing at an item or moving the keyboard focus to it shows its label in a tooltip under it, which stays while pointed at and goes on Escape; a touch shows none, so the bar's own name and the chosen icon must make the choices clear. Arrow keys move the choice; the change takes effect at once, whatever the motion. A change of size, or items growing as fonts load, moves the surface at once rather than sliding. Under reduced motion the raised surface lands at once and the color still fades.
+Choosing raises the chosen item and lowers the previous one: the raised surface slides from the old choice to the new one with the state motion, and the words change color with the feedback motion. Hover colors a label and its icon with the link hover text, or an icon with the brand text in the theme look. In a bar of icons alone, pointing at an item or moving the keyboard focus to it shows its label in a tooltip under it, which stays while pointed at and goes on Escape; a touch shows none, so the bar's own name and the chosen icon must make the choices clear. A key for the whole control (`shortcut`), such as one that steps to the next choice, shows after the control's name in a tooltip under the bar while it is pointed at or holds the keyboard focus; in a bar of icons alone it shows in each item's tooltip, after the item's name. An item shown as an icon alone can take a key of its own, shown in its tooltip in place of the control's. The control only shows the key: the page listens for it. Arrow keys move the choice; the change takes effect at once, whatever the motion. A change of size, or items growing as fonts load, moves the surface at once rather than sliding. Under reduced motion the raised surface lands at once and the color still fades.
 
 On a touch screen the bar keeps its size, and each item takes an invisible press area out to the comfortable touch target above and below it and halfway to the next item.
 
@@ -50,12 +50,14 @@ On a touch screen the bar keeps its size, and each item takes an invisible press
 - The chosen state is shown by fill, edge and elevation as well as color.
 - In a forced-color mode, the chosen item is drawn in the system's highlight colors.
 - In a bar of icons alone, moving the keyboard focus to an item shows its label in a tooltip, which goes on Escape.
+- A key is told to screen readers as `aria-keyshortcuts`: the whole control's on the group, an item's own on its radio. The tooltip showing it stays hidden from them.
 - On a touch screen each item takes an invisible press area out to the comfortable touch target above and below it and halfway to the next item.
 
 ### What you must do
 
 - Give the bar an accessible name; the wrapper requires one.
 - For a bar of icons alone, make the bar's own name and the chosen icon clear the choices, since a touch shows no tooltip.
+- Listen for a key you give the control or an item, and choose as it says: the control only shows and names the key. Take a single key only outside text fields.
 
 ### How to test
 
@@ -72,7 +74,7 @@ On a touch screen the bar keeps its size, and each item takes an invisible press
 | Tab | Moves focus into the bar, to the chosen item, and out of it. |
 | Down Arrow or Right Arrow | Moves the choice to the next item. |
 | Up Arrow or Left Arrow | Moves the choice to the previous item. |
-| Escape | In a bar of icons alone, hides the label's tooltip. |
+| Escape | Hides the tooltip: an item's label in a bar of icons alone, or the bar's own name and key. |
 
 ## Composition
 

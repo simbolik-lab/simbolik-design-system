@@ -1,3 +1,5 @@
+'use client';
+
 import type { CSSProperties, HTMLAttributes } from 'react';
 import { progressRing } from './progress-ring.manifest.js';
 import { useNameWarning } from '../name-check.js';

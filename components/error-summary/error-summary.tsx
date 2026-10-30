@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useId, type HTMLAttributes, type MouseEvent, type ReactNode, type Ref } from 'react';
 import { useObjectRef } from 'react-aria';
 import { errorSummary } from './error-summary.manifest.js';

@@ -34,6 +34,25 @@
   width: var(--smbk-size-date-picker-time-width);
 }
 
+/* A date range: its two day fields share the row as the date field does beside a time, and the dash between them,
+   the way a range is written, sits on the fields' middle in the quiet text colour. In a narrow space the fields
+   stack, each a full row, and the dash goes: each field's name says which day it holds. */
+.smbk-date-picker__to {
+  align-self: center;
+  color: var(--smbk-color-text-subtle);
+  font-size: var(--smbk-size-icon-sm);
+}
+
+@container style(--smbk-layout: narrow) {
+  .smbk-date-picker--type-date-range .smbk-input.smbk-date-picker__input--date {
+    flex: 1 1 100%;
+  }
+
+  .smbk-date-picker--type-date-range .smbk-date-picker__to {
+    display: none;
+  }
+}
+
 /* Alone, either field fills the row. */
 .smbk-date-picker--type-date .smbk-input.smbk-date-picker__input--date,
 .smbk-date-picker--type-time .smbk-input.smbk-date-picker__input--time {

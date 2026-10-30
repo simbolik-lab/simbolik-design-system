@@ -1,3 +1,5 @@
+'use client';
+
 import type { AnchorHTMLAttributes, HTMLAttributes, ReactNode } from 'react';
 import { banner } from './banner.manifest.js';
 import { Link } from '../link/link.js';

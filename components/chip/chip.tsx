@@ -1,3 +1,5 @@
+'use client';
+
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, HTMLAttributes, ReactNode, SyntheticEvent } from 'react';
 import { chip } from './chip.manifest.js';
 import { Icon } from '../icon/icon.js';
@@ -36,8 +38,9 @@ export type ChipProps = CommonProps &
  *
  * `selected` decides whether the button is a toggle. Given at all, true or
  * false, the chip is a toggle and says so: pressed or not pressed. Left out,
- * the chip is a plain button and says neither. A selected toggle shows a tick
- * in the avatar's place, so the choice shows by more than its fill.
+ * the chip is a plain button and says neither. A toggle that is on shows a tick
+ * in the avatar's place, so the choice shows by more than its fill, whether
+ * React or a page's own script turned it on (aria-pressed).
  *
  * Given `href`, the chip is a link to that address, drawn the same: a row of
  * related places, such as a site's services.
@@ -53,12 +56,13 @@ export function Chip(props: ChipProps) {
   const blocked = rest['aria-disabled'] === true || rest['aria-disabled'] === 'true';
   const block = (e: SyntheticEvent) => e.preventDefault();
   const small = size === 'sm';
-  // Only a toggle shows the tick: a removable chip or a link is never pressed.
-  const tick = selected === true && !onRemove && !('href' in rest && rest.href !== undefined);
+  // Only a toggle carries the tick: a removable chip or a link is never pressed. It is always in the markup and the
+  // stylesheet shows it while the chip is on, so a page's script that presses the chip (aria-pressed) gets it too.
+  const toggle = selected !== undefined && !onRemove && !('href' in rest && rest.href !== undefined);
   const content = (
     <>
-      {tick && <Icon name="Check" className={chip.part('tick')} />}
-      {avatar && !tick && (
+      {toggle && <Icon name="Check" className={chip.part('tick')} />}
+      {avatar && (
         <Avatar size={small ? '2xs' : 'xs'} tone="inverse" type={avatar.src ? 'image' : 'initials'} src={avatar.src} alt={avatar.alt ?? ''} className={chip.part('avatar')}>
           {avatar.initials}
         </Avatar>

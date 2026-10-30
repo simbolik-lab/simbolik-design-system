@@ -1,3 +1,5 @@
+'use client';
+
 import { useRef, type ButtonHTMLAttributes, type HTMLAttributes, type KeyboardEvent, type Ref } from 'react';
 import { I18nProvider, mergeProps, useCalendar, useCalendarCell, useCalendarGrid, useFocusable, useFocusRing, useLocale, useObjectRef, usePress, useRangeCalendar, type AriaButtonProps } from 'react-aria';
 import { useCalendarState, useRangeCalendarState, type CalendarState, type RangeCalendarState } from 'react-stately';

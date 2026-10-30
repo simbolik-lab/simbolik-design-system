@@ -1,3 +1,5 @@
+'use client';
+
 import { useId, type HTMLAttributes, type ReactNode, type Ref } from 'react';
 import { sectionHeading } from './section-heading.manifest.js';
 import { Badge } from '../badge/badge.js';

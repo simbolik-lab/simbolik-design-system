@@ -18,7 +18,7 @@ Several radios, checkboxes or choice cards under one question. It is a fieldset 
 
 - The block, a fieldset with no edge of its own.
 - The legend part, the question: the label component in its strong tone, with the required mark when an answer is needed.
-- The description part, optional help under the question: a field message of the help type.
+- The description part, optional help under the question: a field message of the help type. A line of words, or blocks such as paragraphs, a list or code.
 - The options part, the choices: two to five radios, checkboxes or choice cards, all of one kind.
 - The option part, given to each radio or checkbox in the group: its label a step larger than a lone control's, its mark a wider step away, and an optional line under the label.
 - The message part, in error, under the options: a field message of the error type.
@@ -40,6 +40,8 @@ The radios, checkboxes and choice cards inside take the group's name, its error 
 
 The group can hold which radio is chosen, as a select holds its option. Give it `value` and follow it with `onChange`, which is told the value of each radio chosen; or give it `defaultValue` and the group keeps the choice itself. Each radio, or radio choice card, is checked when its own `value` is the group's, and an empty value checks none. Without either, each radio keeps its own state, and `onChange` still hears every choice. Checkboxes keep their own state in either case.
 
+The help under the question is a line of words, or blocks: paragraphs, a list, code, as a question written in Markdown has. Given words alone it is a paragraph; given anything else it is a div, which can hold blocks. Its paragraphs sit a paragraph apart, its list's bullets inside the group's edge, and its code in the small code style. Either way it describes the group, so a screen reader reads all of it with the choice.
+
 Two layouts. Vertical stacks the options at the medium stack step. Horizontal sets them in a row that wraps, for two or three short labels with nothing under them.
 
 In error, every option takes its error look and the message under the options says what to do. Given `error` with no message, the help text moves there as the message. Disabled, every option dims and is out of reach, while the question and its help stay readable; one option can also be disabled alone.
@@ -59,6 +61,7 @@ In error, every option takes its error look and the message under the options sa
 - Write the legend as the question, so it is what a screen reader says on entering the group.
 - For "at least one checkbox", check in the page and show the message: it has no native form.
 - In error, write the message as what to change.
+- Written by hand, help that holds blocks is a div with the field message's classes, its words in a div of the text part, since a paragraph cannot hold a list.
 
 ### How to test
 

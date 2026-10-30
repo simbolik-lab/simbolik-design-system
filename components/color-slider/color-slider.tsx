@@ -1,3 +1,5 @@
+'use client';
+
 import { useRef, type Ref } from 'react';
 import { useColorSlider, useLocale, useObjectRef } from 'react-aria';
 import { useColorSliderState, type Color, type ColorSpace } from 'react-stately';

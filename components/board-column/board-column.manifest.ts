@@ -14,6 +14,6 @@ export const boardColumn = defineVariants({
   adapt: 'css',
   axes: {},
   flags: {},
-  parts: ['head', 'heading', 'title', 'meter', 'action', 'group', 'group-head', 'dot', 'group-label', 'count', 'cards', 'card', 'more'],
+  parts: ['head', 'heading', 'title', 'meter', 'action', 'group', 'group-head', 'dot', 'group-label', 'count', 'caret', 'group-body', 'cards', 'card', 'more'],
   figmaNodeId: '7118:731',
 });

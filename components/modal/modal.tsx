@@ -1,10 +1,14 @@
+'use client';
+
 import { useId, useRef, type DialogHTMLAttributes, type ReactNode } from 'react';
+import { mergeProps } from 'react-aria';
 import { modal } from './modal.manifest.js';
 import { Divider } from '../divider/divider.js';
 import { Icon } from '../icon/icon.js';
 import { useModalDialog } from '../dialog.js';
 import { useControllable } from '../controllable.js';
 import { DismissButton } from '../dismiss-button.js';
+import { useScrollbar } from '../scrollbar.js';
 import { cx } from '../variants.js';
 import type { VariantProps } from '../variants.js';
 
@@ -43,13 +47,16 @@ export interface ModalProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>
  */
 export function Modal({ size, inline, open, defaultOpen = false, onOpenChange, title, icon, actions, hideClose, closeLabel = 'Close', headingLevel = 2, className, children, ...rest }: ModalProps) {
   const ref = useRef<HTMLDialogElement>(null);
+  const body = useRef<HTMLDivElement>(null);
+  const bar = useScrollbar(body);
   const id = useId();
   const Heading = `h${headingLevel}` as const;
   const classes = cx(modal({ size, inline }), className);
   const [opened, setOpened] = useControllable({ value: open, defaultValue: defaultOpen, onChange: onOpenChange, name: 'Modal open' });
   const close = () => setOpened(false);
 
-  // Opened over the page, closed on Escape and on a click on the scrim, never on one on the panel (dialog.ts).
+  // Opened over the page, closed on Escape and on a click on the scrim, never on one on the panel (dialog.ts). The
+  // page's own handlers run after these, never instead of them.
   const dialog = useModalDialog(ref, { open: opened, inline, onClose: close });
 
   return (
@@ -58,8 +65,7 @@ export function Modal({ size, inline, open, defaultOpen = false, onOpenChange, t
       open={inline ? opened : undefined}
       className={classes}
       aria-labelledby={`${id}-title`}
-      {...dialog.props}
-      {...rest}
+      {...mergeProps(dialog.props, rest)}
     >
       <div className={modal.part('header')}>
         {icon && <Icon name={icon} className={modal.part('icon')} />}
@@ -68,7 +74,9 @@ export function Modal({ size, inline, open, defaultOpen = false, onOpenChange, t
         </Heading>
         {!hideClose && <DismissButton label={closeLabel} className={modal.part('close')} onClick={close} />}
       </div>
-      <div className={modal.part('body')}>{children}</div>
+      <div ref={body} className={modal.part('body')} {...bar}>
+        {children}
+      </div>
       {actions && (
         <>
           <Divider />

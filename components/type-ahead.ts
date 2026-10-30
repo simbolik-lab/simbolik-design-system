@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Typing to move: in a list of choices that has keyboard focus (the select's list, a selectable list, a tree), each
  * letter typed adds to a run, and focus moves to the next choice whose words start with the run. A pause longer than

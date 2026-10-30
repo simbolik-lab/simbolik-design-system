@@ -20,6 +20,6 @@ export const tooltip = defineVariants({
   flags: {
     inverse: { description: 'Dark surface with inverse text, for use over light content.' },
   },
-  parts: ['bubble', 'arrow', 'anchor', 'layer'],
+  parts: ['bubble', 'key', 'arrow', 'anchor', 'layer'],
   figmaNodeId: '4170:13949',
 });

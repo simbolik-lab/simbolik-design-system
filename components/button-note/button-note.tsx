@@ -1,3 +1,5 @@
+'use client';
+
 import { cloneElement, useId, type HTMLAttributes, type ReactElement, type ReactNode } from 'react';
 import { buttonNote } from './button-note.manifest.js';
 import { Icon } from '../icon/icon.js';

@@ -41,7 +41,7 @@ Hover lifts the well to the raised surface. Focus draws the field focus color on
 
 The read-only and disabled looks follow the native readonly and disabled attributes on the control, so there is no class to set for either.
 
-There are two sizes, md and sm. The small size's text is 14 px from tablet width up and 16 px on a phone, so a phone's browser never zooms into the field when it takes focus.
+There are three sizes, lg, md and sm, 48, 40 and 32 tall. The large size keeps the medium text and icons on a taller field with more room at its sides, for a sign-in or search form that sits beside large buttons. The small size's text is 14 px from tablet width up and 16 px on a phone, so a phone's browser never zooms into the field when it takes focus. Every size fills the width of its space; a clear cross for the value goes in the trailing action.
 
 What sits in the leading content and the trailing action is the page's: a button there keeps its own size and draws its own focus ring, and the well keeps its focus edge while focus is anywhere inside it.
 
@@ -55,6 +55,7 @@ On a touch screen the field keeps its height, and the value's box reaches out to
 
 - It is a native text control inside a well, so typing, selecting and copying work as in any text field.
 - The error flag sets `aria-invalid` on the control. The warning icon is decorative.
+- A control (or the well itself) marked `aria-invalid="true"` draws the danger edge without the error class, so markup written by hand, or a page that marks its own errors, gets the error look; add the warning icon to the markup yourself. The checkbox, radio, choice card and file upload do the same.
 - A read-only field keeps its value selectable and copyable and stays in the tab order.
 - In development, an input on the page with no name logs a warning in the console.
 - Icons are decorative.
@@ -98,6 +99,7 @@ The search field, the select and the text area are built on it: their markup car
 
 - Set the input type that matches the value, so the right keyboard appears.
 - Use the small size only in dense tables and toolbars.
+- Use the large size only beside large buttons, so a form's controls stand the same height.
 
 ### Don't
 

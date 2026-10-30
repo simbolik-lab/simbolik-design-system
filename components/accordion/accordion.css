@@ -1,8 +1,8 @@
 /* smbk-accordion — Accordion. Figma "Accordion" 4128:20419 and "AccordionItem" 4128:20300.
  * Items are native details/summary elements, so opening, closing and keyboard
  * behavior are the browser's; items sharing a name close each other. The caret
- * turns and takes the brand color when open. The content grows from no height to
- * its own as the item opens (see the motion rules at the end). */
+ * turns and takes the brand color when open. The item unfolds as it opens and
+ * folds back as it closes (see the motion rules at the end). */
 
 .smbk-accordion {
   display: flex;
@@ -173,42 +173,76 @@
   padding: 0 0 var(--smbk-space-inset-xl);
 }
 
-/* ---- motion: the caret turns with the state purpose; the content grows from no height to its
-   own with the enter purpose and shrinks with the exit purpose. While it grows it is clipped,
-   with room to spare for a focus ring's reach, so the text never spills over the edge. Only a
-   browser that can animate to a natural height does it here; in one that cannot, the React
-   component moves the item's height with the same purposes, and markup written by hand opens at
-   once. No movement under reduced motion. ---- */
+/* ---- motion: an item unfolds with the expand purpose and folds back the same way. Its height grows
+   from the heading row to its own while the content fades in from the purpose's slight blur, and
+   the caret turns with it. The React component moves it, the same in every browser, and marks the
+   block data-motion once it runs. While an item moves (data-moving) it is clipped, with room to
+   spare for a focus ring's reach, and the foot of what shows fades out over a spacing step, or
+   over what is still hidden when that is less, so the text never meets the edge with a hard cut.
+   Markup written by hand is moved by the stylesheet alone where the browser can animate to a
+   natural height, without the fading foot, and opens at once elsewhere. Under reduced motion the
+   height lands at once and the fade and the blur still play: an item opens and then fades in, and
+   fades out and then shuts. ---- */
+
+/* How much of the content shows while its item moves, from its top: the React component moves it with the height. */
+@property --smbk-accordion-reveal {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
 
 .smbk-accordion__caret {
-  transition: transform var(--smbk-motion-state-duration) var(--smbk-motion-state-easing);
+  transition: transform var(--smbk-motion-expand-duration) var(--smbk-motion-expand-easing);
+}
+
+.smbk-accordion__item[data-moving] {
+  overflow: clip;
+  overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+}
+
+/* The mask reads only how opaque its paint is, so the text color stands in for "shown". */
+.smbk-accordion__item[data-moving] > .smbk-accordion__content {
+  mask-image: linear-gradient(currentcolor calc(var(--smbk-accordion-reveal) - min(var(--smbk-space-16), 100% - var(--smbk-accordion-reveal))), transparent var(--smbk-accordion-reveal));
 }
 
 @supports (interpolate-size: allow-keywords) {
-  .smbk-accordion__item {
+  .smbk-accordion:not([data-motion]) > .smbk-accordion__item {
     interpolate-size: allow-keywords;
   }
 
-  .smbk-accordion__item::details-content {
+  .smbk-accordion:not([data-motion]) > .smbk-accordion__item::details-content {
     block-size: 0;
+    opacity: 0;
+    filter: blur(var(--smbk-motion-expand-blur));
     overflow: clip;
     overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
-    transition-property: block-size, content-visibility;
-    transition-duration: var(--smbk-motion-exit-duration);
-    transition-timing-function: var(--smbk-motion-exit-easing);
+    transition-property: block-size, opacity, filter, content-visibility;
+    transition-duration: var(--smbk-motion-expand-duration);
+    transition-timing-function: var(--smbk-motion-expand-easing);
     transition-behavior: allow-discrete;
   }
 
-  .smbk-accordion__item[open]::details-content {
+  .smbk-accordion:not([data-motion]) > .smbk-accordion__item[open]::details-content {
     block-size: auto;
-    transition-duration: var(--smbk-motion-enter-duration);
-    transition-timing-function: var(--smbk-motion-enter-easing);
+    opacity: 1;
+    filter: none;
+  }
+
+  /* Under reduced motion the height steps: at once as an item opens, and only once it has faded as it closes. */
+  @media (prefers-reduced-motion: reduce) {
+    .smbk-accordion:not([data-motion]) > .smbk-accordion__item::details-content {
+      transition-duration: 0s, var(--smbk-motion-expand-duration), var(--smbk-motion-expand-duration), var(--smbk-motion-expand-duration);
+      transition-delay: var(--smbk-motion-expand-duration), 0s, 0s, 0s;
+    }
+
+    .smbk-accordion:not([data-motion]) > .smbk-accordion__item[open]::details-content {
+      transition-delay: 0s;
+    }
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .smbk-accordion__caret,
-  .smbk-accordion__item::details-content {
+  .smbk-accordion__caret {
     transition: none;
   }
 }

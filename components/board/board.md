@@ -18,7 +18,7 @@ Shows work in lanes: one column per project, person or stage, each with its card
 
 - The block, a frame that scrolls sideways when its columns run past it.
 - The columns part, the row of board columns, the large inline gap apart.
-- The scroll hint part, a thin bar along the frame's foot that shows there is more sideways and how much is in view. It shows only where the browser hides its own scrollbar until the frame scrolls, such as on a trackpad.
+- The scroll hint part, a thin bar along the frame's foot that shows there is more sideways and how much is in view. It shows where the browser's own scrollbar takes no room, such as on a phone or a trackpad, and wherever the system's scrollbar is drawn over the frame; it fades while that bar shows, in the same strip.
 
 ## When to use
 

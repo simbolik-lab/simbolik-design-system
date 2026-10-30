@@ -108,7 +108,7 @@ The components with feedback tones (info, success, warning, danger) draw them fr
 | Property | Takes the family's |
 |---|---|
 | `--smbk-tone-surface` | subtle surface, `--smbk-color-feedback-<family>-surface-subtle` |
-| `--smbk-tone-border` | border, `--smbk-color-feedback-<family>-border` |
+| `--smbk-tone-border` | border, `--smbk-color-feedback-<family>-border`, or its pale edge, `--smbk-color-feedback-<family>-border-subtle`, on a pill (the soft badge, the tag) |
 | `--smbk-tone-text` | text on the subtle surface, `--smbk-color-feedback-<family>-text-on-subtle` |
 | `--smbk-tone-icon` | icon, `--smbk-color-feedback-<family>-icon` |
 

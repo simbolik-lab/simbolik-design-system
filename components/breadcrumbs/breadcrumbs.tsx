@@ -63,7 +63,7 @@ export function Breadcrumbs({ size, overflow, items, label = 'Breadcrumb', moreL
               <Dropdown
                 label={moreLabel}
                 purpose="navigation"
-                size={size === 'sm' ? 'small' : 'default'}
+                size={size === 'sm' ? 'sm' : 'md'}
                 trigger={<Button tone="ghost" size="xs" icon="DotsThree" icon-only aria-label={moreLabel} className={breadcrumbs.part('more')} />}
               >
                 {hidden.map((item, i) => (

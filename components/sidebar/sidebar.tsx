@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, type FocusEvent, type HTMLAttributes, type KeyboardEvent, type MouseEvent, type PointerEvent, type ReactNode, type RefObject } from 'react';
 import { flushSync } from 'react-dom';
 import { dropdown } from '../dropdown/dropdown.manifest.js';
@@ -15,6 +17,8 @@ import type { VariantProps } from '../variants.js';
 import { motionEasing, motionMs } from '../motion.js';
 import { useControllable } from '../controllable.js';
 import { useGlide } from '../glide.js';
+import { useScrollbar } from '../scrollbar.js';
+import { foldBack, settle, showsOpen, unfold, type Unfolding } from '../unfold.js';
 
 export interface SidebarChild {
   label: string;
@@ -92,25 +96,85 @@ export interface FoldingOptions {
   onLand?: () => void;
 }
 
+/** What a group fades as it unfolds (unfold.ts): its children. */
+const GROUP_UNFOLDING: Unfolding = { content: (group) => group.querySelector<HTMLElement>(`:scope > .${sidebar.part('children')}`) };
+
+/**
+ * A group's children unfold and fold back as an accordion's item does, moved by script the same in every browser
+ * (unfold.ts): every press on a group's summary in the navigation is taken here, once the navigation is marked
+ * data-motion, which sets the stylesheet's own motion, for markup written by hand, aside. A disabled group never opens.
+ * A press the auto column holds back (it only opens the column) never reaches here.
+ */
+function useGroupMotion(nav: RefObject<HTMLElement | null>) {
+  useEffect(() => {
+    const element = nav.current;
+    if (!element) return undefined;
+    element.dataset.motion = '';
+    const press = (event: globalThis.MouseEvent) => {
+      if (event.defaultPrevented) return;
+      const summary = (event.target as Element).closest('summary');
+      const group = summary?.parentElement;
+      if (!summary || !(group instanceof HTMLDetailsElement) || !group.classList.contains(sidebar.part('group')) || summary !== group.querySelector(':scope > summary')) return;
+      event.preventDefault();
+      if (summary.getAttribute('aria-disabled') === 'true') return;
+      if (showsOpen(group)) foldBack(group, GROUP_UNFOLDING);
+      else unfold(group, GROUP_UNFOLDING);
+    };
+    element.addEventListener('click', press);
+    return () => {
+      element.removeEventListener('click', press);
+      delete element.dataset.motion;
+    };
+  }, [nav]);
+}
+
+/** The parts the column folds away and the open panel unfolds: the group labels and the groups, open or not. */
+const FOLDING_PARTS = `.${sidebar.part('group-label')}, details.${sidebar.part('group')}`;
+
+/** A folding part's height, border box, and the padding over its content. */
+interface PartSize {
+  height: number;
+  top: string;
+}
+
+const partSize = (part: HTMLElement): PartSize => ({ height: part.getBoundingClientRect().height, top: getComputedStyle(part).paddingTop });
+
+/**
+ * Where a folding part ends. An open group closing into the column keeps its children drawn while it folds (the
+ * stylesheet), so it is not measured but ends at its summary's height, as the column draws it.
+ */
+function partEnd(part: HTMLElement, closing: boolean): PartSize {
+  const summary = part instanceof HTMLDetailsElement && part.open && closing ? part.querySelector(':scope > summary') : null;
+  return summary ? { height: summary.getBoundingClientRect().height, top: getComputedStyle(part).paddingTop } : partSize(part);
+}
+
 /**
  * The sidebar's width glides when its own button collapses or expands it: measured before and
- * after, and run with the enter purpose both ways (it answers the press at once and settles), while
- * `data-folding` tells the stylesheet what to do with the parts that come and go (sidebar.css).
- * Anything else that changes the state, such as a page restoring it from storage, lands at once,
- * and nothing moves under reduced motion. Returns the function to call just before a change that
- * should glide.
+ * after, and run with the fold purpose both ways (slow to leave and slow to land, so a press on the
+ * way turns it round from where it is), while `data-folding` tells the stylesheet what to do with
+ * the parts that come and go (sidebar.css). The parts the column hides, the group labels and an
+ * open group's children, fold and unfold with it the same way, measured at both ends too, so they
+ * move in every browser, not only one that can animate to a natural height, and the rows under them
+ * move instead of jumping. Anything else that changes the state, such as a page restoring it from
+ * storage, lands at once. Under reduced motion the width and the parts land at once, and only an
+ * opening is marked, so the words that come back still fade in. Returns the function to call just
+ * before a change that should glide.
  */
 function useFolding(root: RefObject<HTMLElement | null>, collapsed: boolean, options: FoldingOptions = {}) {
-  // The width it had when its button was pressed, until the change it asked for arrives.
-  const from = useRef<number | null>(null);
+  // The width and the parts' sizes when its button was pressed, until the change it asked for arrives.
+  const from = useRef<{ width: number; parts: Map<HTMLElement, PartSize> } | null>(null);
   const running = useRef<Animation | null>(null);
+  const folds = useRef<Animation[]>([]);
   const latest = useRef(options);
   latest.current = options;
 
   const pressed = () => {
     const element = root.current;
-    if (!element || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    from.current = element.getBoundingClientRect().width;
+    if (!element) return;
+    // A group still unfolding or folding back on its own lands first, where it was going.
+    for (const group of element.querySelectorAll<HTMLDetailsElement>(`details.${sidebar.part('group')}`)) settle(group);
+    // Read mid-motion as they are drawn now, so a press on the way turns them round from there.
+    from.current = { width: element.getBoundingClientRect().width, parts: new Map([...element.querySelectorAll<HTMLElement>(FOLDING_PARTS)].map((part) => [part, partSize(part)])) };
     // A change that never comes (a parent that keeps the state) must not be mistaken for a later one.
     window.requestAnimationFrame(() => {
       from.current = null;
@@ -123,15 +187,33 @@ function useFolding(root: RefObject<HTMLElement | null>, collapsed: boolean, opt
     from.current = null;
     if (!element || start === null) return;
     running.current?.cancel();
+    folds.current.forEach((fold) => fold.cancel());
+    folds.current = [];
     const opening = !collapsed;
-    // Marked before measuring, so the parts that come back take their starting style from it.
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce && !opening) {
+      running.current = null;
+      element.removeAttribute('data-folding');
+      latest.current.onLand?.();
+      return;
+    }
+    // Marked before measuring, so the parts that come back take their starting style from it, and the parts' sizes
+    // are read where they end (the stylesheet moves none of them while it is marked).
     element.setAttribute('data-folding', opening ? 'opening' : 'closing');
     const end = element.getBoundingClientRect().width;
-    const glide = element.animate([{ width: `${start}px` }, { width: `${end}px` }], {
-      duration: motionMs(element, 'enter-duration'),
-      easing: motionEasing(element, 'enter'),
-    });
+    const timing: KeyframeAnimationOptions = { duration: reduce ? 0 : motionMs(element, 'fold-duration'), easing: motionEasing(element, 'fold') };
+    const glide = element.animate([{ width: `${start.width}px` }, { width: `${end}px` }], timing);
     running.current = glide;
+    // Each holds its last frame until the mark goes, so no part shows its resting size under the mark for a frame.
+    folds.current = reduce
+      ? []
+      : [...start.parts].flatMap(([part, was]) => {
+          if (!part.isConnected) return [];
+          const now = partEnd(part, !opening);
+          if (Math.abs(now.height - was.height) < 0.5) return [];
+          return [part.animate([{ boxSizing: 'border-box', height: `${was.height}px`, paddingTop: was.top }, { boxSizing: 'border-box', height: `${now.height}px`, paddingTop: now.top }], { ...timing, fill: 'forwards' })];
+        });
+    const moved = folds.current;
     // The mark stays until the glide and the parts rising in have all landed. Closing, the parts
     // the column centres (the collapse button, the search button, the avatar) held their places
     // meanwhile; they then glide the last few pixels into the centre with the state purpose.
@@ -141,6 +223,8 @@ function useFolding(root: RefObject<HTMLElement | null>, collapsed: boolean, opt
       const settling = opening ? [] : [...element.querySelectorAll<HTMLElement>(`:scope > .${sidebar.part('search')} > *, :scope > .${sidebar.part('footer')} > *`)];
       const before = settling.map((part) => part.getBoundingClientRect().left);
       element.removeAttribute('data-folding');
+      moved.forEach((fold) => fold.cancel());
+      folds.current = [];
       settling.forEach((part, i) => {
         const shift = (before[i] ?? 0) - part.getBoundingClientRect().left;
         if (Math.abs(shift) < 0.5 || !part.getClientRects().length) return;
@@ -151,8 +235,13 @@ function useFolding(root: RefObject<HTMLElement | null>, collapsed: boolean, opt
       });
       latest.current.onLand?.();
     };
-    // Cancelled by another press, which has marked it again, or by leaving the page: land either way.
-    Promise.all([glide, ...rising].map((animation) => animation.finished)).then(land, land);
+    // Cancelled by another press, which has marked it again, or by leaving the page: land either way. A part's motion
+    // replaced by the next one settles at once, so the mark waits for every one of them, not the first to settle. A
+    // word's fade on a row the fold has clipped away may never report its end (WebKit and Firefox, an open group's
+    // children folding into the column), so the fades are waited for no longer than they last.
+    const settledAll = (motions: Animation[]) => Promise.allSettled(motions.map((motion) => motion.finished));
+    const longest = Math.max(0, ...rising.map((motion) => Number(motion.effect?.getComputedTiming().endTime ?? 0) - Number(motion.currentTime ?? 0)));
+    void Promise.all([settledAll([glide, ...moved]), Promise.race([settledAll(rising), new Promise((done) => window.setTimeout(done, longest))])]).then(land);
   }, [collapsed, root]);
 
   return pressed;
@@ -187,6 +276,7 @@ function CollapsedGroup({ item, small }: { item: SidebarItem; small: boolean }) 
   const id = useId();
   const cls = sidebar.part('item');
   useGlide(panel, FLYOUT_GLIDE);
+  const bar = useScrollbar(panel);
 
   const place = useCallback(() => {
     const b = opener.current;
@@ -311,7 +401,7 @@ function CollapsedGroup({ item, small }: { item: SidebarItem; small: boolean }) 
           {item.dot && <StatusDot tone="info" className={sidebar.part('item-dot')} aria-hidden="true" />}
         </span>
       </button>
-      <div ref={panel} id={id} className={`${dropdown({ size: small ? 'small' : 'default' })} ${sidebar.part('flyout')}`} hidden={!open}>
+      <div ref={panel} id={id} className={`${dropdown({ size: small ? 'sm' : 'md' })} ${sidebar.part('flyout')}`} hidden={!open} {...bar}>
         <p className={dropdown.part('label')}>{item.label}</p>
         <ul className={sidebar.part('flyout-list')}>
           {item.children!.map((child) => (
@@ -435,6 +525,8 @@ export interface SidebarNavProps {
   label?: string;
   /** The level of the group labels, which are headings. 3 unless given: one below the page's section headings. */
   headingLevel?: HeadingLevel;
+  /** How tall an item's children are, as the sidebar's `child`: sm, a step smaller than their parent, unless given; md, as tall as their parent. */
+  child?: VariantProps<typeof sidebar.manifest>['child'];
   className?: string;
 }
 
@@ -445,11 +537,13 @@ export interface SidebarNavProps {
  *
  *   <Drawer position="left" title="Menu" …><SidebarNav label="Categories" groups={groups} /></Drawer>
  */
-export function SidebarNav({ groups, label = 'Sidebar', headingLevel = 3, className }: SidebarNavProps) {
+export function SidebarNav({ groups, label = 'Sidebar', headingLevel = 3, child, className }: SidebarNavProps) {
   const nav = useRef<HTMLElement>(null);
   useGlide(nav, NAV_GLIDE);
+  useGroupMotion(nav);
+  const bar = useScrollbar(nav);
   return (
-    <nav ref={nav} aria-label={label} className={cx(sidebar.part('nav'), className)}>
+    <nav ref={nav} aria-label={label} className={cx(sidebar.part('nav'), child && sidebar.modifier('child', child), className)} {...bar}>
       <SidebarGroups groups={groups} collapsed={false} headingLevel={headingLevel} />
     </nav>
   );
@@ -520,9 +614,10 @@ function markBox(svg: Element | null): DOMRect | null {
  * The logo turns from the mark alone into the whole logo and back as the panel folds, rather than
  * swapping: while it folds, the stylesheet shows the whole logo, and this glides it so its mark
  * starts (opening) or ends (closing) exactly where the lone mark is drawn, its words fading in or
- * out, with the enter motion the panel's width uses. The lone mark and the whole logo's mark are
- * the same shapes at the same size, so the hand-over at either end cannot be seen. `measure` is
- * called just before a fold, with the folding's own; `stop` once it has landed.
+ * out, with the fold purpose the panel's width uses. The lone mark and the whole logo's mark are
+ * the same shapes at the same size, so the hand-over at either end cannot be seen. Under reduced
+ * motion the one simply takes the other's place. `measure` is called just before a fold, with the
+ * folding's own; `stop` once it has landed.
  */
 function useLogoMorph(panel: RefObject<HTMLElement | null>, open: boolean) {
   const from = useRef<{ box: DOMRect; words: number } | null>(null);
@@ -551,14 +646,14 @@ function useLogoMorph(panel: RefObject<HTMLElement | null>, open: boolean) {
     const start = from.current;
     from.current = null;
     const element = panel.current;
-    if (!start || !element?.hasAttribute('data-folding')) return;
+    if (!start || !element?.hasAttribute('data-folding') || reducedMotion()) return;
     stop();
     const { whole, mark, words } = parts();
     const base = markBox(whole);
     const end = open ? base : markBox(mark);
     if (!whole || !base || !end) return;
     const at = (box: DOMRect) => `${box.left - base.left}px ${box.top - base.top}px`;
-    const timing: KeyframeAnimationOptions = { duration: motionMs(element, 'enter-duration'), easing: motionEasing(element, 'enter'), fill: 'forwards' };
+    const timing: KeyframeAnimationOptions = { duration: motionMs(element, 'fold-duration'), easing: motionEasing(element, 'fold'), fill: 'forwards' };
     running.current = [
       whole.animate([{ translate: at(start.box) }, { translate: at(end) }], timing),
       ...words.map((word) => word.animate([{ opacity: start.words }, { opacity: open ? 1 : 0 }], timing)),
@@ -583,7 +678,7 @@ function useLogoMorph(panel: RefObject<HTMLElement | null>, open: boolean) {
  *   <Sidebar logoShapes={OUR_LOGO} homeHref="/" groups={groups} display={display} onDisplayChange={remember} />
  *   <Sidebar display="collapsed" collapsible={false} groups={apps} />
  */
-export function Sidebar({ logo = true, brand = 'simbolik', logoShapes, logoPicture, homeHref = '/', search, onSearch, searchLabel = 'Search', groups, avatar, userName, userDetail, display, open, look, size, collapsible = true, onDisplayChange, toggleLabels, headingLevel = 3, label = 'Sidebar', className, suppressHydrationWarning, ...rest }: SidebarProps) {
+export function Sidebar({ logo = true, brand = 'simbolik', logoShapes, logoPicture, homeHref = '/', search, onSearch, searchLabel = 'Search', groups, avatar, userName, userDetail, display, open, look, size, child, width, collapsible = true, onDisplayChange, toggleLabels, headingLevel = 3, label = 'Sidebar', className, suppressHydrationWarning, ...rest }: SidebarProps) {
   const [current, keepDisplay] = useControllable<SidebarDisplay>({ value: display, defaultValue: 'auto', onChange: onDisplayChange, name: 'Sidebar display' });
   const [autoOpen, setAutoOpen] = useState(false);
   const shown = current === 'expanded' || (current === 'auto' && (open ?? autoOpen));
@@ -591,11 +686,20 @@ export function Sidebar({ logo = true, brand = 'simbolik', logoShapes, logoPictu
   const panel = useRef<HTMLElement>(null);
   const nav = useRef<HTMLElement>(null);
   useGlide(nav, NAV_GLIDE);
+  const navBar = useScrollbar(nav);
+  useGroupMotion(nav);
   // The folding first: its effect marks the panel, which the morph's effect, declared after it, reads.
   const landed = useRef(() => {});
   const fold = useFolding(panel, !shown, { onLand: () => landed.current() });
   const morph = useLogoMorph(panel, shown);
-  landed.current = morph.stop;
+  // Folding from kept open to kept closed, the open panel's rows stay until it lands, so their words fade and the
+  // parts the column hides fold with it; the kept-closed column's own rows (flyouts, tooltips) take their place once
+  // it has, drawn the same.
+  const [keepRows, setKeepRows] = useState(false);
+  landed.current = () => {
+    morph.stop();
+    setKeepRows(false);
+  };
   // Just before a change that should glide: the panel's width, and the logo's mark.
   const pressed = () => {
     morph.measure();
@@ -704,8 +808,8 @@ export function Sidebar({ logo = true, brand = 'simbolik', logoShapes, logoPictu
     if (Math.abs(end - start) < 0.5) return;
     element.setAttribute('data-gliding', '');
     const glide = element.animate([{ width: `${start}px` }, { width: `${end}px` }], {
-      duration: motionMs(element, 'enter-duration'),
-      easing: motionEasing(element, 'enter'),
+      duration: motionMs(element, 'fold-duration'),
+      easing: motionEasing(element, 'fold'),
     });
     const land = () => element.removeAttribute('data-gliding');
     glide.finished.then(land, land);
@@ -718,6 +822,7 @@ export function Sidebar({ logo = true, brand = 'simbolik', logoShapes, logoPictu
       if (!reducedMotion() && room.current) roomFrom.current = room.current.getBoundingClientRect().width;
     } else if (from !== 'collapsed') {
       pressed();
+      if (from === 'expanded' && !reducedMotion()) setKeepRows(true);
     } else if (e.detail > 0) {
       // Back to auto by a pointer press: it stays a column until the pointer comes back, or it
       // would open under the very press that asked for auto.
@@ -725,6 +830,11 @@ export function Sidebar({ logo = true, brand = 'simbolik', logoShapes, logoPictu
     }
     keepDisplay(to);
   };
+
+  // Only a fold into kept closed keeps the open rows.
+  useEffect(() => {
+    if (current !== 'collapsed') setKeepRows(false);
+  }, [current]);
 
   // Leaving auto forgets that it was open; coming back to it opens it if the pointer or focus asks.
   useEffect(() => {
@@ -763,7 +873,7 @@ export function Sidebar({ logo = true, brand = 'simbolik', logoShapes, logoPictu
     <div
       {...rest}
       ref={room}
-      className={cx(sidebar({ look, size, display: current, collapsed: !shown, open: current === 'auto' && shown }), className)}
+      className={cx(sidebar({ look, size, child, width, display: current, collapsed: !shown, open: current === 'auto' && shown }), className)}
       suppressHydrationWarning={suppressHydrationWarning}
       onPointerEnter={(e) => e.pointerType === 'mouse' && hoverSoon()}
       onPointerMove={(e) => e.pointerType === 'mouse' && hoverSoon()}
@@ -792,8 +902,8 @@ export function Sidebar({ logo = true, brand = 'simbolik', logoShapes, logoPictu
             {onSearch && <Button tone="ghost" size="sm" icon="MagnifyingGlass" icon-only aria-label={searchLabel} className={sidebar.part('search-button')} onClick={onSearch} />}
           </div>
         )}
-        <nav ref={nav} aria-label={label} className={sidebar.part('nav')}>
-          <SidebarGroups groups={groups} collapsed={current === 'collapsed'} named={!shown} small={size === 'sm'} headingLevel={headingLevel} />
+        <nav ref={nav} aria-label={label} className={sidebar.part('nav')} {...navBar}>
+          <SidebarGroups groups={groups} collapsed={current === 'collapsed' && !keepRows} named={!shown} small={size === 'sm'} headingLevel={headingLevel} />
         </nav>
         {(avatar || userName) && (
           <>

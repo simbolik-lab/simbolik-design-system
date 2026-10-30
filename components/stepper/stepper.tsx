@@ -1,3 +1,5 @@
+'use client';
+
 import type { HTMLAttributes, MouseEventHandler, ReactNode, Ref } from 'react';
 import { stepper } from './stepper.manifest.js';
 import { progress } from '../progress/progress.manifest.js';

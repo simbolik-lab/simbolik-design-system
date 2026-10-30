@@ -6,7 +6,8 @@ import { defineVariants } from '../variants.js';
  * icon button (CalendarBlank) in its Trailing action slot, and Open drawing the Calendar 7112:271 in a floating
  * panel under the date field. Hover and focus are the input's; disabled and read-only are the native attributes;
  * open is the button's aria-expanded. On a phone the calendar opens in a small modal instead, a different behaviour,
- * so the narrow form is chosen in JavaScript.
+ * so the narrow form is chosen in JavaScript. The date range is the code's first: two date fields with the range
+ * calendar (Calendar's Selection = Range), after the Figma test drawing on the v0.2.1 file's Testing page (8224:3607).
  */
 export const datePicker = defineVariants({
   name: 'date-picker',
@@ -15,14 +16,14 @@ export const datePicker = defineVariants({
   adapt: 'js',
   axes: {
     type: {
-      values: ['date', 'time', 'date-time'],
+      values: ['date', 'time', 'date-time', 'date-range'],
       default: 'date',
-      description: 'A date, with a button that opens the calendar; a time, typed; or both, as a date field and a time field side by side that wrap under each other when there is no room. Figma calls the last "Date and time".',
+      description: 'A date, with a button that opens the calendar; a time, typed; both, as a date field and a time field side by side that wrap under each other when there is no room (Figma’s "Date and time"); or a range, its first and last day side by side with a dash between, picked on the range calendar.',
     },
   },
   flags: {
     error: { description: 'The value is invalid. Draws the input’s danger border, kept while focused, and its error icon in each field.' },
   },
-  parts: ['controls', 'input', 'trigger', 'popup'],
+  parts: ['controls', 'input', 'trigger', 'popup', 'to'],
   figmaNodeId: '7112:894',
 });

@@ -1,0 +1,56 @@
+{
+  "version": "0.2.1-alpha",
+  "since": "v0.2.0-alpha",
+  "renamed": [],
+  "leaving": [],
+  "changed": [
+    {
+      "token": "font.fallback.body.size-adjust",
+      "setting": "every setting",
+      "before": 1.0476,
+      "after": 1.0264
+    },
+    {
+      "token": "font.fallback.body.ascent",
+      "setting": "every setting",
+      "before": 0.9594,
+      "after": 0.9792
+    },
+    {
+      "token": "font.fallback.body.descent",
+      "setting": "every setting",
+      "before": 0.2816,
+      "after": 0.2874
+    },
+    {
+      "token": "font.fallback.display.size-adjust",
+      "setting": "every setting",
+      "before": 1.0655,
+      "after": 1.0568
+    },
+    {
+      "token": "font.fallback.display.ascent",
+      "setting": "every setting",
+      "before": 0.9385,
+      "after": 0.9463
+    },
+    {
+      "token": "font.fallback.display.descent",
+      "setting": "every setting",
+      "before": 0.2346,
+      "after": 0.2366
+    },
+    {
+      "token": "color.surface.sunken",
+      "setting": "theme light",
+      "before": "#e7ebf0",
+      "after": "#373d430d"
+    },
+    {
+      "token": "color.surface.sunken",
+      "setting": "theme dark",
+      "before": "#111213",
+      "after": "#00000066"
+    }
+  ]
+}

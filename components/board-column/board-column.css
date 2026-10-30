@@ -4,7 +4,9 @@
  * hairline, the medium container corners, 12 all round. Its head holds the title in Heading XS, the
  * capacity meter under it and an action at the end; then its groups, each a label with a status dot and a
  * count, the cards in a list and an optional "Show all". On a wide screen a column is the large column
- * width; in a narrow space it fills the width. A column given a height scrolls inside itself. */
+ * width; in a narrow space it fills the width. A column given a height scrolls inside itself. A group can fold
+ * under its head, always or only in a narrow space: it is then a native details element, its head the summary
+ * with a caret at its end, its cards and "Show all" what it discloses (see the folding rules at the end). */
 
 .smbk-board-column {
   box-sizing: border-box;
@@ -84,6 +86,7 @@
 }
 
 .smbk-board-column__group-label {
+  margin: 0;
   color: var(--smbk-color-text-subtle);
   font-family: var(--smbk-typography-label-sm-font-family);
   font-size: var(--smbk-typography-label-sm-font-size);
@@ -105,6 +108,168 @@
 
 .smbk-board-column__card {
   display: block;
+}
+
+/* ---- a group that folds ----
+   A group given a fold is a details element: its head is the summary, so it opens and closes with Enter and Space and
+   says whether it is open with no script, and its cards and "Show all" sit in the body it discloses, the same room
+   above them as in a group that does not fold. The head is at least the extra-small control height, the least a press
+   needs, with a caret at its end in the extra-small icon size, the label's, that turns when the group is open; pointing at it darkens its
+   label and caret, and keyboard focus rings it. A group that folds only in a narrow space is a plain group in a wide
+   one: the React component draws it so, and in markup written by hand the stylesheet shows its body whatever the
+   open state and hides the caret. */
+
+.smbk-board-column__group--fold-always,
+.smbk-board-column__group--fold-narrow {
+  display: block;
+}
+
+.smbk-board-column__group-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--smbk-space-stack-md);
+  padding-top: var(--smbk-space-stack-md);
+}
+
+:is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow) > .smbk-board-column__group-head {
+  box-sizing: border-box;
+  min-height: var(--smbk-size-control-xs);
+  border-radius: var(--smbk-radius-control-sm);
+  list-style: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+:is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow) > .smbk-board-column__group-head::-webkit-details-marker {
+  display: none;
+}
+
+:is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow) > .smbk-board-column__group-head:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+@media (hover: hover) {
+  :is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow) > .smbk-board-column__group-head:hover .smbk-board-column__group-label {
+    color: var(--smbk-color-text-default);
+  }
+
+  :is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow) > .smbk-board-column__group-head:hover .smbk-board-column__caret {
+    color: var(--smbk-color-icon-default);
+  }
+}
+
+.smbk-board-column__caret {
+  flex-shrink: 0;
+  color: var(--smbk-color-icon-subtle);
+  font-size: var(--smbk-size-icon-xs);
+  transition: transform var(--smbk-motion-expand-duration) var(--smbk-motion-expand-easing);
+}
+
+/* A group the React component is closing (data-closing) is still open until its motion ends; its caret turns back as
+   the motion starts. */
+.smbk-board-column__group[open]:not([data-closing]) > .smbk-board-column__group-head .smbk-board-column__caret {
+  transform: rotate(180deg);
+}
+
+/* ---- motion: the body unfolds with the expand purpose and folds back the same way, as an accordion's item does.
+   The group's height grows from its head to its own while the body fades in from the purpose's slight blur, and the
+   caret turns with it. The React component moves it, the same in every browser, and marks the group data-motion
+   once it runs; while it moves (data-moving) it is clipped, with room for the head's focus ring. Markup written by
+   hand is moved by the stylesheet alone where the browser can animate to a natural height, and opens at once
+   elsewhere. Under reduced motion the height lands at once and the fade still plays. ---- */
+
+.smbk-board-column__group[data-moving] {
+  overflow: clip;
+  overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+}
+
+@supports (interpolate-size: allow-keywords) {
+  :is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow):not([data-motion]) {
+    interpolate-size: allow-keywords;
+  }
+
+  :is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow):not([data-motion])::details-content {
+    block-size: 0;
+    opacity: 0;
+    filter: blur(var(--smbk-motion-expand-blur));
+    overflow: clip;
+    overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+    transition-property: block-size, opacity, filter, content-visibility;
+    transition-duration: var(--smbk-motion-expand-duration);
+    transition-timing-function: var(--smbk-motion-expand-easing);
+    transition-behavior: allow-discrete;
+  }
+
+  :is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow):not([data-motion])[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+    filter: none;
+  }
+
+  /* Under reduced motion the height steps: at once as it opens, and only once it has faded as it closes. */
+  @media (prefers-reduced-motion: reduce) {
+    :is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow):not([data-motion])::details-content {
+      transition-duration: 0s, var(--smbk-motion-expand-duration), var(--smbk-motion-expand-duration), var(--smbk-motion-expand-duration);
+      transition-delay: var(--smbk-motion-expand-duration), 0s, 0s, 0s;
+    }
+
+    :is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow):not([data-motion])[open]::details-content {
+      transition-delay: 0s;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-board-column__caret {
+    transition: none;
+  }
+}
+
+/* A group that folds only in a narrow space, written by hand, in a wide one: its body shows whatever the open state,
+   its head takes no press look and no caret, so it reads as a group that does not fold. */
+@container style(--smbk-layout: wide) {
+  .smbk-board-column__group--fold-narrow > .smbk-board-column__group-head {
+    min-height: 0;
+    cursor: auto;
+  }
+
+  .smbk-board-column__group--fold-narrow .smbk-board-column__caret {
+    display: none;
+  }
+
+  .smbk-board-column__group.smbk-board-column__group--fold-narrow:not([data-motion])::details-content {
+    content-visibility: visible;
+    block-size: auto;
+    opacity: 1;
+    filter: none;
+  }
+}
+
+@media (hover: hover) {
+  @container style(--smbk-layout: wide) {
+    .smbk-board-column__group--fold-narrow > .smbk-board-column__group-head:hover .smbk-board-column__group-label {
+      color: var(--smbk-color-text-subtle);
+    }
+  }
+}
+
+/* ---- touch: a folding group's head takes an invisible press area ----
+   On a touch screen an invisible area, centred on it, takes the press out to the comfortable target in each direction
+   it falls short of it; its look, its focus ring and its place stay as drawn. */
+
+@media (pointer: coarse) {
+  :is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow) > .smbk-board-column__group-head {
+    position: relative;
+  }
+
+  :is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow) > .smbk-board-column__group-head::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
 }
 
 /* ---- the narrow form: the column fills the width it is given ---- */

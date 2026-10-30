@@ -1,3 +1,5 @@
+'use client';
+
 import { type ButtonHTMLAttributes, type MouseEvent, type ReactNode, type Ref } from 'react';
 import { toggleButton } from './toggle-button.manifest.js';
 import { Icon } from '../icon/icon.js';

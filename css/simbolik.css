@@ -372,6 +372,7 @@
   --smbk-duration-80: 80ms;
   --smbk-duration-150: 150ms;
   --smbk-duration-200: 200ms;
+  --smbk-duration-280: 280ms;
   --smbk-duration-320: 320ms;
   --smbk-duration-500: 500ms;
   --smbk-duration-1000: 1000ms;
@@ -381,7 +382,12 @@
   --smbk-easing-expo-out: cubic-bezier(0.16, 1, 0.3, 1);
   --smbk-easing-expo-in: cubic-bezier(0.7, 0, 0.84, 0);
   --smbk-easing-cubic-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --smbk-easing-quart-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --smbk-easing-cubic-out: cubic-bezier(0.215, 0.61, 0.355, 1);
   --smbk-easing-steep-out: cubic-bezier(0, 0.7, 0.5, 1);
+  --smbk-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --smbk-easing-ease-out: cubic-bezier(0, 0, 0.58, 1);
+  --smbk-easing-back-out: cubic-bezier(0.44, 0.85, 0.1, 1.3);
   --smbk-motion-feedback-duration: var(--smbk-duration-150);
   --smbk-motion-feedback-easing: var(--smbk-easing-expo-out);
   --smbk-motion-state-duration: var(--smbk-duration-200);
@@ -390,9 +396,28 @@
   --smbk-motion-enter-easing: var(--smbk-easing-expo-out);
   --smbk-motion-exit-duration: var(--smbk-duration-200);
   --smbk-motion-exit-easing: var(--smbk-easing-expo-in);
+  --smbk-motion-expand-duration: var(--smbk-duration-320);
+  --smbk-motion-expand-easing: var(--smbk-easing-cubic-out);
+  --smbk-motion-expand-blur: 2px;
+  --smbk-motion-fill-duration: var(--smbk-duration-320);
+  --smbk-motion-fill-easing: var(--smbk-easing-standard);
+  --smbk-motion-draw-duration: var(--smbk-duration-320);
+  --smbk-motion-draw-delay: var(--smbk-duration-200);
+  --smbk-motion-draw-easing: var(--smbk-easing-ease-out);
+  --smbk-motion-pop-duration: var(--smbk-duration-500);
+  --smbk-motion-pop-easing: var(--smbk-easing-back-out);
+  --smbk-motion-fold-duration: var(--smbk-duration-280);
+  --smbk-motion-fold-easing: var(--smbk-easing-quart-in-out);
+  --smbk-motion-fold-label-duration: var(--smbk-duration-150);
+  --smbk-motion-fold-label-easing: var(--smbk-easing-expo-out);
+  --smbk-motion-fold-blur: 2px;
   --smbk-motion-stagger-delay: var(--smbk-duration-80);
   --smbk-motion-hover-open-delay: var(--smbk-duration-80);
   --smbk-motion-hover-close-delay: var(--smbk-duration-320);
+  --smbk-motion-hold-delay: var(--smbk-duration-500);
+  --smbk-motion-tooltip-open-delay: var(--smbk-duration-1000);
+  --smbk-motion-help-open-delay: var(--smbk-duration-320);
+  --smbk-motion-scrollbar-hide-delay: var(--smbk-duration-500);
   --smbk-motion-marquee-duration: var(--smbk-duration-22000);
   --smbk-motion-spin-duration: var(--smbk-duration-1000);
   --smbk-motion-live-pulse-duration: var(--smbk-duration-2400);
@@ -402,6 +427,8 @@
   --smbk-motion-cursor-duration: var(--smbk-duration-1000);
   --smbk-motion-ambient-duration: var(--smbk-duration-1600);
   --smbk-motion-ambient-easing: var(--smbk-easing-cubic-in-out);
+  --smbk-motion-theme-wipe-duration: var(--smbk-duration-1000);
+  --smbk-motion-theme-wipe-easing: var(--smbk-easing-cubic-in-out);
   --smbk-motion-chart-entrance-grow-duration: var(--smbk-duration-500);
   --smbk-motion-chart-entrance-reveal-duration: var(--smbk-duration-1000);
   --smbk-motion-chart-entrance-stagger: var(--smbk-duration-50);
@@ -413,7 +440,7 @@
   --smbk-color-surface-raised: #f9fafb;
   --smbk-color-surface-brand: #cc0d0d;
   --smbk-color-surface-inverse: #2d3237;
-  --smbk-color-surface-sunken: #e7ebf0;
+  --smbk-color-surface-sunken: #373d430d;
   --smbk-color-surface-translucent: #ffffff66;
   --smbk-color-surface-translucent-subtle: #ffffff26;
   --smbk-color-surface-overlay: #ffffff;
@@ -516,6 +543,7 @@
   --smbk-color-feedback-warning-text-on-surface: #f9fafb;
   --smbk-color-feedback-warning-text-on-subtle: #913900;
   --smbk-color-feedback-warning-border: #da601a;
+  --smbk-color-feedback-warning-border-subtle: #febea2;
   --smbk-color-feedback-warning-icon: #b14904;
   --smbk-color-feedback-danger-surface: #cc0d0d;
   --smbk-color-feedback-danger-surface-subtle: #fee5e1;
@@ -529,6 +557,7 @@
   --smbk-color-feedback-info-text-on-surface: #f9fafb;
   --smbk-color-feedback-info-text-on-subtle: #2f4ab8;
   --smbk-color-feedback-info-border: #557bff;
+  --smbk-color-feedback-info-border-subtle: #b8ccff;
   --smbk-color-feedback-info-icon: #3b5ce3;
   --smbk-color-shadow-xs: #373d430d;
   --smbk-color-shadow-sm: #373d431a;
@@ -670,7 +699,7 @@
   --smbk-color-surface-disabled: #e7ebf0;
   --smbk-color-surface-raised: #f9fafb;
   --smbk-color-surface-inverse: #2d3237;
-  --smbk-color-surface-sunken: #e7ebf0;
+  --smbk-color-surface-sunken: #373d430d;
   --smbk-color-surface-translucent: #ffffff66;
   --smbk-color-surface-translucent-subtle: #ffffff26;
   --smbk-color-surface-overlay: #ffffff;
@@ -746,6 +775,7 @@
   --smbk-color-feedback-success-icon: #037a1f;
   --smbk-color-feedback-warning-surface-subtle: #ffe6db;
   --smbk-color-feedback-warning-text-on-subtle: #913900;
+  --smbk-color-feedback-warning-border-subtle: #febea2;
   --smbk-color-feedback-warning-icon: #b14904;
   --smbk-color-feedback-danger-surface-subtle: #fee5e1;
   --smbk-color-feedback-danger-text-on-subtle: #a51d17;
@@ -753,6 +783,7 @@
   --smbk-color-feedback-danger-icon: #cc0d0d;
   --smbk-color-feedback-info-surface-subtle: #e3ebfe;
   --smbk-color-feedback-info-text-on-subtle: #2f4ab8;
+  --smbk-color-feedback-info-border-subtle: #b8ccff;
   --smbk-color-feedback-info-icon: #3b5ce3;
   --smbk-color-shadow-xs: #373d430d;
   --smbk-color-shadow-sm: #373d431a;
@@ -808,7 +839,7 @@
   --smbk-color-surface-disabled: #373d43;
   --smbk-color-surface-raised: #232527;
   --smbk-color-surface-inverse: #e7ebf0;
-  --smbk-color-surface-sunken: #111213;
+  --smbk-color-surface-sunken: #00000066;
   --smbk-color-surface-translucent: #00000066;
   --smbk-color-surface-translucent-subtle: #00000026;
   --smbk-color-surface-overlay: #2d3237;
@@ -884,6 +915,7 @@
   --smbk-color-feedback-success-icon: #54b85b;
   --smbk-color-feedback-warning-surface-subtle: #431b07;
   --smbk-color-feedback-warning-text-on-subtle: #febea2;
+  --smbk-color-feedback-warning-border-subtle: #692903;
   --smbk-color-feedback-warning-icon: #fa8349;
   --smbk-color-feedback-danger-surface-subtle: #4b130e;
   --smbk-color-feedback-danger-text-on-subtle: #febdb2;
@@ -891,6 +923,7 @@
   --smbk-color-feedback-danger-icon: #fe7d6d;
   --smbk-color-feedback-info-surface-subtle: #162352;
   --smbk-color-feedback-info-text-on-subtle: #b8ccff;
+  --smbk-color-feedback-info-border-subtle: #213583;
   --smbk-color-feedback-info-icon: #7fa0ff;
   --smbk-color-shadow-xs: #0000001a;
   --smbk-color-shadow-sm: #00000026;
@@ -947,7 +980,7 @@
     --smbk-color-surface-disabled: #373d43;
     --smbk-color-surface-raised: #232527;
     --smbk-color-surface-inverse: #e7ebf0;
-    --smbk-color-surface-sunken: #111213;
+    --smbk-color-surface-sunken: #00000066;
     --smbk-color-surface-translucent: #00000066;
     --smbk-color-surface-translucent-subtle: #00000026;
     --smbk-color-surface-overlay: #2d3237;
@@ -1023,6 +1056,7 @@
     --smbk-color-feedback-success-icon: #54b85b;
     --smbk-color-feedback-warning-surface-subtle: #431b07;
     --smbk-color-feedback-warning-text-on-subtle: #febea2;
+    --smbk-color-feedback-warning-border-subtle: #692903;
     --smbk-color-feedback-warning-icon: #fa8349;
     --smbk-color-feedback-danger-surface-subtle: #4b130e;
     --smbk-color-feedback-danger-text-on-subtle: #febdb2;
@@ -1030,6 +1064,7 @@
     --smbk-color-feedback-danger-icon: #fe7d6d;
     --smbk-color-feedback-info-surface-subtle: #162352;
     --smbk-color-feedback-info-text-on-subtle: #b8ccff;
+    --smbk-color-feedback-info-border-subtle: #213583;
     --smbk-color-feedback-info-icon: #7fa0ff;
     --smbk-color-shadow-xs: #0000001a;
     --smbk-color-shadow-sm: #00000026;
@@ -1278,8 +1313,8 @@
 /* smbk-accordion — Accordion. Figma "Accordion" 4128:20419 and "AccordionItem" 4128:20300.
  * Items are native details/summary elements, so opening, closing and keyboard
  * behavior are the browser's; items sharing a name close each other. The caret
- * turns and takes the brand color when open. The content grows from no height to
- * its own as the item opens (see the motion rules at the end). */
+ * turns and takes the brand color when open. The item unfolds as it opens and
+ * folds back as it closes (see the motion rules at the end). */
 
 .smbk-accordion {
   display: flex;
@@ -1450,42 +1485,76 @@
   padding: 0 0 var(--smbk-space-inset-xl);
 }
 
-/* ---- motion: the caret turns with the state purpose; the content grows from no height to its
-   own with the enter purpose and shrinks with the exit purpose. While it grows it is clipped,
-   with room to spare for a focus ring's reach, so the text never spills over the edge. Only a
-   browser that can animate to a natural height does it here; in one that cannot, the React
-   component moves the item's height with the same purposes, and markup written by hand opens at
-   once. No movement under reduced motion. ---- */
+/* ---- motion: an item unfolds with the expand purpose and folds back the same way. Its height grows
+   from the heading row to its own while the content fades in from the purpose's slight blur, and
+   the caret turns with it. The React component moves it, the same in every browser, and marks the
+   block data-motion once it runs. While an item moves (data-moving) it is clipped, with room to
+   spare for a focus ring's reach, and the foot of what shows fades out over a spacing step, or
+   over what is still hidden when that is less, so the text never meets the edge with a hard cut.
+   Markup written by hand is moved by the stylesheet alone where the browser can animate to a
+   natural height, without the fading foot, and opens at once elsewhere. Under reduced motion the
+   height lands at once and the fade and the blur still play: an item opens and then fades in, and
+   fades out and then shuts. ---- */
+
+/* How much of the content shows while its item moves, from its top: the React component moves it with the height. */
+@property --smbk-accordion-reveal {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
 
 .smbk-accordion__caret {
-  transition: transform var(--smbk-motion-state-duration) var(--smbk-motion-state-easing);
+  transition: transform var(--smbk-motion-expand-duration) var(--smbk-motion-expand-easing);
+}
+
+.smbk-accordion__item[data-moving] {
+  overflow: clip;
+  overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+}
+
+/* The mask reads only how opaque its paint is, so the text color stands in for "shown". */
+.smbk-accordion__item[data-moving] > .smbk-accordion__content {
+  mask-image: linear-gradient(currentcolor calc(var(--smbk-accordion-reveal) - min(var(--smbk-space-16), 100% - var(--smbk-accordion-reveal))), transparent var(--smbk-accordion-reveal));
 }
 
 @supports (interpolate-size: allow-keywords) {
-  .smbk-accordion__item {
+  .smbk-accordion:not([data-motion]) > .smbk-accordion__item {
     interpolate-size: allow-keywords;
   }
 
-  .smbk-accordion__item::details-content {
+  .smbk-accordion:not([data-motion]) > .smbk-accordion__item::details-content {
     block-size: 0;
+    opacity: 0;
+    filter: blur(var(--smbk-motion-expand-blur));
     overflow: clip;
     overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
-    transition-property: block-size, content-visibility;
-    transition-duration: var(--smbk-motion-exit-duration);
-    transition-timing-function: var(--smbk-motion-exit-easing);
+    transition-property: block-size, opacity, filter, content-visibility;
+    transition-duration: var(--smbk-motion-expand-duration);
+    transition-timing-function: var(--smbk-motion-expand-easing);
     transition-behavior: allow-discrete;
   }
 
-  .smbk-accordion__item[open]::details-content {
+  .smbk-accordion:not([data-motion]) > .smbk-accordion__item[open]::details-content {
     block-size: auto;
-    transition-duration: var(--smbk-motion-enter-duration);
-    transition-timing-function: var(--smbk-motion-enter-easing);
+    opacity: 1;
+    filter: none;
+  }
+
+  /* Under reduced motion the height steps: at once as an item opens, and only once it has faded as it closes. */
+  @media (prefers-reduced-motion: reduce) {
+    .smbk-accordion:not([data-motion]) > .smbk-accordion__item::details-content {
+      transition-duration: 0s, var(--smbk-motion-expand-duration), var(--smbk-motion-expand-duration), var(--smbk-motion-expand-duration);
+      transition-delay: var(--smbk-motion-expand-duration), 0s, 0s, 0s;
+    }
+
+    .smbk-accordion:not([data-motion]) > .smbk-accordion__item[open]::details-content {
+      transition-delay: 0s;
+    }
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .smbk-accordion__caret,
-  .smbk-accordion__item::details-content {
+  .smbk-accordion__caret {
     transition: none;
   }
 }
@@ -1639,6 +1708,13 @@
     padding-inline-start: calc(var(--smbk-size-icon-md) + var(--smbk-space-inline-lg));
   }
 }
+
+
+/* ---- components/alert-dialog/alert-dialog.css ---- */
+/* smbk-alert-dialog — Alert dialog. The modal with the alertdialog role, drawn by the modal's stylesheet: its
+ * markup carries the modal's block, size and part classes after its own mark, smbk-alert-dialog, so every rule of
+ * modal/modal.css and the shared dialog/dialog.css (the scrim, the motion, the page held still) draws it.
+ * This file holds no rules: the alert dialog's own class is only its mark in markup. */
 
 
 /* ---- components/app-bar/app-bar.css ---- */
@@ -2114,8 +2190,8 @@
 /* smbk-avatar-group — Avatar group. Figma "Avatar group" 7580:1856 (Count: 3, 4, 5; More text; Show more).
  * Extra small avatars in a row, each in a ring of the default surface (the
  * 2 step around it), overlapping the one before by 6, then a count of the
- * rest: a pill on the sunken surface in Label SM and the subtle text color,
- * in the same ring. Each later face sits over the one before. The overlap is
+ * rest: a solid pill, the sunken shade over the default surface, in Label SM
+ * and the subtle text color, in the same ring. Each later face sits over the one before. The overlap is
  * written from the start edge, so it mirrors in right-to-left text. The
  * avatars keep their own classes; this stylesheet adds the ring, the overlap
  * and the count. */
@@ -2147,7 +2223,8 @@
   margin-inline-start: calc(-1 * var(--smbk-space-6));
 }
 
-/* The count: as tall as an avatar inside the same ring, so the row's faces and the count line up. */
+/* The count: as tall as an avatar inside the same ring, so the row's faces and the count line up. Solid: the
+   see-through sunken shade over the ring's own surface, so the face it overlaps never shows through it. */
 .smbk-avatar-group__more {
   box-sizing: content-box;
   display: inline-flex;
@@ -2158,7 +2235,7 @@
   padding-inline: var(--smbk-space-6);
   border: var(--smbk-border-width-emphasis) solid var(--smbk-color-surface-default);
   border-radius: var(--smbk-radius-full);
-  background: var(--smbk-color-surface-sunken);
+  background: linear-gradient(var(--smbk-color-surface-sunken), var(--smbk-color-surface-sunken)), var(--smbk-color-surface-default);
   background-clip: padding-box;
   color: var(--smbk-color-text-subtle);
   font-family: var(--smbk-typography-label-sm-font-family);
@@ -2352,12 +2429,12 @@
 
 /* The default tone is the block's own look above. */
 
-/* ---- soft, the default: the tone recipe, the tone's subtle surface inside an edge of its own border color ---- */
+/* ---- soft, the default: the tone recipe, the tone's subtle surface inside its pale edge ---- */
 
-.smbk-badge--tone-success { --smbk-tone-surface: var(--smbk-color-feedback-success-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-success-border); --smbk-tone-text: var(--smbk-color-feedback-success-text-on-subtle); }
-.smbk-badge--tone-info { --smbk-tone-surface: var(--smbk-color-feedback-info-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-info-border); --smbk-tone-text: var(--smbk-color-feedback-info-text-on-subtle); }
-.smbk-badge--tone-warning { --smbk-tone-surface: var(--smbk-color-feedback-warning-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-warning-border); --smbk-tone-text: var(--smbk-color-feedback-warning-text-on-subtle); }
-.smbk-badge--tone-danger { --smbk-tone-surface: var(--smbk-color-feedback-danger-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-danger-border); --smbk-tone-text: var(--smbk-color-feedback-danger-text-on-subtle); }
+.smbk-badge--tone-success { --smbk-tone-surface: var(--smbk-color-feedback-success-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-success-border-subtle); --smbk-tone-text: var(--smbk-color-feedback-success-text-on-subtle); }
+.smbk-badge--tone-info { --smbk-tone-surface: var(--smbk-color-feedback-info-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-info-border-subtle); --smbk-tone-text: var(--smbk-color-feedback-info-text-on-subtle); }
+.smbk-badge--tone-warning { --smbk-tone-surface: var(--smbk-color-feedback-warning-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-warning-border-subtle); --smbk-tone-text: var(--smbk-color-feedback-warning-text-on-subtle); }
+.smbk-badge--tone-danger { --smbk-tone-surface: var(--smbk-color-feedback-danger-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-danger-border-subtle); --smbk-tone-text: var(--smbk-color-feedback-danger-text-on-subtle); }
 
 /* ---- flat and dot: the tone's full surface, with no edge ---- */
 
@@ -2997,7 +3074,8 @@
  * categorical colors, the first at the foot, and the rest gathered in the muted gray. Each bar has small top
  * corners. Many bars, such as a month's, sit closer together. A narrow layout drops every second label under the
  * bars. The first time the chart comes into view its bars grow in, one after another; pointing at a bar fades the
- * others. Nothing takes focus. */
+ * others. Nothing takes focus, unless the bars are made focusable: then a focused bar takes the focus ring and the
+ * others fade. */
 
 .smbk-bar-chart {
   display: flex;
@@ -3164,7 +3242,7 @@
    motion too, since nothing moves. The wrapper marks the bar whose column the pointer is in, gaps and the room above
    a short bar included (`data-active`), so moving from bar to bar never brings every bar back in between; markup
    written by hand fades by the bar's own hover. Nothing is told by the fade alone: every value is in the table. Bars
-   take no focus, so the keyboard has nothing to point with. At rest every bar is whole. */
+   take no focus unless made focusable (above). At rest every bar is whole. */
 
 @media (hover: hover) {
   .smbk-bar-chart__bars:has(> .smbk-bar-chart__bar:hover) > .smbk-bar-chart__bar:not(:hover),
@@ -3182,6 +3260,20 @@
   .smbk-bar-chart__bar {
     transition: opacity var(--smbk-motion-feedback-duration) var(--smbk-motion-feedback-easing) var(--smbk-motion-hover-close-delay);
   }
+}
+
+/* ---- a bar that takes focus ----
+   Bars made focusable (a tabindex on each, one of them 0, and each named by its figures) take the focus ring around
+   the bar, just outside it, and a focused bar stands out as a pointed one does: every other bar fades to the faded
+   opacity, on any screen, since a keyboard has no hover. The wrapper also marks the focused bar `data-active`. */
+
+.smbk-bar-chart__bar:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+.smbk-bar-chart__bars:has(> .smbk-bar-chart__bar:focus-visible) > .smbk-bar-chart__bar:not(:focus-visible) {
+  opacity: var(--smbk-opacity-faded);
 }
 
 /* ---- motion: the entrance ----
@@ -3218,11 +3310,16 @@
 }
 
 /* ---- high contrast (forced colors) ---- */
-/* The plot keeps its colors, so each segment still matches its legend swatch. */
+/* The plot keeps its colors, so each segment still matches its legend swatch; a focused bar's ring takes the
+   palette's highlight. */
 
 @media (forced-colors: active) {
   .smbk-bar-chart__plot {
     forced-color-adjust: none;
+  }
+
+  .smbk-bar-chart__bar:focus-visible {
+    outline-color: Highlight;
   }
 }
 
@@ -3274,6 +3371,12 @@
   pointer-events: none;
 }
 
+/* While the system's scrollbar shows over the frame (scrollbar.ts), in the same strip, the hint's bar fades out of
+   its way (its fade is the table's). */
+.smbk-board[data-scroll-hint]:has(> .smbk-scrollbar[data-shown]) .smbk-table__scroll-track {
+  opacity: 0;
+}
+
 /* ---- the narrow form: the columns stack and the frame no longer scrolls sideways ---- */
 
 @container style(--smbk-layout: narrow) {
@@ -3301,7 +3404,9 @@
  * hairline, the medium container corners, 12 all round. Its head holds the title in Heading XS, the
  * capacity meter under it and an action at the end; then its groups, each a label with a status dot and a
  * count, the cards in a list and an optional "Show all". On a wide screen a column is the large column
- * width; in a narrow space it fills the width. A column given a height scrolls inside itself. */
+ * width; in a narrow space it fills the width. A column given a height scrolls inside itself. A group can fold
+ * under its head, always or only in a narrow space: it is then a native details element, its head the summary
+ * with a caret at its end, its cards and "Show all" what it discloses (see the folding rules at the end). */
 
 .smbk-board-column {
   box-sizing: border-box;
@@ -3381,6 +3486,7 @@
 }
 
 .smbk-board-column__group-label {
+  margin: 0;
   color: var(--smbk-color-text-subtle);
   font-family: var(--smbk-typography-label-sm-font-family);
   font-size: var(--smbk-typography-label-sm-font-size);
@@ -3402,6 +3508,168 @@
 
 .smbk-board-column__card {
   display: block;
+}
+
+/* ---- a group that folds ----
+   A group given a fold is a details element: its head is the summary, so it opens and closes with Enter and Space and
+   says whether it is open with no script, and its cards and "Show all" sit in the body it discloses, the same room
+   above them as in a group that does not fold. The head is at least the extra-small control height, the least a press
+   needs, with a caret at its end in the extra-small icon size, the label's, that turns when the group is open; pointing at it darkens its
+   label and caret, and keyboard focus rings it. A group that folds only in a narrow space is a plain group in a wide
+   one: the React component draws it so, and in markup written by hand the stylesheet shows its body whatever the
+   open state and hides the caret. */
+
+.smbk-board-column__group--fold-always,
+.smbk-board-column__group--fold-narrow {
+  display: block;
+}
+
+.smbk-board-column__group-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--smbk-space-stack-md);
+  padding-top: var(--smbk-space-stack-md);
+}
+
+:is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow) > .smbk-board-column__group-head {
+  box-sizing: border-box;
+  min-height: var(--smbk-size-control-xs);
+  border-radius: var(--smbk-radius-control-sm);
+  list-style: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+:is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow) > .smbk-board-column__group-head::-webkit-details-marker {
+  display: none;
+}
+
+:is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow) > .smbk-board-column__group-head:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+@media (hover: hover) {
+  :is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow) > .smbk-board-column__group-head:hover .smbk-board-column__group-label {
+    color: var(--smbk-color-text-default);
+  }
+
+  :is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow) > .smbk-board-column__group-head:hover .smbk-board-column__caret {
+    color: var(--smbk-color-icon-default);
+  }
+}
+
+.smbk-board-column__caret {
+  flex-shrink: 0;
+  color: var(--smbk-color-icon-subtle);
+  font-size: var(--smbk-size-icon-xs);
+  transition: transform var(--smbk-motion-expand-duration) var(--smbk-motion-expand-easing);
+}
+
+/* A group the React component is closing (data-closing) is still open until its motion ends; its caret turns back as
+   the motion starts. */
+.smbk-board-column__group[open]:not([data-closing]) > .smbk-board-column__group-head .smbk-board-column__caret {
+  transform: rotate(180deg);
+}
+
+/* ---- motion: the body unfolds with the expand purpose and folds back the same way, as an accordion's item does.
+   The group's height grows from its head to its own while the body fades in from the purpose's slight blur, and the
+   caret turns with it. The React component moves it, the same in every browser, and marks the group data-motion
+   once it runs; while it moves (data-moving) it is clipped, with room for the head's focus ring. Markup written by
+   hand is moved by the stylesheet alone where the browser can animate to a natural height, and opens at once
+   elsewhere. Under reduced motion the height lands at once and the fade still plays. ---- */
+
+.smbk-board-column__group[data-moving] {
+  overflow: clip;
+  overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+}
+
+@supports (interpolate-size: allow-keywords) {
+  :is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow):not([data-motion]) {
+    interpolate-size: allow-keywords;
+  }
+
+  :is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow):not([data-motion])::details-content {
+    block-size: 0;
+    opacity: 0;
+    filter: blur(var(--smbk-motion-expand-blur));
+    overflow: clip;
+    overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+    transition-property: block-size, opacity, filter, content-visibility;
+    transition-duration: var(--smbk-motion-expand-duration);
+    transition-timing-function: var(--smbk-motion-expand-easing);
+    transition-behavior: allow-discrete;
+  }
+
+  :is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow):not([data-motion])[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+    filter: none;
+  }
+
+  /* Under reduced motion the height steps: at once as it opens, and only once it has faded as it closes. */
+  @media (prefers-reduced-motion: reduce) {
+    :is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow):not([data-motion])::details-content {
+      transition-duration: 0s, var(--smbk-motion-expand-duration), var(--smbk-motion-expand-duration), var(--smbk-motion-expand-duration);
+      transition-delay: var(--smbk-motion-expand-duration), 0s, 0s, 0s;
+    }
+
+    :is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow):not([data-motion])[open]::details-content {
+      transition-delay: 0s;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-board-column__caret {
+    transition: none;
+  }
+}
+
+/* A group that folds only in a narrow space, written by hand, in a wide one: its body shows whatever the open state,
+   its head takes no press look and no caret, so it reads as a group that does not fold. */
+@container style(--smbk-layout: wide) {
+  .smbk-board-column__group--fold-narrow > .smbk-board-column__group-head {
+    min-height: 0;
+    cursor: auto;
+  }
+
+  .smbk-board-column__group--fold-narrow .smbk-board-column__caret {
+    display: none;
+  }
+
+  .smbk-board-column__group.smbk-board-column__group--fold-narrow:not([data-motion])::details-content {
+    content-visibility: visible;
+    block-size: auto;
+    opacity: 1;
+    filter: none;
+  }
+}
+
+@media (hover: hover) {
+  @container style(--smbk-layout: wide) {
+    .smbk-board-column__group--fold-narrow > .smbk-board-column__group-head:hover .smbk-board-column__group-label {
+      color: var(--smbk-color-text-subtle);
+    }
+  }
+}
+
+/* ---- touch: a folding group's head takes an invisible press area ----
+   On a touch screen an invisible area, centred on it, takes the press out to the comfortable target in each direction
+   it falls short of it; its look, its focus ring and its place stay as drawn. */
+
+@media (pointer: coarse) {
+  :is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow) > .smbk-board-column__group-head {
+    position: relative;
+  }
+
+  :is(.smbk-board-column__group--fold-always, .smbk-board-column__group--fold-narrow) > .smbk-board-column__group-head::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
 }
 
 /* ---- the narrow form: the column fills the width it is given ---- */
@@ -3593,6 +3861,23 @@
 
 .smbk-btn__label {
   display: inline-block;
+}
+
+/* Leading content (a small avatar) keeps its own size and sits on the label's line. */
+.smbk-btn__leading-content {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+/* The count is the badge's small neutral pill (its own classes draw it), right after the label. In a disabled
+   button its number takes the disabled label color with the rest. */
+.smbk-btn__count {
+  flex-shrink: 0;
+}
+
+.smbk-btn:is(:disabled, [aria-disabled="true"]) .smbk-btn__count {
+  color: var(--smbk-color-action-disabled-foreground);
 }
 
 /* ---- tone: brand (the default) ---- */
@@ -3851,6 +4136,13 @@ button.smbk-btn.smbk-toggle-button[aria-pressed="true"]:is(:disabled, [aria-disa
 .smbk-btn--icon-only.smbk-btn--size-xs {
   width: var(--smbk-size-control-xs);
   padding: 0;
+}
+
+/* ---- full width: the button takes the whole width of its space ----
+   The label and its icons stay centered. After the icon-only rules, so a stretched icon button stretches too. */
+
+.smbk-btn--full-width {
+  width: 100%;
 }
 
 /* ---- loading: the action is running ----
@@ -5091,6 +5383,13 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
   margin-block-start: 0;
 }
 
+/* A stat in the slot is one of the card's parts: its tile padding and fill go, so its name starts on the
+   card's own inset. */
+.smbk-card__body--type-slot > .smbk-stat {
+  padding: 0;
+  background: none;
+}
+
 /* ---- footer: a rule, then one row. Markup written by hand without a kind keeps its content as it is. ---- */
 
 .smbk-card__footer {
@@ -5194,7 +5493,8 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
 /* smbk-checkbox — Checkbox. Figma "Checkbox" 4068:10770 (Size × State × Checked × Variant, the tone here).
  * A real checkbox control, visually hidden, drives a drawn box beside its label.
  * The default box is raised with a lift; the subtle box is sunken with the strong border, for dense places like table rows.
- * Checked shows the tick; mixed (the control's indeterminate state) shows a dash instead. */
+ * Checked shows the tick; mixed (the control's indeterminate state) shows a dash instead.
+ * Ticking fills the box from a little smaller as it fades in, then draws the tick (see the motion rules at the end). */
 
 /* .smbk-checkbox__control: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css.
    The row, its type, the disabled colour, the label over a line under it, the focus ring on the box and the touch area are shared
@@ -5214,6 +5514,22 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
   background: var(--smbk-color-surface-raised);
   color: var(--smbk-color-text-inverse);
   box-shadow: var(--smbk-elevation-control);
+  position: relative;
+  isolation: isolate;
+}
+
+/* The fill: a layer over the whole box, its edge included, drawn in the ticked colours under the tick. It shows
+   while the box is ticked or mixed, when the box itself draws nothing, so the two are never drawn over each other. */
+.smbk-checkbox__box::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: calc(-1 * var(--smbk-border-width-hairline));
+  box-sizing: border-box;
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-control-selected);
+  border-radius: inherit;
+  background: var(--smbk-color-surface-inverse);
+  opacity: 0;
 }
 
 /* The subtle tone. */
@@ -5232,13 +5548,20 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
 }
 
 /* Ticked or mixed by its control, or drawn ticked where the box stands alone inside another control
-   (a dropdown item that ticks), which carries the state itself. */
+   (a dropdown item that ticks), which carries the state itself: the fill shows, and the box clears its own
+   colours and drops its lift. */
 .smbk-checkbox__control:checked + .smbk-checkbox__box,
 .smbk-checkbox__control:indeterminate + .smbk-checkbox__box,
 .smbk-checkbox__box--checked {
-  background: var(--smbk-color-surface-inverse);
-  border-color: var(--smbk-color-border-control-selected);
+  border-color: transparent;
+  background: transparent;
   box-shadow: none;
+}
+
+.smbk-checkbox__control:checked + .smbk-checkbox__box::before,
+.smbk-checkbox__control:indeterminate + .smbk-checkbox__box::before,
+.smbk-checkbox__box--checked::before {
+  opacity: 1;
 }
 
 .smbk-checkbox__control:checked:not(:indeterminate) + .smbk-checkbox__box .smbk-checkbox__icon,
@@ -5255,27 +5578,44 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
 
   .smbk-checkbox:hover .smbk-checkbox__control:enabled:checked + .smbk-checkbox__box,
   .smbk-checkbox:hover .smbk-checkbox__control:enabled:indeterminate + .smbk-checkbox__box {
-    border-color: var(--smbk-color-border-control-selected);
+    border-color: transparent;
+  }
+
+  .smbk-checkbox:hover .smbk-checkbox__control:enabled:checked + .smbk-checkbox__box::before,
+  .smbk-checkbox:hover .smbk-checkbox__control:enabled:indeterminate + .smbk-checkbox__box::before {
     background: var(--smbk-color-action-inverse-background-hover);
   }
 }
 
-/* Error: an empty box takes the danger edge; a ticked or mixed one keeps its fill inside a danger ring.
-   Two classes, so the error stays under the pointer. */
-.smbk-checkbox.smbk-checkbox--error .smbk-checkbox__control:enabled + .smbk-checkbox__box {
+/* Error: an empty box takes the danger edge; a ticked or mixed one keeps its fill, to its edge, inside a danger ring.
+   Two classes, so the error stays under the pointer. The control marked aria-invalid="true" draws the same. */
+.smbk-checkbox.smbk-checkbox--error .smbk-checkbox__control:enabled + .smbk-checkbox__box,
+.smbk-checkbox .smbk-checkbox__control[aria-invalid="true"]:enabled + .smbk-checkbox__box {
   border-color: var(--smbk-color-feedback-danger-border);
 }
 
 .smbk-checkbox.smbk-checkbox--error .smbk-checkbox__control:enabled:checked + .smbk-checkbox__box,
-.smbk-checkbox.smbk-checkbox--error .smbk-checkbox__control:enabled:indeterminate + .smbk-checkbox__box {
+.smbk-checkbox.smbk-checkbox--error .smbk-checkbox__control:enabled:indeterminate + .smbk-checkbox__box,
+.smbk-checkbox .smbk-checkbox__control[aria-invalid="true"]:enabled:checked + .smbk-checkbox__box,
+.smbk-checkbox .smbk-checkbox__control[aria-invalid="true"]:enabled:indeterminate + .smbk-checkbox__box {
   border-color: transparent;
   box-shadow: 0 0 0 var(--smbk-border-width-emphasis) var(--smbk-color-feedback-danger-border);
 }
 
+.smbk-checkbox.smbk-checkbox--error .smbk-checkbox__control:enabled + .smbk-checkbox__box::before,
+.smbk-checkbox .smbk-checkbox__control[aria-invalid="true"]:enabled + .smbk-checkbox__box::before {
+  border-color: transparent;
+}
+
+/* Disabled, ticked or not, the box draws itself in the disabled colours, with no fill over it. */
 .smbk-checkbox__control:disabled + .smbk-checkbox__box {
   background: var(--smbk-color-surface-disabled);
   border-color: var(--smbk-color-border-control-disabled);
   color: var(--smbk-color-text-disabled);
+}
+
+.smbk-checkbox__control:disabled + .smbk-checkbox__box::before {
+  content: none;
 }
 
 /* ---- small (sm) ---- */
@@ -5288,6 +5628,66 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
 
 .smbk-checkbox--size-sm :is(.smbk-checkbox__icon, .smbk-checkbox__mixed-icon) {
   font-size: var(--smbk-size-icon-xs);
+}
+
+/* ---- motion: ticking fills the box, then draws the tick. The fill grows from a little smaller than the
+   box as it fades in, with the fill purpose, while the box's own colours and lift fade under it; once the box
+   has nearly filled, the tick draws itself from its start to its tip with the draw purpose, uncovered
+   across the box as it fades in. Unticking erases the tick back the same way, without the wait, while the
+   fill shrinks away. The mixed dash draws without the wait. Only a change moves: a box ticked as the page
+   loads is simply ticked. Under reduced motion the fill and the tick only fade. ---- */
+
+.smbk-checkbox__box {
+  transition-property: border-color, background-color, box-shadow;
+  transition-duration: var(--smbk-motion-fill-duration);
+  transition-timing-function: var(--smbk-motion-fill-easing);
+}
+
+.smbk-checkbox__box::before {
+  scale: 0.7;
+  transition-property: opacity, scale;
+  transition-duration: var(--smbk-motion-fill-duration);
+  transition-timing-function: var(--smbk-motion-fill-easing);
+}
+
+.smbk-checkbox__control:checked + .smbk-checkbox__box::before,
+.smbk-checkbox__control:indeterminate + .smbk-checkbox__box::before,
+.smbk-checkbox__box--checked::before {
+  scale: none;
+}
+
+.smbk-checkbox__icon,
+.smbk-checkbox__mixed-icon {
+  opacity: 0;
+  clip-path: inset(0 100% 0 0);
+  transition-property: visibility, opacity, clip-path;
+  transition-duration: var(--smbk-motion-draw-duration);
+  transition-timing-function: var(--smbk-motion-draw-easing);
+}
+
+.smbk-checkbox__control:checked:not(:indeterminate) + .smbk-checkbox__box .smbk-checkbox__icon,
+.smbk-checkbox__box--checked .smbk-checkbox__icon,
+.smbk-checkbox__control:indeterminate + .smbk-checkbox__box .smbk-checkbox__mixed-icon {
+  opacity: 1;
+  clip-path: inset(0);
+  transition-delay: var(--smbk-motion-draw-delay);
+}
+
+.smbk-checkbox__control:indeterminate + .smbk-checkbox__box .smbk-checkbox__mixed-icon {
+  transition-delay: 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-checkbox__box::before {
+    scale: none;
+    transition-property: opacity;
+  }
+
+  .smbk-checkbox__icon,
+  .smbk-checkbox__mixed-icon {
+    clip-path: none;
+    transition-property: visibility, opacity;
+  }
 }
 
 /* ---- high contrast (forced colors) ---- */
@@ -5368,7 +5768,14 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
   font-size: var(--smbk-size-icon-sm);
 }
 
-.smbk-chip:has(> .smbk-chip__tick) {
+/* A toggle carries its tick off as well as on, so a page's script that sets aria-pressed shows it; it shows only while
+   the chip is on (aria-pressed, or the selected class), and then hides the avatar. */
+.smbk-chip:not([aria-pressed="true"], .smbk-chip--selected) > .smbk-chip__tick,
+.smbk-chip:is([aria-pressed="true"], .smbk-chip--selected) > .smbk-chip__tick ~ .smbk-chip__avatar {
+  display: none;
+}
+
+.smbk-chip:is([aria-pressed="true"], .smbk-chip--selected):has(> .smbk-chip__tick) {
   padding-inline-start: calc(var(--smbk-space-inset-md) - var(--smbk-border-width-hairline));
 }
 
@@ -5434,7 +5841,7 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
   font-size: var(--smbk-size-icon-xs);
 }
 
-.smbk-chip--size-sm:has(> .smbk-chip__tick) {
+.smbk-chip--size-sm:is([aria-pressed="true"], .smbk-chip--selected):has(> .smbk-chip__tick) {
   padding-inline-start: calc(var(--smbk-space-inset-sm) - var(--smbk-border-width-hairline));
 }
 
@@ -5816,12 +6223,13 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
 }
 
 /* Pressed while chosen keeps the brand edge, not the lift; in error the danger edge below stays. */
-.smbk-choice-card:not(.smbk-choice-card--error):is(.smbk-radio, .smbk-checkbox):active:has(:enabled:checked) {
+.smbk-choice-card:not(.smbk-choice-card--error, :has([aria-invalid="true"])):is(.smbk-radio, .smbk-checkbox):active:has(:enabled:checked) {
   box-shadow: inset 0 0 0 calc(var(--smbk-border-width-emphasis) - var(--smbk-border-width-hairline)) var(--smbk-color-border-brand);
 }
 
-/* Error, chosen or not: the danger edge at the emphasis width. */
-.smbk-choice-card.smbk-choice-card--error:is(.smbk-radio, .smbk-checkbox):has(:enabled) {
+/* Error, chosen or not: the danger edge at the emphasis width; its control marked aria-invalid="true" draws the same. */
+.smbk-choice-card.smbk-choice-card--error:is(.smbk-radio, .smbk-checkbox):has(:enabled),
+.smbk-choice-card:is(.smbk-radio, .smbk-checkbox):has(:enabled[aria-invalid="true"]) {
   border-color: var(--smbk-color-feedback-danger-border);
   box-shadow: inset 0 0 0 calc(var(--smbk-border-width-emphasis) - var(--smbk-border-width-hairline)) var(--smbk-color-feedback-danger-border), var(--smbk-elevation-control);
 }
@@ -6091,6 +6499,211 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
 
   .smbk-code__action:has(~ .smbk-code__action)::after {
     inset-inline-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-xs) / -2);
+  }
+}
+
+
+/* ---- components/collapsible/collapsible.css ---- */
+/* smbk-collapsible — Collapsible. Figma "Collapsible" 8196:2813 (State: Default, Hover, Focus, Disabled, Expanded).
+ * One row that shows or hides what is under it. The block is a native details element, so opening, closing and the
+ * keyboard are the browser's; the trigger is its summary. A row the medium control height, an optional icon, a Label LG
+ * label and a caret at the far end that turns when open. Hover and keyboard focus lay the hover surface under the row,
+ * focus with its ring. The panel unfolds with the expand purpose, as an accordion's item does (see the motion rules at
+ * the end). */
+
+.smbk-collapsible {
+  box-sizing: border-box;
+  width: 100%;
+  color: var(--smbk-color-text-default);
+}
+
+.smbk-collapsible__trigger {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-md);
+  min-height: var(--smbk-size-control-md);
+  padding: 0 var(--smbk-space-inset-lg);
+  border-radius: var(--smbk-radius-control-sm);
+  list-style: none;
+  cursor: pointer;
+  font-family: var(--smbk-typography-label-lg-font-family);
+  font-size: var(--smbk-typography-label-lg-font-size);
+  font-weight: var(--smbk-typography-label-lg-font-weight);
+  line-height: var(--smbk-typography-label-lg-line-height);
+  letter-spacing: var(--smbk-typography-label-lg-letter-spacing);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.smbk-collapsible__trigger::-webkit-details-marker {
+  display: none;
+}
+
+@media (hover: hover) {
+  .smbk-collapsible__trigger:hover {
+    background: var(--smbk-color-surface-hover);
+  }
+}
+
+.smbk-collapsible__trigger:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+  background: var(--smbk-color-surface-hover);
+}
+
+.smbk-collapsible__icon {
+  flex-shrink: 0;
+  color: var(--smbk-color-icon-subtle);
+  font-size: var(--smbk-size-icon-md);
+}
+
+/* The label takes the room the icon and the caret leave, and wraps rather than being cut short. */
+.smbk-collapsible__label {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.smbk-collapsible__caret {
+  flex-shrink: 0;
+  color: var(--smbk-color-icon-subtle);
+  font-size: var(--smbk-size-icon-md);
+}
+
+/* A collapsible the React component is closing (data-closing) is still open until its motion ends; its caret turns
+   back as the motion starts. */
+.smbk-collapsible[open]:not([data-closing]) > .smbk-collapsible__trigger .smbk-collapsible__caret {
+  transform: rotate(180deg);
+}
+
+.smbk-collapsible__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-sm);
+  padding: var(--smbk-space-stack-xs) var(--smbk-space-inset-lg) var(--smbk-space-stack-md);
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
+}
+
+/* Paragraphs in the panel are spaced by its gap, not by their own margins. */
+.smbk-collapsible__panel > * {
+  margin: 0;
+}
+
+/* ---- disabled: the row dims and takes no press ---- */
+
+.smbk-collapsible--disabled > .smbk-collapsible__trigger {
+  color: var(--smbk-color-text-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.smbk-collapsible--disabled .smbk-collapsible__icon,
+.smbk-collapsible--disabled .smbk-collapsible__caret {
+  color: var(--smbk-color-icon-disabled);
+}
+
+/* ---- motion: the panel unfolds with the expand purpose and folds back the same way, as an accordion's item does.
+   The block's height grows from the trigger row to its own while the panel fades in from the purpose's slight blur,
+   and the caret turns with it. The React component moves it, the same in every browser, and marks the block
+   data-motion once it runs. While it moves (data-moving) it is clipped, with room to spare for the trigger's focus
+   ring, and the foot of what shows fades out over a spacing step, or over what is still hidden when that is less.
+   Markup written by hand is moved by the stylesheet alone where the browser can animate to a natural height, without
+   the fading foot, and opens at once elsewhere. Under reduced motion the height lands at once and the fade and the
+   blur still play. ---- */
+
+/* How much of the panel shows while the block moves, from its top: the React component moves it with the height. */
+@property --smbk-collapsible-reveal {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+
+.smbk-collapsible__caret {
+  transition: transform var(--smbk-motion-expand-duration) var(--smbk-motion-expand-easing);
+}
+
+.smbk-collapsible[data-moving] {
+  overflow: clip;
+  overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+}
+
+/* The mask reads only how opaque its paint is, so the text color stands in for "shown". */
+.smbk-collapsible[data-moving] > .smbk-collapsible__panel {
+  mask-image: linear-gradient(currentcolor calc(var(--smbk-collapsible-reveal) - min(var(--smbk-space-16), 100% - var(--smbk-collapsible-reveal))), transparent var(--smbk-collapsible-reveal));
+}
+
+@supports (interpolate-size: allow-keywords) {
+  .smbk-collapsible:not([data-motion]) {
+    interpolate-size: allow-keywords;
+  }
+
+  .smbk-collapsible:not([data-motion])::details-content {
+    block-size: 0;
+    opacity: 0;
+    filter: blur(var(--smbk-motion-expand-blur));
+    overflow: clip;
+    overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+    transition-property: block-size, opacity, filter, content-visibility;
+    transition-duration: var(--smbk-motion-expand-duration);
+    transition-timing-function: var(--smbk-motion-expand-easing);
+    transition-behavior: allow-discrete;
+  }
+
+  .smbk-collapsible:not([data-motion])[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+    filter: none;
+  }
+
+  /* Under reduced motion the height steps: at once as it opens, and only once it has faded as it closes. */
+  @media (prefers-reduced-motion: reduce) {
+    .smbk-collapsible:not([data-motion])::details-content {
+      transition-duration: 0s, var(--smbk-motion-expand-duration), var(--smbk-motion-expand-duration), var(--smbk-motion-expand-duration);
+      transition-delay: var(--smbk-motion-expand-duration), 0s, 0s, 0s;
+    }
+
+    .smbk-collapsible:not([data-motion])[open]::details-content {
+      transition-delay: 0s;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-collapsible__caret {
+    transition: none;
+  }
+}
+
+/* ---- touch: the trigger row takes an invisible press area ----
+   On a touch screen an invisible area, centred on it, takes the press out to the comfortable target in each direction
+   it falls short of it; its look, its focus ring and its place stay as drawn. */
+
+@media (pointer: coarse) {
+  .smbk-collapsible__trigger {
+    position: relative;
+  }
+
+  .smbk-collapsible__trigger::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  .smbk-collapsible--disabled > .smbk-collapsible__trigger,
+  .smbk-collapsible--disabled .smbk-collapsible__icon,
+  .smbk-collapsible--disabled .smbk-collapsible__caret {
+    color: GrayText;
   }
 }
 
@@ -6961,9 +7574,30 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
   background: transparent;
 }
 
-.smbk-combobox:focus-within [data-highlight="keys"] > .smbk-combobox__option--active {
+/* Any option, in a group or not: the options of a group sit in the group's own list. */
+.smbk-combobox:focus-within [data-highlight="keys"] .smbk-combobox__option--active {
   outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
   outline-offset: calc(-1 * var(--smbk-focus-ring-width));
+}
+
+/* ---- what an option carries besides its label: a color swatch before it, at the item's icon size (the dropdown's
+   icon part draws an icon there), then quieter words, the select's second line set after the label instead of under
+   it, and a small badge, before the tick. The label takes the room; the words after it are cut short with an
+   ellipsis before the badge moves. Groups are the select's: the dropdown's label over the dropdown's group, a line
+   between them. ---- */
+
+.smbk-combobox__option-detail {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.smbk-combobox__option-badge {
+  flex-shrink: 0;
+}
+
+/* A disabled option dims its swatch and its badge with its words. */
+.smbk-combobox__option[aria-disabled="true"] :is(.smbk-color-swatch.smbk-combobox__option-lead, .smbk-combobox__option-badge) {
+  opacity: var(--smbk-opacity-disabled);
 }
 
 /* ---- the status row: what the list says instead of options, in words: no results, loading with the turning
@@ -7076,7 +7710,8 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
     color: HighlightText;
   }
 
-  .smbk-combobox__option--active .smbk-dropdown__icon {
+  .smbk-combobox__option--active .smbk-dropdown__icon,
+  .smbk-combobox__option--active .smbk-select__option-description {
     color: inherit;
   }
 }
@@ -7932,6 +8567,25 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
   width: var(--smbk-size-date-picker-time-width);
 }
 
+/* A date range: its two day fields share the row as the date field does beside a time, and the dash between them,
+   the way a range is written, sits on the fields' middle in the quiet text colour. In a narrow space the fields
+   stack, each a full row, and the dash goes: each field's name says which day it holds. */
+.smbk-date-picker__to {
+  align-self: center;
+  color: var(--smbk-color-text-subtle);
+  font-size: var(--smbk-size-icon-sm);
+}
+
+@container style(--smbk-layout: narrow) {
+  .smbk-date-picker--type-date-range .smbk-input.smbk-date-picker__input--date {
+    flex: 1 1 100%;
+  }
+
+  .smbk-date-picker--type-date-range .smbk-date-picker__to {
+    display: none;
+  }
+}
+
 /* Alone, either field fills the row. */
 .smbk-date-picker--type-date .smbk-input.smbk-date-picker__input--date,
 .smbk-date-picker--type-time .smbk-input.smbk-date-picker__input--time {
@@ -8086,6 +8740,80 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
 
   .smbk-description-list--layout-side-by-side .smbk-description-list__value {
     flex: none;
+  }
+}
+
+/* ---- small: for a narrow panel, such as a settings column about 320 to 360 wide. The term in Label SM and the value in
+   Body SM, the rows closer together. Side by side, the term takes about a quarter of the row and never less than its
+   longest word, so a short value stays on one line beside it; the narrow layout keeps the columns, since the small
+   form is made for that space. ---- */
+
+.smbk-description-list--size-sm .smbk-description-list__rows {
+  gap: var(--smbk-space-stack-lg);
+}
+
+.smbk-description-list--size-sm .smbk-description-list__row {
+  gap: var(--smbk-space-stack-xs);
+}
+
+.smbk-description-list--size-sm .smbk-description-list__term {
+  font-family: var(--smbk-typography-label-sm-font-family);
+  font-size: var(--smbk-typography-label-sm-font-size);
+  font-weight: var(--smbk-typography-label-sm-font-weight);
+  line-height: var(--smbk-typography-label-sm-line-height);
+  letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
+  text-transform: var(--smbk-typography-label-sm-text-transform);
+}
+
+.smbk-description-list--size-sm .smbk-description-list__value {
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+.smbk-description-list--size-sm .smbk-description-list__icon {
+  font-size: var(--smbk-size-icon-xs);
+}
+
+.smbk-description-list--size-sm.smbk-description-list--layout-side-by-side .smbk-description-list__rows {
+  gap: var(--smbk-space-stack-sm);
+}
+
+.smbk-description-list--size-sm.smbk-description-list--layout-side-by-side .smbk-description-list__row {
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--smbk-space-inline-md);
+}
+
+.smbk-description-list--size-sm.smbk-description-list--layout-side-by-side .smbk-description-list__term {
+  flex: 0 0 25%;
+  width: auto;
+  min-width: min-content;
+}
+
+.smbk-description-list--size-sm.smbk-description-list--layout-side-by-side .smbk-description-list__value {
+  flex: 1 1 0;
+}
+
+@container style(--smbk-layout: narrow) {
+  .smbk-description-list--size-sm.smbk-description-list--layout-side-by-side .smbk-description-list__rows {
+    gap: var(--smbk-space-stack-sm);
+  }
+
+  .smbk-description-list--size-sm.smbk-description-list--layout-side-by-side .smbk-description-list__row {
+    flex-direction: row;
+    align-items: baseline;
+    gap: var(--smbk-space-inline-md);
+  }
+
+  .smbk-description-list--size-sm.smbk-description-list--layout-side-by-side .smbk-description-list__term {
+    width: auto;
+  }
+
+  .smbk-description-list--size-sm.smbk-description-list--layout-side-by-side .smbk-description-list__value {
+    flex: 1 1 0;
   }
 }
 
@@ -8335,7 +9063,8 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
  * figure in the middle with its caption under it, and a legend beside the ring naming each part with its value.
  * A ninth part and the rest are gathered as one, in the muted gray. In a narrow layout the legend goes under
  * the ring. The first time the chart comes into view the ring sweeps round from the top; pointing at a part fades
- * the others. Nothing takes focus. */
+ * the others. Nothing takes focus, unless the parts are made focusable: then a focused part is outlined in the
+ * focus color and the others fade. */
 
 .smbk-donut-chart {
   display: flex;
@@ -8461,7 +9190,7 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
    one pointed at stands out; with nothing pointed at, the parts wait the hover close delay before coming back, so
    crossing the thin gap between two parts never flashes the whole ring; the fade moves with the feedback purpose, under reduced motion too, since nothing moves. The middle
    lets the pointer through to the ring under it. Nothing is told by the fade alone: the legend and the table name
-   every part with its value. Parts take no focus, so the keyboard has nothing to point with. At rest every part is
+   every part with its value. Parts take no focus unless made focusable (below). At rest every part is
    whole. */
 
 @media (hover: hover) {
@@ -8481,6 +9210,31 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
   .smbk-donut-chart__part {
     transition: opacity var(--smbk-motion-feedback-duration) var(--smbk-motion-feedback-easing) var(--smbk-motion-hover-close-delay);
   }
+}
+
+/* ---- a part that takes focus ----
+   Parts made focusable (a tabindex on each, one of them 0, and each named by its figures) draw the focus ring as an
+   edge in the focus color along the part's own outline, the ring's width on screen whatever the chart's size, and a
+   focused part stands out as a pointed one does: every other part fades to the faded opacity, on any screen, since
+   a keyboard has no hover. */
+
+.smbk-donut-chart__part:focus {
+  outline: none;
+}
+
+.smbk-donut-chart__part:focus-visible {
+  stroke: var(--smbk-color-border-focus);
+  stroke-width: var(--smbk-focus-ring-width);
+  vector-effect: non-scaling-stroke;
+}
+
+.smbk-donut-chart__svg:has(.smbk-donut-chart__part:focus-visible) .smbk-donut-chart__part:not(:focus-visible) {
+  opacity: var(--smbk-opacity-faded);
+}
+
+/* The ring reaches the drawing's edge, so the edge's outer half would be cut off there. */
+.smbk-donut-chart__svg:has(.smbk-donut-chart__part:focus-visible) {
+  overflow: visible;
 }
 
 /* ---- motion: the entrance ----
@@ -8524,6 +9278,10 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
 @media (forced-colors: active) {
   .smbk-donut-chart__svg {
     forced-color-adjust: none;
+  }
+
+  .smbk-donut-chart__part:focus-visible {
+    stroke: Highlight;
   }
 }
 
@@ -8624,7 +9382,9 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
   letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
 }
 
-.smbk-drawer__body > :first-child {
+/* The first thing in it, after the scrollbar the script adds (scrollbar.ts). */
+.smbk-drawer__body > :first-child,
+.smbk-drawer__body > .smbk-scrollbar:first-child + * {
   margin-top: 0;
 }
 
@@ -8745,7 +9505,8 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
 /* smbk-dropdown — Dropdown menu. Figma "Dropdown" 4800:63682 over "DropdownItem" 4210:23371.
  * A raised list of actions on the overlay surface: an optional group label,
  * items with an optional checkbox, a leading icon, a label, a trailing icon and
- * a key hint, and dividers between groups. Items come in two heights, the
+ * a key hint (or the tick of a single choice, or a submenu's caret), and
+ * dividers between groups. Items come in two heights, the
  * medium and the small control height (Figma's Items Size), each with the text,
  * icon, side padding and gap of its height; rows touch, with the extra-small
  * inset around the list. Icons read in the subtlest text color, as Figma binds them.
@@ -8757,7 +9518,11 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
  * panel. Without script the panel hangs under the opener, lined up with its
  * start or end edge, the gap Figma draws between the select's well and its list
  * below it. With script, the layer is lifted over the page while the panel
- * shows and the wrapper places the panel on the side with room (floating.ts). */
+ * shows and the wrapper places the panel on the side with room (floating.ts).
+ * A submenu part holds an item that opens a second panel and that panel's
+ * layer; the second panel is placed at the right of its item the same way.
+ * A right-click menu is the same panel in an area part, placed from a point
+ * part where the pointer was. */
 
 .smbk-dropdown {
   box-sizing: border-box;
@@ -8779,6 +9544,11 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
   overscroll-behavior: contain;
   scrollbar-width: thin;
   scrollbar-color: var(--smbk-color-border-subtle) transparent;
+}
+
+/* A menu opened by a press takes focus itself, as a container, not a control: no ring of its own. */
+.smbk-dropdown:focus {
+  outline: none;
 }
 
 /* Rows never shrink, so a list that stops at its height scrolls rather than squeezing them. */
@@ -8903,8 +9673,14 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
   color: var(--smbk-color-action-danger-foreground-disabled);
 }
 
+/* A submenu's item keeps the hover fill while its menu shows, so the way back to it is plain (Figma's Submenu example
+   draws it in the Hover state). */
+.smbk-dropdown__item[aria-expanded="true"] {
+  background: var(--smbk-color-surface-hover);
+}
+
 /* The small row: Body SM, a small icon, the medium inset at its sides and the small gap. */
-.smbk-dropdown--size-small .smbk-dropdown__item {
+.smbk-dropdown--size-sm .smbk-dropdown__item {
   gap: var(--smbk-space-inline-sm);
   min-height: var(--smbk-size-control-sm);
   padding: calc((var(--smbk-size-control-sm) - 1lh) / 2) var(--smbk-space-inset-md);
@@ -8923,12 +9699,12 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
   font-weight: var(--smbk-typography-body-md-medium-font-weight);
 }
 
-.smbk-dropdown--size-small .smbk-dropdown__item[aria-current="page"] {
+.smbk-dropdown--size-sm .smbk-dropdown__item[aria-current="page"] {
   font-family: var(--smbk-typography-body-sm-medium-font-family);
   font-weight: var(--smbk-typography-body-sm-medium-font-weight);
 }
 
-.smbk-dropdown--size-small .smbk-dropdown__label {
+.smbk-dropdown--size-sm .smbk-dropdown__label {
   padding-inline: var(--smbk-space-inset-md);
 }
 
@@ -8938,7 +9714,7 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
   font-size: var(--smbk-size-icon-md);
 }
 
-.smbk-dropdown--size-small .smbk-dropdown__icon {
+.smbk-dropdown--size-sm .smbk-dropdown__icon {
   font-size: var(--smbk-size-icon-sm);
 }
 
@@ -8968,6 +9744,36 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
 .smbk-dropdown__text {
   flex: 1 1 auto;
   min-width: 0;
+}
+
+/* ---- a submenu: its item and the layer of its second panel. The item is drawn as any item, with the caret at its end
+   (an icon part, in the item's icon color and size, as Figma's Submenu caret). With script, the layer is lifted over
+   the page while the second panel shows and the wrapper places the panel at the right of the item, its first item level
+   with it (floating.ts). Without script, an open second panel hangs there from the submenu part, and the panel around
+   it stops clipping so it shows. ---- */
+
+.smbk-dropdown__submenu {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.smbk-dropdown__submenu > .smbk-dropdown__layer:not(:popover-open) > .smbk-dropdown {
+  top: calc(-1 * (var(--smbk-space-inset-xs) + var(--smbk-border-width-hairline)));
+  left: calc(100% + var(--smbk-space-inset-xs) + var(--smbk-border-width-hairline) + var(--smbk-space-stack-xs));
+}
+
+.smbk-dropdown:has(.smbk-dropdown__submenu > .smbk-dropdown__layer:not(:popover-open) > .smbk-dropdown:not([hidden])) {
+  overflow: visible;
+}
+
+/* In a narrow space there is no room beside the panel: without script, an open second panel hangs under its item,
+   stepped in from the panel's edge, over the items below it. */
+@container style(--smbk-layout: narrow) {
+  .smbk-dropdown__submenu > .smbk-dropdown__layer:not(:popover-open) > .smbk-dropdown {
+    top: calc(100% + var(--smbk-space-stack-xs));
+    left: var(--smbk-space-inset-xl);
+  }
 }
 
 /* The divider keeps the extra-small stack step above and below it, as the rows touch. */
@@ -9052,6 +9858,32 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
   left: auto;
 }
 
+/* ---- a right-click menu: the area part holds the part of the page the menu opens over, a point the panel hangs from
+   and the layer. The wrapper puts the point where the pointer was (or at the focused element, from the keyboard) and
+   places the panel from it (floating.ts). A finger held on the area opens the menu, so the phone's own callout for a
+   held link or picture is off there. The point is a place, not a shape: no size, no press. ---- */
+
+.smbk-dropdown__area {
+  position: relative;
+  -webkit-touch-callout: none;
+}
+
+.smbk-dropdown__point {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Without script, a right-click menu given as open hangs inside the area, stepped in from its corner, where a pointer
+   would have been. */
+.smbk-dropdown__area > .smbk-dropdown__layer:not(:popover-open) > .smbk-dropdown {
+  top: var(--smbk-space-inset-2xl);
+  left: var(--smbk-space-inset-2xl);
+}
+
 /* ---- touch: every item takes an invisible press area ----
    On a touch screen an invisible area, centred on each item, takes the press out to the comfortable target in each
    direction it falls short of it, except where two items touch: there each keeps its own edge, so the items stay one
@@ -9068,20 +9900,27 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
     inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
   }
 
-  .smbk-dropdown__item + .smbk-dropdown__item::after {
+  /* A submenu's item sits in its submenu part, which counts as an item beside its neighbours. */
+  .smbk-dropdown__item + .smbk-dropdown__item::after,
+  :is(.smbk-dropdown__item, .smbk-dropdown__submenu) + .smbk-dropdown__submenu > .smbk-dropdown__item::after,
+  .smbk-dropdown__submenu + .smbk-dropdown__item::after {
     inset-block-start: 0;
   }
 
-  .smbk-dropdown__item:has(+ .smbk-dropdown__item)::after {
+  .smbk-dropdown__item:has(+ .smbk-dropdown__item)::after,
+  .smbk-dropdown__item:has(+ .smbk-dropdown__submenu)::after,
+  .smbk-dropdown__submenu:has(+ :is(.smbk-dropdown__item, .smbk-dropdown__submenu)) > .smbk-dropdown__item::after {
     inset-block-end: 0;
   }
 
   /* Each side of a divider, halfway into its room. */
-  .smbk-dropdown__divider + .smbk-dropdown__item::after {
+  .smbk-dropdown__divider + .smbk-dropdown__item::after,
+  .smbk-dropdown__divider + .smbk-dropdown__submenu > .smbk-dropdown__item::after {
     inset-block-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-xs) / -1);
   }
 
-  .smbk-dropdown__item:has(+ .smbk-dropdown__divider)::after {
+  .smbk-dropdown__item:has(+ .smbk-dropdown__divider)::after,
+  .smbk-dropdown__submenu:has(+ .smbk-dropdown__divider) > .smbk-dropdown__item::after {
     inset-block-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-xs) / -1);
   }
 }
@@ -9248,6 +10087,50 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
   font-weight: var(--smbk-typography-body-lg-font-weight);
   line-height: var(--smbk-typography-body-lg-line-height);
   letter-spacing: var(--smbk-typography-body-lg-letter-spacing);
+}
+
+/* ---- small: one panel among many, as on a dashboard. The title in Label LG straight on its line in Body SM,
+   the medium icon and the medium stack step, so the empty panel reads no louder than the panels beside it or
+   the page's own heading. Inline keeps its tight edges; centered keeps its centring with less room round it. Last,
+   so it wins over each scope's own sizes. ---- */
+
+.smbk-empty-state--size-sm {
+  gap: var(--smbk-space-stack-md);
+}
+
+.smbk-empty-state--size-sm .smbk-empty-state__icon {
+  font-size: var(--smbk-size-icon-md);
+}
+
+.smbk-empty-state--size-sm .smbk-empty-state__text {
+  gap: var(--smbk-space-text-label);
+}
+
+.smbk-empty-state--size-sm .smbk-empty-state__title {
+  font-family: var(--smbk-typography-label-lg-font-family);
+  font-size: var(--smbk-typography-label-lg-font-size);
+  font-weight: var(--smbk-typography-label-lg-font-weight);
+  line-height: var(--smbk-typography-label-lg-line-height);
+  letter-spacing: var(--smbk-typography-label-lg-letter-spacing);
+  text-transform: var(--smbk-typography-label-lg-text-transform);
+}
+
+.smbk-empty-state--size-sm .smbk-empty-state__description {
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+.smbk-empty-state--size-sm.smbk-empty-state--scope-centered,
+.smbk-empty-state--size-sm.smbk-empty-state--scope-page {
+  padding: var(--smbk-space-inset-xl);
+}
+
+.smbk-empty-state--size-sm.smbk-empty-state--scope-centered .smbk-empty-state__icon,
+.smbk-empty-state--size-sm.smbk-empty-state--scope-page .smbk-empty-state__icon {
+  font-size: var(--smbk-size-icon-lg);
 }
 
 
@@ -9559,6 +10442,37 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
   font-weight: var(--smbk-typography-body-md-font-weight);
   line-height: var(--smbk-typography-body-md-line-height);
   letter-spacing: var(--smbk-typography-body-md-letter-spacing);
+}
+
+/* The help under the question holds a line of words, or blocks: paragraphs a paragraph apart, a list's items a line
+   of list spacing apart with the bullets inside the group's edge, and code in the small code style, wrapping rather
+   than running past the group. The message under the options takes the same blocks. */
+:is(.smbk-field-group__description, .smbk-field-group__message) .smbk-field-message__text > :where(p, ul, ol, pre, blockquote) {
+  margin: 0;
+}
+
+:is(.smbk-field-group__description, .smbk-field-group__message) .smbk-field-message__text > * + * {
+  margin-block-start: var(--smbk-space-text-paragraph);
+}
+
+:is(.smbk-field-group__description, .smbk-field-group__message) .smbk-field-message__text :where(ul, ol) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-text-list);
+  padding-inline-start: var(--smbk-space-inset-xl);
+}
+
+:is(.smbk-field-group__description, .smbk-field-group__message) .smbk-field-message__text :where(code, pre) {
+  font-family: var(--smbk-typography-code-sm-font-family);
+  font-size: var(--smbk-typography-code-sm-font-size);
+  font-weight: var(--smbk-typography-code-sm-font-weight);
+  line-height: var(--smbk-typography-code-sm-line-height);
+  letter-spacing: var(--smbk-typography-code-sm-letter-spacing);
+}
+
+:is(.smbk-field-group__description, .smbk-field-group__message) .smbk-field-message__text pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 
@@ -9889,8 +10803,9 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
   outline: none;
 }
 
-/* Error: the danger edge at the emphasis width. */
-.smbk-file-upload--error .smbk-file-upload__zone {
+/* Error: the danger edge at the emphasis width; its file input marked aria-invalid="true" draws the same. */
+.smbk-file-upload--error .smbk-file-upload__zone,
+.smbk-file-upload:where(:has([aria-invalid="true"])) .smbk-file-upload__zone {
   padding: calc(var(--smbk-space-inset-2xl) - var(--smbk-border-width-emphasis));
   border-width: var(--smbk-border-width-emphasis);
   border-color: var(--smbk-color-feedback-danger-border);
@@ -10100,7 +11015,9 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
 /*
  * Floating panels: what every panel beside its opener shares, written once. The dropdown's panel (and with it the
  * select's and the combobox's lists, the split button's menu and the sidebar's flyout, which are that panel), the
- * popover's panel (and with it the date picker's calendar and the color picker's panel) and the tooltip.
+ * popover's panel (and with it the date picker's calendar and the color picker's panel) and the tooltip. The
+ * navigation menu's panel, which hangs under its row in the page with no layer, shares the closed panel and the
+ * motion.
  *
  * The layer: with an opener, the anchor holds the opener and the layer, and the layer the panel. Until the wrapper
  * lifts it, the layer has no box, so the panel hangs from the anchor as each component's own stylesheet places it, as
@@ -10113,7 +11030,8 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
  *
  * The motion of the dropdown's and the popover's panels: the panel drops from its opener across the gap and fades in
  * with the enter purpose, and goes back the same way with the exit purpose; opened above its opener, it rises to it
- * and sinks back. Its display changes at the end of the exit, so it stays drawn while it leaves. Under reduced motion
+ * and sinks back; opened at the right or the left of its opener (a submenu), it slides out of it and back in. Its
+ * display changes at the end of the exit, so it stays drawn while it leaves. Under reduced motion
  * it still fades in and out, at its normal durations, but does not travel. The tooltip's motion is its own (feedback,
  * not entry), in tooltip.css.
  *
@@ -10159,14 +11077,16 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
 
 .smbk-dropdown[hidden],
 .smbk-popover[hidden],
-.smbk-tooltip[hidden] {
+.smbk-tooltip[hidden],
+.smbk-navigation-menu__panel[hidden] {
   display: none;
 }
 
 /* ---- motion: the dropdown's and the popover's panels ---- */
 
 .smbk-dropdown,
-.smbk-popover {
+.smbk-popover,
+.smbk-navigation-menu__panel {
   transition-property: opacity, translate, scale, display;
   transition-duration: var(--smbk-motion-enter-duration);
   transition-timing-function: var(--smbk-motion-enter-easing);
@@ -10174,7 +11094,8 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
 }
 
 .smbk-dropdown[hidden],
-.smbk-popover[hidden] {
+.smbk-popover[hidden],
+.smbk-navigation-menu__panel[hidden] {
   opacity: 0;
   translate: 0 calc(-1 * var(--smbk-space-stack-xs));
   transition-duration: var(--smbk-motion-exit-duration);
@@ -10183,7 +11104,8 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
 
 @starting-style {
   .smbk-dropdown,
-  .smbk-popover {
+  .smbk-popover,
+  .smbk-navigation-menu__panel {
     opacity: 0;
     translate: 0 calc(-1 * var(--smbk-space-stack-xs));
   }
@@ -10202,6 +11124,17 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
   }
 }
 
+/* Opened at the right of its opener, it slides out of it and back in; at the left, the other way. */
+.smbk-dropdown[data-side="right"][hidden],
+.smbk-popover[data-side="right"][hidden] {
+  translate: calc(-1 * var(--smbk-space-stack-xs)) 0;
+}
+
+.smbk-dropdown[data-side="left"][hidden],
+.smbk-popover[data-side="left"][hidden] {
+  translate: var(--smbk-space-stack-xs) 0;
+}
+
 /* It grows out of the edge nearest its opener as it comes, a touch short of its height at first, and shrinks back
    into it as it goes: its top edge holds still below the opener, its foot above it. The coming is an animation
    named for the side, rather than the starting style above: the side is known only once the panel shows and has
@@ -10217,9 +11150,20 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
   transform-origin: bottom;
 }
 
+.smbk-dropdown[data-side="right"],
+.smbk-popover[data-side="right"] {
+  transform-origin: left;
+}
+
+.smbk-dropdown[data-side="left"],
+.smbk-popover[data-side="left"] {
+  transform-origin: right;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .smbk-dropdown,
-  .smbk-popover {
+  .smbk-popover,
+  .smbk-navigation-menu__panel {
     animation: smbk-floating-drop var(--smbk-motion-enter-duration) var(--smbk-motion-enter-easing);
   }
 
@@ -10228,9 +11172,25 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
     animation-name: smbk-floating-rise;
   }
 
+  .smbk-dropdown[data-side="right"],
+  .smbk-popover[data-side="right"] {
+    animation-name: smbk-floating-slide-right;
+  }
+
+  .smbk-dropdown[data-side="left"],
+  .smbk-popover[data-side="left"] {
+    animation-name: smbk-floating-slide-left;
+  }
+
   .smbk-dropdown[hidden],
-  .smbk-popover[hidden] {
+  .smbk-popover[hidden],
+  .smbk-navigation-menu__panel[hidden] {
     scale: 1 0.96;
+  }
+
+  .smbk-dropdown:is([data-side="right"], [data-side="left"])[hidden],
+  .smbk-popover:is([data-side="right"], [data-side="left"])[hidden] {
+    scale: 0.96 1;
   }
 }
 
@@ -10239,6 +11199,22 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
     opacity: 0;
     translate: 0 calc(-1 * var(--smbk-space-stack-xs));
     scale: 1 0.96;
+  }
+}
+
+@keyframes smbk-floating-slide-right {
+  from {
+    opacity: 0;
+    translate: calc(-1 * var(--smbk-space-stack-xs)) 0;
+    scale: 0.96 1;
+  }
+}
+
+@keyframes smbk-floating-slide-left {
+  from {
+    opacity: 0;
+    translate: var(--smbk-space-stack-xs) 0;
+    scale: 0.96 1;
   }
 }
 
@@ -10253,14 +11229,16 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
 /* Under reduced motion only its opacity and its display change over time, and a closing panel stays where it is. */
 @media (prefers-reduced-motion: reduce) {
   .smbk-dropdown,
-  .smbk-popover {
+  .smbk-popover,
+  .smbk-navigation-menu__panel {
     transition-property: opacity, display;
   }
 
   .smbk-dropdown[hidden],
   .smbk-dropdown[data-side][hidden],
   .smbk-popover[hidden],
-  .smbk-popover[data-side][hidden] {
+  .smbk-popover[data-side][hidden],
+  .smbk-navigation-menu__panel[hidden] {
     translate: none;
   }
 }
@@ -11507,6 +12485,22 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
 }
 
 
+/* ---- components/hidden/hidden.css ---- */
+/*
+ * Hidden: any part of the design system given the hidden attribute is hidden, whatever display its own stylesheet
+ * gives it. A component's display outweighs the browser's own rule for hidden, so a page's script that hid a tag, an
+ * empty state or a list row with the attribute left it on screen; this one rule puts the attribute's meaning back for
+ * every element carrying one of the system's classes.
+ *
+ * A panel that fades out as it closes (a dropdown, a popover, a toast) keeps its motion: a running transition
+ * outweighs this rule until it ends. hidden="until-found" is left to the browser, which keeps such a part's box so
+ * find-in-page can open it.
+ */
+[class*="smbk-"][hidden]:not([hidden="until-found" i]) {
+  display: none !important;
+}
+
+
 /* ---- components/icon/icon.css ---- */
 /* smbk-icon — a Phosphor glyph in a system icon size.
  * Phosphor draws through font-size, so the box and the glyph share one size.
@@ -11557,7 +12551,10 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
  * The search field and the select are built on this well: their markup
  * carries smbk-input, so every change here reaches them too. The select's
  * well is itself the control, a button, which the focus, read-only and
- * disabled rules below also cover. */
+ * disabled rules below also cover. The one-time code input draws each of its
+ * cells as this well, with one native control over them all: the focus,
+ * read-only and disabled rules below name its cells too, the cell marked
+ * data-active taking the focus while the control has it. */
 
 .smbk-input {
   box-sizing: border-box;
@@ -11591,7 +12588,8 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
 /* Focus: the field's border. A well that is itself a button (the select's) shows it only when the keyboard
    brought focus there, as every button does: a press opens its list, and a choice hands focus back to it
    without the focused look. A field typed into shows it however it was reached. */
-.smbk-input:focus-within:where(:not(button:not(:focus-visible))) {
+.smbk-input:focus-within:where(:not(button:not(:focus-visible))),
+:where(.smbk-one-time-code-input:has(> .smbk-one-time-code-input__control:focus)) .smbk-input[data-active] {
   background: var(--smbk-color-surface-sunken);
   border-color: var(--smbk-color-border-focus-field);
   box-shadow: var(--smbk-elevation-inset-strong);
@@ -11603,8 +12601,12 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
 }
 
 /* In error the danger edge stays while the field has focus and under the pointer, with the error icon
-   beside the value, so the error is a shape as well as a color. Two classes, so it wins over focus. */
-.smbk-input.smbk-input--error {
+   beside the value, so the error is a shape as well as a color. Two classes, so it wins over focus. A well or a
+   control in it marked aria-invalid="true" takes the same edge, at the same weight, for markup written by hand;
+   the error icon is markup. */
+.smbk-input.smbk-input--error,
+.smbk-input[aria-invalid="true"],
+.smbk-input:has([aria-invalid="true"]) {
   border-color: var(--smbk-color-feedback-danger-border);
 }
 
@@ -11612,19 +12614,22 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
    surface with a faint edge, no shadow and no lift on hover; it stays in the tab order and shows focus by
    its border, as every field does. The select's well, a button, says it with aria-readonly. */
 .smbk-input:has(.smbk-input__control[readonly]),
-.smbk-input[aria-readonly="true"] {
+.smbk-input[aria-readonly="true"],
+:where(.smbk-one-time-code-input:has(> .smbk-one-time-code-input__control[readonly])) .smbk-input.smbk-one-time-code-input__cell {
   border-color: var(--smbk-color-border-rim-subtle);
   background: var(--smbk-color-surface-default);
   box-shadow: none;
 }
 
 .smbk-input:has(.smbk-input__control[readonly]):focus-within,
-.smbk-input[aria-readonly="true"]:focus-within:where(:not(button:not(:focus-visible))) {
+.smbk-input[aria-readonly="true"]:focus-within:where(:not(button:not(:focus-visible))),
+:where(.smbk-one-time-code-input:has(> .smbk-one-time-code-input__control[readonly]:focus)) .smbk-input.smbk-one-time-code-input__cell[data-active] {
   border-color: var(--smbk-color-border-focus-field);
 }
 
 .smbk-input:has(.smbk-input__control:disabled),
-.smbk-input:disabled {
+.smbk-input:disabled,
+:where(.smbk-one-time-code-input:has(> .smbk-one-time-code-input__control:disabled)) .smbk-input.smbk-one-time-code-input__cell {
   border-color: transparent;
   background: var(--smbk-color-surface-disabled);
   color: var(--smbk-color-text-disabled);
@@ -11682,6 +12687,15 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
 
 .smbk-input__leading-content {
   gap: var(--smbk-space-inline-xs);
+}
+
+/* ---- large (lg): 48 tall, beside large buttons ----
+   The md field's text, icons and gap on the large control's height, with the next padding and corner step. */
+
+.smbk-input--size-lg {
+  height: var(--smbk-size-control-lg);
+  padding: 0 var(--smbk-space-inset-xl);
+  border-radius: var(--smbk-radius-control-lg);
 }
 
 /* ---- small (sm): the small recipe, and text in Field SM, which never
@@ -11751,7 +12765,8 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
 @media (forced-colors: active) {
   /* Field focus is the edge alone, as everywhere: here the edge turns Highlight and thickens by a
      focus ring's width, since a hairline color change does not show in forced colors. */
-  .smbk-input:focus-within:where(:not(button:not(:focus-visible))) {
+  .smbk-input:focus-within:where(:not(button:not(:focus-visible))),
+  :where(.smbk-one-time-code-input:has(> .smbk-one-time-code-input__control:focus)) .smbk-input[data-active] {
     border-color: Highlight;
     outline: var(--smbk-focus-ring-width) solid Highlight;
     outline-offset: 0;
@@ -11759,7 +12774,8 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
 
   .smbk-input:has(.smbk-input__control:disabled),
   .smbk-input:disabled,
-  .smbk-input__control:disabled {
+  .smbk-input__control:disabled,
+  :where(.smbk-one-time-code-input:has(> .smbk-one-time-code-input__control:disabled)) .smbk-input.smbk-one-time-code-input__cell {
     border-color: GrayText;
     color: GrayText;
   }
@@ -12575,14 +13591,24 @@ button.smbk-link {
   font-weight: var(--smbk-typography-body-md-medium-font-weight);
 }
 
-/* A chosen option: the see-through selected fill and its tick. The fill shows on the page and on a card alike;
-   the sunken fill is the page's own color, so on the page only the tick would show. */
+/* A chosen option: the see-through selected fill and its tick. The fill shows on the page and on a card alike,
+   and is the fill made for chosen items, as in the sidebar. */
 .smbk-list__item[aria-selected="true"] > .smbk-list__row {
   background: var(--smbk-color-surface-selected);
 }
 
 .smbk-list__item[aria-selected="true"] > .smbk-list__row .smbk-list__check {
   visibility: visible;
+}
+
+/* Tickless: a row that opens as it is chosen keeps the fill and takes the title one weight bolder, as the current row
+   does, so it never shows by color alone; the tick takes no room. */
+.smbk-list--tickless .smbk-list__check {
+  display: none;
+}
+
+.smbk-list--tickless .smbk-list__item[aria-selected="true"] > .smbk-list__row .smbk-list__item-title {
+  font-weight: var(--smbk-typography-body-md-medium-font-weight);
 }
 
 .smbk-list__row:is(:disabled, [aria-disabled="true"]),
@@ -12952,6 +13978,43 @@ button.smbk-link {
 }
 
 
+/* ---- components/menubar/menubar.css ---- */
+/* smbk-menubar — Menubar. Figma "Menubar" 8222:3544 (State: Closed, Open).
+ * A row of menu titles on the default surface, the rim around it and the large control corner, the extra-small inset
+ * all round and no gap between titles. Each title is the ghost button at its small size, 32 tall, with the item part;
+ * while its menu shows it keeps the ghost button's pressed fill. The edge is drawn inside, as Figma draws it, so the
+ * inset gives its width back: the bar is 40 tall. A row too long for its space wraps onto a second line rather than
+ * pushing the page sideways.
+ * Each menu is the dropdown: its anchor holds the title and the layer, and the panel hangs the extra-small stack step
+ * below the bar, lined up with its title's start, as Figma's Open draws the File menu. With script the wrapper places
+ * it there (floating.ts, standing off from the bar); without script it hangs there from its title. */
+
+.smbk-menubar {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--smbk-space-0);
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  padding: calc(var(--smbk-space-inset-xs) - var(--smbk-border-width-hairline));
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim);
+  border-radius: var(--smbk-radius-control-lg);
+  background: var(--smbk-color-surface-default);
+  color: var(--smbk-color-text-default);
+}
+
+/* The title whose menu shows: the ghost button's pressed fill (Figma's Open, Button State=Pressed). */
+.smbk-menubar__item[aria-expanded="true"] {
+  background: var(--smbk-color-action-ghost-background-pressed);
+}
+
+/* Without script, an open menu hangs below the bar, not below its title: the bar's inset and edge, then the gap. */
+.smbk-menubar .smbk-dropdown__anchor > .smbk-dropdown__layer:not(:popover-open) > .smbk-dropdown {
+  top: calc(100% + var(--smbk-space-inset-xs) + var(--smbk-space-stack-xs));
+}
+
+
 /* ---- components/meter/meter.css ---- */
 /* smbk-meter — Meter. Figma "Meter" 7580:43 (Value × Tone), on "ProgressTrack" 4168:13602's track.
  * How full something is inside a known range, such as storage used. Built on the progress bar: the
@@ -13030,6 +14093,12 @@ button.smbk-link {
   font-size: var(--smbk-size-icon-lg);
 }
 
+/* The alert dialog (alert-dialog.css, drawn by this stylesheet) warns in the danger color while its confirm action is
+   the danger one, as its Figma drawing has it; with a brand confirm action its icon keeps the modal's color. */
+.smbk-alert-dialog:has(.smbk-btn--tone-danger) .smbk-modal__icon {
+  color: var(--smbk-color-feedback-danger-icon);
+}
+
 .smbk-modal__title {
   margin: 0;
   font-family: var(--smbk-typography-heading-2xs-bold-font-family);
@@ -13063,7 +14132,9 @@ button.smbk-link {
   letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
 }
 
-.smbk-modal__body > :first-child {
+/* The first thing in it, after the scrollbar the script adds (scrollbar.ts). */
+.smbk-modal__body > :first-child,
+.smbk-modal__body > .smbk-scrollbar:first-child + * {
   margin-top: 0;
 }
 
@@ -13162,6 +14233,13 @@ button.smbk-link {
 
 .smbk-nav-item[aria-expanded="true"] {
   color: var(--smbk-color-text-default);
+}
+
+/* The navigation menu's item whose panel is open stays raised, as hover raises it (Figma's NavigationMenu, Open). */
+.smbk-nav-item.smbk-navigation-menu__trigger[aria-expanded="true"] {
+  border-color: var(--smbk-color-border-rim);
+  background: var(--smbk-color-surface-raised);
+  box-shadow: var(--smbk-elevation-control);
 }
 
 .smbk-nav-item:focus-visible {
@@ -13366,6 +14444,240 @@ button.smbk-link {
 }
 
 
+/* ---- components/navigation-menu/navigation-menu.css ---- */
+/* smbk-navigation-menu — Navigation menu. Figma "NavigationMenu" 8217:3602 (State: Closed, Open) and
+ * "NavigationLink" 8217:3405 (State: Default, Hover, Focus).
+ * A site header's links: a row of navigation items at the medium size; an item with a caret opens a wide panel under
+ * the row, holding columns of links (each an icon, a title and a line of description) under small headings, and
+ * an optional featured column with a picture, a title and a link. The items are the navigation item component; its
+ * stylesheet draws them, the open one raised as hover raises it. The panel drops in and fades out with the floating
+ * panels' motion (floating/floating.css names it). In a narrow space (the layout switch) the row stacks into a
+ * list and each panel opens in place under its item, its columns one under another. */
+
+.smbk-navigation-menu {
+  position: relative;
+  color: var(--smbk-color-text-default);
+}
+
+.smbk-navigation-menu__list {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.smbk-navigation-menu__item {
+  display: block;
+}
+
+/* ---- the panel: under the row, lined up with its start edge (or its end edge, align end). In a wide space narrower
+   than its columns, the columns that do not fit wrap under the others rather than leaving the window. ---- */
+
+.smbk-navigation-menu__panel {
+  box-sizing: border-box;
+  position: absolute;
+  top: calc(100% + var(--smbk-space-stack-xs));
+  inset-inline-start: 0;
+  z-index: var(--smbk-layer-overlay);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--smbk-space-inline-lg);
+  width: max-content;
+  max-width: calc(100vw - 2 * var(--smbk-space-inset-xl));
+  padding: var(--smbk-space-inset-lg);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim);
+  border-radius: var(--smbk-radius-container-md);
+  background: var(--smbk-color-surface-overlay);
+  box-shadow: var(--smbk-elevation-overlay);
+  transform-origin: top;
+}
+
+.smbk-navigation-menu--align-end .smbk-navigation-menu__panel {
+  inset-inline-start: auto;
+  inset-inline-end: 0;
+}
+
+.smbk-navigation-menu__column {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* A column's heading: Label SM in the subtlest text, a row the medium mark's height, lined up with the links' text. */
+.smbk-navigation-menu__heading {
+  display: flex;
+  align-items: center;
+  min-height: var(--smbk-size-mark-lg);
+  margin: 0;
+  padding: 0 var(--smbk-space-inset-lg);
+  color: var(--smbk-color-text-subtlest);
+  font-family: var(--smbk-typography-label-sm-font-family);
+  font-size: var(--smbk-typography-label-sm-font-size);
+  font-weight: var(--smbk-typography-label-sm-font-weight);
+  line-height: var(--smbk-typography-label-sm-line-height);
+  letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
+}
+
+.smbk-navigation-menu__links {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---- a link in the panel (Figma's NavigationLink): an icon, a title and a line of description ---- */
+
+.smbk-navigation-menu__link {
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--smbk-space-inline-md);
+  width: var(--smbk-size-width-240);
+  max-width: 100%;
+  padding: var(--smbk-space-inset-lg);
+  border-radius: var(--smbk-radius-control-md);
+  color: var(--smbk-color-text-default);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) {
+  .smbk-navigation-menu__link:hover {
+    background: var(--smbk-color-surface-hover);
+  }
+}
+
+.smbk-navigation-menu__link:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+  background: var(--smbk-color-surface-hover);
+}
+
+.smbk-navigation-menu__link-icon {
+  flex-shrink: 0;
+  color: var(--smbk-color-icon-subtle);
+  font-size: var(--smbk-size-icon-md);
+}
+
+.smbk-navigation-menu__link-text,
+.smbk-navigation-menu__featured-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-text-label);
+  min-width: 0;
+}
+
+.smbk-navigation-menu__link-title,
+.smbk-navigation-menu__featured-title {
+  margin: 0;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-label-lg-font-family);
+  font-size: var(--smbk-typography-label-lg-font-size);
+  font-weight: var(--smbk-typography-label-lg-font-weight);
+  line-height: var(--smbk-typography-label-lg-line-height);
+  letter-spacing: var(--smbk-typography-label-lg-letter-spacing);
+}
+
+/* The current page's link sits on the selected surface. Figma draws no current link; Label LG has no bolder weight. */
+.smbk-navigation-menu__link[aria-current="page"] {
+  background: var(--smbk-color-surface-selected);
+}
+
+.smbk-navigation-menu__link-description,
+.smbk-navigation-menu__featured-description {
+  margin: 0;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+/* ---- the featured column: a picture, a title, a line and a link, padded as a link is ---- */
+
+.smbk-navigation-menu__featured {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--smbk-space-stack-sm);
+  width: var(--smbk-size-width-240);
+  max-width: 100%;
+  padding: var(--smbk-space-inset-lg);
+}
+
+.smbk-navigation-menu__featured > :first-child {
+  align-self: stretch;
+}
+
+/* ---- narrow: the row stacks, each item fills it with its caret at the far end, and a panel opens in place under
+   its item, its columns and its featured column one under another, set in a step so they read as the item's. ---- */
+
+@container style(--smbk-layout: narrow) {
+  .smbk-navigation-menu__list {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .smbk-navigation-menu__item > .smbk-nav-item {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .smbk-navigation-menu__panel,
+  .smbk-navigation-menu--align-end .smbk-navigation-menu__panel {
+    position: static;
+    flex-direction: column;
+    gap: var(--smbk-space-stack-sm);
+    width: auto;
+    max-width: none;
+    padding: var(--smbk-space-stack-xs) 0 var(--smbk-space-stack-sm) var(--smbk-space-inset-lg);
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .smbk-navigation-menu__link,
+  .smbk-navigation-menu__featured {
+    width: 100%;
+  }
+}
+
+/* ---- touch: a link in the panel already passes the comfortable target. Stacked in a narrow space, the top items
+   touch: where one item meets the next, each keeps its own edge, so each stays one press. Under an open panel an
+   item is not touching another, so the nav item's own area reaches out there, as everywhere else. Nothing drawn
+   moves. ---- */
+
+@container style(--smbk-layout: narrow) {
+  @media (pointer: coarse) {
+    .smbk-navigation-menu__item:not(:has(> .smbk-navigation-menu__panel:not([hidden]))) + .smbk-navigation-menu__item > .smbk-nav-item::after {
+      inset-block-start: 0;
+    }
+
+    .smbk-navigation-menu__item:has(+ .smbk-navigation-menu__item):not(:has(> .smbk-navigation-menu__panel:not([hidden]))) > .smbk-nav-item::after {
+      inset-block-end: 0;
+    }
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  .smbk-navigation-menu__link[aria-current="page"] {
+    outline: var(--smbk-border-width-hairline) solid Highlight;
+  }
+}
+
+
 /* ---- components/number-field/number-field.css ---- */
 /* smbk-number-field — Number field. Figma "Number field" 7106:947.
  * Built on the input: the block always sits on an smbk-input well, the text
@@ -13470,6 +14782,68 @@ button.smbk-link {
 }
 
 
+/* ---- components/one-time-code-input/one-time-code-input.css ---- */
+/* smbk-one-time-code-input — One-time code input. Figma "One-time code input" 8217:3276 (State: Empty, Focused,
+ * Partly filled, Complete, Error, Disabled).
+ * Six cells in two groups of three that act as one field. Each cell is the input's well at the large control's
+ * height, square, with the large control's corners: its markup carries smbk-input and smbk-input--size-lg, so the
+ * input's stylesheet draws the well, its error edge and its disabled and read-only looks, and names the cell marked
+ * data-active, which takes the focus edge while the control has focus. One native text control lies over every cell,
+ * unseen, and holds the value: what is typed, pasted or filled in by the phone goes there, and the cells show it.
+ * This stylesheet only lays the cells out and lays the control over them. */
+
+.smbk-one-time-code-input {
+  position: relative;
+  display: inline-flex;
+  gap: var(--smbk-space-24);
+  max-width: 100%;
+  vertical-align: top;
+}
+
+.smbk-one-time-code-input__group {
+  display: flex;
+  gap: var(--smbk-space-inline-md);
+  min-width: 0;
+}
+
+/* A cell is the large well made square, its digit centred. In a space narrower than the six, the cells narrow
+   together and keep their height, so the page never scrolls sideways. Two classes, so the input's own size rules,
+   whatever order the stylesheets load in, never widen or pad it. */
+.smbk-input.smbk-one-time-code-input__cell {
+  flex: 0 1 auto;
+  width: var(--smbk-size-control-lg);
+  min-width: 0;
+  padding: 0;
+  justify-content: center;
+}
+
+.smbk-one-time-code-input__digit {
+  font-variant-numeric: tabular-nums;
+}
+
+/* The control lies over every cell and takes every press, unseen: the cells draw its value, so its own text, caret,
+   selection and the browser's fill colour are never shown. Its text is the cells' own size, so a phone's browser
+   never zooms in as it takes focus. */
+.smbk-one-time-code-input__control {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  cursor: text;
+}
+
+.smbk-one-time-code-input__control:disabled {
+  cursor: not-allowed;
+}
+
+
 /* ---- components/page-header/page-header.css ---- */
 /* smbk-page-header — Page header. Figma "Page header" 7115:869 (Composition × Layout × State). The top of one page:
  * small breadcrumbs, then the title (Heading XL, Heading LG in a narrow layout) with an optional status badge beside
@@ -13569,6 +14943,13 @@ button.smbk-link {
   font-family: var(--smbk-typography-heading-xl-font-family);
   font-size: var(--smbk-typography-heading-xl-font-size);
   line-height: var(--smbk-typography-heading-xl-line-height);
+}
+
+/* An action drawn by a button note: its note hangs under the buttons. The row then lines its items up by their tops,
+   each button a medium control, a step in from the title's line so it stays centred on it, as without a note. */
+.smbk-page-header__actions:has(> .smbk-button-note) {
+  align-items: flex-start;
+  padding-block-start: calc((1lh - var(--smbk-size-control-md)) / 2);
 }
 
 /* Each "More actions" opener shows in one layout only: the narrow one also holds the actions the narrow row hides. */
@@ -13680,6 +15061,16 @@ button.smbk-link {
 
   .smbk-page-header__actions {
     min-height: 0;
+  }
+
+  .smbk-page-header__actions:has(> .smbk-button-note) {
+    padding-block-start: 0;
+  }
+
+  /* A main action with a note fills the row too, its note under it at the start. */
+  .smbk-page-header__action--primary.smbk-button-note {
+    align-items: stretch;
+    text-align: start;
   }
 
   .smbk-page-header__action--primary {
@@ -14075,6 +15466,14 @@ button.smbk-link {
   color: var(--smbk-color-text-default);
   box-shadow: var(--smbk-elevation-overlay);
   text-align: start;
+  /* Its words wrap wherever it opens: a table heading or a bar keeps its own on one line, and the panel would take that
+     and scroll sideways. */
+  white-space: normal;
+}
+
+/* The panel takes focus as it opens when it holds no field, as a container, not a control: no ring of its own. */
+.smbk-popover:focus {
+  outline: none;
 }
 
 /* ---- header ---- */
@@ -14218,7 +15617,8 @@ button.smbk-link {
 }
 
 /* Placed in the lifted layer, it is never taller than the room on its side of the opener (the wrapper sets that
-   height), and a panel taller than that scrolls inside itself, with the system's thin scrollbar. */
+   height), and a panel taller than that scrolls inside itself, with the system's scrollbar over it (scrollbar.ts), or
+   the browser's thin one in markup written by hand. */
 .smbk-popover__layer:popover-open > .smbk-popover {
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -14647,7 +16047,9 @@ button.smbk-link {
 
 
 /* ---- components/radio/radio.css ---- */
-/* smbk-radio — Radio. Figma "Radio" 4086:11110 (Size × State × Checked). */
+/* smbk-radio — Radio. Figma "Radio" 4086:11110 (Size × State × Checked).
+ * Choosing fills the circle from a little smaller as it fades in, and the dot pops in over it
+ * (see the motion rules at the end). */
 
 /* .smbk-radio__control: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css.
    The row, its type, the disabled colour, the label over a line under it, the focus ring on the circle and the touch area are shared
@@ -14664,10 +16066,23 @@ button.smbk-link {
   border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-control);
   border-radius: var(--smbk-radius-full);
   background: transparent;
+  position: relative;
+  isolation: isolate;
+}
+
+/* The fill: a layer over the whole circle, its edge included, under the dot. It shows while the radio is chosen, when
+   the circle itself draws nothing, so the two are never drawn over each other. */
+.smbk-radio__circle::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: calc(-1 * var(--smbk-border-width-hairline));
+  border-radius: inherit;
+  background: var(--smbk-color-action-inverse-background);
+  opacity: 0;
 }
 
 .smbk-radio__dot {
-  display: none;
   width: var(--smbk-size-6);
   height: var(--smbk-size-6);
   border-radius: var(--smbk-radius-full);
@@ -14676,11 +16091,10 @@ button.smbk-link {
 
 .smbk-radio__control:checked + .smbk-radio__circle {
   border-color: transparent;
-  background: var(--smbk-color-action-inverse-background);
 }
 
-.smbk-radio__control:checked + .smbk-radio__circle .smbk-radio__dot {
-  display: block;
+.smbk-radio__control:checked + .smbk-radio__circle::before {
+  opacity: 1;
 }
 
 /* Hover: an empty ring darkens its edge; a chosen one darkens its fill. */
@@ -14691,17 +16105,22 @@ button.smbk-link {
 
   .smbk-radio:hover .smbk-radio__control:enabled:checked + .smbk-radio__circle {
     border-color: transparent;
+  }
+
+  .smbk-radio:hover .smbk-radio__control:enabled:checked + .smbk-radio__circle::before {
     background: var(--smbk-color-action-inverse-background-hover);
   }
 }
 
-/* Error: an empty ring takes the danger edge; a chosen one keeps its fill inside a danger ring.
-   Two classes, so the error stays under the pointer. */
-.smbk-radio.smbk-radio--error .smbk-radio__control:enabled + .smbk-radio__circle {
+/* Error: an empty ring takes the danger edge; a chosen one keeps its fill, to its edge, inside a danger ring.
+   Two classes, so the error stays under the pointer. The control marked aria-invalid="true" draws the same. */
+.smbk-radio.smbk-radio--error .smbk-radio__control:enabled + .smbk-radio__circle,
+.smbk-radio .smbk-radio__control[aria-invalid="true"]:enabled + .smbk-radio__circle {
   border-color: var(--smbk-color-feedback-danger-border);
 }
 
-.smbk-radio.smbk-radio--error .smbk-radio__control:enabled:checked + .smbk-radio__circle {
+.smbk-radio.smbk-radio--error .smbk-radio__control:enabled:checked + .smbk-radio__circle,
+.smbk-radio .smbk-radio__control[aria-invalid="true"]:enabled:checked + .smbk-radio__circle {
   border-color: transparent;
   box-shadow: 0 0 0 var(--smbk-border-width-emphasis) var(--smbk-color-feedback-danger-border);
 }
@@ -14711,12 +16130,17 @@ button.smbk-link {
 }
 
 .smbk-radio__control:checked:focus-visible + .smbk-radio__circle {
-  background: var(--smbk-color-action-inverse-background);
+  background: transparent;
 }
 
+/* Disabled, chosen or not, the circle draws itself in the disabled colours, with no fill over it. */
 .smbk-radio__control:disabled + .smbk-radio__circle {
   border-color: var(--smbk-color-border-control-disabled);
   background: transparent;
+}
+
+.smbk-radio__control:disabled + .smbk-radio__circle::before {
+  content: none;
 }
 
 .smbk-radio__control:disabled:checked + .smbk-radio__circle {
@@ -14741,6 +16165,64 @@ button.smbk-link {
   height: var(--smbk-size-4);
 }
 
+/* ---- motion: choosing fills the circle and pops the dot in. The fill grows from a little smaller than
+   the circle as it fades in, with the fill purpose, while the circle's own edge fades under it; the dot
+   grows from nothing a little past its size and settles back, with the pop purpose, and shrinks away the
+   same way when another radio is chosen. The circle gives a little while it is pressed, with the feedback
+   purpose. Only a change moves: a radio chosen as the page loads is simply chosen. Under reduced motion
+   the fill and the dot only fade, and nothing gives. ---- */
+
+.smbk-radio__circle {
+  transition-property: border-color, background-color, box-shadow, scale;
+  transition-duration: var(--smbk-motion-fill-duration), var(--smbk-motion-fill-duration), var(--smbk-motion-fill-duration), var(--smbk-motion-feedback-duration);
+  transition-timing-function: var(--smbk-motion-fill-easing), var(--smbk-motion-fill-easing), var(--smbk-motion-fill-easing), var(--smbk-motion-feedback-easing);
+}
+
+.smbk-radio:active .smbk-radio__control:enabled + .smbk-radio__circle {
+  scale: 0.97;
+}
+
+.smbk-radio__circle::before {
+  scale: 0.7;
+  transition-property: opacity, scale;
+  transition-duration: var(--smbk-motion-fill-duration);
+  transition-timing-function: var(--smbk-motion-fill-easing);
+}
+
+.smbk-radio__control:checked + .smbk-radio__circle::before {
+  scale: none;
+}
+
+.smbk-radio__dot {
+  opacity: 0;
+  scale: 0;
+  transition-property: opacity, scale;
+  transition-duration: var(--smbk-motion-pop-duration);
+  transition-timing-function: var(--smbk-motion-pop-easing);
+}
+
+.smbk-radio__control:checked + .smbk-radio__circle .smbk-radio__dot {
+  opacity: 1;
+  scale: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-radio__circle {
+    transition-property: border-color, background-color, box-shadow;
+  }
+
+  .smbk-radio:active .smbk-radio__control:enabled + .smbk-radio__circle,
+  .smbk-radio__circle::before,
+  .smbk-radio__dot {
+    scale: none;
+  }
+
+  .smbk-radio__circle::before,
+  .smbk-radio__dot {
+    transition-property: opacity;
+  }
+}
+
 /* ---- high contrast (forced colors) ---- */
 /* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
    user's own colors. Nothing here applies outside that mode. */
@@ -14751,6 +16233,10 @@ button.smbk-link {
   .smbk-radio__control:checked:focus-visible + .smbk-radio__circle {
     border-color: Highlight;
     background: Highlight;
+  }
+
+  .smbk-radio__circle::before {
+    content: none;
   }
 
   .smbk-radio__control:checked + .smbk-radio__circle .smbk-radio__dot {
@@ -15047,6 +16533,186 @@ button.smbk-ruler__width:focus-visible {
 
   .smbk-ruler__handle:focus-visible {
     outline-color: CanvasText;
+  }
+}
+
+
+/* ---- components/scrollbar/scrollbar.css ---- */
+/*
+ * The scrollbar over a part that scrolls inside itself (scrollbar.ts): a thin, see-through thumb at the part's edge,
+ * over the content, taking no room. It shows while a mouse is over the part and while the part scrolls, and fades
+ * after; on its bar the thumb widens and darkens, darker still while dragged. Its tint is the translucent neutral of
+ * a secondary control at rest, on hover and pressed, so the words under it still read in both themes.
+ *
+ * The script marks the part `data-scrollbar` and adds the bar as its first child, a corner held in place with no size
+ * of its own; the bar's area covers what shows of the part. Only where the main pointer is a mouse or a trackpad: a
+ * touch screen keeps the browser's own bar, which already sits over the content there. Markup written by hand has
+ * no mark, so each component's own rule draws the browser's thin bar.
+ */
+
+.smbk-scrollbar {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  /* The browser's bar gives way wherever the script draws this one, over each component's own thin-bar rule. Its
+     z-index stays inside the part, so the bar never draws over what lies outside it (an app bar the part scrolls
+     under). */
+  [data-scrollbar] {
+    isolation: isolate;
+    scrollbar-width: none !important;
+  }
+
+  [data-scrollbar]::-webkit-scrollbar {
+    display: none;
+  }
+
+  .smbk-scrollbar {
+    position: sticky;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    z-index: var(--smbk-layer-overlay);
+    display: block;
+    flex: none;
+    align-self: flex-start;
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+    /* Going, it waits for a widened thumb to narrow back, then fades, and is hidden once it has: nothing of it is
+       drawn or pressed while it rests. */
+    transition:
+      opacity var(--smbk-motion-exit-duration) var(--smbk-motion-exit-easing) var(--smbk-motion-feedback-duration),
+      visibility 0s linear calc(var(--smbk-motion-feedback-duration) + var(--smbk-motion-exit-duration));
+  }
+
+  .smbk-scrollbar[data-shown] {
+    visibility: visible;
+    opacity: 1;
+    transition:
+      opacity var(--smbk-motion-feedback-duration) var(--smbk-motion-feedback-easing),
+      visibility 0s;
+  }
+
+  /* Over a control that cannot hold it (a text area), in the control's parent, which the control fills. */
+  .smbk-scrollbar--over {
+    position: absolute;
+    inset: 0;
+    z-index: auto;
+    width: auto;
+    height: auto;
+  }
+
+  .smbk-scrollbar__area {
+    position: absolute;
+    display: block;
+  }
+
+  /* In a grid, laid over all the part scrolls through (the script sizes it), with the area held in view inside it. */
+  .smbk-scrollbar--spread {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+  }
+
+  .smbk-scrollbar--spread > .smbk-scrollbar__area {
+    position: sticky;
+  }
+
+  .smbk-scrollbar--over > .smbk-scrollbar__area {
+    inset: 0;
+  }
+
+  /* A track is the bar's press area, along the edge, clear; a part that does not run past its size that way has none. */
+  .smbk-scrollbar__track {
+    position: absolute;
+    display: none;
+    touch-action: none;
+    user-select: none;
+  }
+
+  .smbk-scrollbar__track[data-overflows] {
+    display: block;
+  }
+
+  .smbk-scrollbar[data-shown] .smbk-scrollbar__track {
+    pointer-events: auto;
+  }
+
+  .smbk-scrollbar__track--y {
+    inset-block: 0;
+    inset-inline-end: 0;
+    width: var(--smbk-size-12);
+  }
+
+  .smbk-scrollbar__track--x {
+    inset-inline: 0;
+    inset-block-end: 0;
+    height: var(--smbk-size-12);
+  }
+
+  /* Both ways: the sideways bar stops short of the downward one. */
+  .smbk-scrollbar[data-both] .smbk-scrollbar__track--x {
+    inset-inline-end: var(--smbk-size-12);
+  }
+
+  /* The script sizes the thumb to the share of the part in view and moves it with the scroll. */
+  .smbk-scrollbar__thumb {
+    position: absolute;
+    border-radius: var(--smbk-radius-full);
+    background: var(--smbk-color-action-secondary-background);
+    transition-property: width, height, background-color;
+    transition-duration: var(--smbk-motion-feedback-duration);
+    transition-timing-function: var(--smbk-motion-feedback-easing);
+  }
+
+  .smbk-scrollbar__track--y > .smbk-scrollbar__thumb {
+    top: var(--smbk-space-4);
+    inset-inline-end: var(--smbk-space-4);
+    width: var(--smbk-size-4);
+    min-height: var(--smbk-size-24);
+  }
+
+  .smbk-scrollbar__track--x > .smbk-scrollbar__thumb {
+    bottom: var(--smbk-space-4);
+    inset-inline-start: var(--smbk-space-4);
+    height: var(--smbk-size-4);
+    min-width: var(--smbk-size-24);
+  }
+
+  .smbk-scrollbar__track--y:is(:hover, [data-dragging]) > .smbk-scrollbar__thumb {
+    width: var(--smbk-size-6);
+  }
+
+  .smbk-scrollbar__track--x:is(:hover, [data-dragging]) > .smbk-scrollbar__thumb {
+    height: var(--smbk-size-6);
+  }
+
+  .smbk-scrollbar__track:hover > .smbk-scrollbar__thumb {
+    background: var(--smbk-color-action-secondary-background-hover);
+  }
+
+  .smbk-scrollbar__track[data-dragging] > .smbk-scrollbar__thumb {
+    background: var(--smbk-color-action-secondary-background-pressed);
+  }
+}
+
+/* Reduced motion: the bar still fades in and out; the thumb widens at once. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: reduce) {
+  .smbk-scrollbar__thumb {
+    transition-property: background-color;
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* The browser would drop the thumb's tint: it is drawn in the user's text color instead. */
+@media (forced-colors: active) {
+  .smbk-scrollbar .smbk-scrollbar__track > .smbk-scrollbar__thumb {
+    forced-color-adjust: none;
+    background: CanvasText;
   }
 }
 
@@ -15588,8 +17254,9 @@ button.smbk-ruler__width:focus-visible {
  * instance, and here the list carries smbk-dropdown and each choice is a
  * dropdown item, so the panel, the rows, their two heights and their icons
  * are the dropdown's own. This stylesheet only places the list under the
- * well, at the well's width, no taller than the list height, and lets it scroll. The label and the help text
- * around a select are the field's. */
+ * well, at the well's width, no taller than the list height, and lets it scroll, and draws what the dropdown has no
+ * part for: options in groups under the dropdown's label, and the rich option (Figma's "RichOption" 8204:3194). The
+ * label and the help text around a select are the field's. */
 
 .smbk-select {
   position: relative;
@@ -15667,14 +17334,14 @@ button.smbk-ruler__width:focus-visible {
   background: var(--smbk-color-surface-hover);
 }
 
-.smbk-select__list[data-glide="lit"] > .smbk-select__option--highlighted {
+.smbk-select__list[data-glide="lit"] .smbk-select__option--highlighted {
   background: transparent;
 }
 
 /* While the well has focus and the keys moved the highlight, the highlighted choice is where focus is: it
    carries the focus ring, drawn just inside its edge, because the fill alone is too faint to find. A choice
    under the pointer takes the hover fill alone, as any item under the pointer does. */
-.smbk-select:focus-within [data-highlight="keys"] > .smbk-select__option--highlighted {
+.smbk-select:focus-within [data-highlight="keys"] .smbk-select__option--highlighted {
   outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
   outline-offset: calc(-1 * var(--smbk-focus-ring-width));
 }
@@ -15687,6 +17354,80 @@ button.smbk-ruler__width:focus-visible {
   overflow-clip-margin: var(--smbk-space-inset-xs);
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* ---- groups: the dropdown's label heads its options, and the dropdown's divider comes before each group that
+   follows something. The group's element only holds them; the options' own list is the dropdown's group, spaced as
+   the panel is, so grouping adds nothing on screen but the heading and the line. ---- */
+
+.smbk-select__group {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.smbk-select__group > .smbk-dropdown__group {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---- the rich option: an avatar or an icon, the label with a second line under it, and the tick when chosen
+   (Figma's RichOption). One height at either size, as Figma draws one: the small inset above and below, the large
+   inset at the sides and the medium gap, the label in Body MD and the line under it in Body SM, subtle, with no
+   space between them; the icons at the medium size. Written against the list and the dropdown's item, so it wins
+   over the small item whatever order the stylesheets load in. ---- */
+
+.smbk-select__list .smbk-dropdown__item.smbk-select__option--rich {
+  gap: var(--smbk-space-inline-md);
+  padding: var(--smbk-space-inset-sm) var(--smbk-space-inset-lg);
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
+}
+
+.smbk-select__list .smbk-select__option--rich .smbk-dropdown__icon {
+  font-size: var(--smbk-size-icon-md);
+}
+
+.smbk-select__option-lead {
+  flex-shrink: 0;
+}
+
+.smbk-select__option-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-text-label);
+}
+
+/* The second line stays on one line, cut short as the label is, so every rich row keeps its height. */
+.smbk-select__option-description {
+  overflow-x: clip;
+  overflow-y: visible;
+  overflow-clip-margin: var(--smbk-space-inset-xs);
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* A disabled option dims its second line with its label, and its avatar as Figma binds it. The combobox's option sets
+   the same line after its label. */
+.smbk-select__option[aria-disabled="true"] .smbk-select__option-description,
+.smbk-combobox__option[aria-disabled="true"] .smbk-select__option-description {
+  color: var(--smbk-color-text-disabled);
+}
+
+.smbk-select__option[aria-disabled="true"] .smbk-avatar.smbk-select__option-lead {
+  opacity: var(--smbk-opacity-disabled);
 }
 
 /* ---- small: the well is the input's small size and the rows the dropdown's small items; the list follows the well's height ---- */
@@ -15730,7 +17471,8 @@ button.smbk-ruler__width:focus-visible {
     color: HighlightText;
   }
 
-  .smbk-select__option--highlighted .smbk-dropdown__icon {
+  .smbk-select__option--highlighted .smbk-dropdown__icon,
+  .smbk-select__option--highlighted .smbk-select__option-description {
     color: inherit;
   }
 }
@@ -15953,9 +17695,9 @@ button.smbk-ruler__width:focus-visible {
  * the collapse button at the foot. Three displays: auto, a column of icons that opens over the
  * page while pointed at or focused; kept open; kept closed. The collapsed flag is the column's
  * look (the wrapper sets it: kept closed, or auto at rest) and the open flag the open auto panel.
- * Opening and closing are built to be smooth: every row keeps its height, what the column hides
- * grows open instead of appearing, the words fade in, and the logo's mark glides into the whole
- * logo (the wrapper measures and moves it). */
+ * Opening and closing are built to be smooth, on the fold purpose: every row keeps its height, what
+ * the column hides folds with the panel instead of vanishing, the words fade through a slight blur,
+ * and the logo's mark glides into the whole logo (the wrapper measures and moves it). */
 
 /* ---- the room ----
    As wide as the panel when it is kept open or closed. In auto it is always the column's width,
@@ -15996,6 +17738,12 @@ button.smbk-ruler__width:focus-visible {
   box-shadow: var(--smbk-elevation-raised);
   interpolate-size: allow-keywords;
   transition: box-shadow var(--smbk-motion-state-duration) var(--smbk-motion-state-easing);
+}
+
+/* The small width: the open panel 240 wide, for a dense application's list of pages. The column keeps its own
+   width, so the rule steps aside while the sidebar is the column. */
+.smbk-sidebar--width-sm:not(.smbk-sidebar--collapsed) > .smbk-sidebar__panel {
+  width: var(--smbk-size-width-240);
 }
 
 /* Flat: square and on the page's own surface, with no shadow and no rim, a hairline along its end
@@ -16206,7 +17954,7 @@ button.smbk-ruler__width:focus-visible {
   display: flex;
   flex-direction: column;
   gap: var(--smbk-space-stack-sm);
-  transition: gap var(--smbk-motion-enter-duration) var(--smbk-motion-enter-easing);
+  transition: gap var(--smbk-motion-fold-duration) var(--smbk-motion-fold-easing);
 }
 
 /* The group label heads its section: small capitals over the divider's two-line rule. It does not
@@ -16225,9 +17973,9 @@ button.smbk-ruler__width:focus-visible {
   line-height: var(--smbk-typography-label-sm-line-height);
   letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
   text-transform: var(--smbk-typography-label-sm-text-transform);
-  transition-property: block-size, padding-top, opacity, visibility;
-  transition-duration: var(--smbk-motion-enter-duration);
-  transition-timing-function: var(--smbk-motion-enter-easing);
+  transition-property: block-size, padding-top, opacity, filter, visibility;
+  transition-duration: var(--smbk-motion-fold-duration), var(--smbk-motion-fold-duration), var(--smbk-motion-fold-label-duration), var(--smbk-motion-fold-label-duration), var(--smbk-motion-fold-duration);
+  transition-timing-function: var(--smbk-motion-fold-easing), var(--smbk-motion-fold-easing), var(--smbk-motion-fold-label-easing), var(--smbk-motion-fold-label-easing), var(--smbk-motion-fold-easing);
 }
 
 /* The two-line rule under a group label: the divider's edges, drawn on the label itself. */
@@ -16251,7 +17999,7 @@ button.smbk-ruler__width:focus-visible {
 /* ---- items ----
    Figma's item at the medium size, the default: a parent is a medium control tall with Body MD and
    a medium icon; a child is the small item, a small control tall with Body SM, as Figma's sidebar
-   draws its children. A parent's icon sits in a square as big as the row is tall, centered, and the
+   draws its children (or the medium one, with child md, below). A parent's icon sits in a square as big as the row is tall, centered, and the
    label starts where the square ends, as in the column, where the item is that square alone; so the
    icon never moves between the two. Here the square is the padding before the icon and the gap
    after it, each what is left of the square around the icon. Figma draws the edge inside, so the
@@ -16371,18 +18119,22 @@ button.smbk-ruler__width:focus-visible {
   font-size: var(--smbk-size-icon-sm);
 }
 
-.smbk-sidebar__group[open] > .smbk-sidebar__item .smbk-sidebar__item-caret {
+/* A group the wrapper is folding back (data-closing) is still open until its motion ends; its caret turns back as the
+   motion starts. */
+.smbk-sidebar__group[open]:not([data-closing]) > .smbk-sidebar__item .smbk-sidebar__item-caret {
   transform: rotate(180deg);
 }
 
+/* The room over the children is their own padding, not a margin, so a group folded into the column, its children
+   held at no height, keeps none of it: the column's rows sit where kept closed puts them. */
 .smbk-sidebar__children {
   display: flex;
   flex-direction: column;
   gap: 0;
-  margin: var(--smbk-space-stack-sm) 0 0;
-  padding: 0;
+  margin: 0;
+  padding: var(--smbk-space-stack-sm) 0 0;
   list-style: none;
-  transition: visibility var(--smbk-motion-enter-duration);
+  transition: visibility var(--smbk-motion-fold-duration);
 }
 
 /* A child's label starts under its parent's, where the parent's icon square ends. One line is the
@@ -16448,6 +18200,34 @@ button.smbk-ruler__width:focus-visible {
 
 .smbk-sidebar__children > li:not(:last-child) > .smbk-sidebar__item--child::after {
   bottom: calc(-1 * var(--smbk-border-width-hairline));
+}
+
+/* ---- children at the medium size (child md): a child as tall as its parent, a medium control in Body MD, as
+   Figma's medium child item draws it. Its label still starts under its parent's and keeps the row's room over and
+   under its lines, and the tree line turns toward it at the middle of its first line. The small size draws every
+   row small, so it changes nothing there. The navigation alone (SidebarNav) carries the class itself, having no
+   block around it. ---- */
+
+.smbk-sidebar--child-md:not(.smbk-sidebar--size-sm) .smbk-sidebar__item--child {
+  min-height: var(--smbk-size-control-md);
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
+}
+
+.smbk-sidebar--child-md:not(.smbk-sidebar--size-sm) .smbk-sidebar__item--child .smbk-sidebar__item-label {
+  margin-block: calc((var(--smbk-size-control-md) - 1lh) / 2 - var(--smbk-border-width-hairline));
+}
+
+.smbk-sidebar--child-md:not(.smbk-sidebar--size-sm) .smbk-sidebar__item--child[aria-current="page"],
+.smbk-sidebar--child-md:not(.smbk-sidebar--size-sm) .smbk-sidebar__item--child .smbk-sidebar__item-label[data-label]::after {
+  font-weight: var(--smbk-typography-body-md-medium-font-weight);
+}
+
+.smbk-sidebar--child-md:not(.smbk-sidebar--size-sm) .smbk-sidebar__item--child::before {
+  height: calc(var(--smbk-size-control-md) / 2);
 }
 
 /* ---- the small size: every row a small control tall, in Body SM with a small icon. Figma draws the
@@ -16641,9 +18421,10 @@ button.smbk-ruler__width:focus-visible {
   }
 }
 
-/* An open group's children and the group labels fold to no height and grow back with the panel,
-   so the rows under them move smoothly instead of jumping; the room between a label and its list
-   folds with them. They are hidden from assistive technology and the keyboard meanwhile. */
+/* An open group's children and the group labels fold to no height and grow back with the panel, on
+   its fold purpose, so the rows under them move smoothly instead of jumping; the room between a label
+   and its list folds with them, and a label's words fade through the fold's blur as the other words
+   do. They are hidden from assistive technology and the keyboard meanwhile. */
 .smbk-sidebar--collapsed .smbk-sidebar__children {
   visibility: hidden;
 }
@@ -16660,53 +18441,107 @@ button.smbk-ruler__width:focus-visible {
   block-size: 0;
   padding-top: 0;
   opacity: 0;
+  filter: blur(var(--smbk-motion-fold-blur));
   visibility: hidden;
 }
 
+/* Coming back, a group label's words fade in over the last part of the fold, as the other words do. */
 .smbk-sidebar:not(.smbk-sidebar--collapsed) .smbk-sidebar__group-label {
-  transition-delay: 0s, 0s, var(--smbk-motion-stagger-delay), 0s;
+  transition-delay: 0s, 0s, calc(var(--smbk-motion-fold-duration) - var(--smbk-motion-fold-label-duration)), calc(var(--smbk-motion-fold-duration) - var(--smbk-motion-fold-label-duration)), 0s;
 }
 
-/* ---- motion: a group's caret turns with the state purpose, and its children grow from no
-   height to their own with the enter purpose and shrink with the exit purpose, clipped to a
-   focus ring's reach while they move. A browser that cannot animate to a natural height opens
-   at once. ---- */
-
-.smbk-sidebar__group {
-  interpolate-size: allow-keywords;
+/* While the panel folds, the wrapper moves the label's height and padding with it (data-folding), measured at both
+   ends, so it folds in every browser; the stylesheet only fades its words. */
+.smbk-sidebar__panel[data-folding] .smbk-sidebar__group-label {
+  transition-property: opacity, filter, visibility;
+  transition-duration: var(--smbk-motion-fold-label-duration), var(--smbk-motion-fold-label-duration), var(--smbk-motion-fold-duration);
+  transition-timing-function: var(--smbk-motion-fold-label-easing), var(--smbk-motion-fold-label-easing), var(--smbk-motion-fold-easing);
+  transition-delay: 0s;
 }
+
+.smbk-sidebar:not(.smbk-sidebar--collapsed) > .smbk-sidebar__panel[data-folding] .smbk-sidebar__group-label {
+  transition-delay: calc(var(--smbk-motion-fold-duration) - var(--smbk-motion-fold-label-duration)), calc(var(--smbk-motion-fold-duration) - var(--smbk-motion-fold-label-duration)), 0s;
+}
+
+/* ---- motion: a group's children unfold as an accordion's item does, with the expand purpose: they
+   grow from no height to their own as they fade in from its slight blur, and fold back the same way,
+   and the caret turns with them. The React wrapper moves them, the same in every browser, and marks
+   the navigation data-motion once it runs; while a group moves (data-moving) it is clipped to a focus
+   ring's reach. Markup written by hand is moved by the stylesheet alone where the browser can animate
+   to a natural height, and opens at once elsewhere. Under reduced motion the height lands at once and
+   the fade still plays. While the panel folds, the groups move with it on the fold purpose instead
+   (folding, below), and the column's own fold of an open group never moves on its own. ---- */
 
 .smbk-sidebar__item-caret {
-  transition: transform var(--smbk-motion-state-duration) var(--smbk-motion-state-easing);
+  transition: transform var(--smbk-motion-expand-duration) var(--smbk-motion-expand-easing);
 }
 
 .smbk-sidebar__group::details-content {
-  block-size: 0;
   overflow: clip;
   overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
-  transition-property: block-size, content-visibility;
-  transition-duration: var(--smbk-motion-exit-duration);
-  transition-timing-function: var(--smbk-motion-exit-easing);
-  transition-behavior: allow-discrete;
 }
 
-.smbk-sidebar__group[open]::details-content {
+.smbk-sidebar__group[data-moving] {
+  overflow: clip;
+  overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+}
+
+@supports (interpolate-size: allow-keywords) {
+  .smbk-sidebar__nav:not([data-motion]) .smbk-sidebar__group:not(.smbk-sidebar--collapsed *) {
+    interpolate-size: allow-keywords;
+  }
+
+  .smbk-sidebar__nav:not([data-motion]) .smbk-sidebar__group:not(.smbk-sidebar--collapsed *)::details-content {
+    block-size: 0;
+    opacity: 0;
+    filter: blur(var(--smbk-motion-expand-blur));
+    transition-property: block-size, opacity, filter, content-visibility;
+    transition-duration: var(--smbk-motion-expand-duration);
+    transition-timing-function: var(--smbk-motion-expand-easing);
+    transition-behavior: allow-discrete;
+  }
+
+  .smbk-sidebar__nav:not([data-motion]) .smbk-sidebar__group[open]:not(.smbk-sidebar--collapsed *)::details-content {
+    block-size: auto;
+    opacity: 1;
+    filter: none;
+  }
+
+  /* Under reduced motion the height steps: at once as a group opens, and only once it has faded as it closes. */
+  @media (prefers-reduced-motion: reduce) {
+    .smbk-sidebar__nav:not([data-motion]) .smbk-sidebar__group:not(.smbk-sidebar--collapsed *)::details-content {
+      transition-duration: 0s, var(--smbk-motion-expand-duration), var(--smbk-motion-expand-duration), var(--smbk-motion-expand-duration);
+      transition-delay: var(--smbk-motion-expand-duration), 0s, 0s, 0s;
+    }
+
+    .smbk-sidebar__nav:not([data-motion]) .smbk-sidebar__group[open]:not(.smbk-sidebar--collapsed *)::details-content {
+      transition-delay: 0s;
+    }
+  }
+}
+
+/* While the panel folds, the wrapper moves a group's height with it (data-folding, below): an open group closing into
+   the column keeps its children drawn, clipped by the group, until it lands. */
+.smbk-sidebar__panel[data-folding] .smbk-sidebar__group {
+  overflow: clip;
+  overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+}
+
+.smbk-sidebar--collapsed > .smbk-sidebar__panel[data-folding="closing"] .smbk-sidebar__group[open]::details-content {
   block-size: auto;
-  transition-duration: var(--smbk-motion-enter-duration);
-  transition-timing-function: var(--smbk-motion-enter-easing);
 }
 
 /* ---- folding: when the panel opens or closes, its width glides from where it was to where it
-   goes (the wrapper measures both ends and runs it with the enter purpose both ways, so it
-   answers at once and settles into place) and the wrapper marks the panel with data-folding
-   while it moves. Every row keeps its height and no label rewraps on the way. Opening, the words
-   that come back fade in a stagger step behind the glide. Closing, the items stay rows that
-   narrow with the panel and become squares once it has landed (the same size by then); their
-   words and the user's name fade out rather than vanish, and the carets go at once, since they
-   would ride the narrowing edge across the words; the user cell holds its avatar at the start,
-   and the wrapper glides it into the center once the column has landed. A restored or
-   programmatic change lands at once, and nothing moves under reduced motion (the wrapper then
-   never marks it). ---- */
+   goes (the wrapper measures both ends and runs it with the fold purpose both ways, slow to leave
+   and slow to land, so a press on the way turns it round) and the wrapper marks the panel with
+   data-folding while it moves. Every row keeps its height and no label rewraps or cuts itself
+   short on the way. Closing, the words, the carets and the user's name fade into the fold's slight
+   blur over its first part, before the rows narrow under them; the items stay rows that narrow
+   with the panel and become squares once it has landed (the same size by then); the user cell
+   holds its avatar at the start, and the wrapper glides it into the center once the column has
+   landed. Opening, the words come back out of the blur over the last part, once the rows are
+   nearly wide again. A restored or programmatic change lands at once. Under reduced motion the
+   width lands at once and an opening's words still fade in, at once; a closing lands whole. ---- */
 
 .smbk-sidebar__panel[data-folding] {
   overflow: clip;
@@ -16717,16 +18552,21 @@ button.smbk-ruler__width:focus-visible {
   white-space: nowrap;
 }
 
+.smbk-sidebar__panel[data-folding] :is(.smbk-sidebar__user-name, .smbk-sidebar__user-detail) {
+  text-overflow: clip;
+}
+
 .smbk-sidebar__panel[data-folding="opening"] :is(.smbk-sidebar__search-field, .smbk-sidebar__item-label, .smbk-sidebar__item-caret, .smbk-sidebar__user) {
-  transition-property: opacity;
-  transition-duration: var(--smbk-motion-enter-duration);
-  transition-timing-function: var(--smbk-motion-enter-easing);
-  transition-delay: var(--smbk-motion-stagger-delay);
+  transition-property: opacity, filter;
+  transition-duration: var(--smbk-motion-fold-label-duration);
+  transition-timing-function: var(--smbk-motion-fold-label-easing);
+  transition-delay: calc(var(--smbk-motion-fold-duration) - var(--smbk-motion-fold-label-duration));
 }
 
 @starting-style {
   .smbk-sidebar__panel[data-folding="opening"] :is(.smbk-sidebar__search-field, .smbk-sidebar__item-label, .smbk-sidebar__item-caret, .smbk-sidebar__user) {
     opacity: 0;
+    filter: blur(var(--smbk-motion-fold-blur));
   }
 }
 
@@ -16747,16 +18587,35 @@ button.smbk-ruler__width:focus-visible {
   flex: 1 1 auto;
 }
 
-.smbk-sidebar--collapsed > .smbk-sidebar__panel[data-folding="closing"] :is(.smbk-sidebar__item-label, .smbk-sidebar__user) {
+.smbk-sidebar--collapsed > .smbk-sidebar__panel[data-folding="closing"] :is(.smbk-sidebar__item-label, .smbk-sidebar__item-caret, .smbk-sidebar__user) {
   display: block;
   opacity: 0;
-  transition: opacity var(--smbk-motion-exit-duration) var(--smbk-motion-exit-easing);
+  filter: blur(var(--smbk-motion-fold-blur));
+  transition-property: opacity, filter;
+  transition-duration: var(--smbk-motion-fold-label-duration);
+  transition-timing-function: var(--smbk-motion-fold-label-easing);
 }
 
+/* Under reduced motion nothing travels or changes size: the parts the column hides come and go at once, and the
+   words that come back as the panel opens fade in at once. */
 @media (prefers-reduced-motion: reduce) {
-  .smbk-sidebar :is(.smbk-sidebar__panel, .smbk-sidebar__item-caret, .smbk-sidebar__children, .smbk-sidebar__section, .smbk-sidebar__group-label),
-  .smbk-sidebar__group::details-content {
+  .smbk-sidebar :is(.smbk-sidebar__panel, .smbk-sidebar__item-caret, .smbk-sidebar__children, .smbk-sidebar__section) {
     transition: none;
+  }
+
+  .smbk-sidebar .smbk-sidebar__group-label {
+    transition-property: opacity, filter;
+    transition-duration: var(--smbk-motion-fold-label-duration);
+    transition-timing-function: var(--smbk-motion-fold-label-easing);
+  }
+
+  .smbk-sidebar:not(.smbk-sidebar--collapsed) .smbk-sidebar__group-label,
+  .smbk-sidebar:not(.smbk-sidebar--collapsed) > .smbk-sidebar__panel[data-folding] .smbk-sidebar__group-label {
+    transition-delay: 0s;
+  }
+
+  .smbk-sidebar__panel[data-folding="opening"] :is(.smbk-sidebar__search-field, .smbk-sidebar__item-label, .smbk-sidebar__item-caret, .smbk-sidebar__user) {
+    transition-delay: 0s;
   }
 }
 
@@ -16803,8 +18662,9 @@ button.smbk-ruler__width:focus-visible {
    On a touch screen an invisible area, centred on the logo's link and on each row, takes the press out to the
    comfortable target in each direction it falls short of it. A parent's children touch: between two of them each
    keeps its own edge, and the first and the last reach only halfway to the parent and the next row. A child draws
-   its tree line with both of its own pseudo-elements, so its area hangs from its label, over the whole row. The
-   panel cuts the areas off at its edge. What is drawn and every place stay as they are. */
+   its tree line with both of its own pseudo-elements, and its label keeps its ::after for its bolder copy, which
+   takes no press, so its area hangs from its label's ::before, over the whole row. The panel cuts the areas off at
+   its edge. What is drawn and every place stay as they are. */
 
 @media (pointer: coarse) {
   .smbk-sidebar__brand,
@@ -16814,7 +18674,7 @@ button.smbk-ruler__width:focus-visible {
 
   .smbk-sidebar__brand::after,
   .smbk-sidebar__item:not(.smbk-sidebar__item--child)::after,
-  .smbk-sidebar__item--child > .smbk-sidebar__item-label::after {
+  .smbk-sidebar__item--child > .smbk-sidebar__item-label::before {
     content: '';
     position: absolute;
     inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
@@ -16843,15 +18703,15 @@ button.smbk-ruler__width:focus-visible {
     inset-block-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-sm) / -2);
   }
 
-  .smbk-sidebar__item--child > .smbk-sidebar__item-label::after {
+  .smbk-sidebar__item--child > .smbk-sidebar__item-label::before {
     inset-block: 0;
   }
 
-  .smbk-sidebar__children > li:first-child > .smbk-sidebar__item--child > .smbk-sidebar__item-label::after {
+  .smbk-sidebar__children > li:first-child > .smbk-sidebar__item--child > .smbk-sidebar__item-label::before {
     inset-block-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-sm) / -2);
   }
 
-  .smbk-sidebar__children > li:last-child > .smbk-sidebar__item--child > .smbk-sidebar__item-label::after {
+  .smbk-sidebar__children > li:last-child > .smbk-sidebar__item--child > .smbk-sidebar__item-label::before {
     inset-block-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-sm) / -2);
   }
 }
@@ -17287,10 +19147,11 @@ button.smbk-ruler__width:focus-visible {
 
 /* ---- components/slider/slider.css ---- */
 /* smbk-slider — Slider. Figma "Slider" 4711:52100 over "SliderThumb" 4711:51614.
- * Three looks. Ticks, the default: a row of fine vertical lines on a sunken
+ * Four looks. Ticks, the default: a row of fine vertical lines on a sunken
  * band; the lines turn brand red up to the thumb, a narrow red bar, or between
  * two thumbs for a range. Standard: a thin rounded line, red up to a round
- * thumb. Fill: a thick bar filled red up to a thin light handle. Each
+ * thumb. Fill: a thick bar filled red up to a thin light handle. Contained:
+ * the fill look's bar as tall as a control, the label and value inside it. Each
  * thumb has a native range input, invisible, right after it in the markup:
  * the input does the keyboard, form and screen reader work, and the thumb
  * reads the input's states with :has(+ …). A single slider's input also lies
@@ -17505,7 +19366,8 @@ button.smbk-ruler__width:focus-visible {
 
 /* The red lines belong to the ticks look only. */
 .smbk-slider--look-standard .smbk-slider__lines,
-.smbk-slider--look-fill .smbk-slider__lines {
+.smbk-slider--look-fill .smbk-slider__lines,
+.smbk-slider--look-contained .smbk-slider__lines {
   display: none;
 }
 
@@ -17654,6 +19516,159 @@ button.smbk-ruler__width:focus-visible {
   height: max(100%, var(--smbk-size-target-min));
 }
 
+/* ---- the contained look: the fill look's bar as tall as a control of its size, the label at its
+   start and the value at its end inside it. The bar, the red part, the handle and the input are
+   placed as in the fill look, by how far the bar reaches past the rail: the handle's width and the
+   space around it, a step wider at each larger size. The words are the label row, moved into the
+   rail and laid over the bar; a copy of the row inside the red part, as wide as the bar and moved
+   back by the red part's start as the ticks look's red lines are, draws the same words in the text
+   color on brand, so where the red passes under the words they turn, cut at its edge. ---- */
+
+.smbk-slider--look-contained {
+  --smbk-slider-reach: calc(var(--smbk-space-inline-md) + var(--smbk-size-4) / 2);
+  --smbk-slider-bar: var(--smbk-size-control-lg);
+  --smbk-slider-inset: var(--smbk-space-inset-2xl);
+  --smbk-slider-corner: var(--smbk-radius-control-lg);
+}
+
+.smbk-slider--look-contained.smbk-slider--size-md {
+  --smbk-slider-reach: calc(var(--smbk-space-inline-sm) + var(--smbk-size-4) / 2);
+  --smbk-slider-bar: var(--smbk-size-control-md);
+  --smbk-slider-inset: var(--smbk-space-inset-xl);
+  --smbk-slider-corner: var(--smbk-radius-control-md);
+}
+
+.smbk-slider--look-contained.smbk-slider--size-sm {
+  --smbk-slider-reach: calc(var(--smbk-space-inline-xs) + var(--smbk-size-4) / 2);
+  --smbk-slider-bar: var(--smbk-size-control-sm);
+  --smbk-slider-inset: var(--smbk-space-inset-lg);
+  --smbk-slider-corner: var(--smbk-radius-control-sm);
+}
+
+/* The bar and the words share the rail's one cell, so a label that wraps makes the bar taller.
+   The bar comes first: the words are drawn over it, and the red part, being placed, over both. */
+.smbk-slider--look-contained .smbk-slider__rail {
+  display: grid;
+  height: auto;
+  min-height: var(--smbk-slider-bar);
+  margin-inline: var(--smbk-slider-reach);
+}
+
+.smbk-slider--look-contained .smbk-slider__track,
+.smbk-slider--look-contained .smbk-slider__rail > .smbk-slider__header {
+  grid-area: 1 / 1;
+  margin-inline: calc(var(--smbk-slider-reach) * -1);
+}
+
+.smbk-slider--look-contained .smbk-slider__track {
+  position: static;
+  height: auto;
+  padding-inline: 0;
+  translate: none;
+  border-radius: var(--smbk-slider-corner);
+  background-color: var(--smbk-color-surface-neutral-subtle);
+  background-image: none;
+}
+
+.smbk-slider--look-contained .smbk-slider__fill {
+  box-sizing: content-box;
+  margin-inline-start: calc(var(--smbk-slider-reach) * -1);
+  padding-inline: var(--smbk-slider-reach);
+  border-radius: var(--smbk-slider-corner);
+  background-color: var(--smbk-color-action-brand-background);
+}
+
+/* The words, inset as a control's are, and never closer to an end than the red part reaches past
+   a handle there, so a handle at either end stays clear of them. The pointer goes through them to
+   the input or the rail. */
+.smbk-slider--look-contained .smbk-slider__header {
+  box-sizing: border-box;
+  align-items: center;
+  padding-block: var(--smbk-space-inset-xs);
+  padding-inline: max(var(--smbk-slider-inset), calc(var(--smbk-slider-reach) * 2));
+  color: var(--smbk-color-text-default);
+  pointer-events: none;
+}
+
+.smbk-slider--look-contained .smbk-slider__fill > .smbk-slider__header {
+  position: absolute;
+  inset-block: 0;
+  width: calc(100cqi + var(--smbk-slider-reach) * 2);
+  color: var(--smbk-color-text-on-brand);
+}
+
+.smbk-slider--look-contained .smbk-slider__header > .smbk-slider__label {
+  min-width: 0;
+  color: inherit;
+  font-family: var(--smbk-typography-label-lg-font-family);
+  font-size: var(--smbk-typography-label-lg-font-size);
+  font-weight: var(--smbk-typography-label-lg-font-weight);
+  line-height: var(--smbk-typography-label-lg-line-height);
+  letter-spacing: var(--smbk-typography-label-lg-letter-spacing);
+}
+
+.smbk-slider--look-contained .smbk-slider__header > .smbk-slider__value {
+  color: inherit;
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
+}
+
+.smbk-slider--look-contained.smbk-slider--size-sm .smbk-slider__header > .smbk-slider__label {
+  font-family: var(--smbk-typography-label-md-font-family);
+  font-size: var(--smbk-typography-label-md-font-size);
+  font-weight: var(--smbk-typography-label-md-font-weight);
+  line-height: var(--smbk-typography-label-md-line-height);
+  letter-spacing: var(--smbk-typography-label-md-letter-spacing);
+}
+
+.smbk-slider--look-contained.smbk-slider--size-sm .smbk-slider__header > .smbk-slider__value {
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+/* The handle is half the bar tall; its bubble clears the bar's top, a quarter of the bar above it. */
+.smbk-slider--look-contained .smbk-slider__thumb {
+  width: var(--smbk-size-4);
+  height: calc(var(--smbk-slider-bar) / 2);
+  margin-inline-start: calc(var(--smbk-size-4) / -2);
+  border: 0;
+  background: var(--smbk-color-action-brand-foreground);
+  box-shadow: none;
+}
+
+.smbk-slider--look-contained .smbk-slider__thumb > .smbk-slider__bubble {
+  bottom: calc(150% + var(--smbk-size-icon-xs) / 2);
+}
+
+.smbk-slider--look-contained .smbk-slider__control {
+  top: 50%;
+  translate: 0 -50%;
+  inset-inline-start: calc(var(--smbk-slider-reach) * -1);
+  width: calc(100% + var(--smbk-slider-reach) * 2);
+  height: 100%;
+}
+
+.smbk-slider--look-contained .smbk-slider__control::-webkit-slider-thumb {
+  width: calc(var(--smbk-slider-reach) * 2);
+}
+
+.smbk-slider--look-contained .smbk-slider__control::-moz-range-thumb {
+  width: calc(var(--smbk-slider-reach) * 2);
+}
+
+.smbk-slider--look-contained.smbk-slider--type-range .smbk-slider__rail::before {
+  content: '';
+  position: absolute;
+  inset-inline: calc(var(--smbk-slider-reach) * -1);
+  inset-block: 0;
+}
+
 /* ---- range: the rail takes the pointer, the thumbs take hover ---- */
 
 .smbk-slider--type-range .smbk-slider__rail {
@@ -17708,14 +19723,14 @@ button.smbk-ruler__width:focus-visible {
 }
 
 /* The fill look's handle keeps its look on hover and press, as Figma draws it, and its focus
-   ring goes round the whole bar, not the handle. */
-.smbk-slider--look-fill .smbk-slider__thumb:is(:hover, :active, [data-pressed], :has(+ .smbk-slider__control:is(:hover, :active, :focus-visible))) {
+   ring goes round the whole bar, not the handle; the contained look's the same. */
+:is(.smbk-slider--look-fill, .smbk-slider--look-contained) .smbk-slider__thumb:is(:hover, :active, [data-pressed], :has(+ .smbk-slider__control:is(:hover, :active, :focus-visible))) {
   outline: 0;
   background: var(--smbk-color-action-brand-foreground);
   box-shadow: none;
 }
 
-.smbk-slider--look-fill .smbk-slider__rail:has(.smbk-slider__control:focus-visible) .smbk-slider__track {
+:is(.smbk-slider--look-fill, .smbk-slider--look-contained) .smbk-slider__rail:has(.smbk-slider__control:focus-visible) .smbk-slider__track {
   outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
   outline-offset: var(--smbk-focus-ring-offset);
 }
@@ -17750,12 +19765,18 @@ button.smbk-ruler__width:focus-visible {
 }
 
 .smbk-slider--look-standard .smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__fill,
-.smbk-slider--look-fill .smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__fill {
+:is(.smbk-slider--look-fill, .smbk-slider--look-contained) .smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__fill {
   background-color: var(--smbk-color-action-disabled-foreground);
 }
 
-.smbk-slider--look-fill .smbk-slider__thumb:has(+ .smbk-slider__control:disabled) {
+:is(.smbk-slider--look-fill, .smbk-slider--look-contained) .smbk-slider__thumb:has(+ .smbk-slider__control:disabled) {
   background: var(--smbk-color-surface-track-subtle);
+}
+
+/* The contained look's words on the grayed part turn to the inverse text color, as dim as the
+   disabled words beside them in either theme. */
+.smbk-slider--look-contained:has(.smbk-slider__control:disabled) .smbk-slider__fill > .smbk-slider__header > :is(.smbk-slider__label, .smbk-slider__value) {
+  color: var(--smbk-color-text-inverse);
 }
 
 .smbk-slider:has(.smbk-slider__control:disabled) .smbk-slider__marks {
@@ -17826,6 +19847,10 @@ button.smbk-ruler__width:focus-visible {
   margin-block-start: calc((var(--smbk-size-selection-sm) - var(--smbk-size-control-sm)) / 2);
 }
 
+.smbk-slider--look-contained .smbk-slider__row > .smbk-slider__number {
+  margin-block-start: calc((var(--smbk-slider-bar) - var(--smbk-size-control-sm)) / 2);
+}
+
 /* ---- the narrow form: a finger-sized target, the look unchanged ---- */
 
 @container style(--smbk-layout: narrow) {
@@ -17847,6 +19872,14 @@ button.smbk-ruler__width:focus-visible {
   .smbk-slider--look-fill.smbk-slider--type-range .smbk-slider__rail::before {
     top: 50%;
     height: var(--smbk-size-target-comfortable);
+  }
+
+  /* The contained bar may be shorter than the comfortable size, so its target is centered on it and never less. */
+  .smbk-slider--look-contained .smbk-slider__control,
+  .smbk-slider--look-contained.smbk-slider--type-range .smbk-slider__rail::before {
+    top: 50%;
+    translate: 0 -50%;
+    height: max(100%, var(--smbk-size-target-comfortable));
   }
 }
 
@@ -17874,6 +19907,14 @@ button.smbk-ruler__width:focus-visible {
   .smbk-slider--look-fill.smbk-slider--type-range .smbk-slider__rail::before {
     top: 50%;
     height: var(--smbk-size-target-comfortable);
+  }
+
+  /* The contained bar may be shorter than the comfortable size, so its target is centered on it and never less. */
+  .smbk-slider--look-contained .smbk-slider__control,
+  .smbk-slider--look-contained.smbk-slider--type-range .smbk-slider__rail::before {
+    top: 50%;
+    translate: 0 -50%;
+    height: max(100%, var(--smbk-size-target-comfortable));
   }
 }
 
@@ -17942,34 +19983,45 @@ button.smbk-ruler__width:focus-visible {
     background-color: CanvasText;
   }
 
-  .smbk-slider--look-fill .smbk-slider__track {
+  .smbk-slider--look-fill .smbk-slider__track,
+  .smbk-slider--look-contained .smbk-slider__track {
     border: var(--smbk-border-width-hairline) solid CanvasText;
   }
 
   .smbk-slider--look-standard .smbk-slider__fill,
-  .smbk-slider--look-fill .smbk-slider__fill {
+  .smbk-slider--look-fill .smbk-slider__fill,
+  .smbk-slider--look-contained .smbk-slider__fill {
     forced-color-adjust: none;
     background-color: Highlight;
   }
 
-  .smbk-slider--look-fill .smbk-slider__thumb,
-  .smbk-slider--look-fill .smbk-slider__thumb:is(:hover, :active, [data-pressed], :has(+ .smbk-slider__control:is(:hover, :active, :focus-visible))) {
+  :is(.smbk-slider--look-fill, .smbk-slider--look-contained) .smbk-slider__thumb,
+  :is(.smbk-slider--look-fill, .smbk-slider--look-contained) .smbk-slider__thumb:is(:hover, :active, [data-pressed], :has(+ .smbk-slider__control:is(:hover, :active, :focus-visible))) {
     forced-color-adjust: none;
     background: HighlightText;
   }
 
-  .smbk-slider--look-fill .smbk-slider__rail:has(.smbk-slider__control:focus-visible) .smbk-slider__track {
+  :is(.smbk-slider--look-fill, .smbk-slider--look-contained) .smbk-slider__rail:has(.smbk-slider__control:focus-visible) .smbk-slider__track {
     outline-color: Highlight;
   }
 
   .smbk-slider--look-standard .smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__track,
   .smbk-slider--look-standard .smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__fill,
-  .smbk-slider--look-fill .smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__fill {
+  :is(.smbk-slider--look-fill, .smbk-slider--look-contained) .smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__fill {
     background-color: GrayText;
   }
 
-  .smbk-slider--look-fill .smbk-slider__thumb:has(+ .smbk-slider__control:disabled) {
+  :is(.smbk-slider--look-fill, .smbk-slider--look-contained) .smbk-slider__thumb:has(+ .smbk-slider__control:disabled) {
     background: Canvas;
+  }
+
+  /* The contained look's words on the part up to the thumb, in HighlightText on it, or Canvas on GrayText. */
+  .smbk-slider--look-contained .smbk-slider__fill > .smbk-slider__header {
+    color: HighlightText;
+  }
+
+  .smbk-slider--look-contained:has(.smbk-slider__control:disabled) .smbk-slider__fill > .smbk-slider__header > :is(.smbk-slider__label, .smbk-slider__value) {
+    color: Canvas;
   }
 
   /* The marks are a background image, which forced colors would drop. */
@@ -17989,8 +20041,8 @@ button.smbk-ruler__width:focus-visible {
  * A small line in the series color, drawn from its values with no axes, ending in a dot on the last value;
  * with the area flag, a soft fill of the same color under it. It fills the width it is given and is as tall as
  * a small control. The SVG stretches to fit; the line keeps its width and the dot stays round, because the dot
- * is drawn outside the SVG. The first time it comes into view it is uncovered from left to right; nothing else
- * moves. */
+ * is drawn outside the SVG. The plot holds the SVG and the dot, the same size as the block. The first time it
+ * comes into view it is uncovered from left to right; nothing else moves. */
 
 .smbk-sparkline {
   position: relative;
@@ -17998,6 +20050,14 @@ button.smbk-ruler__width:focus-visible {
   width: 100%;
   min-width: 0;
   height: var(--smbk-size-32);
+}
+
+/* The plot is the block's own box again, so its entrance clip never clips the block: Chromium's intersection
+   observer counts a clip on the element it watches, and a block clipped to nothing never came into view. */
+.smbk-sparkline__plot {
+  position: relative;
+  display: block;
+  height: 100%;
 }
 
 .smbk-sparkline__svg {
@@ -18035,17 +20095,18 @@ button.smbk-ruler__width:focus-visible {
 /* ---- motion: the entrance ----
    The wrapper marks the sparkline `data-entrance` the first time it comes into view (simbolik/components/entrance.ts):
    waiting while it is out of view, hidden; playing once it is seen, the line, its area and the end dot uncovered
-   from left to right with the chart entrance purpose, as one edge moving across. The edges run a little past the
-   sparkline, so the dot half past its end is never cut once uncovered. Without the mark (markup written by hand,
+   from left to right with the chart entrance purpose, as one edge moving across. The clip is on the plot, never on
+   the block, which the entrance watches. The edges run a little past the sparkline, so the dot half past its end
+   is never cut once uncovered. Without the mark (markup written by hand,
    the rendered pictures, after the entrance) it is simply drawn, and under reduced motion nothing moves. Only the
    clip changes, so nothing shifts. */
 
 @media screen and (prefers-reduced-motion: no-preference) {
-  .smbk-sparkline[data-entrance="waiting"] {
+  .smbk-sparkline[data-entrance="waiting"] .smbk-sparkline__plot {
     clip-path: inset(-50% calc(100% + var(--smbk-size-6)) -50% calc(-1 * var(--smbk-size-6)));
   }
 
-  .smbk-sparkline:is([data-entrance="load"], [data-entrance="playing"]) {
+  .smbk-sparkline:is([data-entrance="load"], [data-entrance="playing"]) .smbk-sparkline__plot {
     animation: smbk-sparkline-reveal var(--smbk-motion-chart-entrance-reveal-duration) var(--smbk-motion-chart-entrance-easing) backwards;
   }
 }
@@ -18361,8 +20422,9 @@ button.smbk-ruler__width:focus-visible {
 /* smbk-stat — Stat. Figma "Stat" 7118:401 (Size × Type × State; Dot and Description booleans).
  * One figure with its name above it and a line under it, on the default surface with square corners:
  * the name in Label SM, the figure in a heading style with tabular digits, the line in Body SM, the
- * extra small stack step apart. As wide as its content in running text; a grid or a row it sits in
- * stretches it. A linked figure takes the link colors and underline, and its link covers the whole
+ * extra small stack step apart; an optional change badge after the figure and a small chart under the line.
+ * As wide as its content in running text; a grid or a row it sits in stretches it. In a card's slot the
+ * card drops its padding and fill (card.css), so it lines up with the card's other parts. A linked figure takes the link colors and underline, and its link covers the whole
  * tile, so the tile is the one place to press and the focus ring goes round it. */
 
 .smbk-stat {
@@ -18411,6 +20473,26 @@ button.smbk-ruler__width:focus-visible {
   font-weight: var(--smbk-typography-body-sm-font-weight);
   line-height: var(--smbk-typography-body-sm-line-height);
   letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+.smbk-stat__figure:has(> .smbk-stat__trend) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+}
+
+/* The change after the figure, such as a small badge. A flex box, so the figure's line height leaves no
+   room around it. */
+.smbk-stat__trend {
+  display: flex;
+  align-items: center;
+}
+
+/* A small chart under the line, such as a sparkline or a meter, as wide as the stat. */
+.smbk-stat__chart {
+  min-width: 0;
+  margin: 0;
 }
 
 /* ---- link: the figure is the link, in the link colors and underlined; its box is stretched over the
@@ -19456,6 +21538,13 @@ button.smbk-ruler__width:focus-visible {
   min-height: var(--smbk-size-control-sm);
 }
 
+/* A row that cannot be chosen, in a table whose rows can: the room the small choose box takes, its box and the room
+   the choice row keeps after it, kept empty, so the row's first value lines up with the others'. */
+.smbk-table__choose-space {
+  flex: none;
+  width: calc(var(--smbk-size-selection-sm) + var(--smbk-space-inline-sm));
+}
+
 /* An icon before the value sits the small inline gap from it, as a 16 icon beside 14 px text does across the system. */
 .smbk-table__value {
   display: inline-flex;
@@ -19571,8 +21660,7 @@ button.smbk-ruler__width:focus-visible {
 }
 
 /* The rule under a sticking heading, and the hairline between headings, drawn by the heading itself. */
-.smbk-table--sticky-header .smbk-table__header::after,
-.smbk-table--pin-first .smbk-table__header:first-child::after {
+.smbk-table--sticky-header .smbk-table__header::after {
   content: '';
   position: absolute;
   right: 0;
@@ -19597,7 +21685,9 @@ button.smbk-ruler__width:focus-visible {
 }
 
 /* ---- a wide table: the first column stays in view ----
-   The pinned cells are painted on the page canvas, with the row's hover laid over it, and carry their row's rule themselves. */
+   The pinned cells are painted on the page canvas, with the row's hover laid over it. They move only sideways, along
+   the rules the table draws across each row, so those rules show through them, on the same pixels as in every other
+   cell; a copy of its own in a pinned cell draws a pixel off them in every browser. */
 
 .smbk-table--pin-first {
   isolation: isolate;
@@ -19611,12 +21701,13 @@ button.smbk-ruler__width:focus-visible {
 
 .smbk-table--pin-first .smbk-table__header:first-child {
   z-index: var(--smbk-layer-sticky);
-  border-bottom-color: transparent;
   background: var(--smbk-color-surface-default);
 }
 
+/* Raised, so what a later cell positions (a bar's track, a meter) passes under the held names rather than over them;
+   the first heading stays above it, and the scroll hint, coming after it, over it. */
 .smbk-table--pin-first .smbk-table__cell:first-child {
-  z-index: var(--smbk-layer-base);
+  z-index: var(--smbk-layer-raised);
   background: var(--smbk-color-surface-canvas);
 }
 
@@ -19634,45 +21725,28 @@ button.smbk-ruler__width:focus-visible {
   background: linear-gradient(var(--smbk-color-feedback-info-surface-subtle), var(--smbk-color-feedback-info-surface-subtle)), var(--smbk-color-surface-canvas);
 }
 
-/* A sticking cell leaves its collapsed border behind, so a ruled-off row's pinned cell draws its rule itself. */
-.smbk-table--pin-first .smbk-table__row--rule-above > .smbk-table__cell:first-child {
-  box-shadow: inset 0 var(--smbk-border-width-hairline) 0 0 var(--smbk-color-border-strong);
+/* A pinned row's brand edge, in a held cell: a strip of its own along the cell's start side, inside its edges, so its
+   row's rules cross it as everywhere else. The inset shadow the edge is in other tables, Firefox draws along a held
+   cell's foot as well, over its row's rule. */
+.smbk-table--pin-first .smbk-table__row--pinned > .smbk-table__cell:first-child {
+  box-shadow: none;
 }
 
-.smbk-table--pin-first .smbk-table__row--pinned.smbk-table__row--rule-above > .smbk-table__cell:first-child {
-  box-shadow: inset var(--smbk-border-width-accent) 0 0 0 var(--smbk-color-border-brand), inset 0 var(--smbk-border-width-hairline) 0 0 var(--smbk-color-border-strong);
-}
-
-.smbk-table--pin-first .smbk-table__row--pinned.smbk-table__row--rule-above > .smbk-table__cell:first-child:dir(rtl) {
-  box-shadow: inset calc(-1 * var(--smbk-border-width-accent)) 0 0 0 var(--smbk-color-border-brand), inset 0 var(--smbk-border-width-hairline) 0 0 var(--smbk-color-border-strong);
+.smbk-table--pin-first .smbk-table__row--pinned > .smbk-table__cell:first-child::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  inset-inline-start: 0;
+  width: var(--smbk-border-width-accent);
+  background: var(--smbk-color-border-brand);
+  pointer-events: none;
 }
 
 /* A group heading spans the table: its label sticks at the start while the columns scroll sideways. */
 .smbk-table--pin-first .smbk-table__group-label {
   position: sticky;
   left: var(--smbk-space-inset-lg);
-}
-
-.smbk-table--pin-first .smbk-table__cell:first-child::after {
-  content: '';
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: var(--smbk-border-width-hairline);
-  background: var(--smbk-color-border-subtle);
-}
-
-.smbk-table--pin-first .smbk-table__row:last-child .smbk-table__cell:first-child::after {
-  content: none;
-}
-
-.smbk-table--pin-first .smbk-table__table > tbody:not(:last-child) > .smbk-table__row:last-child .smbk-table__cell:first-child::after {
-  content: '';
-}
-
-.smbk-table--pin-first .smbk-table__table > tbody:last-child > .smbk-table__row:has(+ .smbk-table__detail-row[hidden]:last-child) .smbk-table__cell:first-child::after {
-  content: none;
 }
 
 /* The pinned column's right edge, so the columns sliding under it read as passing behind. */
@@ -19707,6 +21781,12 @@ button.smbk-ruler__width:focus-visible {
   pointer-events: none;
 }
 
+/* While the system's scrollbar shows over the frame (scrollbar.ts), in the same strip, the hint's bar fades out of
+   its way, so there is never a second bar. The board's hint does the same. */
+.smbk-table[data-scroll-hint]:has(> .smbk-scrollbar[data-shown]) .smbk-table__scroll-track {
+  opacity: 0;
+}
+
 /* In a long table the rows scroll under the hint, so it takes the heading row's floor. */
 .smbk-table--sticky-header[data-scroll-hint] .smbk-table__scroll-hint {
   background: var(--smbk-color-surface-default);
@@ -19714,6 +21794,7 @@ button.smbk-ruler__width:focus-visible {
 
 .smbk-table__scroll-track {
   position: relative;
+  transition: opacity var(--smbk-motion-feedback-duration) var(--smbk-motion-feedback-easing);
   height: var(--smbk-size-4);
   overflow: hidden;
   border-radius: var(--smbk-radius-full);
@@ -19751,7 +21832,7 @@ button.smbk-ruler__width:focus-visible {
    On a touch screen an invisible area, centred on the sort, copy and caret buttons (the filter and info buttons and a
    choose box take their own), takes the press out to the comfortable target where it falls short of it, but never
    past its own row, so the rows above and below keep theirs. Inside a cell, a button or a choose box beside another
-   reaches only halfway into the gap between them. The lines the heading and the pinned cells draw for themselves take
+   reaches only halfway into the gap between them. The lines a sticking heading draws for itself take
    no press, so they never cut the edge off an area, and a pinned column keeps what the frame scrolls to out from under
    it. What is drawn and every place stay as they are. */
 
@@ -19781,9 +21862,10 @@ button.smbk-ruler__width:focus-visible {
     inset-block: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
   }
 
-  /* Beside each other in a cell: halfway into the cell's gap. */
+  /* Beside each other in a cell: halfway into the cell's gap. A choose box beside words alone (a heading that does not
+     sort, a value with no link or button) keeps its whole area. */
   .smbk-table__header-cell > .smbk-table__sort:has(~ :is(.smbk-btn, :has(.smbk-btn)))::after,
-  :is(.smbk-table__header-cell, .smbk-table__content) > .smbk-checkbox::after,
+  :is(.smbk-table__header-cell, .smbk-table__content) > .smbk-checkbox:has(+ :is(a, button), + * :is(a, button))::after,
   .smbk-table__content > .smbk-btn:has(+ .smbk-btn)::after {
     inset-inline-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-md) / -2);
   }
@@ -20281,6 +22363,9 @@ button.smbk-ruler__width:focus-visible {
 .smbk-tabs__list {
   max-width: 100%;
   overflow-x: auto;
+  /* Set in a line by its top, not by its first item's words: the scrollbar the script adds as its first item
+     (scrollbar.ts) has none, and would set the bar lower. */
+  vertical-align: top;
   scrollbar-width: thin;
   scrollbar-color: var(--smbk-color-border-subtle) transparent;
 }
@@ -20856,12 +22941,12 @@ button.smbk-ruler__width:focus-visible {
   border-color: var(--smbk-color-border-strong);
 }
 
-/* The feedback tones: the tone recipe, each family's subtle surface inside an edge of its border color. */
+/* The feedback tones: the tone recipe, each family's subtle surface inside its pale edge. */
 
-.smbk-tag--tone-info { --smbk-tone-surface: var(--smbk-color-feedback-info-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-info-border); --smbk-tone-text: var(--smbk-color-feedback-info-text-on-subtle); }
-.smbk-tag--tone-success { --smbk-tone-surface: var(--smbk-color-feedback-success-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-success-border); --smbk-tone-text: var(--smbk-color-feedback-success-text-on-subtle); }
-.smbk-tag--tone-danger { --smbk-tone-surface: var(--smbk-color-feedback-danger-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-danger-border); --smbk-tone-text: var(--smbk-color-feedback-danger-text-on-subtle); }
-.smbk-tag--tone-warning { --smbk-tone-surface: var(--smbk-color-feedback-warning-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-warning-border); --smbk-tone-text: var(--smbk-color-feedback-warning-text-on-subtle); }
+.smbk-tag--tone-info { --smbk-tone-surface: var(--smbk-color-feedback-info-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-info-border-subtle); --smbk-tone-text: var(--smbk-color-feedback-info-text-on-subtle); }
+.smbk-tag--tone-success { --smbk-tone-surface: var(--smbk-color-feedback-success-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-success-border-subtle); --smbk-tone-text: var(--smbk-color-feedback-success-text-on-subtle); }
+.smbk-tag--tone-danger { --smbk-tone-surface: var(--smbk-color-feedback-danger-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-danger-border-subtle); --smbk-tone-text: var(--smbk-color-feedback-danger-text-on-subtle); }
+.smbk-tag--tone-warning { --smbk-tone-surface: var(--smbk-color-feedback-warning-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-warning-border-subtle); --smbk-tone-text: var(--smbk-color-feedback-warning-text-on-subtle); }
 
 
 /* ---- components/text-area/text-area.css ---- */
@@ -20943,6 +23028,12 @@ button.smbk-ruler__width:focus-visible {
   color: var(--smbk-color-text-disabled);
 }
 
+/* The scrollbar drawn over the control (scrollbar.ts) stops short of the corner, where the grip and the browser's
+   resize handle are. */
+.smbk-text-area > .smbk-scrollbar .smbk-scrollbar__track--y {
+  inset-block-end: calc(var(--smbk-space-inset-xs) + var(--smbk-size-icon-xs));
+}
+
 /* A read-only text area cannot be made taller, so it has no grip, as Figma draws it. */
 .smbk-text-area:has(.smbk-input__control[readonly]) .smbk-text-area__grip {
   display: none;
@@ -20953,8 +23044,24 @@ button.smbk-ruler__width:focus-visible {
 /* smbk-theme-switch — Theme switch. Figma "ThemeSwitch" 4209:19857 and "ThemeItem" 4207:19190.
  * The theme switch is the segmented control in its theme look, smbk-segmented smbk-segmented--look-theme, drawn by
  * segmented-control/segmented-control.css: the bar, the square items, the larger icons, the brand hover, the sliding
- * indicator, the touch areas and the forced colors are all there.
- * This file holds no rules: the theme switch's own class is only its mark in markup. */
+ * indicator, the touch areas and the forced colors are all there. The switch's own class is only its mark in markup.
+ *
+ * This file holds the theme wipe: applyTheme(), beside the switch, changes the page's theme inside one of the
+ * browser's view transitions and marks <html> with data-theme-wipe while it runs. The browser's own cross-fade is
+ * turned off for it, so only the circle moves, and only a view transition the wipe started is touched. The page in
+ * the new theme starts as a circle of nothing at the pressed option (--smbk-theme-switch-wipe-x and -y, in pixels
+ * from the window's corner); the script grows it with the theme wipe's motion, since how far it must reach at each
+ * moment depends on the window. */
+
+html[data-theme-wipe]::view-transition-old(root),
+html[data-theme-wipe]::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html[data-theme-wipe]::view-transition-new(root) {
+  clip-path: circle(0 at var(--smbk-theme-switch-wipe-x) var(--smbk-theme-switch-wipe-y));
+}
 
 
 /* ---- components/timeline/timeline.css ---- */
@@ -20962,7 +23069,9 @@ button.smbk-ruler__width:focus-visible {
  * Events one under another. Each has a rail, a 16 marker with a dot for its kind and a line down to the next
  * event, beside its body: what happened and when on one line, who or what did it under that, and an optional
  * detail in code type on a sunken box. The last event has no line below it. The dot's kind is also said in
- * words, for screen readers; the words a reader sees say it too. */
+ * words, for screen readers; the words a reader sees say it too. An event can hold more that it shows in place
+ * when pressed: its body is then a native details element, what happened, when, who and the detail its summary
+ * with a caret after the time, and the more under them (see the unfolding rules at the end). */
 
 .smbk-timeline {
   display: flex;
@@ -21107,6 +23216,154 @@ button.smbk-ruler__width:focus-visible {
   overflow-wrap: anywhere;
 }
 
+/* ---- an event that unfolds to more ----
+   The summary lays out what happened, when, who and the detail as the body does, so the event looks the same closed;
+   a caret after the time, in the small icon size the title's text takes, centred on the title's first line, turns
+   when it is open. Pointing at the summary darkens the caret, and keyboard focus rings the summary. The more is Body
+   SM in the secondary text color, a small stack step under the summary, its paragraphs a small stack step apart. */
+
+.smbk-timeline__summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-2);
+  min-width: 0;
+  border-radius: var(--smbk-radius-control-sm);
+  list-style: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.smbk-timeline__summary::-webkit-details-marker {
+  display: none;
+}
+
+/* On a touch screen a summary shorter than the comfortable target takes an invisible press area out to it; the room
+   under each event keeps it clear of the next. */
+@media (pointer: coarse) {
+  .smbk-timeline__summary {
+    position: relative;
+  }
+
+  .smbk-timeline__summary::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+}
+
+.smbk-timeline__summary:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+.smbk-timeline__caret {
+  flex: none;
+  margin-top: calc((var(--smbk-typography-body-sm-medium-font-size) * var(--smbk-typography-body-sm-medium-line-height) - var(--smbk-size-icon-sm)) / 2);
+  color: var(--smbk-color-icon-subtle);
+  font-size: var(--smbk-size-icon-sm);
+  transition: transform var(--smbk-motion-expand-duration) var(--smbk-motion-expand-easing);
+}
+
+@media (hover: hover) {
+  .smbk-timeline__summary:hover .smbk-timeline__caret {
+    color: var(--smbk-color-icon-default);
+  }
+}
+
+/* An event the React component is closing (data-closing) is still open until its motion ends; its caret turns back
+   as the motion starts. */
+.smbk-timeline__disclosure[open]:not([data-closing]) > .smbk-timeline__summary .smbk-timeline__caret {
+  transform: rotate(180deg);
+}
+
+.smbk-timeline__more {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-sm);
+  padding-top: var(--smbk-space-stack-sm);
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+  text-transform: var(--smbk-typography-body-sm-text-transform);
+  overflow-wrap: anywhere;
+}
+
+/* Paragraphs and lists in the more are spaced by its gap, not by their own margins. */
+.smbk-timeline__more > * {
+  margin: 0;
+}
+
+/* ---- motion: the more unfolds with the expand purpose and folds back the same way, as an accordion's item does.
+   The body's height grows from the summary to its own while the more fades in from the purpose's slight blur, and the
+   caret turns with it. The React component moves it, the same in every browser, and marks the disclosure data-motion
+   once it runs. While it moves (data-moving) it is clipped, with room for the summary's focus ring, and the foot of
+   what shows fades out over a spacing step, or over what is still hidden when that is less. Markup written by hand is
+   moved by the stylesheet alone where the browser can animate to a natural height, without the fading foot, and opens
+   at once elsewhere. Under reduced motion the height lands at once and the fade and the blur still play. ---- */
+
+/* How much of the more shows while the body moves, from its top: the React component moves it with the height. */
+@property --smbk-timeline-reveal {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+
+.smbk-timeline__disclosure[data-moving] {
+  overflow: clip;
+  overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+}
+
+/* The mask reads only how opaque its paint is, so the text color stands in for "shown". */
+.smbk-timeline__disclosure[data-moving] > .smbk-timeline__more {
+  mask-image: linear-gradient(currentcolor calc(var(--smbk-timeline-reveal) - min(var(--smbk-space-16), 100% - var(--smbk-timeline-reveal))), transparent var(--smbk-timeline-reveal));
+}
+
+@supports (interpolate-size: allow-keywords) {
+  .smbk-timeline__disclosure:not([data-motion]) {
+    interpolate-size: allow-keywords;
+  }
+
+  .smbk-timeline__disclosure:not([data-motion])::details-content {
+    block-size: 0;
+    opacity: 0;
+    filter: blur(var(--smbk-motion-expand-blur));
+    overflow: clip;
+    overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+    transition-property: block-size, opacity, filter, content-visibility;
+    transition-duration: var(--smbk-motion-expand-duration);
+    transition-timing-function: var(--smbk-motion-expand-easing);
+    transition-behavior: allow-discrete;
+  }
+
+  .smbk-timeline__disclosure:not([data-motion])[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+    filter: none;
+  }
+
+  /* Under reduced motion the height steps: at once as it opens, and only once it has faded as it closes. */
+  @media (prefers-reduced-motion: reduce) {
+    .smbk-timeline__disclosure:not([data-motion])::details-content {
+      transition-duration: 0s, var(--smbk-motion-expand-duration), var(--smbk-motion-expand-duration), var(--smbk-motion-expand-duration);
+      transition-delay: var(--smbk-motion-expand-duration), 0s, 0s, 0s;
+    }
+
+    .smbk-timeline__disclosure:not([data-motion])[open]::details-content {
+      transition-delay: 0s;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-timeline__caret {
+    transition: none;
+  }
+}
+
 /* Words for screen readers only: the kind of event the dot shows. */
 /* .smbk-timeline__hidden: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css. */
 
@@ -21182,9 +23439,9 @@ button.smbk-ruler__width:focus-visible {
 .smbk-toast--tone-danger { --smbk-tone-surface: var(--smbk-color-feedback-danger-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-danger-border); --smbk-tone-text: var(--smbk-color-feedback-danger-text-on-subtle); --smbk-tone-icon: var(--smbk-color-feedback-danger-icon); }
 
 /* ---- the region: where the page's toasts appear, in the corner at the end of the viewport's
-   foot, one under another, the newest last. It is the one live region they are announced
-   through, so it is in the page before the first toast arrives, and takes no room or pointer
-   while it is empty. On a phone it spans the viewport less its inset, and so do its toasts. ---- */
+   foot, one under another, the newest last. It is in the page before the first toast arrives,
+   with the hidden announcers that say each toast inside it, and takes no room or pointer while it is
+   empty. On a phone it spans the viewport less its inset, and so do its toasts. ---- */
 
 .smbk-toast__region {
   position: fixed;
@@ -21496,6 +23753,19 @@ button.smbk-ruler__width:focus-visible {
   text-align: start;
   white-space: normal;
   overflow-wrap: break-word;
+}
+
+/* A control's key after its words, as a small key cap ("Zoom in ]"): the words and the cap in a row, the small
+   inline gap apart, the cap centred on the words' line, which is taller than the cap, so the bubble keeps its
+   one-line height in every browser. */
+.smbk-tooltip__bubble:has(> .smbk-tooltip__key) {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+}
+
+.smbk-tooltip__key {
+  flex: none;
 }
 
 /* The arrow reaches a hairline into the bubble, so it lies over the bubble's edge where the two

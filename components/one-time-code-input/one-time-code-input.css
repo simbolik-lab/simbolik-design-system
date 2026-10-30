@@ -1,0 +1,59 @@
+/* smbk-one-time-code-input — One-time code input. Figma "One-time code input" 8217:3276 (State: Empty, Focused,
+ * Partly filled, Complete, Error, Disabled).
+ * Six cells in two groups of three that act as one field. Each cell is the input's well at the large control's
+ * height, square, with the large control's corners: its markup carries smbk-input and smbk-input--size-lg, so the
+ * input's stylesheet draws the well, its error edge and its disabled and read-only looks, and names the cell marked
+ * data-active, which takes the focus edge while the control has focus. One native text control lies over every cell,
+ * unseen, and holds the value: what is typed, pasted or filled in by the phone goes there, and the cells show it.
+ * This stylesheet only lays the cells out and lays the control over them. */
+
+.smbk-one-time-code-input {
+  position: relative;
+  display: inline-flex;
+  gap: var(--smbk-space-24);
+  max-width: 100%;
+  vertical-align: top;
+}
+
+.smbk-one-time-code-input__group {
+  display: flex;
+  gap: var(--smbk-space-inline-md);
+  min-width: 0;
+}
+
+/* A cell is the large well made square, its digit centred. In a space narrower than the six, the cells narrow
+   together and keep their height, so the page never scrolls sideways. Two classes, so the input's own size rules,
+   whatever order the stylesheets load in, never widen or pad it. */
+.smbk-input.smbk-one-time-code-input__cell {
+  flex: 0 1 auto;
+  width: var(--smbk-size-control-lg);
+  min-width: 0;
+  padding: 0;
+  justify-content: center;
+}
+
+.smbk-one-time-code-input__digit {
+  font-variant-numeric: tabular-nums;
+}
+
+/* The control lies over every cell and takes every press, unseen: the cells draw its value, so its own text, caret,
+   selection and the browser's fill colour are never shown. Its text is the cells' own size, so a phone's browser
+   never zooms in as it takes focus. */
+.smbk-one-time-code-input__control {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  cursor: text;
+}
+
+.smbk-one-time-code-input__control:disabled {
+  cursor: not-allowed;
+}

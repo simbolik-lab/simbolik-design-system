@@ -1,0 +1,177 @@
+/*
+ * The scrollbar over a part that scrolls inside itself (scrollbar.ts): a thin, see-through thumb at the part's edge,
+ * over the content, taking no room. It shows while a mouse is over the part and while the part scrolls, and fades
+ * after; on its bar the thumb widens and darkens, darker still while dragged. Its tint is the translucent neutral of
+ * a secondary control at rest, on hover and pressed, so the words under it still read in both themes.
+ *
+ * The script marks the part `data-scrollbar` and adds the bar as its first child, a corner held in place with no size
+ * of its own; the bar's area covers what shows of the part. Only where the main pointer is a mouse or a trackpad: a
+ * touch screen keeps the browser's own bar, which already sits over the content there. Markup written by hand has
+ * no mark, so each component's own rule draws the browser's thin bar.
+ */
+
+.smbk-scrollbar {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  /* The browser's bar gives way wherever the script draws this one, over each component's own thin-bar rule. Its
+     z-index stays inside the part, so the bar never draws over what lies outside it (an app bar the part scrolls
+     under). */
+  [data-scrollbar] {
+    isolation: isolate;
+    scrollbar-width: none !important;
+  }
+
+  [data-scrollbar]::-webkit-scrollbar {
+    display: none;
+  }
+
+  .smbk-scrollbar {
+    position: sticky;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    z-index: var(--smbk-layer-overlay);
+    display: block;
+    flex: none;
+    align-self: flex-start;
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+    /* Going, it waits for a widened thumb to narrow back, then fades, and is hidden once it has: nothing of it is
+       drawn or pressed while it rests. */
+    transition:
+      opacity var(--smbk-motion-exit-duration) var(--smbk-motion-exit-easing) var(--smbk-motion-feedback-duration),
+      visibility 0s linear calc(var(--smbk-motion-feedback-duration) + var(--smbk-motion-exit-duration));
+  }
+
+  .smbk-scrollbar[data-shown] {
+    visibility: visible;
+    opacity: 1;
+    transition:
+      opacity var(--smbk-motion-feedback-duration) var(--smbk-motion-feedback-easing),
+      visibility 0s;
+  }
+
+  /* Over a control that cannot hold it (a text area), in the control's parent, which the control fills. */
+  .smbk-scrollbar--over {
+    position: absolute;
+    inset: 0;
+    z-index: auto;
+    width: auto;
+    height: auto;
+  }
+
+  .smbk-scrollbar__area {
+    position: absolute;
+    display: block;
+  }
+
+  /* In a grid, laid over all the part scrolls through (the script sizes it), with the area held in view inside it. */
+  .smbk-scrollbar--spread {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+  }
+
+  .smbk-scrollbar--spread > .smbk-scrollbar__area {
+    position: sticky;
+  }
+
+  .smbk-scrollbar--over > .smbk-scrollbar__area {
+    inset: 0;
+  }
+
+  /* A track is the bar's press area, along the edge, clear; a part that does not run past its size that way has none. */
+  .smbk-scrollbar__track {
+    position: absolute;
+    display: none;
+    touch-action: none;
+    user-select: none;
+  }
+
+  .smbk-scrollbar__track[data-overflows] {
+    display: block;
+  }
+
+  .smbk-scrollbar[data-shown] .smbk-scrollbar__track {
+    pointer-events: auto;
+  }
+
+  .smbk-scrollbar__track--y {
+    inset-block: 0;
+    inset-inline-end: 0;
+    width: var(--smbk-size-12);
+  }
+
+  .smbk-scrollbar__track--x {
+    inset-inline: 0;
+    inset-block-end: 0;
+    height: var(--smbk-size-12);
+  }
+
+  /* Both ways: the sideways bar stops short of the downward one. */
+  .smbk-scrollbar[data-both] .smbk-scrollbar__track--x {
+    inset-inline-end: var(--smbk-size-12);
+  }
+
+  /* The script sizes the thumb to the share of the part in view and moves it with the scroll. */
+  .smbk-scrollbar__thumb {
+    position: absolute;
+    border-radius: var(--smbk-radius-full);
+    background: var(--smbk-color-action-secondary-background);
+    transition-property: width, height, background-color;
+    transition-duration: var(--smbk-motion-feedback-duration);
+    transition-timing-function: var(--smbk-motion-feedback-easing);
+  }
+
+  .smbk-scrollbar__track--y > .smbk-scrollbar__thumb {
+    top: var(--smbk-space-4);
+    inset-inline-end: var(--smbk-space-4);
+    width: var(--smbk-size-4);
+    min-height: var(--smbk-size-24);
+  }
+
+  .smbk-scrollbar__track--x > .smbk-scrollbar__thumb {
+    bottom: var(--smbk-space-4);
+    inset-inline-start: var(--smbk-space-4);
+    height: var(--smbk-size-4);
+    min-width: var(--smbk-size-24);
+  }
+
+  .smbk-scrollbar__track--y:is(:hover, [data-dragging]) > .smbk-scrollbar__thumb {
+    width: var(--smbk-size-6);
+  }
+
+  .smbk-scrollbar__track--x:is(:hover, [data-dragging]) > .smbk-scrollbar__thumb {
+    height: var(--smbk-size-6);
+  }
+
+  .smbk-scrollbar__track:hover > .smbk-scrollbar__thumb {
+    background: var(--smbk-color-action-secondary-background-hover);
+  }
+
+  .smbk-scrollbar__track[data-dragging] > .smbk-scrollbar__thumb {
+    background: var(--smbk-color-action-secondary-background-pressed);
+  }
+}
+
+/* Reduced motion: the bar still fades in and out; the thumb widens at once. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: reduce) {
+  .smbk-scrollbar__thumb {
+    transition-property: background-color;
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* The browser would drop the thumb's tint: it is drawn in the user's text color instead. */
+@media (forced-colors: active) {
+  .smbk-scrollbar .smbk-scrollbar__track > .smbk-scrollbar__thumb {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
+}

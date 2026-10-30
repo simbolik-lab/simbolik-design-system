@@ -44,20 +44,34 @@ export const FALLBACK_STYLESHEET = 'fonts/fallback.css';
 /**
  * The stand-in faces (`font.fallback.<role>`, authored tokens): for each family, the face its backups name first,
  * drawn with a font already on the reader's device and scaled and spaced to match the family, so a page drawn before
- * the family arrives barely moves when it does. One weight, as each package's faces have one per file: the browser
- * makes the bolder weights from it while it stands in.
+ * the family arrives barely moves when it does. A family with a group per weight (`font.fallback.body.light`, named as
+ * `font.weight` names it) has a face per weight, each as wide as that weight, so light and bold text wraps where it
+ * will once its own face arrives; its heights are the family's, scaled by the face's own size. A family
+ * without, Geist Mono, has one face, which the browser makes bolder while it stands in.
  */
 function fallbackFaces(): string {
   const { tokens } = JSON.parse(readFileSync(join(ROOT, 'output', 'tokens.json'), 'utf8')) as { tokens: { path: string; value: unknown }[] };
   const value = (path: string) => tokens.find((t) => t.path === path)?.value;
   const roles = [...new Set(tokens.map((t) => /^font\.fallback\.([^.]+)\.stack$/.exec(t.path)?.[1]).filter((r): r is string => r !== undefined))];
-  const percent = (n: unknown) => `${+(Number(n) * 100).toFixed(2)}%`;
+  const weights = tokens.flatMap((t) => (/^font\.weight\.([^.]+)$/.exec(t.path) ? [{ name: t.path.split('.')[2]!, weight: Number(t.value) }] : [])).sort((a, b) => a.weight - b.weight);
+  const percent = (n: number) => `${+(n * 100).toFixed(2)}%`;
   return roles
-    .map((role) => {
+    .flatMap((role) => {
       const at = (part: string) => value(`font.fallback.${role}.${part}`);
       const name = String(at('stack')).split(', ')[0];
-      const local = String(at('local')).split(', ').map((f) => `local("${f}")`).join(', ');
-      return `@font-face {\n  font-family: "${name}";\n  src: ${local};\n  size-adjust: ${percent(at('size-adjust'))};\n  ascent-override: ${percent(at('ascent'))};\n  descent-override: ${percent(at('descent'))};\n  line-gap-override: ${percent(at('line-gap'))};\n}\n`;
+      const sizeAdjust = Number(at('size-adjust'));
+      const face = (weight: number | undefined, local: unknown, size: number) => {
+        // The heights are the real face's, so a stand-in scaled to another size takes them at that size.
+        const height = (part: string) => percent((Number(at(part)) * sizeAdjust) / size);
+        const src = String(local).split(', ').map((f) => `local("${f}")`).join(', ');
+        return `@font-face {\n  font-family: "${name}";\n${weight === undefined ? '' : `  font-weight: ${weight};\n`}  src: ${src};\n  size-adjust: ${percent(size)};\n  ascent-override: ${height('ascent')};\n  descent-override: ${height('descent')};\n  line-gap-override: ${height('line-gap')};\n}\n`;
+      };
+      const ofWeight = (w: { name: string }, part: string) => value(`font.fallback.${role}.${w.name}.${part}`);
+      if (!weights.some((w) => ofWeight(w, 'size-adjust') !== undefined)) return [face(undefined, at('local'), sizeAdjust)];
+      return weights.map((w) => {
+        const size = ofWeight(w, 'size-adjust');
+        return size === undefined ? face(w.weight, at('local'), sizeAdjust) : face(w.weight, ofWeight(w, 'local') ?? at('local'), Number(size));
+      });
     })
     .join('\n');
 }
@@ -80,6 +94,7 @@ export function assets(): string {
   rmSync(out, { recursive: true, force: true });
   for (const f of FONTS) {
     cpSync(join(ROOT, 'node_modules', '@fontsource', f), join(out, 'fonts', f), { recursive: true });
+    woff2Only(join(out, 'fonts', f));
     versionAddresses(join(out, 'fonts', f), packageVersion(join('@fontsource', f)));
   }
   const fallbacks = fallbackFaces();
@@ -87,6 +102,7 @@ export function assets(): string {
   writeFileSync(join(out, FONT_STYLESHEET), fontStylesheet(join(out, 'fonts'), fallbacks));
   cpSync(join(ROOT, 'node_modules', '@phosphor-icons', 'web', 'src', 'regular'), join(out, 'phosphor', 'regular'), { recursive: true });
   cpSync(join(ROOT, 'node_modules', '@phosphor-icons', 'web', 'LICENSE'), join(out, 'phosphor', 'regular', 'LICENSE'));
+  woff2Only(join(out, 'phosphor', 'regular'));
   versionAddresses(join(out, 'phosphor', 'regular'), packageVersion(join('@phosphor-icons', 'web')));
   return 'assets/';
 }
@@ -105,6 +121,23 @@ function fontStylesheet(fonts: string, fallbacks: string): string {
 /** The version of an installed package, from its package.json. */
 function packageVersion(name: string): string {
   return (JSON.parse(readFileSync(join(ROOT, 'node_modules', name, 'package.json'), 'utf8')) as { version: string }).version;
+}
+
+/**
+ * Leaves only the WOFF2 file in every @font-face of a folder's stylesheets. The packages also list WOFF, TTF and
+ * (Phosphor) a 2.9 MB SVG after it; every browser a site serves takes the WOFF2, but a site's build tool copies
+ * every file a stylesheet names into what it uploads. The other files stay in the folder; nothing names them.
+ */
+function woff2Only(folder: string): void {
+  for (const name of readdirSync(folder)) {
+    if (!name.endsWith('.css')) continue;
+    const sheet = join(folder, name);
+    const css = readFileSync(sheet, 'utf8').replace(/src:\s*([^;]+);/g, (all, list: string) => {
+      const woff2 = list.split(/,\s*(?=url\()/).filter((s) => /format\(["']?woff2["']?\)/.test(s));
+      return woff2.length ? `src: ${woff2.join(', ').trim()};` : all;
+    });
+    writeFileSync(sheet, css);
+  }
 }
 
 /**

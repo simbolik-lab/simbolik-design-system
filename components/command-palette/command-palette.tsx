@@ -1,3 +1,5 @@
+'use client';
+
 import { isValidElement, useEffect, useId, useMemo, useRef, useState, type HTMLAttributes, type KeyboardEvent, type ReactNode } from 'react';
 import { commandPalette } from './command-palette.manifest.js';
 import { Icon } from '../icon/icon.js';
@@ -7,6 +9,7 @@ import { Chip } from '../chip/chip.js';
 import { Button } from '../button/button.js';
 import { Divider } from '../divider/divider.js';
 import { useGlide } from '../glide.js';
+import { useScrollbar } from '../scrollbar.js';
 import { useModalDialog } from '../dialog.js';
 import { useControllable } from '../controllable.js';
 import { cx } from '../variants.js';
@@ -160,6 +163,7 @@ export function CommandPalette({
   const q = text.trim().toLowerCase();
   const input = useRef<HTMLInputElement>(null);
   const body = useRef<HTMLDivElement>(null);
+  const bar = useScrollbar(body);
 
   const visible = useMemo(
     () => groups.map((g) => ({ group: g, commands: filter ? g.commands.filter((c) => matches(c, q)) : g.commands })).filter((g) => g.commands.length > 0),
@@ -275,7 +279,7 @@ export function CommandPalette({
       <p className={commandPalette.part('status')} role="status">
         {text ? (flat.length ? resultsText(flat.length) : emptyText) : ''}
       </p>
-      <div ref={body} className={commandPalette.part('body')}>
+      <div ref={body} className={commandPalette.part('body')} {...bar}>
         {visible.length === 0 && <p className={commandPalette.part('empty')}>{emptyText}</p>}
         {visible.map(({ group, commands }, gi) => (
           <div key={`${gi}-${group.label}`} className={commandPalette.part('group')}>

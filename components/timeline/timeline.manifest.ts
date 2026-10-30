@@ -13,6 +13,6 @@ export const timeline = defineVariants({
   adapt: 'css',
   axes: {},
   flags: {},
-  parts: ['item', 'rail', 'marker', 'dot', 'line', 'body', 'top', 'title', 'time', 'meta', 'detail', 'hidden'],
+  parts: ['item', 'rail', 'marker', 'dot', 'line', 'body', 'disclosure', 'summary', 'top', 'title', 'time', 'caret', 'meta', 'detail', 'more', 'hidden'],
   figmaNodeId: '7607:118483',
 });

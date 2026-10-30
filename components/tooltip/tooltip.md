@@ -18,6 +18,7 @@ A small label that appears beside a control while the reader points at it or mov
 
 - The block, holding the bubble and the arrow.
 - The bubble part, a small box holding the words. It is as wide as its words up to the tooltip's greatest width, where they wrap onto more lines.
+- The key part, optional: the target's key after the words, drawn as a small [key cap](../kbd/kbd.md) ("Zoom in" then "]"), given as `shortcut`. The bubble keeps its one-line height.
 - The arrow part, a small triangle on one edge pointing at the target. The arrow axis names its edge and where along it: a top arrow points up at a target below the bubble's top, so the bubble sits under the target; a bottom arrow sits the bubble over the target; a left arrow sits it to the target's right; a right arrow to its left.
 - With a target: the anchor part holds the target and the layer part, and the layer holds the tooltip.
 
@@ -35,9 +36,11 @@ A small label that appears beside a control while the reader points at it or mov
 
 ## Behavior
 
-Given its target as `trigger`, the tooltip draws the target and shows itself: a short wait after a mouse comes to rest on the target, and at once when the target takes the keyboard focus. It stays while the pointer moves from the target onto the tooltip and while the focus stays, so it can be read at leisure. It goes when the pointer leaves both, when the focus moves on, when the target is pressed, and when Escape is pressed, which leaves the focus where it is. Once one tooltip has shown, the next one shows at once as the pointer moves along a row of controls. It never shows from a touch.
+Given its target as `trigger`, the tooltip draws the target and shows itself: once a mouse has rested on the target a moment, long enough that a pointer merely passing over a row of controls shows nothing, and at once when the target takes the keyboard focus. A label's help waits less, since pointing at its icon is asking for it. It stays while the pointer moves from the target onto the tooltip and while the focus stays, so it can be read at leisure. It goes when the pointer leaves both, when the focus moves on, when the target is pressed, and when Escape is pressed, which leaves the focus where it is. Once one tooltip has shown, the next one shows at once as the pointer moves along a row of controls. It never shows from a touch.
 
 It is placed beside its target on the side its arrow names, lifted over the page so no scrolling or clipped part around the target cuts it off. Without room on that side it takes the opposite side, and its arrow turns with it. Near the window's edge it moves inward, its arrow still pointing at the target's middle. It stays beside the target as the page scrolls, and closes when the target scrolls out of the window. It can be shown from the start, until the reader moves on.
+
+Given a `shortcut`, the tooltip shows the target's key after its words, and the target carries the key as `aria-keyshortcuts`. The tooltip only shows the key: the page listens for it, since only the page knows when a key is safe to take, such as a single letter outside text fields.
 
 Without script, a shown tooltip hangs beside its target on the side its arrow names, so markup written by hand can show and hide it with the hidden attribute. Without a target, the component draws the bubble alone, shown, for a page that shows and places it itself.
 
@@ -49,6 +52,7 @@ It fades in quickly when it appears, coming a short way out of its target on the
 - The bubble carries the tooltip role and holds text only, never anything focusable.
 - When its words are the target's own name, as on an icon button, they are the target's accessible name and the bubble is hidden from assistive technology, so the name is not read twice.
 - When its words add to the name, the target is described by the bubble, so its words are read after the name.
+- A key cap in the bubble is hidden from assistive technology; the target carries the key as `aria-keyshortcuts`, where a screen reader looks for it.
 - It shows on keyboard focus as well as on pointing, stays while pointed at, and Escape dismisses it, leaving focus where it is.
 
 ### What you must do

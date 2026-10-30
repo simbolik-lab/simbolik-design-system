@@ -1,8 +1,11 @@
+'use client';
+
 import {
   createContext,
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -30,13 +33,13 @@ export interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
 
 /**
  * Toast: one message, built on the alert: the alert's inside (`alertContent`) with the toast's own classes. On its
- * own it is announced politely (the status role) and stays until the page removes it; inside a toast region the
- * region announces it, times it and closes it.
+ * own it is announced politely (the status role), a danger one at once (the alert role), and stays until the page
+ * removes it; inside a toast region the region announces it, times it and closes it.
  */
 export function Toast({ tone, icon, title, children, action, onDismiss, dismissLabel, className, ...rest }: ToastProps) {
   const classes = cx(toast({ tone }), className);
   return (
-    <div role="status" className={classes} {...rest}>
+    <div role={tone === 'danger' ? 'alert' : 'status'} className={classes} {...rest}>
       {alertContent((name) => toast.part(name), { tone, icon, title, children, action, onDismiss, dismissLabel }, 'p')}
     </div>
   );
@@ -94,6 +97,24 @@ interface Entry {
   leaving: boolean;
 }
 
+/** A shown toast's words, as its announcer says them: at once for the danger tone, politely for the rest. */
+interface Announcement {
+  id: string;
+  words: string;
+  urgent: boolean;
+}
+
+/** The key that moves focus to the newest toast and back, as in Base UI's and other toast regions. */
+const SHORTCUT = 'F6';
+
+/** A toast's title and description as one line to say, from what it drew. */
+function wordsOf(element: Element): string {
+  const parts = [toast.part('title'), toast.part('description')].map((name) => element.querySelector(`.${name}`)?.textContent?.trim() ?? '');
+  const [title, description] = parts;
+  if (!title || !description) return title || description || '';
+  return /[.!?:]$/.test(title) ? `${title} ${description}` : `${title}. ${description}`;
+}
+
 interface Timer {
   remaining: number;
   started: number;
@@ -114,7 +135,11 @@ function durationOf(message: ToastMessage): number | null {
  *   const toasts = useToasts(); toasts.show({ tone: 'success', title: 'Invite sent' });
  *
  * A toast leaves after its time unless the pointer is on the region or focus is in it, which holds every timer; Escape
- * closes the toast focus is in, and focus moves to the next toast or back where it came from. It never takes focus.
+ * closes the toast focus is in, and focus moves to the next toast or back where it came from. It never takes focus by
+ * itself: F6 moves focus to the newest toast while any shows, and F6 again goes back where it was.
+ *
+ * The region is a named landmark, not a live region: each toast's words are said by one of two hidden announcers
+ * inside it, politely (the status role), or at once for a danger toast (the alert role), so none is said twice.
  */
 export function ToastRegion({ children, label = 'Notifications', max = 3, dismissLabel, className, onPointerEnter, onPointerLeave, onFocus, onBlur, onKeyDown, ...rest }: ToastRegionProps) {
   const [entries, setEntries] = useState<Entry[]>([]);
@@ -126,6 +151,7 @@ export function ToastRegion({ children, label = 'Notifications', max = 3, dismis
   const removals = useRef(new Map<string, ReturnType<typeof setTimeout>>());
   const returnTo = useRef<HTMLElement | null>(null);
   const count = useRef(0);
+  const [announced, setAnnounced] = useState<Announcement[]>([]);
 
   const dismiss = useCallback((id: string) => {
     const element = region.current?.querySelector(`[data-toast="${id}"]`);
@@ -158,6 +184,47 @@ export function ToastRegion({ children, label = 'Notifications', max = 3, dismis
 
   const held = pointer || focus || away;
   const shown = entries.slice(0, max);
+  const showing = shown.some((entry) => !entry.leaving);
+
+  // Each toast's words go to its announcer once it is drawn, and leave with it; a toast waiting its turn is said when
+  // it shows.
+  useLayoutEffect(() => {
+    setAnnounced((was) => {
+      const kept = was.filter((a) => entries.some((entry) => entry.id === a.id));
+      const added = shown.flatMap((entry) => {
+        if (entry.leaving || kept.some((a) => a.id === entry.id)) return [];
+        const element = region.current?.querySelector(`[data-toast="${entry.id}"]`);
+        const words = element ? wordsOf(element) : '';
+        return words ? [{ id: entry.id, words, urgent: entry.message.tone === 'danger' }] : [];
+      });
+      return added.length || kept.length !== was.length ? [...kept, ...added] : was;
+    });
+  }, [entries, max]);
+
+  // F6 moves focus to the newest toast (its first button or link, or the toast itself) while any shows, and from
+  // inside the region back where it came from.
+  useEffect(() => {
+    if (!showing) return undefined;
+    const onKey = (event: globalThis.KeyboardEvent) => {
+      const r = region.current;
+      if (event.key !== SHORTCUT || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || !r) return;
+      event.preventDefault();
+      if (r.contains(document.activeElement)) {
+        if (returnTo.current?.isConnected) returnTo.current.focus();
+        else (document.activeElement as HTMLElement | null)?.blur();
+        return;
+      }
+      const newest = Array.from(r.querySelectorAll<HTMLElement>('[data-toast]:not([hidden])')).pop();
+      if (!newest) return;
+      const target = newest.querySelector<HTMLElement>('button, a[href]') ?? newest;
+      if (target === newest) newest.tabIndex = -1;
+      const from = document.activeElement;
+      if (from instanceof HTMLElement && from !== document.body) returnTo.current = from;
+      target.focus();
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [showing]);
 
   // Each shown toast with a time runs its timer while nothing holds the region, and keeps what is left while held.
   useEffect(() => {
@@ -234,10 +301,9 @@ export function ToastRegion({ children, label = 'Notifications', max = 3, dismis
       {children}
       <div
         ref={region}
-        role="status"
-        aria-live="polite"
-        aria-atomic="false"
+        role="region"
         aria-label={label}
+        aria-keyshortcuts={SHORTCUT}
         className={cx(toast.part('region'), className)}
         onPointerEnter={(event) => {
           setPointer(true);
@@ -252,6 +318,14 @@ export function ToastRegion({ children, label = 'Notifications', max = 3, dismis
         onKeyDown={escape}
         {...rest}
       >
+        {/* The announcers, hidden from view inside the region, which is fixed to the window and so frames them: placed
+            against the window, far down a long page, they would stretch it. */}
+        <div role="status" aria-atomic="false" className="smbk-visually-hidden">
+          {announced.filter((a) => !a.urgent).map((a) => <p key={a.id}>{a.words}</p>)}
+        </div>
+        <div role="alert" aria-atomic="false" className="smbk-visually-hidden">
+          {announced.filter((a) => a.urgent).map((a) => <p key={a.id}>{a.words}</p>)}
+        </div>
         {shown.map(({ id, message, leaving }) => {
           const { description, dismissible = true, duration: _duration, ...look } = message;
           return (

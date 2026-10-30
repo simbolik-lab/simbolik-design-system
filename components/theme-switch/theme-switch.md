@@ -30,7 +30,9 @@ The control a reader uses to choose the light or the dark theme. It is the [segm
 
 ## Behavior
 
-Hover colors an icon with the brand text, as Figma's theme item draws it. Pointing at an icon or moving the keyboard focus to it shows its name in a tooltip under it, which stays while pointed at and goes on Escape. Choosing calls back with the theme, and the raised surface slides to the chosen item with the state motion while the icons change color with the feedback motion; a change of size lands at once, and under reduced motion the raised surface lands at once while the color still fades. Setting the theme attribute on the page element, and remembering the choice, belong to the page: the theme is a reader's decision recorded on the page, not the control's state.
+Hover colors an icon with the brand text, as Figma's theme item draws it. Pointing at an icon or moving the keyboard focus to it shows its name in a tooltip under it, which stays while pointed at and goes on Escape. Choosing calls back with the theme and the item pressed, and the raised surface slides to the chosen item with the state motion while the icons change color with the feedback motion; a change of size lands at once, and under reduced motion the raised surface lands at once while the color still fades. Setting the theme attribute on the page element, and remembering the choice, belong to the page: the theme is a reader's decision recorded on the page, not the control's state.
+
+`applyTheme()`, exported beside the switch, sets that attribute with the theme wipe: the page in the new theme is drawn over the old in a circle that grows from the item pressed until it covers the far corner of the window, with the theme wipe motion, and nothing of it stays once it ends. Its background goes with it, so the whole page changes, not only its parts. An item out of sight, such as one in a closed menu, wipes from the top corner at the end of the line instead. Under reduced motion, in a browser without view transitions, or in a tab that isn't shown, the theme changes at once. The page passes it the theme and the item from the switch's callback; a press during a wipe starts the next one.
 
 The browser's own bar on a phone (Chrome's on Android, an installed web app's title bar) takes its color from a theme-color tag, which cannot read a token. `followThemeColor()`, exported beside the switch, writes that tag from the page canvas token (or another color token it is given) and keeps it in step with the theme. The page calls it once, where it sets its theme.
 
@@ -74,12 +76,14 @@ Contains two items. Sits in the header, the footer, or the Showroom's own chrome
 ### Do
 
 - Reflect the current theme in it on load, including a system preference the page has resolved.
+- Set the theme with `applyTheme()` from the switch's callback, so a change looks the same on every site.
 - Call `followThemeColor()` once where the page sets its theme, so the phone's bar matches the page.
 
 ### Don't
 
 - Offer it more than once on a page.
 - Write a theme-color tag by hand: its color would be typed in, and it would not follow the theme.
+- Give another part of the page its own view transition name while the theme changes: the wipe draws the page as one piece, and a part with its own name moves on its own instead.
 
 ## Related
 

@@ -3,7 +3,8 @@ import { defineVariants } from '../variants.js';
 /**
  * Stat. Figma "Stat" 7118:401 (Size × Type × State, 10 variants; Dot and Description booleans). Hover,
  * pressed and focus are the browser's states, not an axis. Figma's Dot and Description switches are
- * whether the wrapper is given a dot or a description, not flags.
+ * whether the wrapper is given a dot or a description, not flags. The trend and the chart are not in Figma's
+ * set: they hold what the card's old stat body held beside and under its figure.
  */
 export const stat = defineVariants({
   name: 'stat',
@@ -23,6 +24,6 @@ export const stat = defineVariants({
     },
   },
   flags: {},
-  parts: ['name', 'dot', 'figure', 'link', 'description'],
+  parts: ['name', 'dot', 'figure', 'link', 'trend', 'description', 'chart'],
   figmaNodeId: '7118:401',
 });

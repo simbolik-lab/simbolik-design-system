@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useId, useRef, type FocusEvent, type InputHTMLAttributes, type KeyboardEvent, type Ref } from 'react';
 import { flushSync } from 'react-dom';
 import { passwordField } from './password-field.manifest.js';

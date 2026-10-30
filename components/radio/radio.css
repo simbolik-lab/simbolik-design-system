@@ -1,4 +1,6 @@
-/* smbk-radio — Radio. Figma "Radio" 4086:11110 (Size × State × Checked). */
+/* smbk-radio — Radio. Figma "Radio" 4086:11110 (Size × State × Checked).
+ * Choosing fills the circle from a little smaller as it fades in, and the dot pops in over it
+ * (see the motion rules at the end). */
 
 /* .smbk-radio__control: hidden from view, kept for screen readers and the keyboard, by the shared rule in visually-hidden/visually-hidden.css.
    The row, its type, the disabled colour, the label over a line under it, the focus ring on the circle and the touch area are shared
@@ -15,10 +17,23 @@
   border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-control);
   border-radius: var(--smbk-radius-full);
   background: transparent;
+  position: relative;
+  isolation: isolate;
+}
+
+/* The fill: a layer over the whole circle, its edge included, under the dot. It shows while the radio is chosen, when
+   the circle itself draws nothing, so the two are never drawn over each other. */
+.smbk-radio__circle::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: calc(-1 * var(--smbk-border-width-hairline));
+  border-radius: inherit;
+  background: var(--smbk-color-action-inverse-background);
+  opacity: 0;
 }
 
 .smbk-radio__dot {
-  display: none;
   width: var(--smbk-size-6);
   height: var(--smbk-size-6);
   border-radius: var(--smbk-radius-full);
@@ -27,11 +42,10 @@
 
 .smbk-radio__control:checked + .smbk-radio__circle {
   border-color: transparent;
-  background: var(--smbk-color-action-inverse-background);
 }
 
-.smbk-radio__control:checked + .smbk-radio__circle .smbk-radio__dot {
-  display: block;
+.smbk-radio__control:checked + .smbk-radio__circle::before {
+  opacity: 1;
 }
 
 /* Hover: an empty ring darkens its edge; a chosen one darkens its fill. */
@@ -42,17 +56,22 @@
 
   .smbk-radio:hover .smbk-radio__control:enabled:checked + .smbk-radio__circle {
     border-color: transparent;
+  }
+
+  .smbk-radio:hover .smbk-radio__control:enabled:checked + .smbk-radio__circle::before {
     background: var(--smbk-color-action-inverse-background-hover);
   }
 }
 
-/* Error: an empty ring takes the danger edge; a chosen one keeps its fill inside a danger ring.
-   Two classes, so the error stays under the pointer. */
-.smbk-radio.smbk-radio--error .smbk-radio__control:enabled + .smbk-radio__circle {
+/* Error: an empty ring takes the danger edge; a chosen one keeps its fill, to its edge, inside a danger ring.
+   Two classes, so the error stays under the pointer. The control marked aria-invalid="true" draws the same. */
+.smbk-radio.smbk-radio--error .smbk-radio__control:enabled + .smbk-radio__circle,
+.smbk-radio .smbk-radio__control[aria-invalid="true"]:enabled + .smbk-radio__circle {
   border-color: var(--smbk-color-feedback-danger-border);
 }
 
-.smbk-radio.smbk-radio--error .smbk-radio__control:enabled:checked + .smbk-radio__circle {
+.smbk-radio.smbk-radio--error .smbk-radio__control:enabled:checked + .smbk-radio__circle,
+.smbk-radio .smbk-radio__control[aria-invalid="true"]:enabled:checked + .smbk-radio__circle {
   border-color: transparent;
   box-shadow: 0 0 0 var(--smbk-border-width-emphasis) var(--smbk-color-feedback-danger-border);
 }
@@ -62,12 +81,17 @@
 }
 
 .smbk-radio__control:checked:focus-visible + .smbk-radio__circle {
-  background: var(--smbk-color-action-inverse-background);
+  background: transparent;
 }
 
+/* Disabled, chosen or not, the circle draws itself in the disabled colours, with no fill over it. */
 .smbk-radio__control:disabled + .smbk-radio__circle {
   border-color: var(--smbk-color-border-control-disabled);
   background: transparent;
+}
+
+.smbk-radio__control:disabled + .smbk-radio__circle::before {
+  content: none;
 }
 
 .smbk-radio__control:disabled:checked + .smbk-radio__circle {
@@ -92,6 +116,64 @@
   height: var(--smbk-size-4);
 }
 
+/* ---- motion: choosing fills the circle and pops the dot in. The fill grows from a little smaller than
+   the circle as it fades in, with the fill purpose, while the circle's own edge fades under it; the dot
+   grows from nothing a little past its size and settles back, with the pop purpose, and shrinks away the
+   same way when another radio is chosen. The circle gives a little while it is pressed, with the feedback
+   purpose. Only a change moves: a radio chosen as the page loads is simply chosen. Under reduced motion
+   the fill and the dot only fade, and nothing gives. ---- */
+
+.smbk-radio__circle {
+  transition-property: border-color, background-color, box-shadow, scale;
+  transition-duration: var(--smbk-motion-fill-duration), var(--smbk-motion-fill-duration), var(--smbk-motion-fill-duration), var(--smbk-motion-feedback-duration);
+  transition-timing-function: var(--smbk-motion-fill-easing), var(--smbk-motion-fill-easing), var(--smbk-motion-fill-easing), var(--smbk-motion-feedback-easing);
+}
+
+.smbk-radio:active .smbk-radio__control:enabled + .smbk-radio__circle {
+  scale: 0.97;
+}
+
+.smbk-radio__circle::before {
+  scale: 0.7;
+  transition-property: opacity, scale;
+  transition-duration: var(--smbk-motion-fill-duration);
+  transition-timing-function: var(--smbk-motion-fill-easing);
+}
+
+.smbk-radio__control:checked + .smbk-radio__circle::before {
+  scale: none;
+}
+
+.smbk-radio__dot {
+  opacity: 0;
+  scale: 0;
+  transition-property: opacity, scale;
+  transition-duration: var(--smbk-motion-pop-duration);
+  transition-timing-function: var(--smbk-motion-pop-easing);
+}
+
+.smbk-radio__control:checked + .smbk-radio__circle .smbk-radio__dot {
+  opacity: 1;
+  scale: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-radio__circle {
+    transition-property: border-color, background-color, box-shadow;
+  }
+
+  .smbk-radio:active .smbk-radio__control:enabled + .smbk-radio__circle,
+  .smbk-radio__circle::before,
+  .smbk-radio__dot {
+    scale: none;
+  }
+
+  .smbk-radio__circle::before,
+  .smbk-radio__dot {
+    transition-property: opacity;
+  }
+}
+
 /* ---- high contrast (forced colors) ---- */
 /* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
    user's own colors. Nothing here applies outside that mode. */
@@ -102,6 +184,10 @@
   .smbk-radio__control:checked:focus-visible + .smbk-radio__circle {
     border-color: Highlight;
     background: Highlight;
+  }
+
+  .smbk-radio__circle::before {
+    content: none;
   }
 
   .smbk-radio__control:checked + .smbk-radio__circle .smbk-radio__dot {

@@ -953,7 +953,7 @@
           "hex": "#e7ebf0"
         },
         "$type": "color",
-        "$description": "Grey 200, on the one contrast ladder every family shares: 1.20:1 against white, 15.66:1 against the dark page #111213. oklch(93.8% 0.008 254). The light page (canvas and sunken).",
+        "$description": "Grey 200, on the one contrast ladder every family shares: 1.20:1 against white, 15.66:1 against the dark page #111213. oklch(93.8% 0.008 254). The light page (canvas).",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:7070:4",

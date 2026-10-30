@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, type ChangeEvent, type InputHTMLAttributes, type KeyboardEvent, type MouseEvent, type Ref } from 'react';
 import { searchField } from './search-field.manifest.js';
 import { input } from '../input/input.manifest.js';

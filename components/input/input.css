@@ -4,7 +4,10 @@
  * The search field and the select are built on this well: their markup
  * carries smbk-input, so every change here reaches them too. The select's
  * well is itself the control, a button, which the focus, read-only and
- * disabled rules below also cover. */
+ * disabled rules below also cover. The one-time code input draws each of its
+ * cells as this well, with one native control over them all: the focus,
+ * read-only and disabled rules below name its cells too, the cell marked
+ * data-active taking the focus while the control has it. */
 
 .smbk-input {
   box-sizing: border-box;
@@ -38,7 +41,8 @@
 /* Focus: the field's border. A well that is itself a button (the select's) shows it only when the keyboard
    brought focus there, as every button does: a press opens its list, and a choice hands focus back to it
    without the focused look. A field typed into shows it however it was reached. */
-.smbk-input:focus-within:where(:not(button:not(:focus-visible))) {
+.smbk-input:focus-within:where(:not(button:not(:focus-visible))),
+:where(.smbk-one-time-code-input:has(> .smbk-one-time-code-input__control:focus)) .smbk-input[data-active] {
   background: var(--smbk-color-surface-sunken);
   border-color: var(--smbk-color-border-focus-field);
   box-shadow: var(--smbk-elevation-inset-strong);
@@ -50,8 +54,12 @@
 }
 
 /* In error the danger edge stays while the field has focus and under the pointer, with the error icon
-   beside the value, so the error is a shape as well as a color. Two classes, so it wins over focus. */
-.smbk-input.smbk-input--error {
+   beside the value, so the error is a shape as well as a color. Two classes, so it wins over focus. A well or a
+   control in it marked aria-invalid="true" takes the same edge, at the same weight, for markup written by hand;
+   the error icon is markup. */
+.smbk-input.smbk-input--error,
+.smbk-input[aria-invalid="true"],
+.smbk-input:has([aria-invalid="true"]) {
   border-color: var(--smbk-color-feedback-danger-border);
 }
 
@@ -59,19 +67,22 @@
    surface with a faint edge, no shadow and no lift on hover; it stays in the tab order and shows focus by
    its border, as every field does. The select's well, a button, says it with aria-readonly. */
 .smbk-input:has(.smbk-input__control[readonly]),
-.smbk-input[aria-readonly="true"] {
+.smbk-input[aria-readonly="true"],
+:where(.smbk-one-time-code-input:has(> .smbk-one-time-code-input__control[readonly])) .smbk-input.smbk-one-time-code-input__cell {
   border-color: var(--smbk-color-border-rim-subtle);
   background: var(--smbk-color-surface-default);
   box-shadow: none;
 }
 
 .smbk-input:has(.smbk-input__control[readonly]):focus-within,
-.smbk-input[aria-readonly="true"]:focus-within:where(:not(button:not(:focus-visible))) {
+.smbk-input[aria-readonly="true"]:focus-within:where(:not(button:not(:focus-visible))),
+:where(.smbk-one-time-code-input:has(> .smbk-one-time-code-input__control[readonly]:focus)) .smbk-input.smbk-one-time-code-input__cell[data-active] {
   border-color: var(--smbk-color-border-focus-field);
 }
 
 .smbk-input:has(.smbk-input__control:disabled),
-.smbk-input:disabled {
+.smbk-input:disabled,
+:where(.smbk-one-time-code-input:has(> .smbk-one-time-code-input__control:disabled)) .smbk-input.smbk-one-time-code-input__cell {
   border-color: transparent;
   background: var(--smbk-color-surface-disabled);
   color: var(--smbk-color-text-disabled);
@@ -129,6 +140,15 @@
 
 .smbk-input__leading-content {
   gap: var(--smbk-space-inline-xs);
+}
+
+/* ---- large (lg): 48 tall, beside large buttons ----
+   The md field's text, icons and gap on the large control's height, with the next padding and corner step. */
+
+.smbk-input--size-lg {
+  height: var(--smbk-size-control-lg);
+  padding: 0 var(--smbk-space-inset-xl);
+  border-radius: var(--smbk-radius-control-lg);
 }
 
 /* ---- small (sm): the small recipe, and text in Field SM, which never
@@ -198,7 +218,8 @@
 @media (forced-colors: active) {
   /* Field focus is the edge alone, as everywhere: here the edge turns Highlight and thickens by a
      focus ring's width, since a hairline color change does not show in forced colors. */
-  .smbk-input:focus-within:where(:not(button:not(:focus-visible))) {
+  .smbk-input:focus-within:where(:not(button:not(:focus-visible))),
+  :where(.smbk-one-time-code-input:has(> .smbk-one-time-code-input__control:focus)) .smbk-input[data-active] {
     border-color: Highlight;
     outline: var(--smbk-focus-ring-width) solid Highlight;
     outline-offset: 0;
@@ -206,7 +227,8 @@
 
   .smbk-input:has(.smbk-input__control:disabled),
   .smbk-input:disabled,
-  .smbk-input__control:disabled {
+  .smbk-input__control:disabled,
+  :where(.smbk-one-time-code-input:has(> .smbk-one-time-code-input__control:disabled)) .smbk-input.smbk-one-time-code-input__cell {
     border-color: GrayText;
     color: GrayText;
   }

@@ -1,0 +1,115 @@
+{
+  "$description": "The synonym list: which common design-system name each Simbolik name means, for a person or a program reading Simbolik beside a handbook or another system that uses the common names. It says which words Simbolik uses in place of the common ones, which token names stand for common token names, which token files hold raw values and which hold roles, and what each mode is and its values. Every Simbolik name in it is a real group or token in tokens/, checked with every change, so it never names one that is gone. Names that are the same in both, such as color.text.default or space.inset.md, are not listed.",
+  "words": [
+    {
+      "common": "primary",
+      "simbolik": "brand",
+      "in": ["color.action.brand"],
+      "description": "The main action's tone. Simbolik keeps brand for its red; color.text.brand, color.icon.brand, color.border.brand and color.surface.brand are brand-colored text, icons, edges and a surface, not actions."
+    },
+    {
+      "common": "positive",
+      "simbolik": "success",
+      "in": ["color.feedback.success"],
+      "description": "The feedback tone for something that went well."
+    },
+    {
+      "common": "neutral",
+      "simbolik": "default",
+      "in": ["color.action.default"],
+      "description": "The quiet tone of a neutral control, such as a chip that is not chosen."
+    },
+    {
+      "common": "type",
+      "simbolik": "font",
+      "in": ["font.family", "font.weight", "font.size", "font.letter-spacing"],
+      "description": "Raw type values: the families, weights, sizes and letter spacing every text style is built from."
+    },
+    {
+      "common": "type",
+      "simbolik": "text",
+      "in": ["text"],
+      "description": "Font sizes by role, such as text.body-md: they change with the text size mode. The role and its size are one segment."
+    },
+    {
+      "common": "type",
+      "simbolik": "typography",
+      "in": ["typography"],
+      "description": "Whole text styles by role, such as typography.body-md: family, weight, size, line height and letter spacing in one composite token. Line heights live only here."
+    },
+    {
+      "common": "z-index",
+      "simbolik": "layer",
+      "in": ["layer"],
+      "description": "The stacking order, from base to critical, in a group of its own rather than a property of each elevation."
+    },
+    {
+      "common": "shadow",
+      "simbolik": "elevation",
+      "in": ["elevation"],
+      "description": "Each elevation token is the shadow itself, named by purpose, with no shadow segment after it."
+    }
+  ],
+  "tokens": [
+    { "common": "color.action.primary.background", "simbolik": ["color.action.brand.background"] },
+    { "common": "color.action.primary.foreground", "simbolik": ["color.action.brand.foreground"] },
+    { "common": "color.action.primary.hover", "simbolik": ["color.action.brand.background-hover"] },
+    { "common": "color.action.primary.pressed", "simbolik": ["color.action.brand.background-pressed"] },
+    { "common": "color.action.neutral.hover", "simbolik": ["color.action.default.background-hover"] },
+    { "common": "color.action.neutral.pressed", "simbolik": ["color.action.default.background-pressed"] },
+    { "common": "color.action.selected.background", "simbolik": ["color.surface.selected"], "description": "The fill of a current or chosen item: see-through, so it works on any surface." },
+    { "common": "color.border.disabled", "simbolik": ["color.border.control-disabled"] },
+    { "common": "color.action.focus.ring", "simbolik": ["color.border.focus"] },
+    { "common": "border.focus.color", "simbolik": ["color.border.focus"] },
+    { "common": "border.control.width", "simbolik": ["border-width.hairline"], "description": "Widths are named by weight: hairline for almost every edge, emphasis and accent for thicker ones." },
+    { "common": "color.feedback.positive.surface", "simbolik": ["color.feedback.success.surface-subtle", "color.feedback.success.surface"], "description": "Each tone has a pale fill for messages and callouts (surface-subtle) and a strong one (surface)." },
+    { "common": "color.feedback.positive.text", "simbolik": ["color.feedback.success.text-on-subtle", "color.feedback.success.text-on-surface"], "description": "Text is named by the fill it sits on: text-on-subtle on the pale fill, text-on-surface on the strong one." },
+    { "common": "color.feedback.info.surface", "simbolik": ["color.feedback.info.surface-subtle", "color.feedback.info.surface"] },
+    { "common": "color.feedback.info.text", "simbolik": ["color.feedback.info.text-on-subtle", "color.feedback.info.text-on-surface"] },
+    { "common": "color.feedback.warning.surface", "simbolik": ["color.feedback.warning.surface-subtle", "color.feedback.warning.surface"] },
+    { "common": "color.feedback.warning.text", "simbolik": ["color.feedback.warning.text-on-subtle", "color.feedback.warning.text-on-surface"] },
+    { "common": "color.feedback.danger.surface", "simbolik": ["color.feedback.danger.surface-subtle", "color.feedback.danger.surface"] },
+    { "common": "color.feedback.danger.text", "simbolik": ["color.feedback.danger.text-on-subtle", "color.feedback.danger.text-on-surface"] },
+    { "common": "color.data.sequential.low", "simbolik": ["color.data.sequential.1"], "description": "The sequential scale is five numbered steps, low to high." },
+    { "common": "color.data.sequential.high", "simbolik": ["color.data.sequential.5"] },
+    { "common": "elevation.overlay.shadow", "simbolik": ["elevation.overlay"] },
+    { "common": "elevation.raised.shadow", "simbolik": ["elevation.raised"] },
+    { "common": "elevation.raised.zIndex", "simbolik": ["layer.raised"] },
+    { "common": "elevation.sticky.zIndex", "simbolik": ["layer.sticky"] },
+    { "common": "elevation.overlay.zIndex", "simbolik": ["layer.overlay"] },
+    { "common": "type.family.display", "simbolik": ["font.family.display"] },
+    { "common": "type.family.heading", "simbolik": ["font.family.display"], "description": "Headings share the display family." },
+    { "common": "type.family.body", "simbolik": ["font.family.body"] },
+    { "common": "type.family.label", "simbolik": ["font.family.body"], "description": "Labels share the body family." },
+    { "common": "type.family.code", "simbolik": ["font.family.mono"] },
+    { "common": "type.body.md.fontSize", "simbolik": ["text.body-md"] },
+    { "common": "space.component.inline.md", "simbolik": ["space.inline.md"], "description": "Spacing inside components has no component segment: space.inset, space.inline and space.stack." }
+  ],
+  "files": [
+    { "file": "tokens/primitives.tokens.json", "tier": "primitive", "description": "Raw values: the palette, the spacing, size and radius scales, line widths, fonts, opacity and blur. Components read colors and type only through roles." },
+    { "file": "tokens/semantic.tokens.json", "tier": "semantic", "description": "Roles that stay the same in every mode: corners, line widths, fixed sizes and the focus ring." },
+    { "file": "tokens/semantic-color/light.tokens.json", "tier": "semantic", "mode": "theme", "context": "light", "description": "Color roles in the light theme." },
+    { "file": "tokens/semantic-color/dark.tokens.json", "tier": "semantic", "mode": "theme", "context": "dark", "description": "Color roles in the dark theme." },
+    { "file": "tokens/semantic-dimension/comfortable.tokens.json", "tier": "semantic", "mode": "density", "context": "comfortable", "description": "Spacing roles and control heights at comfortable density." },
+    { "file": "tokens/semantic-dimension/compact.tokens.json", "tier": "semantic", "mode": "density", "context": "compact", "description": "Spacing roles and control heights at compact density." },
+    { "file": "tokens/semantic-typography/min.tokens.json", "tier": "semantic", "mode": "text-size", "context": "min", "description": "Font sizes by role on a narrow window." },
+    { "file": "tokens/semantic-typography/max.tokens.json", "tier": "semantic", "mode": "text-size", "context": "max", "description": "Font sizes by role on a wide window." },
+    { "file": "tokens/semantic-layout/phone.tokens.json", "tier": "semantic", "mode": "layout", "context": "phone", "description": "Page layout roles in the narrow layout: section spacing, text spacing, container widths, section corners." },
+    { "file": "tokens/semantic-layout/desktop.tokens.json", "tier": "semantic", "mode": "layout", "context": "desktop", "description": "Page layout roles in the wide layout." },
+    { "file": "tokens/typography-styles.tokens.json", "tier": "semantic", "composite": true, "description": "Text styles: each a composite of a family, weight, size role, line height and letter spacing." },
+    { "file": "tokens/effect-styles.tokens.json", "tier": "semantic", "composite": true, "description": "Shadows by purpose, each a composite of shadow layers." },
+    { "file": "tokens/authored.tokens.json", "tier": "primitive", "groups": ["duration", "easing", "breakpoint", "font"], "description": "Raw values the design file cannot hold: durations, easings, breakpoints, the bold weight and the backup fonts." },
+    { "file": "tokens/authored.tokens.json", "tier": "semantic", "groups": ["motion", "layer", "size"], "description": "Roles the design file cannot hold: motion by purpose, the stacking order and fixed widths." },
+    { "file": "tokens/authored.tokens.json", "tier": "semantic", "composite": true, "groups": ["typography"], "description": "The bold, semibold, medium and light text styles." }
+  ],
+  "modes": [
+    { "name": "theme", "common": "color scheme", "contexts": ["light", "dark"], "default": "light", "description": "Light or dark. A page follows the reader's setting; data-theme=\"light\" or \"dark\" on any element fixes it inside." },
+    { "name": "density", "common": "density", "contexts": ["comfortable", "compact"], "default": "comfortable", "description": "How tight spacing and control heights are. data-density=\"compact\" on any element tightens it inside." },
+    { "name": "text-size", "common": "viewport", "contexts": ["min", "max"], "default": "min", "breakpoint": "breakpoint.text-size", "description": "Font sizes for a narrow or a wide window, switched by a media query at the breakpoint." },
+    { "name": "layout", "common": "viewport", "contexts": ["phone", "desktop"], "default": "phone", "breakpoint": "breakpoint.layout", "description": "The narrow or wide form of components and page layout, switched at the breakpoint by one inherited custom property, --smbk-layout, which components read with a style container query; data-layout=\"narrow\" or \"wide\" on any element forces one form inside." }
+  ],
+  "renamed": {
+    "description": "Each renamed token's old name, with its new name and the version that renamed it: { \"old\": ..., \"new\": ..., \"version\": ... }. Empty while the system is an alpha, when a rename keeps no old name.",
+    "tokens": []
+  }
+}

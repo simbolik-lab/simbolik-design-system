@@ -1,3 +1,5 @@
+'use client';
+
 import type { HTMLAttributes, ReactNode } from 'react';
 import { fileRow } from './file-row.manifest.js';
 import { fileIcon, formatPart, formatSize, splitName } from './file-details.js';

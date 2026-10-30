@@ -1,3 +1,5 @@
+'use client';
+
 import type { HTMLAttributes, ReactNode } from 'react';
 import { useScrollRegion } from '../scroll-hint.js';
 import { table } from '../table/table.manifest.js';

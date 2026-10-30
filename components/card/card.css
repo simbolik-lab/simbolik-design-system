@@ -532,6 +532,13 @@ div.smbk-card__media:is(.smbk-card__media--ratio-16-9, .smbk-card__media--ratio-
   margin-block-start: 0;
 }
 
+/* A stat in the slot is one of the card's parts: its tile padding and fill go, so its name starts on the
+   card's own inset. */
+.smbk-card__body--type-slot > .smbk-stat {
+  padding: 0;
+  background: none;
+}
+
 /* ---- footer: a rule, then one row. Markup written by hand without a kind keeps its content as it is. ---- */
 
 .smbk-card__footer {

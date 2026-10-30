@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, type MouseEventHandler, type ReactNode } from 'react';
 import { splitButton } from './split-button.manifest.js';
 import { ButtonGroup } from '../button-group/button-group.js';
@@ -57,7 +59,7 @@ export function SplitButton({ tone = splitButton.manifest.axes.tone.default, siz
       <Dropdown
         label={menuLabel}
         align="end"
-        size={size === 'sm' ? 'small' : 'default'}
+        size={size === 'sm' ? 'sm' : 'md'}
         open={open}
         onOpenChange={change}
         trigger={<Button tone={tone} size={size} icon-only icon={open ? 'CaretUp' : 'CaretDown'} aria-label={menuLabel} disabled={disabled} />}

@@ -1,33 +1,39 @@
+'use client';
+
 import { useEffect, useId, useMemo, useRef, useState, type FocusEvent, type HTMLAttributes, type KeyboardEvent, type Ref } from 'react';
 import { flushSync } from 'react-dom';
-import { I18nProvider, useDateFormatter, useLocale, useObjectRef } from 'react-aria';
+import { I18nProvider, mergeProps, useDateFormatter, useLocale, useObjectRef } from 'react-aria';
 import type { CalendarDate } from '@internationalized/date';
 import { datePicker } from './date-picker.manifest.js';
 import { input } from '../input/input.manifest.js';
 import { popover } from '../popover/popover.manifest.js';
 import { Button } from '../button/button.js';
-import { Calendar, gregorianLocale, readIsoDate, type DateUnavailable, type Weekday } from '../calendar/calendar.js';
+import { Icon } from '../icon/icon.js';
+import { Calendar, gregorianLocale, readIsoDate, type DateRange, type DateUnavailable, type Weekday } from '../calendar/calendar.js';
 import { DATE_FORMAT, EXAMPLE_DATE, EXAMPLE_TIME, asUtc, isoTime, readIsoTime, readTypedDate, readTypedTime, timeFormat, type Time } from './date-reading.js';
 import { Modal } from '../modal/modal.js';
 import { useFloating } from '../floating.js';
 import { useDismiss } from '../dismiss.js';
 import { isNarrow } from '../motion.js';
 import { useControllable } from '../controllable.js';
+import { isFirstInvalid, useFormReset } from '../form.js';
 import { InputWell } from '../input/input-well.js';
 import { readsField, useFieldControl } from '../field/field-context.js';
 import { cx } from '../variants.js';
 import type { VariantProps } from '../variants.js';
 
 /**
- * Why a typed value is not one the picker can give: words that are not a date or not a time, a date and time with
- * one of them missing, a date before `min` or after `max` (a time, for the time type), or a day marked unavailable.
+ * Why a typed value is not one the picker can give: words that are not a date or not a time, a date and time (or a
+ * range's first and last day) with one of them missing, a date before `min` or after `max` (a time, for the time
+ * type), a day marked unavailable, or a range whose last day comes before its first.
  */
-export type DatePickerProblem = 'not-a-date' | 'not-a-time' | 'incomplete' | 'too-early' | 'too-late' | 'unavailable';
+export type DatePickerProblem = 'not-a-date' | 'not-a-time' | 'incomplete' | 'too-early' | 'too-late' | 'unavailable' | 'end-before-start';
 
 export interface DatePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue' | 'children'>, VariantProps<typeof datePicker.manifest> {
   /**
    * The value, when the page holds it, in one form whatever the reader's language: an ISO date for a date
-   * (YYYY-MM-DD), a 24-hour time for a time (HH:MM, such as "14:30"), both joined by T for a date and time (YYYY-MM-DDTHH:MM).
+   * (YYYY-MM-DD), a 24-hour time for a time (HH:MM, such as "14:30"), both joined by T for a date and time (YYYY-MM-DDTHH:MM),
+   * and for a date range the first and last day joined by a slash, as ISO writes a period (YYYY-MM-DD/YYYY-MM-DD).
    * Null for none. Pair it with onChange.
    */
   value?: string | null;
@@ -57,11 +63,16 @@ export interface DatePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'o
   dateLabel?: string;
   /** The time field's own name in a date and time picker, after the picker's name. */
   timeLabel?: string;
+  /** The first day's field's own name in a date range, after the picker's name. */
+  startLabel?: string;
+  /** The last day's field's own name in a date range, after the picker's name. */
+  endLabel?: string;
   /** Shown in the first field while it is empty. The format belongs in the field's help text, which stays in view. */
   placeholder?: string;
   /** The browser's autofill hint for the first field, such as "bday" for the reader's own birth date. */
   autoComplete?: string;
-  /** Form field name; the value travels in a hidden input in its one form. */
+  /** Form field name; the value travels in a hidden input in its one form. A date range sends two values under the
+   * name, its first day and then its last, each an ISO date. */
   name?: string;
   form?: string;
   disabled?: boolean;
@@ -100,6 +111,8 @@ export function DateFormatExample({ type = 'date', locale, hourCycle }: { type?:
 interface Reading {
   date: CalendarDate | null | 'invalid';
   time: Time | null | 'invalid';
+  /** A range's last day. */
+  end?: CalendarDate | null | 'invalid';
   value: string | null;
   problem?: DatePickerProblem;
 }
@@ -107,13 +120,15 @@ interface Reading {
 function PickerFields(props: DatePickerProps) {
   const {
     type = 'date', error, value, defaultValue, onChange, min, max, isDateUnavailable, firstDayOfWeek, hourCycle, chooseLabel = 'Choose date',
-    dateLabel = 'Date', timeLabel = 'Time', placeholder, autoComplete, name, form, disabled, readOnly, required, defaultOpen = false,
+    dateLabel = 'Date', timeLabel = 'Time', startLabel = 'Start date', endLabel = 'End date', placeholder, autoComplete, name, form, disabled, readOnly, required, defaultOpen = false,
     id, className, ref, 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledby, 'aria-describedby': ariaDescribedby, locale: _locale, ...rest
   } = props;
   const { locale } = useLocale();
+  const range = type === 'date-range';
   const hasDate = type !== 'time';
-  const hasTime = type !== 'date';
-  const both = type === 'date-time';
+  const hasTime = type === 'time' || type === 'date-time';
+  // Two fields in one group, each named after the picker: a date and a time, or a range's first and last day.
+  const both = type === 'date-time' || range;
 
   const root = useRef<HTMLDivElement>(null);
   const first = useObjectRef(ref);
@@ -128,19 +143,24 @@ function PickerFields(props: DatePickerProps) {
   const base = id ?? `date-picker${reactId}`;
   const dateId = hasDate ? base : `${base}-date`;
   const timeId = hasDate ? `${base}-time` : base;
+  const endId = `${base}-end`;
   const popupId = `${base}-calendar`;
 
   const dates = useDateFormatter(DATE_FORMAT);
   const times = useDateFormatter(timeFormat(hourCycle));
   const showDate = (d: CalendarDate | null) => (d ? dates.format(asUtc(d)) : '');
   const showTime = (t: Time | null) => (t ? times.format(asUtc(EXAMPLE_DATE, t)) : '');
-  const datePartOf = (v: string | null | undefined) => (hasDate && v ? (readIsoDate(v) ?? null) : null);
+  const datePartOf = (v: string | null | undefined) => (hasDate && v ? (readIsoDate(v.split('/')[0]) ?? null) : null);
   const timePartOf = (v: string | null | undefined) => (hasTime && v ? readIsoTime(type === 'time' ? v : v.split('T')[1]) : null);
+  const endPartOf = (v: string | null | undefined) => (range && v ? (readIsoDate(v.split('/')[1]) ?? null) : null);
 
   // onChange hears the problem with the value too, so it is told in settle.
   const [current, keep] = useControllable<string | null>({ value, defaultValue: defaultValue ?? null, name: 'DatePicker value' });
   const [dateText, setDateText] = useState(() => showDate(datePartOf(current)));
   const [timeText, setTimeText] = useState(() => showTime(timePartOf(current)));
+  const [endText, setEndText] = useState(() => showDate(endPartOf(current)));
+  // What the second field holds: the time, or a range's last day.
+  const secondText = range ? endText : timeText;
 
   // The fields show the value in the reader's language: written again when the value changes from outside or the
   // language changes, as it does once the page's script has started, but never over what the reader typed and left.
@@ -150,10 +170,38 @@ function PickerFields(props: DatePickerProps) {
     setShown(shownKey);
     setDateText(showDate(datePartOf(current)));
     setTimeText(showTime(timePartOf(current)));
+    setEndText(showDate(endPartOf(current)));
   }
   const lastProblem = useRef<DatePickerProblem | undefined>(undefined);
+  // A form sent while a required picker holds no value marks it in error until it holds one, as the select does.
+  const [missing, setMissing] = useState(false);
+  const flagged = Boolean(error) || (missing && !current);
+
+  /** Whether a day falls outside `min` and `max` or is marked unavailable. */
+  const dayProblem = (day: CalendarDate): DatePickerProblem | undefined => {
+    const lo = readIsoDate(min);
+    const hi = readIsoDate(max);
+    if (lo && day.compare(lo) < 0) return 'too-early';
+    if (hi && day.compare(hi) > 0) return 'too-late';
+    if (isDateUnavailable?.(day.toString())) return 'unavailable';
+    return undefined;
+  };
+
+  /** A range's two fields: both days read, the first not after the last, each inside the limits. */
+  const readRange = (sText: string, eText: string): Reading => {
+    const date = readTypedDate(sText, locale);
+    const end = readTypedDate(eText, locale);
+    const result: Reading = { date, time: null, end, value: null };
+    if (date === 'invalid' || end === 'invalid') result.problem = 'not-a-date';
+    else if (date && end) {
+      result.value = `${date.toString()}/${end.toString()}`;
+      result.problem = end.compare(date) < 0 ? 'end-before-start' : (dayProblem(date) ?? dayProblem(end));
+    } else if (date || end) result.problem = 'incomplete';
+    return result;
+  };
 
   const readFields = (dText: string, tText: string): Reading => {
+    if (range) return readRange(dText, tText);
     const date = hasDate ? readTypedDate(dText, locale) : null;
     const time = hasTime ? readTypedTime(tText, locale) : null;
     let result: Reading = { date, time, value: null };
@@ -163,11 +211,8 @@ function PickerFields(props: DatePickerProps) {
     else if (date && time) result.value = `${date.toString()}T${isoTime(time)}`;
     else if (date || time) result.problem = 'incomplete';
     if (result.value && date && date !== 'invalid') {
-      const lo = readIsoDate(min);
-      const hi = readIsoDate(max);
-      if (lo && date.compare(lo) < 0) result = { ...result, problem: 'too-early' };
-      else if (hi && date.compare(hi) > 0) result = { ...result, problem: 'too-late' };
-      else if (isDateUnavailable?.(date.toString())) result = { ...result, problem: 'unavailable' };
+      const problem = dayProblem(date);
+      if (problem) result = { ...result, problem };
     } else if (result.value && type === 'time' && time && time !== 'invalid') {
       const at = isoTime(time);
       const lo = readIsoTime(min);
@@ -187,6 +232,7 @@ function PickerFields(props: DatePickerProps) {
     const r = readFields(dText, tText);
     if (r.date && r.date !== 'invalid') setDateText(showDate(r.date));
     if (r.time && r.time !== 'invalid') setTimeText(showTime(r.time));
+    if (r.end && r.end !== 'invalid') setEndText(showDate(r.end));
     if (r.problem === 'incomplete' && !leaving) return;
     if (r.value === current && r.problem === lastProblem.current) return;
     lastProblem.current = r.problem;
@@ -194,6 +240,19 @@ function PickerFields(props: DatePickerProps) {
     setShown(`${r.value}|${locale}|${hourCycle}`);
     onChange?.(r.value, r.problem);
   };
+
+  // The form's reset puts the starting value back in the fields, and tells the page when that changes its value.
+  useFormReset(first, () => {
+    const start = defaultValue ?? null;
+    setDateText(showDate(datePartOf(start)));
+    setTimeText(showTime(timePartOf(start)));
+    setEndText(showDate(endPartOf(start)));
+    lastProblem.current = undefined;
+    setMissing(false);
+    keep(start);
+    setShown(`${start}|${locale}|${hourCycle}`);
+    if (start !== current) onChange?.(start, undefined);
+  });
 
   // ---- the calendar: a floating panel under the date field, or a small modal in a narrow space ----
 
@@ -246,9 +305,27 @@ function PickerFields(props: DatePickerProps) {
     closeCalendar(true);
   };
 
+  // A range is picked as its second end is: both fields are written and settled at once.
+  const pickRange = (picked: DateRange) => {
+    const from = showDate(readIsoDate(picked.start) ?? null);
+    const to = showDate(readIsoDate(picked.end) ?? null);
+    setDateText(from);
+    setEndText(to);
+    settle(from, to, false);
+    closeCalendar(true);
+  };
+
   const calendarDate = (() => {
     const d = hasDate ? readTypedDate(dateText, locale) : null;
     return d && d !== 'invalid' ? d.toString() : null;
+  })();
+
+  // The range the fields hold, for the calendar to show, when both read as days in order.
+  const calendarRange = ((): DateRange | null => {
+    if (!range) return null;
+    const a = readTypedDate(dateText, locale);
+    const b = readTypedDate(endText, locale);
+    return a && b && a !== 'invalid' && b !== 'invalid' && b.compare(a) >= 0 ? { start: a.toString(), end: b.toString() } : null;
   })();
 
   // ---- keys and focus ----
@@ -267,10 +344,10 @@ function PickerFields(props: DatePickerProps) {
   const onFieldKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     // Enter settles at once, so a form sent by the same key carries the value.
     if (e.key === 'Enter') {
-      flushSync(() => settle(dateText, timeText, true));
+      flushSync(() => settle(dateText, secondText, true));
     } else if (e.key === 'ArrowDown' && e.altKey && hasDate) {
       e.preventDefault();
-      settle(dateText, timeText, false);
+      settle(dateText, secondText, false);
       openCalendar();
     }
   };
@@ -284,7 +361,7 @@ function PickerFields(props: DatePickerProps) {
   // ---- drawing ----
 
   const describedBy = ariaDescribedby;
-  // In a date and time picker each field is named by the picker's name and its own: "Meeting starts Date".
+  // In a date and time picker, or a range, each field is named by the picker's name and its own: "Meeting starts Date".
   const nameFor = (ownId: string, word: string) =>
     both ? { 'aria-label': word, 'aria-labelledby': ariaLabelledby ? `${ariaLabelledby} ${ownId}` : undefined } : { 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledby };
   const fieldProps = {
@@ -292,15 +369,28 @@ function PickerFields(props: DatePickerProps) {
     disabled,
     readOnly,
     'aria-required': required || undefined,
-    'aria-invalid': error || undefined,
+    'aria-invalid': flagged || undefined,
     'aria-describedby': describedBy,
     autoCorrect: 'off',
     spellCheck: false,
     onKeyDown: onFieldKeyDown,
     onFocus: onFieldFocus,
   } as const;
-  const classes = cx(datePicker({ type, error }), className);
-  const calendar = (
+  const classes = cx(datePicker({ type, error: flagged }), className);
+  const calendar = range ? (
+    <Calendar
+      key={opened}
+      selection="range"
+      value={calendarRange}
+      onChange={pickRange}
+      min={min}
+      max={max}
+      isDateUnavailable={isDateUnavailable}
+      firstDayOfWeek={firstDayOfWeek}
+      aria-label={ariaLabelledby ? undefined : (ariaLabel ?? chooseLabel)}
+      aria-labelledby={ariaLabelledby}
+    />
+  ) : (
     <Calendar
       key={opened}
       value={calendarDate}
@@ -321,15 +411,14 @@ function PickerFields(props: DatePickerProps) {
       role={both ? 'group' : undefined}
       aria-label={both ? ariaLabel : undefined}
       aria-labelledby={both ? ariaLabelledby : undefined}
-      onKeyDown={dismiss.onKeyDown}
-      {...rest}
+      {...mergeProps({ onKeyDown: dismiss.onKeyDown }, rest)}
     >
       <div className={datePicker.part('controls')}>
         {hasDate && (
           <InputWell
             ref={dateWell}
             className={`${datePicker.part('input')} ${datePicker.part('input')}--date`}
-            error={error}
+            error={flagged}
             nameCheck="DatePicker"
             trailingAction={
               !readOnly && (
@@ -352,7 +441,7 @@ function PickerFields(props: DatePickerProps) {
           >
             <input
               {...fieldProps}
-              {...nameFor(dateId, dateLabel)}
+              {...nameFor(dateId, range ? startLabel : dateLabel)}
               ref={first}
               id={dateId}
               type="text"
@@ -360,13 +449,32 @@ function PickerFields(props: DatePickerProps) {
               placeholder={placeholder}
               autoComplete={autoComplete ?? 'off'}
               onChange={(e) => setDateText(e.target.value)}
-              onBlur={(e) => settle(e.target.value, timeText, leaving(e))}
+              onBlur={(e) => settle(e.target.value, secondText, leaving(e))}
             />
           </InputWell>
         )}
+        {range && (
+          <>
+            {/* The dash between a range's two days, as a range is written; the fields' names say which is which. */}
+            <Icon name="Minus" className={datePicker.part('to')} />
+            <InputWell className={`${datePicker.part('input')} ${datePicker.part('input')}--date ${datePicker.part('input')}--end`} error={flagged}>
+              <input
+                {...fieldProps}
+                {...nameFor(endId, endLabel)}
+                ref={second}
+                id={endId}
+                type="text"
+                value={endText}
+                autoComplete="off"
+                onChange={(e) => setEndText(e.target.value)}
+                onBlur={(e) => settle(dateText, e.target.value, leaving(e))}
+              />
+            </InputWell>
+          </>
+        )}
         {hasTime && (
           // The name check looks at the first field only: the time field's when the picker has no date.
-          <InputWell className={`${datePicker.part('input')} ${datePicker.part('input')}--time`} error={error} nameCheck={hasDate ? undefined : 'DatePicker'}>
+          <InputWell className={`${datePicker.part('input')} ${datePicker.part('input')}--time`} error={flagged} nameCheck={hasDate ? undefined : 'DatePicker'}>
             <input
               {...fieldProps}
               {...nameFor(timeId, timeLabel)}
@@ -404,7 +512,36 @@ function PickerFields(props: DatePickerProps) {
           <div ref={sheet}>{calendar}</div>
         </Modal>
       )}
-      {name && <input type="hidden" name={name} form={form} value={current ?? ''} disabled={disabled} />}
+      {name &&
+        (range ? (
+          // A range sends its first day and then its last under the one name.
+          (current?.split('/') ?? ['', '']).map((day, i) => <input key={i} type="hidden" name={name} form={form} value={day} disabled={disabled} />)
+        ) : (
+          <input type="hidden" name={name} form={form} value={current ?? ''} disabled={disabled} />
+        ))}
+      {/* What `required` checks: the value as a text input, hidden from view and from screen readers and sending
+          nothing, since a hidden input is never checked. When the browser finds it empty on sending, the first empty
+          field takes focus and every field the error look instead of the browser's own message. */}
+      {required && !readOnly && (
+        <input
+          className="smbk-visually-hidden"
+          aria-hidden="true"
+          tabIndex={-1}
+          form={form}
+          value={current ?? ''}
+          required
+          disabled={disabled}
+          autoComplete="off"
+          onChange={() => undefined}
+          onFocus={() => first.current?.focus()}
+          onInvalid={(e) => {
+            e.preventDefault();
+            setMissing(true);
+            if (!isFirstInvalid(e.currentTarget)) return;
+            (both && first.current?.value && !second.current?.value ? second : first).current?.focus();
+          }}
+        />
+      )}
     </div>
   );
 }

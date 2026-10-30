@@ -1,3 +1,5 @@
+'use client';
+
 import type { HTMLAttributes, ReactNode } from 'react';
 import { spinner } from './spinner.manifest.js';
 import { useNameWarning } from '../name-check.js';

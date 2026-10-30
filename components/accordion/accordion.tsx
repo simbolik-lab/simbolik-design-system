@@ -1,8 +1,10 @@
-import { Fragment, useId, type HTMLAttributes, type MouseEvent, type ReactNode } from 'react';
+'use client';
+
+import { Fragment, useEffect, useId, useRef, type HTMLAttributes, type MouseEvent, type ReactNode } from 'react';
 import { accordion } from './accordion.manifest.js';
 import { Icon } from '../icon/icon.js';
 import { Divider } from '../divider/divider.js';
-import { motionEasing, motionMs } from '../motion.js';
+import { foldBack, showsOpen, unfold, type Unfolding } from '../unfold.js';
 import { cx } from '../variants.js';
 import type { VariantProps } from '../variants.js';
 
@@ -27,13 +29,27 @@ export interface AccordionProps extends HTMLAttributes<HTMLDivElement>, VariantP
  * than inside it, where a closed item would hide it with its content.
  *
  * One item stays open at a time: the items share a name, so the browser closes
- * the open one as another opens, with no script. `multiple` leaves them unnamed
- * (or with the names given), so each opens on its own.
+ * the open one as another opens, even with no script. `multiple` leaves them
+ * unnamed (or with the names given), so each opens on its own.
+ *
+ * Once it runs, the component moves the items itself, the same in every
+ * browser, and marks the block data-motion so the stylesheet's own motion, for
+ * markup written by hand, stands aside.
  */
 export function Accordion({ look, size, items, multiple = false, className, onClick, ...rest }: AccordionProps) {
   const group = useId();
+  const root = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const block = root.current;
+    if (!block) return;
+    block.dataset.motion = '';
+    return () => {
+      delete block.dataset.motion;
+    };
+  }, []);
   return (
     <div
+      ref={root}
       className={cx(accordion({ look, size }), className)}
       onClick={(event) => {
         onClick?.(event);
@@ -48,7 +64,7 @@ export function Accordion({ look, size, items, multiple = false, className, onCl
             open={item.open}
             name={item.name ?? (multiple ? undefined : group)}
           >
-            <summary className={accordion.part('summary')} aria-disabled={item.disabled ? true : undefined} tabIndex={item.disabled ? -1 : undefined}>
+            <summary className={accordion.part('summary')} aria-disabled={item.disabled ? true : undefined}>
               <span className={accordion.part('title')}>{item.title}</span>
               <Icon name="CaretDown" className={accordion.part('caret')} />
             </summary>
@@ -61,83 +77,38 @@ export function Accordion({ look, size, items, multiple = false, className, onCl
   );
 }
 
-/** Each item's height motion while it runs, so a press mid-motion turns it round from where it is. */
-const moving = new WeakMap<HTMLDetailsElement, Animation>();
+/** What the accordion's items fade and reveal as they unfold (unfold.ts). */
+const UNFOLDING: Unfolding = {
+  content: (item) => item.querySelector<HTMLElement>(`:scope > .${accordion.part('content')}`),
+  reveal: '--smbk-accordion-reveal',
+};
 
 /**
- * The stylesheet grows an item's content to its natural height only where the browser can animate to one
- * (interpolate-size). Elsewhere a press on a summary is taken here and the item's height moved instead, with the
- * same enter and exit motion: an item opens at once and grows; one closing shrinks, and closes when it has. While
- * it shrinks it is marked data-closing, so its caret turns back at once, and its name is set aside, so the item
- * opening beside it does not shut it before its motion ends. Under reduced motion the browser opens and closes it.
+ * Every press on a summary is taken here and the item moved by the expand purpose, the same in every browser
+ * (unfold.ts): an item opens at once and unfolds from its heading row to its own height while its content fades in,
+ * and the foot of what shows fades as it moves (--smbk-accordion-reveal); one closing folds back the same way and
+ * closes when it has. A press mid-motion turns it round from where it is.
  */
 function move(event: MouseEvent<HTMLDivElement>) {
   if (event.defaultPrevented) return;
   const summary = (event.target as Element).closest('summary');
   const item = summary?.parentElement;
   if (!(item instanceof HTMLDetailsElement) || item.parentElement !== event.currentTarget || summary !== item.querySelector(':scope > summary')) return;
-  // A disabled item never opens or closes, whatever presses its summary: the mouse cannot reach it, but a screen
-  // reader's press, or Enter on a summary a script focused, still clicks it.
-  if (item.classList.contains(`${accordion.part('item')}--disabled`)) {
-    event.preventDefault();
-    return;
-  }
-  if (CSS.supports('interpolate-size', 'allow-keywords') || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   event.preventDefault();
-  if (item.open && item.dataset.closing === undefined) {
-    close(item);
+  // A disabled item never opens or closes, whatever presses its summary: the mouse cannot reach it, but a screen
+  // reader's press, or Enter on its focused summary, still clicks it.
+  if (item.classList.contains(`${accordion.part('item')}--disabled`)) return;
+  if (showsOpen(item)) {
+    foldBack(item, UNFOLDING);
     return;
   }
+  // The open item of the same name folds away beside it. One in markup written by hand is left to the browser, which
+  // shuts it as this one opens, and to the stylesheet's own motion.
   const name = item.dataset.name ?? item.getAttribute('name');
   if (name) {
     for (const other of item.ownerDocument.querySelectorAll<HTMLDetailsElement>(`details[name="${CSS.escape(name)}"]`)) {
-      if (other !== item && other.open) close(other);
+      if (other !== item && other.open && other.parentElement?.matches('[data-motion]')) foldBack(other, UNFOLDING);
     }
   }
-  const from = item.open ? item.getBoundingClientRect().height : closedHeight(item);
-  moving.get(item)?.cancel();
-  delete item.dataset.closing;
-  restoreName(item);
-  item.open = true;
-  run(item, from, item.getBoundingClientRect().height, 'enter', () => {});
-}
-
-function close(item: HTMLDetailsElement) {
-  const from = item.getBoundingClientRect().height;
-  moving.get(item)?.cancel();
-  const name = item.getAttribute('name');
-  if (name !== null) {
-    item.dataset.name = name;
-    item.removeAttribute('name');
-  }
-  item.dataset.closing = '';
-  run(item, from, closedHeight(item), 'exit', () => {
-    item.open = false;
-    delete item.dataset.closing;
-    restoreName(item);
-  });
-}
-
-/** The item's height with only its summary showing: the summary and the item's own edge. */
-function closedHeight(item: HTMLDetailsElement): number {
-  const style = getComputedStyle(item);
-  const summary = item.querySelector(':scope > summary');
-  return (summary?.getBoundingClientRect().height ?? 0) + Number.parseFloat(style.borderTopWidth) + Number.parseFloat(style.borderBottomWidth);
-}
-
-function restoreName(item: HTMLDetailsElement) {
-  if (item.dataset.name === undefined) return;
-  item.setAttribute('name', item.dataset.name);
-  delete item.dataset.name;
-}
-
-function run(item: HTMLDetailsElement, from: number, to: number, purpose: 'enter' | 'exit', done: () => void) {
-  item.style.overflow = 'clip';
-  const motion = item.animate([{ height: `${from}px` }, { height: `${to}px` }], { duration: motionMs(item, `${purpose}-duration`), easing: motionEasing(item, purpose) });
-  moving.set(item, motion);
-  motion.onfinish = () => {
-    moving.delete(item);
-    item.style.overflow = '';
-    done();
-  };
+  unfold(item, UNFOLDING);
 }

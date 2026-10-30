@@ -1,3 +1,5 @@
+'use client';
+
 import { useRef, type Ref } from 'react';
 import { useColorArea, useObjectRef } from 'react-aria';
 import { useColorAreaState, type Color, type ColorChannel, type ColorSpace } from 'react-stately';

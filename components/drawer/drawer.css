@@ -93,7 +93,9 @@
   letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
 }
 
-.smbk-drawer__body > :first-child {
+/* The first thing in it, after the scrollbar the script adds (scrollbar.ts). */
+.smbk-drawer__body > :first-child,
+.smbk-drawer__body > .smbk-scrollbar:first-child + * {
   margin-top: 0;
 }
 

@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Children, createContext, useCallback, useContext, useId, useLayoutEffect, useState,
   type CSSProperties, type HTMLAttributes, type KeyboardEvent, type MouseEvent, type ReactNode, type Ref,

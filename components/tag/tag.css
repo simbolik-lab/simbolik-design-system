@@ -74,9 +74,9 @@
   border-color: var(--smbk-color-border-strong);
 }
 
-/* The feedback tones: the tone recipe, each family's subtle surface inside an edge of its border color. */
+/* The feedback tones: the tone recipe, each family's subtle surface inside its pale edge. */
 
-.smbk-tag--tone-info { --smbk-tone-surface: var(--smbk-color-feedback-info-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-info-border); --smbk-tone-text: var(--smbk-color-feedback-info-text-on-subtle); }
-.smbk-tag--tone-success { --smbk-tone-surface: var(--smbk-color-feedback-success-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-success-border); --smbk-tone-text: var(--smbk-color-feedback-success-text-on-subtle); }
-.smbk-tag--tone-danger { --smbk-tone-surface: var(--smbk-color-feedback-danger-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-danger-border); --smbk-tone-text: var(--smbk-color-feedback-danger-text-on-subtle); }
-.smbk-tag--tone-warning { --smbk-tone-surface: var(--smbk-color-feedback-warning-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-warning-border); --smbk-tone-text: var(--smbk-color-feedback-warning-text-on-subtle); }
+.smbk-tag--tone-info { --smbk-tone-surface: var(--smbk-color-feedback-info-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-info-border-subtle); --smbk-tone-text: var(--smbk-color-feedback-info-text-on-subtle); }
+.smbk-tag--tone-success { --smbk-tone-surface: var(--smbk-color-feedback-success-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-success-border-subtle); --smbk-tone-text: var(--smbk-color-feedback-success-text-on-subtle); }
+.smbk-tag--tone-danger { --smbk-tone-surface: var(--smbk-color-feedback-danger-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-danger-border-subtle); --smbk-tone-text: var(--smbk-color-feedback-danger-text-on-subtle); }
+.smbk-tag--tone-warning { --smbk-tone-surface: var(--smbk-color-feedback-warning-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-warning-border-subtle); --smbk-tone-text: var(--smbk-color-feedback-warning-text-on-subtle); }

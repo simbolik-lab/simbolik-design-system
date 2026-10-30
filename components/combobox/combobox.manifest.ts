@@ -5,7 +5,9 @@ import { defineVariants } from '../variants.js';
  * Open × Size: md, sm) over "Combobox popup" 7109:1317 (Mode × Status: Options, Loading, No results, Error × Items
  * size) and "List status row" 7109:1161 (Type: No results, Loading, Error). Figma's Mode is the selection axis;
  * hover, focus and open are the browser's and the wrapper's, disabled is the native attribute. The popup is the
- * dropdown panel at the combobox's size and the status row a part of it, each type a modifier of the part.
+ * dropdown panel at the combobox's size and the status row a part of it, each type a modifier of the part. An option's
+ * swatch or icon before its label, its detail and badge after it, and options in groups, are built code first, to be
+ * drawn in Figma; the groups are drawn with the select's group part and the dropdown's label, group and divider.
  */
 export const combobox = defineVariants({
   name: 'combobox',
@@ -27,6 +29,6 @@ export const combobox = defineVariants({
   flags: {
     error: { description: 'The value is invalid. Draws the danger border, kept while focused, and the error icon before the caret.' },
   },
-  parts: ['control', 'values', 'chip', 'input', 'clear', 'caret', 'list', 'options', 'option', 'option-label', 'check', 'status', 'status-icon', 'announcement'],
+  parts: ['control', 'lead', 'values', 'chip', 'input', 'clear', 'caret', 'list', 'options', 'option', 'option-lead', 'option-label', 'option-detail', 'option-badge', 'check', 'status', 'status-icon', 'announcement'],
   figmaNodeId: '7109:2214',
 });

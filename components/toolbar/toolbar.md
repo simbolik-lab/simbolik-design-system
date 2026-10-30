@@ -50,7 +50,7 @@ Every control in the bar is the system's own component at its small size, 32 tal
 
 The zones sit in their order whatever the page passes: context first, actions last. Each tools group and the actions start with a divider unless it is turned off. In a narrow space a part marked wide-only goes and one marked narrow-only comes: the tools can fold into one opener, such as a Filters button with a count, and the overflow menu can take the commands that went. Where a bar sticks, at the top of a scrolling panel or the foot of the window, is the page's to set.
 
-The overflow menu opens a small dropdown lined up with the bar's end. The value of a setting is a small secondary button with a caret, which opens a popover holding the control that changes it, such as a fill slider.
+An icon-only tool can show its key after its name in its tooltip, such as "Zoom in" then "]", drawn as a small key cap; the page listens for the key. The overflow menu opens a small dropdown lined up with the bar's end. The value of a setting is a small secondary button with a caret, which opens a popover holding the control that changes it, such as a fill slider.
 
 A status in the bar, the selection's count and the result count are read out when they change. Nothing moves when the bar appears.
 
@@ -62,6 +62,7 @@ A status in the bar, the selection's count and the result count are read out whe
 - A field inside the bar, such as a search field, a select, a slider or a number field, keeps its own Tab stop and its own arrow keys, so typing and choosing work as anywhere else; the arrows pass over it. A menu or a panel a tool opens keeps its own keys.
 - A tool that stays on is a toggle button and says whether it is pressed; a command never does. Its name stays the same on and off.
 - A tool written as the toolbar's own icon-only tool shows its name in a tooltip under it while it is pointed at or reached with the keyboard, and the overflow button does the same; the tooltip is hidden from screen readers, which hear the name once.
+- An icon-only tool given a key (`shortcut`) shows it after its name in the tooltip, as a key cap, and carries it as `aria-keyshortcuts`, so a screen reader can say it too. A segmented control in the bar can take a key the same way.
 - A zone given a label is a named group, so a screen reader says which group a tool is in.
 - The selection's count says the scope in words ("3 selected") and is read out as it changes, so the actions after it never act on an unstated selection.
 - The overflow menu keeps each tool's name, tick and disabled state; its button is named "More actions" unless given another name.
@@ -70,6 +71,7 @@ A status in the bar, the selection's count and the result count are read out whe
 
 - Give every toolbar on a page a different name.
 - Give every icon-only tool a name.
+- Listen for a tool's key yourself, and press the tool when it comes: the toolbar only shows and names the key. Take a single key only outside text fields, and never one a screen reader or the browser needs.
 - Hand-written markup must give the bar the toolbar role and a name, and move focus with the arrow keys itself; without script every tool is its own Tab stop.
 
 ### How to test

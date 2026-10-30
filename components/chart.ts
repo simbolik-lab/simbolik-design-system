@@ -119,3 +119,32 @@ export function axisLabels(count: number, every = 1): ('major' | 'minor' | null)
 
 /** The categorical data colors a chart's series take in order; past them, the rest is gathered as one, in the muted gray. */
 export const CATEGORICAL_COUNT = 8;
+
+/** A series' color in a chart of several: one of the categorical data colors by its number, or the muted gray of Other. */
+export type ChartSwatch = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | 'muted';
+
+/**
+ * Each series' color, in the series' order. A series that names its own color keeps it, whatever its place, so it
+ * keeps its color while others come and go (a filter, a day with nothing); one that names `muted` is gathered into
+ * Other. The rest take, in order, the categorical colors no series names, and once those run out are gathered into
+ * Other too. With no colors named, the first eight take the eight colors in order and the rest are Other.
+ */
+export function chartSwatches(named: readonly (ChartSwatch | undefined)[]): ChartSwatch[] {
+  const taken = new Set<ChartSwatch>(named.filter((s): s is ChartSwatch => s !== undefined && s !== 'muted'));
+  const free = Array.from({ length: CATEGORICAL_COUNT }, (_, i) => String(i + 1) as ChartSwatch).filter((s) => !taken.has(s));
+  let next = 0;
+  return named.map((s) => s ?? free[next++] ?? 'muted');
+}
+
+/**
+ * The keys that move focus among a chart's marks, one Tab stop for them all: the arrow keys to the next or the one
+ * before, in reading order (turned round for right-to-left in the sideways keys), Home and End to the first and
+ * the last. The index to move to, or null for a key it leaves alone.
+ */
+export function markKey(key: string, at: number, count: number, rtl = false): number | null {
+  const step = { ArrowRight: rtl ? -1 : 1, ArrowLeft: rtl ? 1 : -1, ArrowDown: 1, ArrowUp: -1 }[key];
+  if (step !== undefined) return Math.min(count - 1, Math.max(0, at + step));
+  if (key === 'Home') return 0;
+  if (key === 'End') return count - 1;
+  return null;
+}

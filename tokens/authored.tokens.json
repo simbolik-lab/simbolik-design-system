@@ -274,7 +274,7 @@
    }
   },
   "fallback": {
-   "$description": "What a browser draws each family in until its web font has arrived, or if it never does, so the page draws in a sans close to the real one and barely moves when the real one arrives. The token build writes each family's stack after it in every text style that names it; the bundle writes each stand-in face, a font already on the reader's device scaled and spaced to match, into the font style sheets. The measures are each font's own (Capsize's metrics, as Next.js uses them), against Arial, and Geist Mono's against Courier New. Figma has no place for any of it.",
+   "$description": "What a browser draws each family in until its web font has arrived, or if it never does, so the page draws in a sans close to the real one and barely moves when the real one arrives. The token build writes each family's stack after it in every text style that names it; the bundle writes each stand-in face, a font already on the reader's device scaled and spaced to match, into the font style sheets. Geist and Funnel Display have a stand-in face for each weight the text styles use, so light and bold text wraps where it will once its own face arrives: the regular one at the family, each other weight in a group named as `font.weight` names it, Arial for the light to medium ones and Arial Bold for semibold and bold. Each face's width is measured against its Arial over the design system's own prose, with kerning, as Chromium, WebKit and Firefox set it (they agree to a thousandth); each face's heights are the family's, which every weight shares. Geist Mono has one face, against Courier New, as every weight of both is equally wide. Figma has no place for any of it.",
    "body": {
     "stack": {
      "$type": "fontFamily",
@@ -295,23 +295,71 @@
     },
     "size-adjust": {
      "$type": "number",
-     "$value": 1.0476,
-     "$description": "How much the stand-in face scales Arial so its average letter is as wide as Geist's."
+     "$value": 1.0264,
+     "$description": "How much the stand-in face scales Arial so its regular weight is as wide as Geist's: the two measured over the design system's own prose, with each font's kerning, as a browser sets it."
     },
     "ascent": {
      "$type": "number",
-     "$value": 0.9594,
+     "$value": 0.9792,
      "$description": "Geist's height above the baseline, as a share of the stand-in face's scaled size."
     },
     "descent": {
      "$type": "number",
-     "$value": 0.2816,
+     "$value": 0.2874,
      "$description": "Geist's depth below the baseline, as a share of the stand-in face's scaled size."
     },
     "line-gap": {
      "$type": "number",
      "$value": 0,
      "$description": "Geist's extra room between lines, as a share of the stand-in face's scaled size."
+    },
+    "light": {
+     "$description": "The stand-in face for Geist Light, at the weight `font.weight.light` names. Its heights are the family's, scaled by this face's own size.",
+     "size-adjust": {
+      "$type": "number",
+      "$value": 1.0109,
+      "$description": "How much the stand-in face scales Arial so it is as wide as Geist Light, measured as the regular one is."
+     }
+    },
+    "medium": {
+     "$description": "The stand-in face for Geist Medium, at the weight `font.weight.medium` names. Its heights are the family's, scaled by this face's own size.",
+     "size-adjust": {
+      "$type": "number",
+      "$value": 1.0504,
+      "$description": "How much the stand-in face scales Arial so it is as wide as Geist Medium, measured as the regular one is."
+     }
+    },
+    "semibold": {
+     "$description": "The stand-in face for Geist Semibold, at the weight `font.weight.semibold` names. Its heights are the family's, scaled by this face's own size.",
+     "local": {
+      "$type": "fontFamily",
+      "$value": [
+       "Arial Bold",
+       "Helvetica Bold"
+      ],
+      "$description": "Arial's bold face, or Helvetica's, so the stand-in's letters are shaped as heavy as Geist Semibold's."
+     },
+     "size-adjust": {
+      "$type": "number",
+      "$value": 0.9956,
+      "$description": "How much the stand-in face scales Arial Bold so it is as wide as Geist Semibold, measured as the regular one is."
+     }
+    },
+    "bold": {
+     "$description": "The stand-in face for Geist Bold, at the weight `font.weight.bold` names. Its heights are the family's, scaled by this face's own size.",
+     "local": {
+      "$type": "fontFamily",
+      "$value": [
+       "Arial Bold",
+       "Helvetica Bold"
+      ],
+      "$description": "Arial's bold face, or Helvetica's, so the stand-in's letters are shaped as heavy as Geist Bold's."
+     },
+     "size-adjust": {
+      "$type": "number",
+      "$value": 1.0175,
+      "$description": "How much the stand-in face scales Arial Bold so it is as wide as Geist Bold, measured as the regular one is."
+     }
     }
    },
    "display": {
@@ -334,23 +382,71 @@
     },
     "size-adjust": {
      "$type": "number",
-     "$value": 1.0655,
-     "$description": "How much the stand-in face scales Arial so its average letter is as wide as Funnel Display's."
+     "$value": 1.0568,
+     "$description": "How much the stand-in face scales Arial so its regular weight is as wide as Funnel Display's: the two measured over the design system's own prose, with each font's kerning, as a browser sets it."
     },
     "ascent": {
      "$type": "number",
-     "$value": 0.9385,
+     "$value": 0.9463,
      "$description": "Funnel Display's height above the baseline, as a share of the stand-in face's scaled size."
     },
     "descent": {
      "$type": "number",
-     "$value": 0.2346,
+     "$value": 0.2366,
      "$description": "Funnel Display's depth below the baseline, as a share of the stand-in face's scaled size."
     },
     "line-gap": {
      "$type": "number",
      "$value": 0,
      "$description": "Funnel Display's extra room between lines, as a share of the stand-in face's scaled size."
+    },
+    "light": {
+     "$description": "The stand-in face for Funnel Display Light, at the weight `font.weight.light` names. Its heights are the family's, scaled by this face's own size.",
+     "size-adjust": {
+      "$type": "number",
+      "$value": 1.0481,
+      "$description": "How much the stand-in face scales Arial so it is as wide as Funnel Display Light, measured as the regular one is."
+     }
+    },
+    "medium": {
+     "$description": "The stand-in face for Funnel Display Medium, at the weight `font.weight.medium` names. Its heights are the family's, scaled by this face's own size.",
+     "size-adjust": {
+      "$type": "number",
+      "$value": 1.0685,
+      "$description": "How much the stand-in face scales Arial so it is as wide as Funnel Display Medium, measured as the regular one is."
+     }
+    },
+    "semibold": {
+     "$description": "The stand-in face for Funnel Display Semibold, at the weight `font.weight.semibold` names. Its heights are the family's, scaled by this face's own size.",
+     "local": {
+      "$type": "fontFamily",
+      "$value": [
+       "Arial Bold",
+       "Helvetica Bold"
+      ],
+      "$description": "Arial's bold face, or Helvetica's, so the stand-in's letters are shaped as heavy as Funnel Display Semibold's."
+     },
+     "size-adjust": {
+      "$type": "number",
+      "$value": 0.9966,
+      "$description": "How much the stand-in face scales Arial Bold so it is as wide as Funnel Display Semibold, measured as the regular one is."
+     }
+    },
+    "bold": {
+     "$description": "The stand-in face for Funnel Display Bold, at the weight `font.weight.bold` names. Its heights are the family's, scaled by this face's own size.",
+     "local": {
+      "$type": "fontFamily",
+      "$value": [
+       "Arial Bold",
+       "Helvetica Bold"
+      ],
+      "$description": "Arial's bold face, or Helvetica's, so the stand-in's letters are shaped as heavy as Funnel Display Bold's."
+     },
+     "size-adjust": {
+      "$type": "number",
+      "$value": 1.0044,
+      "$description": "How much the stand-in face scales Arial Bold so it is as wide as Funnel Display Bold, measured as the regular one is."
+     }
     }
    },
    "mono": {
@@ -516,6 +612,12 @@
     "unit": "ms"
    }
   },
+  "280": {
+   "$value": {
+    "value": 280,
+    "unit": "ms"
+   }
+  },
   "320": {
    "$value": {
     "value": 320,
@@ -555,7 +657,7 @@
  },
  "easing": {
   "$type": "cubicBezier",
-  "$description": "Raw easing curves, named by the curve they are: deceleration and acceleration only, no bounce and no overshoot. Components never read these; they read a motion purpose.",
+  "$description": "Raw easing curves, named by the curve they are: deceleration and acceleration, and one, back-out, that overshoots a little and settles, for a small mark popping into place. Components never read these; they read a motion purpose.",
   "expo-out": {
    "$value": [
     0.16,
@@ -583,6 +685,24 @@
    ],
    "$description": "Eases in and out symmetrically."
   },
+  "quart-in-out": {
+   "$value": [
+    0.77,
+    0,
+    0.175,
+    1
+   ],
+   "$description": "Eases in and out more steeply than the cubic curve: slow to leave, quick through the middle, slow to land."
+  },
+  "cubic-out": {
+   "$value": [
+    0.215,
+    0.61,
+    0.355,
+    1
+   ],
+   "$description": "A soft start and a gentle stop, without the long tail of the expo curve."
+  },
   "steep-out": {
    "$value": [
     0,
@@ -591,6 +711,33 @@
     1
    ],
    "$description": "Starts at full speed and settles gently over most of its length."
+  },
+  "standard": {
+   "$value": [
+    0.4,
+    0,
+    0.2,
+    1
+   ],
+   "$description": "A gentle start, a quick middle and a long soft stop: the curve most interface toolkits use by default."
+  },
+  "ease-out": {
+   "$value": [
+    0,
+    0,
+    0.58,
+    1
+   ],
+   "$description": "The browser's own ease-out: a brisk start that slows evenly to its stop."
+  },
+  "back-out": {
+   "$value": [
+    0.44,
+    0.85,
+    0.1,
+    1.3
+   ],
+   "$description": "Runs past its end by about a tenth and settles back, as a light spring does. The one curve that overshoots."
   }
  },
  "motion": {
@@ -618,7 +765,7 @@
    }
   },
   "enter": {
-   "$description": "Something arriving or opening: a drawer sliding in, a modal or menu appearing, an accordion opening.",
+   "$description": "Something arriving or opening over the page: a drawer sliding in, a modal or menu appearing.",
    "duration": {
     "$type": "duration",
     "$value": "{duration.320}"
@@ -639,6 +786,91 @@
     "$value": "{easing.expo-in}"
    }
   },
+  "expand": {
+   "$description": "Content opening in place and pushing what follows down, then folding back the same way: an accordion's panel. The same time and curve both ways, so what follows never jumps at the end and a press halfway turns it round where it is. The content fades in from a slight blur as it opens.",
+   "duration": {
+    "$type": "duration",
+    "$value": "{duration.320}"
+   },
+   "easing": {
+    "$type": "cubicBezier",
+    "$value": "{easing.cubic-out}"
+   },
+   "blur": {
+    "$type": "dimension",
+    "$value": {
+     "value": 2,
+     "unit": "px"
+    },
+    "$description": "How blurred the content is as it starts to open, and as it finishes closing."
+   }
+  },
+  "fill": {
+   "$description": "A choice's mark filling as it is chosen, a checkbox's box or a radio's circle: the fill grows from a little smaller than the mark as it fades in, and shrinks back as it fades out. The same time and curve both ways.",
+   "duration": {
+    "$type": "duration",
+    "$value": "{duration.320}"
+   },
+   "easing": {
+    "$type": "cubicBezier",
+    "$value": "{easing.standard}"
+   }
+  },
+  "draw": {
+   "$description": "A tick drawing itself in its box, from its start to its tip, once the box has nearly filled; unticked, it erases itself back the same way, without the wait.",
+   "duration": {
+    "$type": "duration",
+    "$value": "{duration.320}"
+   },
+   "delay": {
+    "$type": "duration",
+    "$value": "{duration.200}",
+    "$description": "How long the tick waits for the fill before it starts to draw."
+   },
+   "easing": {
+    "$type": "cubicBezier",
+    "$value": "{easing.ease-out}"
+   }
+  },
+  "pop": {
+   "$description": "A small mark popping into place, as a radio's dot does: it grows from nothing a little past its size and settles back, and shrinks away the same way.",
+   "duration": {
+    "$type": "duration",
+    "$value": "{duration.500}"
+   },
+   "easing": {
+    "$type": "cubicBezier",
+    "$value": "{easing.back-out}"
+   }
+  },
+  "fold": {
+   "$description": "A sidebar folding to its column of icons and unfolding again: its width, and the parts the column hides, move on one in-out curve both ways, so a press on the way turns it round where it is. The words fade into a slight blur in the first part of a fold, and come back from it in the last part of an unfold.",
+   "duration": {
+    "$type": "duration",
+    "$value": "{duration.280}"
+   },
+   "easing": {
+    "$type": "cubicBezier",
+    "$value": "{easing.quart-in-out}"
+   },
+   "label-duration": {
+    "$type": "duration",
+    "$value": "{duration.150}",
+    "$description": "How long the words take to fade into the blur, or back out of it."
+   },
+   "label-easing": {
+    "$type": "cubicBezier",
+    "$value": "{easing.expo-out}"
+   },
+   "blur": {
+    "$type": "dimension",
+    "$value": {
+     "value": 2,
+     "unit": "px"
+    },
+    "$description": "How blurred the words are as they finish fading out, and as they start fading in."
+   }
+  },
   "stagger": {
    "$description": "Items entering one after another.",
    "delay": {
@@ -648,7 +880,7 @@
    }
   },
   "hover": {
-   "$description": "A panel that opens while a mouse rests on its opener (a site header's menus): how long the pointer must rest before it opens, so a pointer passing over does not open it, and how long it may be gone before it closes, so it can cross from the opener into the panel. Touch and keyboard never wait; they open on a press.",
+   "$description": "A panel that opens while a mouse rests on its opener (a site header's menus): how long the pointer must rest before it opens, so a pointer passing over does not open it, and how long it may be gone before it closes, so it can cross from the opener into the panel. Touch and keyboard never wait; they open on a press. A tooltip and a label's help wait their own delays and close after this close delay.",
    "open-delay": {
     "$type": "duration",
     "$value": "{duration.80}",
@@ -658,6 +890,38 @@
     "$type": "duration",
     "$value": "{duration.320}",
     "$description": "From the pointer leaving the opener and panel to the panel closing; coming back within it keeps the panel open."
+   }
+  },
+  "hold": {
+   "$description": "A finger held on a place that offers a menu (a right-click menu on a touch screen): how long it must stay down before the menu opens, so a tap or the start of a scroll opens nothing.",
+   "delay": {
+    "$type": "duration",
+    "$value": "{duration.500}",
+    "$description": "From the finger touching down to the menu opening; lifting or scrolling before then opens nothing."
+   }
+  },
+  "tooltip": {
+   "$description": "A tooltip showing while a mouse rests on its target: long enough that a pointer passing over a row of controls shows nothing. Keyboard focus shows it at once, and once one tooltip has shown the next shows at once as the pointer moves along the row. It closes after the hover close delay.",
+   "open-delay": {
+    "$type": "duration",
+    "$value": "{duration.1000}",
+    "$description": "From the pointer coming to rest on the target to the tooltip showing."
+   }
+  },
+  "help": {
+   "$description": "Help the reader points at to read (a label's info icon), shown while a mouse rests on it: shorter than a tooltip's wait, since pointing at it is asking for it, and still long enough that a pointer passing over shows nothing. Keyboard focus shows it at once. It closes after the hover close delay.",
+   "open-delay": {
+    "$type": "duration",
+    "$value": "{duration.320}",
+    "$description": "From the pointer coming to rest on the help's icon to the help showing."
+   }
+  },
+  "scrollbar": {
+   "$description": "The scrollbar drawn over a part that scrolls inside itself: it shows while a mouse is over the part and while it scrolls, and stays this long after the last scroll before it fades, so a reader who scrolls with the wheel sees where they are.",
+   "hide-delay": {
+    "$type": "duration",
+    "$value": "{duration.500}",
+    "$description": "From the last scroll to the scrollbar starting to fade, while the pointer is not over the part."
    }
   },
   "marquee": {
@@ -708,6 +972,17 @@
    "duration": {
     "$type": "duration",
     "$value": "{duration.1600}"
+   },
+   "easing": {
+    "$type": "cubicBezier",
+    "$value": "{easing.cubic-in-out}"
+   }
+  },
+  "theme-wipe": {
+   "$description": "The new theme drawn over the page in a growing circle from the theme switch's option that was pressed, until it covers the window, the easing shaping how much of the page has changed. A little quicker than the ambient drift it was first drawn with. Under reduced motion the theme changes at once.",
+   "duration": {
+    "$type": "duration",
+    "$value": "{duration.1000}"
    },
    "easing": {
     "$type": "cubicBezier",

@@ -52,7 +52,7 @@ The opener is given as `trigger`. It can be any element that renders one button 
 
 - The panel is a non-modal dialog, named by its header's title, or by its label when it has no header.
 - The opener says it opens a dialog, whether it is open, and which panel it controls.
-- Opening leaves focus on the opener. The panel follows the opener in the page, wherever it shows, so the next Tab goes into it; the reader chooses whether to go in.
+- Opening moves focus into the panel, so a screen reader announces it: to its first field when it holds one, otherwise to the panel itself, named by its title, which draws no ring of its own. Tab goes on through the panel. A popover open as the page loads takes no focus.
 - Escape, from the opener or anywhere in the panel, closes it and returns focus to the opener, as the close button does. A click outside closes it without moving focus.
 - Nothing in it is reachable only by hover.
 - Every word it says by itself, such as the close button's name, keeps its English unless the page gives its own.
@@ -65,7 +65,7 @@ The opener is given as `trigger`. It can be any element that renders one button 
 
 ### How to test
 
-- Press Enter, then Space, on the opener: the panel opens and closes, and focus stays on the opener. Press Tab with the panel open: focus goes into it.
+- Press Enter on the opener: the panel opens and focus moves into it; a screen reader says its title. Press Tab: focus moves through the panel.
 - Press Escape inside the panel: it closes and focus returns to the opener.
 - With a screen reader, the opener is read as a button that opens a dialog, open or closed, and the panel as a dialog by its title.
 - With text at 200% and the page 320 pixels wide, the panel stays inside the window and scrolls inside itself when its content is taller.
@@ -76,7 +76,7 @@ The opener is given as `trigger`. It can be any element that renders one button 
 
 | Key | What it does |
 |---|---|
-| Enter or Space | On the opener, opens or closes the panel. Focus stays on the opener. |
+| Enter or Space | On the opener, opens the panel and moves focus into it, or closes it. |
 | Tab | With the panel open, moves from the opener into the panel, then through what it holds. |
 | Escape | Closes the panel and returns focus to the opener. With a dropdown open inside it, closes the dropdown first. |
 

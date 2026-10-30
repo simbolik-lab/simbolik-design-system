@@ -36,6 +36,8 @@ One choice out of a small set, all of which are visible. Choosing one un-chooses
 
 Choosing fills the circle with the inverse action fill and shows the dot. Arrow keys move the choice within the group. When the field group holds the chosen value, a radio is checked when its own `value` is the group's, and choosing it tells the group; each radio then needs a `value`. Disabled grays the ring and, when chosen, fills it with the disabled foreground, so a disabled choice still shows which one it is.
 
+Choosing moves. The fill grows into the circle from a little smaller as it fades in, and the dot pops in, growing a little past its size and settling back, while the dot of the radio chosen before shrinks away. While it is pressed, the circle gives a little. Only a change moves: a radio chosen as the page loads simply shows it. Under reduced motion the fill and the dot only fade, and the circle does not give. The motion is the stylesheet's, so markup written by hand moves the same; the circle draws its fill on its own `::before`, so leave that to the circle.
+
 Under the pointer, an empty ring darkens its edge and a chosen one darkens its fill.
 
 With `error`, an empty ring takes the danger edge and a chosen one keeps its fill inside a danger ring, under the pointer too. The control carries `aria-invalid`. Give every radio of the group the flag, and say what is wrong in words beside the group.

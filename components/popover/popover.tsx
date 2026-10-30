@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Popover: a small raised panel beside the button that opened it, holding a title,
  * a few lines or a field, and actions. It does not block the page.
@@ -28,8 +30,9 @@
  *   onOpenChange  Called with the new state whenever the popover opens or closes itself.
  *   Other props (className, data-*) go to the panel.
  *
- * Focus: pressing the opener shows the panel and leaves focus on the
- * opener; the panel follows the opener in the page, so Tab goes into it next. Escape, from the opener or
+ * Focus: opening moves focus into the panel, so a screen reader says it opened: to its first field when it holds
+ * one, otherwise to the panel itself, named by its title (as the drawer does, it draws no ring of its own), and Tab
+ * goes on through it. A popover open as the page loads takes no focus. Escape, from the opener or
  * anywhere in the panel, closes it and returns focus to the opener, as does the header's close button.
  * Escape with focus elsewhere on the page also closes it, and leaves focus where it is.
  * A click or tap outside closes it, and so does focus moving anywhere outside. A closed panel is hidden,
@@ -49,6 +52,7 @@ import {
   cloneElement,
   createContext,
   useContext,
+  useEffect,
   useId,
   useRef,
   type HTMLAttributes,
@@ -62,6 +66,7 @@ import { Divider } from '../divider/divider.js';
 import { useFloating } from '../floating.js';
 import { useDismiss } from '../dismiss.js';
 import { useControllable } from '../controllable.js';
+import { useScrollbar } from '../scrollbar.js';
 import { Icon } from '../icon/icon.js';
 import { cx } from '../variants.js';
 import type { VariantProps } from '../variants.js';
@@ -105,6 +110,9 @@ function PopoverPanel({ label, align, side, trigger: _trigger, open: _open, defa
   );
 }
 
+/** What opening focuses first inside the panel: a field to type or choose in. */
+const FIELDS = 'input:not([type="hidden"]):not(:disabled), textarea:not(:disabled), select:not(:disabled), [contenteditable="true"]';
+
 /** The opener and the panel placed beside it, with the popover's keyboard and focus behaviour. */
 function PopoverWithOpener({ label, align, side, trigger, open: controlled, defaultOpen = false, onOpenChange, className, children, ...rest }: PopoverProps & { trigger: ReactElement }) {
   const id = useId();
@@ -113,7 +121,7 @@ function PopoverWithOpener({ label, align, side, trigger, open: controlled, defa
   const panelId = `${id}-panel`;
   const titleId = `${id}-title`;
   const [open, keepOpen] = useControllable({ value: controlled, defaultValue: defaultOpen, onChange: onOpenChange, name: 'Popover open' });
-  const anchor = useRef<HTMLSpanElement>(null);
+  const anchor = useRef<HTMLDivElement>(null);
   const layer = useRef<HTMLDivElement>(null);
   const panel = useRef<HTMLDivElement>(null);
 
@@ -127,6 +135,16 @@ function PopoverWithOpener({ label, align, side, trigger, open: controlled, defa
   // outside it) and focus moving anywhere outside close it while it is the top layer (dismiss.ts); Escape with focus
   // inside puts focus back on the opener.
   const dismiss = useDismiss({ open, root: anchor, onClose: (back) => setOpen(false, back), blur: true });
+
+  // Opening moves focus into the panel, once it shows: to its first field, or the panel itself. Not as the page loads.
+  const wasOpen = useRef(open);
+  useEffect(() => {
+    const was = wasOpen.current;
+    wasOpen.current = open;
+    const p = panel.current;
+    if (!open || was || !p || p.contains(document.activeElement)) return;
+    (p.querySelector<HTMLElement>(FIELDS) ?? p).focus({ preventScroll: true });
+  }, [open]);
 
   const onOpenerClick = (e: MouseEvent<HTMLElement>) => {
     openerProps.onClick?.(e);
@@ -143,9 +161,10 @@ function PopoverWithOpener({ label, align, side, trigger, open: controlled, defa
   });
 
   const placed = useFloating({ target: anchor, layer, panel, open, side: side === 'above' ? 'above' : 'below', align: align === 'end' ? 'end' : 'start', listHeight: false });
+  const bar = useScrollbar(panel);
 
   return (
-    <span ref={anchor} className={popover.part('anchor')} {...dismiss}>
+    <div ref={anchor} className={popover.part('anchor')} {...dismiss}>
       {opener}
       <div ref={layer} className={popover.part('layer')}>
         <div
@@ -155,14 +174,16 @@ function PopoverWithOpener({ label, align, side, trigger, open: controlled, defa
           aria-label={label}
           aria-labelledby={label ? undefined : titleId}
           className={cx(popover({ align, side }), className)}
+          tabIndex={-1}
+          {...bar}
+          {...rest}
           hidden={!open}
           data-side={placed.side ?? undefined}
-          {...rest}
         >
           <Context.Provider value={{ titleId, close: () => setOpen(false, true) }}>{children}</Context.Provider>
         </div>
       </div>
-    </span>
+    </div>
   );
 }
 

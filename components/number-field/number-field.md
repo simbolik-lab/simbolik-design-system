@@ -40,7 +40,7 @@ The minus and plus buttons move the number by its step; holding one down keeps s
 
 The field takes only what can make a number in the reader's language: figures, the decimal mark, the minus sign. A typed number is settled when the reader leaves the field or presses Enter: kept inside the limits and rounded to the step, then written the reader's way. The page hears the new number then, and after every step, not on each key. An emptied field reports `null`, and the page empties the field by giving it `null`.
 
-The wrapper holds its own number, or follows the number the page gives it. Given a name, it sends the number with the form as plain digits, whatever the language shows. Read-only, the number can be read and copied and the buttons are disabled; disabled, the field and its buttons are out of reach.
+The wrapper holds its own number, or follows the number the page gives it. Given a name, it sends the number with the form as plain digits, whatever the language shows, and nothing while disabled. A required number field stops its form being sent while it is empty: the field takes focus, the browser says why, and it takes its error look until a number is typed. The form's reset puts the starting number back. Read-only, the number can be read and copied and the buttons are disabled; disabled, the field and its buttons are out of reach.
 
 With `hideButtons` the field is a bare number box: the same well, text and keys without the line and the two buttons, for a row of boxes too narrow to hold them.
 

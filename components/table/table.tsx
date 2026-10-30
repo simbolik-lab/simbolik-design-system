@@ -1,3 +1,5 @@
+'use client';
+
 import { Fragment, useEffect, useId, type HTMLAttributes, type ReactNode } from 'react';
 import { table } from './table.manifest.js';
 import { Badge } from '../badge/badge.js';
@@ -54,7 +56,17 @@ export interface TableRow {
   ruleAbove?: boolean;
   /** What the row unfolds: a caret button at its start opens a row under it, across every column, holding this. */
   detail?: ReactNode;
+  /**
+   * In a selectable table, whether this row can be chosen. A row that cannot has no checkbox, its room kept empty so
+   * the column lines up, and the heading's checkbox leaves it out. Every row can unless set to false.
+   */
+  selectable?: boolean;
+  /** Attributes of the page's own for the row element, such as `'data-issue': '42'`, for its scripts, checks and links. */
+  [attribute: `data-${string}`]: string | number | boolean | undefined;
 }
+
+/** A row's own data attributes, for its row element. */
+const dataAttributes = (r: TableRow) => Object.fromEntries(Object.entries(r).filter(([key]) => key.startsWith('data-')));
 
 /** A group heading: one cell across the row, a label and an optional count, starting the rows under it. */
 export interface TableGroupRow {
@@ -77,6 +89,7 @@ export interface TableProps extends Omit<HTMLAttributes<HTMLDivElement>, 'childr
   /** Ids of the chosen rows. */
   selected?: string[];
   onSelect?: (id: string, checked: boolean) => void;
+  /** The heading's checkbox, pressed: the page then chooses, or lets go of, every row that can be chosen. */
   onSelectAll?: (checked: boolean) => void;
   /** Which column is sorted, and which way. */
   sort?: { key: string; direction: 'asc' | 'desc' };
@@ -197,7 +210,7 @@ function groups(rows: (TableRow | TableGroupRow)[]) {
 /** Table: a real table element inside a bordered frame, with the heading row, the rows and the foot. */
 export function Table({ caption, columns, rows, selectable, selected = [], onSelect, onSelectAll, sort, onSort, expanded, defaultExpanded = [], onExpandedChange, footer, selectAllLabel = 'Choose every row', selectRowLabel = englishSelectRow, detailsLabel = englishDetails, pinnedLabel = 'Pinned', filterLabel = englishFilter, infoLabel = englishInfo, className, 'sticky-header': stickyHeader, 'pin-first': pinFirst, ...rest }: TableProps) {
   // A frame that scrolls, up and down or sideways, is a region the keyboard can reach and a screen reader can name.
-  const { frame, thumb, region } = useScrollRegion({ label: caption, always: !!stickyHeader });
+  const { frame, thumb, region } = useScrollRegion({ label: caption, always: !!stickyHeader, bar: 'both' });
   // The pinned first column lies over the columns that scroll under it. Its width reaches the stylesheet, which on a
   // touch screen keeps what the frame scrolls into view (a focused cell, a button) out from under it.
   useEffect(() => {
@@ -225,8 +238,10 @@ export function Table({ caption, columns, rows, selectable, selected = [], onSel
   const cell = table.part('cell');
   const row = table.part('row');
   const data = rows.filter((r): r is TableRow => !isGroup(r));
-  const allChosen = data.length > 0 && data.every((r) => selected.includes(r.id));
-  const someChosen = !allChosen && data.some((r) => selected.includes(r.id));
+  // The heading's checkbox speaks for the rows that can be chosen; with none, it cannot be pressed.
+  const choosable = data.filter((r) => r.selectable !== false);
+  const allChosen = choosable.length > 0 && choosable.every((r) => selected.includes(r.id));
+  const someChosen = !allChosen && choosable.some((r) => selected.includes(r.id));
   // A table with a row that opens or a pinned row gives every first cell the same leading room, so its columns line up.
   const lead = data.some((r) => r.detail !== undefined || r.pinned);
 
@@ -246,7 +261,7 @@ export function Table({ caption, columns, rows, selectable, selected = [], onSel
       >
         <span className={table.part('header-cell')}>
           {lead && i === 0 && <span className={table.part('lead')} />}
-          {selectable && i === 0 && <Checkbox size="sm" tone="subtle" aria-label={selectAllLabel} checked={allChosen} indeterminate={someChosen} onChange={(e) => onSelectAll?.(e.target.checked)} />}
+          {selectable && i === 0 && <Checkbox size="sm" tone="subtle" aria-label={selectAllLabel} checked={allChosen} indeterminate={someChosen} disabled={choosable.length === 0 || undefined} onChange={(e) => onSelectAll?.(e.target.checked)} />}
           {c.sortable ? (
             // In a column lined up at the end the arrow comes first, so the label meets the figures' edge.
             <button type="button" className={table.part('sort')} onClick={() => onSort?.(c.key)}>
@@ -282,10 +297,11 @@ export function Table({ caption, columns, rows, selectable, selected = [], onSel
   const dataRow = (r: TableRow) => {
     const isOpen = r.detail !== undefined && open.includes(r.id);
     const detailId = `${id}-${r.id}-detail`;
+    const choosable = selectable && r.selectable !== false;
     const classes = cx(
       row,
       r.disabled ? `${row}--disabled` : '',
-      selectable && selected.includes(r.id) ? `${row}--selected` : '',
+      choosable && selected.includes(r.id) ? `${row}--selected` : '',
       r.pinned ? `${row}--pinned` : '',
       r.highlighted ? `${row}--highlighted` : '',
       r.ruleAbove ? `${row}--rule-above` : '',
@@ -293,7 +309,11 @@ export function Table({ caption, columns, rows, selectable, selected = [], onSel
     const first = (content: ReactNode) => {
       const chosen = selectable ? (
         <span className={table.part('content')}>
-          <Checkbox size="sm" tone="subtle" aria-label={selectRowLabel(r)} checked={selected.includes(r.id)} disabled={r.disabled} onChange={(e) => onSelect?.(r.id, e.target.checked)} />
+          {choosable ? (
+            <Checkbox size="sm" tone="subtle" aria-label={selectRowLabel(r)} checked={selected.includes(r.id)} disabled={r.disabled} onChange={(e) => onSelect?.(r.id, e.target.checked)} />
+          ) : (
+            <span className={table.part('choose-space')} />
+          )}
           {content}
         </span>
       ) : (
@@ -316,7 +336,7 @@ export function Table({ caption, columns, rows, selectable, selected = [], onSel
     };
     return (
       <Fragment key={r.id}>
-        <tr className={classes} aria-disabled={r.disabled ? true : undefined}>
+        <tr {...dataAttributes(r)} className={classes} aria-disabled={r.disabled ? true : undefined}>
           {columns.map((c, i) => {
             const body = c.prose ? <div className={table.part('prose')}>{r.cells[c.key]}</div> : r.cells[c.key];
             return (

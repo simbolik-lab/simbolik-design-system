@@ -1,0 +1,231 @@
+/* smbk-navigation-menu — Navigation menu. Figma "NavigationMenu" 8217:3602 (State: Closed, Open) and
+ * "NavigationLink" 8217:3405 (State: Default, Hover, Focus).
+ * A site header's links: a row of navigation items at the medium size; an item with a caret opens a wide panel under
+ * the row, holding columns of links (each an icon, a title and a line of description) under small headings, and
+ * an optional featured column with a picture, a title and a link. The items are the navigation item component; its
+ * stylesheet draws them, the open one raised as hover raises it. The panel drops in and fades out with the floating
+ * panels' motion (floating/floating.css names it). In a narrow space (the layout switch) the row stacks into a
+ * list and each panel opens in place under its item, its columns one under another. */
+
+.smbk-navigation-menu {
+  position: relative;
+  color: var(--smbk-color-text-default);
+}
+
+.smbk-navigation-menu__list {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.smbk-navigation-menu__item {
+  display: block;
+}
+
+/* ---- the panel: under the row, lined up with its start edge (or its end edge, align end). In a wide space narrower
+   than its columns, the columns that do not fit wrap under the others rather than leaving the window. ---- */
+
+.smbk-navigation-menu__panel {
+  box-sizing: border-box;
+  position: absolute;
+  top: calc(100% + var(--smbk-space-stack-xs));
+  inset-inline-start: 0;
+  z-index: var(--smbk-layer-overlay);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--smbk-space-inline-lg);
+  width: max-content;
+  max-width: calc(100vw - 2 * var(--smbk-space-inset-xl));
+  padding: var(--smbk-space-inset-lg);
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim);
+  border-radius: var(--smbk-radius-container-md);
+  background: var(--smbk-color-surface-overlay);
+  box-shadow: var(--smbk-elevation-overlay);
+  transform-origin: top;
+}
+
+.smbk-navigation-menu--align-end .smbk-navigation-menu__panel {
+  inset-inline-start: auto;
+  inset-inline-end: 0;
+}
+
+.smbk-navigation-menu__column {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* A column's heading: Label SM in the subtlest text, a row the medium mark's height, lined up with the links' text. */
+.smbk-navigation-menu__heading {
+  display: flex;
+  align-items: center;
+  min-height: var(--smbk-size-mark-lg);
+  margin: 0;
+  padding: 0 var(--smbk-space-inset-lg);
+  color: var(--smbk-color-text-subtlest);
+  font-family: var(--smbk-typography-label-sm-font-family);
+  font-size: var(--smbk-typography-label-sm-font-size);
+  font-weight: var(--smbk-typography-label-sm-font-weight);
+  line-height: var(--smbk-typography-label-sm-line-height);
+  letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
+}
+
+.smbk-navigation-menu__links {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---- a link in the panel (Figma's NavigationLink): an icon, a title and a line of description ---- */
+
+.smbk-navigation-menu__link {
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--smbk-space-inline-md);
+  width: var(--smbk-size-width-240);
+  max-width: 100%;
+  padding: var(--smbk-space-inset-lg);
+  border-radius: var(--smbk-radius-control-md);
+  color: var(--smbk-color-text-default);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) {
+  .smbk-navigation-menu__link:hover {
+    background: var(--smbk-color-surface-hover);
+  }
+}
+
+.smbk-navigation-menu__link:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+  background: var(--smbk-color-surface-hover);
+}
+
+.smbk-navigation-menu__link-icon {
+  flex-shrink: 0;
+  color: var(--smbk-color-icon-subtle);
+  font-size: var(--smbk-size-icon-md);
+}
+
+.smbk-navigation-menu__link-text,
+.smbk-navigation-menu__featured-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-text-label);
+  min-width: 0;
+}
+
+.smbk-navigation-menu__link-title,
+.smbk-navigation-menu__featured-title {
+  margin: 0;
+  color: var(--smbk-color-text-default);
+  font-family: var(--smbk-typography-label-lg-font-family);
+  font-size: var(--smbk-typography-label-lg-font-size);
+  font-weight: var(--smbk-typography-label-lg-font-weight);
+  line-height: var(--smbk-typography-label-lg-line-height);
+  letter-spacing: var(--smbk-typography-label-lg-letter-spacing);
+}
+
+/* The current page's link sits on the selected surface. Figma draws no current link; Label LG has no bolder weight. */
+.smbk-navigation-menu__link[aria-current="page"] {
+  background: var(--smbk-color-surface-selected);
+}
+
+.smbk-navigation-menu__link-description,
+.smbk-navigation-menu__featured-description {
+  margin: 0;
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+/* ---- the featured column: a picture, a title, a line and a link, padded as a link is ---- */
+
+.smbk-navigation-menu__featured {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--smbk-space-stack-sm);
+  width: var(--smbk-size-width-240);
+  max-width: 100%;
+  padding: var(--smbk-space-inset-lg);
+}
+
+.smbk-navigation-menu__featured > :first-child {
+  align-self: stretch;
+}
+
+/* ---- narrow: the row stacks, each item fills it with its caret at the far end, and a panel opens in place under
+   its item, its columns and its featured column one under another, set in a step so they read as the item's. ---- */
+
+@container style(--smbk-layout: narrow) {
+  .smbk-navigation-menu__list {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .smbk-navigation-menu__item > .smbk-nav-item {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .smbk-navigation-menu__panel,
+  .smbk-navigation-menu--align-end .smbk-navigation-menu__panel {
+    position: static;
+    flex-direction: column;
+    gap: var(--smbk-space-stack-sm);
+    width: auto;
+    max-width: none;
+    padding: var(--smbk-space-stack-xs) 0 var(--smbk-space-stack-sm) var(--smbk-space-inset-lg);
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .smbk-navigation-menu__link,
+  .smbk-navigation-menu__featured {
+    width: 100%;
+  }
+}
+
+/* ---- touch: a link in the panel already passes the comfortable target. Stacked in a narrow space, the top items
+   touch: where one item meets the next, each keeps its own edge, so each stays one press. Under an open panel an
+   item is not touching another, so the nav item's own area reaches out there, as everywhere else. Nothing drawn
+   moves. ---- */
+
+@container style(--smbk-layout: narrow) {
+  @media (pointer: coarse) {
+    .smbk-navigation-menu__item:not(:has(> .smbk-navigation-menu__panel:not([hidden]))) + .smbk-navigation-menu__item > .smbk-nav-item::after {
+      inset-block-start: 0;
+    }
+
+    .smbk-navigation-menu__item:has(+ .smbk-navigation-menu__item):not(:has(> .smbk-navigation-menu__panel:not([hidden]))) > .smbk-nav-item::after {
+      inset-block-end: 0;
+    }
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  .smbk-navigation-menu__link[aria-current="page"] {
+    outline: var(--smbk-border-width-hairline) solid Highlight;
+  }
+}

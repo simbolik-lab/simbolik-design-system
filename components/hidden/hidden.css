@@ -1,0 +1,13 @@
+/*
+ * Hidden: any part of the design system given the hidden attribute is hidden, whatever display its own stylesheet
+ * gives it. A component's display outweighs the browser's own rule for hidden, so a page's script that hid a tag, an
+ * empty state or a list row with the attribute left it on screen; this one rule puts the attribute's meaning back for
+ * every element carrying one of the system's classes.
+ *
+ * A panel that fades out as it closes (a dropdown, a popover, a toast) keeps its motion: a running transition
+ * outweighs this rule until it ends. hidden="until-found" is left to the browser, which keeps such a part's box so
+ * find-in-page can open it.
+ */
+[class*="smbk-"][hidden]:not([hidden="until-found" i]) {
+  display: none !important;
+}

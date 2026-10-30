@@ -33,7 +33,7 @@ The text above or beside a form control that says what it is for, with the two m
 
 ## Behavior
 
-The icon's help shows in a tooltip over it while the pointer rests on the icon, and while the control the label names has the keyboard focus, so a reader who never points sees it too; it stays while pointed at and goes on Escape. Without the for attribute, only pointing shows it.
+The icon's help shows in a tooltip over it while the pointer rests on the icon, after a shorter wait than other tooltips since pointing at the icon is asking for it, and while the control the label names has the keyboard focus, so a reader who never points sees it too; it stays while pointed at and goes on Escape. Without the for attribute, only pointing shows it.
 
 ## Accessibility
 

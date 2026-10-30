@@ -13,6 +13,10 @@ interface Scope {
   forcedColors: boolean;
   /** Inside a media block that asks about hover (`(hover: hover)`, `(hover: none)`, `any-hover`), where a :hover rule is meant. */
   hover?: boolean;
+  /** Inside `@media (pointer: coarse)` (or `any-pointer`), a touch screen's rules. */
+  coarse?: boolean;
+  /** The selector of the rule the declarations stand in, the innermost when rules nest. */
+  selector?: string;
 }
 
 export interface CssVisitor {
@@ -20,6 +24,9 @@ export interface CssVisitor {
   rule(selector: string, line: number, scope: Scope): void;
   declaration(prop: string, value: string, line: number, scope: Scope): void;
 }
+
+/** A media query that asks for a touch screen. */
+const COARSE_QUERY = /\(\s*(any-)?pointer\s*:\s*coarse\s*\)/i;
 
 /** A media query that asks about hover: a :hover rule inside it is meant for the devices it names. */
 const HOVER_QUERY = /\(\s*(any-)?hover\s*:\s*(hover|none)\s*\)/i;
@@ -93,7 +100,8 @@ export function walkCss(source: string, visitor: CssVisitor, lineBase = 0): void
           i = end + 1;
           const forced = scope.forcedColors || (name === 'media' && /forced-colors\s*:\s*active/i.test(text.slice(preludeStart, end)));
           const hover = scope.hover || (name === 'media' && HOVER_QUERY.test(text.slice(preludeStart, end)));
-          block({ fontFace: name === 'font-face', keyframes: /keyframes$/.test(name), forcedColors: forced, hover });
+          const coarse = scope.coarse || (name === 'media' && COARSE_QUERY.test(text.slice(preludeStart, end)));
+          block({ fontFace: name === 'font-face', keyframes: /keyframes$/.test(name), forcedColors: forced, hover, coarse, selector: scope.selector });
         } else if (text[end] === ';') i = end + 1;
         continue;
       }
@@ -102,7 +110,7 @@ export function walkCss(source: string, visitor: CssVisitor, lineBase = 0): void
       if (text[end] === '{') {
         i = end + 1;
         if (!scope.keyframes) visitor.rule(segment.trim(), lineAt(start), scope);
-        block({ fontFace: scope.fontFace, keyframes: false, forcedColors: scope.forcedColors, hover: scope.hover });
+        block({ fontFace: scope.fontFace, keyframes: false, forcedColors: scope.forcedColors, hover: scope.hover, coarse: scope.coarse, selector: segment.trim() });
       } else {
         if (text[end] === ';') i = end + 1;
         const colon = segment.indexOf(':');
@@ -147,7 +155,9 @@ export function checkCss(ctx: Ctx, source: string, lineBase = 0): void {
       },
       declaration(prop, value, line, scope) {
         if (scope.fontFace) return;
-        checkDeclaration(ctx, prop, value, line, { forcedColors: scope.forcedColors });
+        // A touch screen's invisible press area: the inset of a ::before or ::after inside @media (pointer: coarse).
+        const pressArea = !!scope.coarse && /::?(before|after)\b/i.test(scope.selector ?? '') && /^inset(-|$)/i.test(prop);
+        checkDeclaration(ctx, prop, value, line, { forcedColors: scope.forcedColors, pressArea });
       },
     },
     lineBase,

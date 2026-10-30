@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Own state unless the page holds it: a value a component keeps itself (a select's choice, a popover's open, a
  * toggle's on) until the page passes it in, as React's own inputs do. The component reads one value and calls one

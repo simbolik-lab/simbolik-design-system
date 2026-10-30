@@ -369,6 +369,7 @@
   --smbk-duration-80: 80ms;
   --smbk-duration-150: 150ms;
   --smbk-duration-200: 200ms;
+  --smbk-duration-280: 280ms;
   --smbk-duration-320: 320ms;
   --smbk-duration-500: 500ms;
   --smbk-duration-1000: 1000ms;
@@ -378,7 +379,12 @@
   --smbk-easing-expo-out: cubic-bezier(0.16, 1, 0.3, 1);
   --smbk-easing-expo-in: cubic-bezier(0.7, 0, 0.84, 0);
   --smbk-easing-cubic-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --smbk-easing-quart-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --smbk-easing-cubic-out: cubic-bezier(0.215, 0.61, 0.355, 1);
   --smbk-easing-steep-out: cubic-bezier(0, 0.7, 0.5, 1);
+  --smbk-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --smbk-easing-ease-out: cubic-bezier(0, 0, 0.58, 1);
+  --smbk-easing-back-out: cubic-bezier(0.44, 0.85, 0.1, 1.3);
   --smbk-motion-feedback-duration: var(--smbk-duration-150);
   --smbk-motion-feedback-easing: var(--smbk-easing-expo-out);
   --smbk-motion-state-duration: var(--smbk-duration-200);
@@ -387,9 +393,28 @@
   --smbk-motion-enter-easing: var(--smbk-easing-expo-out);
   --smbk-motion-exit-duration: var(--smbk-duration-200);
   --smbk-motion-exit-easing: var(--smbk-easing-expo-in);
+  --smbk-motion-expand-duration: var(--smbk-duration-320);
+  --smbk-motion-expand-easing: var(--smbk-easing-cubic-out);
+  --smbk-motion-expand-blur: 2px;
+  --smbk-motion-fill-duration: var(--smbk-duration-320);
+  --smbk-motion-fill-easing: var(--smbk-easing-standard);
+  --smbk-motion-draw-duration: var(--smbk-duration-320);
+  --smbk-motion-draw-delay: var(--smbk-duration-200);
+  --smbk-motion-draw-easing: var(--smbk-easing-ease-out);
+  --smbk-motion-pop-duration: var(--smbk-duration-500);
+  --smbk-motion-pop-easing: var(--smbk-easing-back-out);
+  --smbk-motion-fold-duration: var(--smbk-duration-280);
+  --smbk-motion-fold-easing: var(--smbk-easing-quart-in-out);
+  --smbk-motion-fold-label-duration: var(--smbk-duration-150);
+  --smbk-motion-fold-label-easing: var(--smbk-easing-expo-out);
+  --smbk-motion-fold-blur: 2px;
   --smbk-motion-stagger-delay: var(--smbk-duration-80);
   --smbk-motion-hover-open-delay: var(--smbk-duration-80);
   --smbk-motion-hover-close-delay: var(--smbk-duration-320);
+  --smbk-motion-hold-delay: var(--smbk-duration-500);
+  --smbk-motion-tooltip-open-delay: var(--smbk-duration-1000);
+  --smbk-motion-help-open-delay: var(--smbk-duration-320);
+  --smbk-motion-scrollbar-hide-delay: var(--smbk-duration-500);
   --smbk-motion-marquee-duration: var(--smbk-duration-22000);
   --smbk-motion-spin-duration: var(--smbk-duration-1000);
   --smbk-motion-live-pulse-duration: var(--smbk-duration-2400);
@@ -399,6 +424,8 @@
   --smbk-motion-cursor-duration: var(--smbk-duration-1000);
   --smbk-motion-ambient-duration: var(--smbk-duration-1600);
   --smbk-motion-ambient-easing: var(--smbk-easing-cubic-in-out);
+  --smbk-motion-theme-wipe-duration: var(--smbk-duration-1000);
+  --smbk-motion-theme-wipe-easing: var(--smbk-easing-cubic-in-out);
   --smbk-motion-chart-entrance-grow-duration: var(--smbk-duration-500);
   --smbk-motion-chart-entrance-reveal-duration: var(--smbk-duration-1000);
   --smbk-motion-chart-entrance-stagger: var(--smbk-duration-50);
@@ -410,7 +437,7 @@
   --smbk-color-surface-raised: #f9fafb;
   --smbk-color-surface-brand: #cc0d0d;
   --smbk-color-surface-inverse: #2d3237;
-  --smbk-color-surface-sunken: #e7ebf0;
+  --smbk-color-surface-sunken: #373d430d;
   --smbk-color-surface-translucent: #ffffff66;
   --smbk-color-surface-translucent-subtle: #ffffff26;
   --smbk-color-surface-overlay: #ffffff;
@@ -513,6 +540,7 @@
   --smbk-color-feedback-warning-text-on-surface: #f9fafb;
   --smbk-color-feedback-warning-text-on-subtle: #913900;
   --smbk-color-feedback-warning-border: #da601a;
+  --smbk-color-feedback-warning-border-subtle: #febea2;
   --smbk-color-feedback-warning-icon: #b14904;
   --smbk-color-feedback-danger-surface: #cc0d0d;
   --smbk-color-feedback-danger-surface-subtle: #fee5e1;
@@ -526,6 +554,7 @@
   --smbk-color-feedback-info-text-on-surface: #f9fafb;
   --smbk-color-feedback-info-text-on-subtle: #2f4ab8;
   --smbk-color-feedback-info-border: #557bff;
+  --smbk-color-feedback-info-border-subtle: #b8ccff;
   --smbk-color-feedback-info-icon: #3b5ce3;
   --smbk-color-shadow-xs: #373d430d;
   --smbk-color-shadow-sm: #373d431a;
@@ -667,7 +696,7 @@
   --smbk-color-surface-disabled: #e7ebf0;
   --smbk-color-surface-raised: #f9fafb;
   --smbk-color-surface-inverse: #2d3237;
-  --smbk-color-surface-sunken: #e7ebf0;
+  --smbk-color-surface-sunken: #373d430d;
   --smbk-color-surface-translucent: #ffffff66;
   --smbk-color-surface-translucent-subtle: #ffffff26;
   --smbk-color-surface-overlay: #ffffff;
@@ -743,6 +772,7 @@
   --smbk-color-feedback-success-icon: #037a1f;
   --smbk-color-feedback-warning-surface-subtle: #ffe6db;
   --smbk-color-feedback-warning-text-on-subtle: #913900;
+  --smbk-color-feedback-warning-border-subtle: #febea2;
   --smbk-color-feedback-warning-icon: #b14904;
   --smbk-color-feedback-danger-surface-subtle: #fee5e1;
   --smbk-color-feedback-danger-text-on-subtle: #a51d17;
@@ -750,6 +780,7 @@
   --smbk-color-feedback-danger-icon: #cc0d0d;
   --smbk-color-feedback-info-surface-subtle: #e3ebfe;
   --smbk-color-feedback-info-text-on-subtle: #2f4ab8;
+  --smbk-color-feedback-info-border-subtle: #b8ccff;
   --smbk-color-feedback-info-icon: #3b5ce3;
   --smbk-color-shadow-xs: #373d430d;
   --smbk-color-shadow-sm: #373d431a;
@@ -805,7 +836,7 @@
   --smbk-color-surface-disabled: #373d43;
   --smbk-color-surface-raised: #232527;
   --smbk-color-surface-inverse: #e7ebf0;
-  --smbk-color-surface-sunken: #111213;
+  --smbk-color-surface-sunken: #00000066;
   --smbk-color-surface-translucent: #00000066;
   --smbk-color-surface-translucent-subtle: #00000026;
   --smbk-color-surface-overlay: #2d3237;
@@ -881,6 +912,7 @@
   --smbk-color-feedback-success-icon: #54b85b;
   --smbk-color-feedback-warning-surface-subtle: #431b07;
   --smbk-color-feedback-warning-text-on-subtle: #febea2;
+  --smbk-color-feedback-warning-border-subtle: #692903;
   --smbk-color-feedback-warning-icon: #fa8349;
   --smbk-color-feedback-danger-surface-subtle: #4b130e;
   --smbk-color-feedback-danger-text-on-subtle: #febdb2;
@@ -888,6 +920,7 @@
   --smbk-color-feedback-danger-icon: #fe7d6d;
   --smbk-color-feedback-info-surface-subtle: #162352;
   --smbk-color-feedback-info-text-on-subtle: #b8ccff;
+  --smbk-color-feedback-info-border-subtle: #213583;
   --smbk-color-feedback-info-icon: #7fa0ff;
   --smbk-color-shadow-xs: #0000001a;
   --smbk-color-shadow-sm: #00000026;
@@ -944,7 +977,7 @@
     --smbk-color-surface-disabled: #373d43;
     --smbk-color-surface-raised: #232527;
     --smbk-color-surface-inverse: #e7ebf0;
-    --smbk-color-surface-sunken: #111213;
+    --smbk-color-surface-sunken: #00000066;
     --smbk-color-surface-translucent: #00000066;
     --smbk-color-surface-translucent-subtle: #00000026;
     --smbk-color-surface-overlay: #2d3237;
@@ -1020,6 +1053,7 @@
     --smbk-color-feedback-success-icon: #54b85b;
     --smbk-color-feedback-warning-surface-subtle: #431b07;
     --smbk-color-feedback-warning-text-on-subtle: #febea2;
+    --smbk-color-feedback-warning-border-subtle: #692903;
     --smbk-color-feedback-warning-icon: #fa8349;
     --smbk-color-feedback-danger-surface-subtle: #4b130e;
     --smbk-color-feedback-danger-text-on-subtle: #febdb2;
@@ -1027,6 +1061,7 @@
     --smbk-color-feedback-danger-icon: #fe7d6d;
     --smbk-color-feedback-info-surface-subtle: #162352;
     --smbk-color-feedback-info-text-on-subtle: #b8ccff;
+    --smbk-color-feedback-info-border-subtle: #213583;
     --smbk-color-feedback-info-icon: #7fa0ff;
     --smbk-color-shadow-xs: #0000001a;
     --smbk-color-shadow-sm: #00000026;

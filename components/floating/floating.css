@@ -1,7 +1,9 @@
 /*
  * Floating panels: what every panel beside its opener shares, written once. The dropdown's panel (and with it the
  * select's and the combobox's lists, the split button's menu and the sidebar's flyout, which are that panel), the
- * popover's panel (and with it the date picker's calendar and the color picker's panel) and the tooltip.
+ * popover's panel (and with it the date picker's calendar and the color picker's panel) and the tooltip. The
+ * navigation menu's panel, which hangs under its row in the page with no layer, shares the closed panel and the
+ * motion.
  *
  * The layer: with an opener, the anchor holds the opener and the layer, and the layer the panel. Until the wrapper
  * lifts it, the layer has no box, so the panel hangs from the anchor as each component's own stylesheet places it, as
@@ -14,7 +16,8 @@
  *
  * The motion of the dropdown's and the popover's panels: the panel drops from its opener across the gap and fades in
  * with the enter purpose, and goes back the same way with the exit purpose; opened above its opener, it rises to it
- * and sinks back. Its display changes at the end of the exit, so it stays drawn while it leaves. Under reduced motion
+ * and sinks back; opened at the right or the left of its opener (a submenu), it slides out of it and back in. Its
+ * display changes at the end of the exit, so it stays drawn while it leaves. Under reduced motion
  * it still fades in and out, at its normal durations, but does not travel. The tooltip's motion is its own (feedback,
  * not entry), in tooltip.css.
  *
@@ -60,14 +63,16 @@
 
 .smbk-dropdown[hidden],
 .smbk-popover[hidden],
-.smbk-tooltip[hidden] {
+.smbk-tooltip[hidden],
+.smbk-navigation-menu__panel[hidden] {
   display: none;
 }
 
 /* ---- motion: the dropdown's and the popover's panels ---- */
 
 .smbk-dropdown,
-.smbk-popover {
+.smbk-popover,
+.smbk-navigation-menu__panel {
   transition-property: opacity, translate, scale, display;
   transition-duration: var(--smbk-motion-enter-duration);
   transition-timing-function: var(--smbk-motion-enter-easing);
@@ -75,7 +80,8 @@
 }
 
 .smbk-dropdown[hidden],
-.smbk-popover[hidden] {
+.smbk-popover[hidden],
+.smbk-navigation-menu__panel[hidden] {
   opacity: 0;
   translate: 0 calc(-1 * var(--smbk-space-stack-xs));
   transition-duration: var(--smbk-motion-exit-duration);
@@ -84,7 +90,8 @@
 
 @starting-style {
   .smbk-dropdown,
-  .smbk-popover {
+  .smbk-popover,
+  .smbk-navigation-menu__panel {
     opacity: 0;
     translate: 0 calc(-1 * var(--smbk-space-stack-xs));
   }
@@ -103,6 +110,17 @@
   }
 }
 
+/* Opened at the right of its opener, it slides out of it and back in; at the left, the other way. */
+.smbk-dropdown[data-side="right"][hidden],
+.smbk-popover[data-side="right"][hidden] {
+  translate: calc(-1 * var(--smbk-space-stack-xs)) 0;
+}
+
+.smbk-dropdown[data-side="left"][hidden],
+.smbk-popover[data-side="left"][hidden] {
+  translate: var(--smbk-space-stack-xs) 0;
+}
+
 /* It grows out of the edge nearest its opener as it comes, a touch short of its height at first, and shrinks back
    into it as it goes: its top edge holds still below the opener, its foot above it. The coming is an animation
    named for the side, rather than the starting style above: the side is known only once the panel shows and has
@@ -118,9 +136,20 @@
   transform-origin: bottom;
 }
 
+.smbk-dropdown[data-side="right"],
+.smbk-popover[data-side="right"] {
+  transform-origin: left;
+}
+
+.smbk-dropdown[data-side="left"],
+.smbk-popover[data-side="left"] {
+  transform-origin: right;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .smbk-dropdown,
-  .smbk-popover {
+  .smbk-popover,
+  .smbk-navigation-menu__panel {
     animation: smbk-floating-drop var(--smbk-motion-enter-duration) var(--smbk-motion-enter-easing);
   }
 
@@ -129,9 +158,25 @@
     animation-name: smbk-floating-rise;
   }
 
+  .smbk-dropdown[data-side="right"],
+  .smbk-popover[data-side="right"] {
+    animation-name: smbk-floating-slide-right;
+  }
+
+  .smbk-dropdown[data-side="left"],
+  .smbk-popover[data-side="left"] {
+    animation-name: smbk-floating-slide-left;
+  }
+
   .smbk-dropdown[hidden],
-  .smbk-popover[hidden] {
+  .smbk-popover[hidden],
+  .smbk-navigation-menu__panel[hidden] {
     scale: 1 0.96;
+  }
+
+  .smbk-dropdown:is([data-side="right"], [data-side="left"])[hidden],
+  .smbk-popover:is([data-side="right"], [data-side="left"])[hidden] {
+    scale: 0.96 1;
   }
 }
 
@@ -140,6 +185,22 @@
     opacity: 0;
     translate: 0 calc(-1 * var(--smbk-space-stack-xs));
     scale: 1 0.96;
+  }
+}
+
+@keyframes smbk-floating-slide-right {
+  from {
+    opacity: 0;
+    translate: calc(-1 * var(--smbk-space-stack-xs)) 0;
+    scale: 0.96 1;
+  }
+}
+
+@keyframes smbk-floating-slide-left {
+  from {
+    opacity: 0;
+    translate: var(--smbk-space-stack-xs) 0;
+    scale: 0.96 1;
   }
 }
 
@@ -154,14 +215,16 @@
 /* Under reduced motion only its opacity and its display change over time, and a closing panel stays where it is. */
 @media (prefers-reduced-motion: reduce) {
   .smbk-dropdown,
-  .smbk-popover {
+  .smbk-popover,
+  .smbk-navigation-menu__panel {
     transition-property: opacity, display;
   }
 
   .smbk-dropdown[hidden],
   .smbk-dropdown[data-side][hidden],
   .smbk-popover[hidden],
-  .smbk-popover[data-side][hidden] {
+  .smbk-popover[data-side][hidden],
+  .smbk-navigation-menu__panel[hidden] {
     translate: none;
   }
 }

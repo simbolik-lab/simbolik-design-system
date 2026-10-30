@@ -59,6 +59,13 @@
   color: var(--smbk-color-text-default);
 }
 
+/* The navigation menu's item whose panel is open stays raised, as hover raises it (Figma's NavigationMenu, Open). */
+.smbk-nav-item.smbk-navigation-menu__trigger[aria-expanded="true"] {
+  border-color: var(--smbk-color-border-rim);
+  background: var(--smbk-color-surface-raised);
+  box-shadow: var(--smbk-elevation-control);
+}
+
 .smbk-nav-item:focus-visible {
   outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
   outline-offset: var(--smbk-focus-ring-offset);

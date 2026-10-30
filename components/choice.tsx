@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * The choice: what the checkbox's, the radio's, the switch's and the choice card's wrappers share, written once beside
  * the rules they share in choice/choice.css. A wrapper draws its own row and its own mark; `useChoice` works out what
@@ -20,12 +22,13 @@
  *   alone (`aria-labelledby`) and described by the line (`aria-describedby`), because a wrapping label would otherwise
  *   read the line as part of the name. Without one the markup is the plain label.
  * - `indeterminate`, the mixed state, is the control's property, never an attribute, so it is set after every render;
- *   left out, whatever a script set stays.
+ *   left out, whatever a script set stays. The first setting is how the control starts, so the mark lands at once, as
+ *   on a page drawn without script: nothing moves as a page loads.
  * - The page's own props for the control go on last, so a page can still name it or point its description elsewhere;
  *   its `aria-describedby` is kept beside the line's.
  */
 
-import { useId, useLayoutEffect, type ChangeEvent, type InputHTMLAttributes, type ReactNode, type Ref, type RefObject } from 'react';
+import { useId, useLayoutEffect, useRef, type ChangeEvent, type InputHTMLAttributes, type ReactNode, type Ref, type RefObject } from 'react';
 import { useObjectRef } from 'react-aria';
 import { useFieldGroup } from './field-group/field-group-context.js';
 
@@ -69,8 +72,16 @@ export function useChoice({ type, ids, grouped = true, error, description, stack
   const group = grouped ? found : null;
   const id = useId();
   const control = useObjectRef(ref);
+  const started = useRef(false);
   useLayoutEffect(() => {
-    if (indeterminate !== undefined && control.current) control.current.indeterminate = indeterminate;
+    const element = control.current;
+    if (!element) return;
+    const first = !started.current;
+    started.current = true;
+    if (indeterminate === undefined || element.indeterminate === indeterminate) return;
+    element.indeterminate = indeterminate;
+    // Asking for the mark's motions brings its style up to date, so the ones this setting started can end at once.
+    if (first) for (const motion of element.nextElementSibling?.getAnimations({ subtree: true }) ?? []) motion.finish();
   });
 
   const invalid = Boolean(error ?? group?.error);

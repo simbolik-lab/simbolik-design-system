@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Whether a picture failed to load, so a component can draw something else in its place instead of the browser's
  * broken-picture mark: the avatar its initials or its icon, the picture tile its placeholder.

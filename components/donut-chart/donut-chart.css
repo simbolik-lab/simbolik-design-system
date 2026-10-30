@@ -3,7 +3,8 @@
  * figure in the middle with its caption under it, and a legend beside the ring naming each part with its value.
  * A ninth part and the rest are gathered as one, in the muted gray. In a narrow layout the legend goes under
  * the ring. The first time the chart comes into view the ring sweeps round from the top; pointing at a part fades
- * the others. Nothing takes focus. */
+ * the others. Nothing takes focus, unless the parts are made focusable: then a focused part is outlined in the
+ * focus color and the others fade. */
 
 .smbk-donut-chart {
   display: flex;
@@ -129,7 +130,7 @@
    one pointed at stands out; with nothing pointed at, the parts wait the hover close delay before coming back, so
    crossing the thin gap between two parts never flashes the whole ring; the fade moves with the feedback purpose, under reduced motion too, since nothing moves. The middle
    lets the pointer through to the ring under it. Nothing is told by the fade alone: the legend and the table name
-   every part with its value. Parts take no focus, so the keyboard has nothing to point with. At rest every part is
+   every part with its value. Parts take no focus unless made focusable (below). At rest every part is
    whole. */
 
 @media (hover: hover) {
@@ -149,6 +150,31 @@
   .smbk-donut-chart__part {
     transition: opacity var(--smbk-motion-feedback-duration) var(--smbk-motion-feedback-easing) var(--smbk-motion-hover-close-delay);
   }
+}
+
+/* ---- a part that takes focus ----
+   Parts made focusable (a tabindex on each, one of them 0, and each named by its figures) draw the focus ring as an
+   edge in the focus color along the part's own outline, the ring's width on screen whatever the chart's size, and a
+   focused part stands out as a pointed one does: every other part fades to the faded opacity, on any screen, since
+   a keyboard has no hover. */
+
+.smbk-donut-chart__part:focus {
+  outline: none;
+}
+
+.smbk-donut-chart__part:focus-visible {
+  stroke: var(--smbk-color-border-focus);
+  stroke-width: var(--smbk-focus-ring-width);
+  vector-effect: non-scaling-stroke;
+}
+
+.smbk-donut-chart__svg:has(.smbk-donut-chart__part:focus-visible) .smbk-donut-chart__part:not(:focus-visible) {
+  opacity: var(--smbk-opacity-faded);
+}
+
+/* The ring reaches the drawing's edge, so the edge's outer half would be cut off there. */
+.smbk-donut-chart__svg:has(.smbk-donut-chart__part:focus-visible) {
+  overflow: visible;
 }
 
 /* ---- motion: the entrance ----
@@ -192,5 +218,9 @@
 @media (forced-colors: active) {
   .smbk-donut-chart__svg {
     forced-color-adjust: none;
+  }
+
+  .smbk-donut-chart__part:focus-visible {
+    stroke: Highlight;
   }
 }

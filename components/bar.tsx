@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * What the app bar and the header do the same way (the header is built from the app bar's parts, so what they share
  * is written once, here, beside the stylesheet they share, bar/bar.css). Each wrapper still owns its block, its parts

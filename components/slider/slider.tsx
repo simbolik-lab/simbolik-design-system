@@ -1,9 +1,12 @@
-import { useId, useState, type ChangeEvent, type InputHTMLAttributes, type PointerEvent as ReactPointerEvent } from 'react';
+'use client';
+
+import { useId, useRef, useState, type ChangeEvent, type InputHTMLAttributes, type PointerEvent as ReactPointerEvent } from 'react';
 import { useLocale, useNumberField, useObjectRef } from 'react-aria';
 import { useNumberFieldState } from 'react-stately';
 import { slider } from './slider.manifest.js';
 import { cx } from '../variants.js';
 import { useControllable } from '../controllable.js';
+import { useFormReset } from '../form.js';
 import type { VariantProps } from '../variants.js';
 import { Input } from '../input/input.js';
 import { OutsideField } from '../field/field-context.js';
@@ -12,18 +15,18 @@ import { Tooltip } from '../tooltip/tooltip.js';
 
 interface SliderBaseProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'type' | 'value' | 'defaultValue' | 'onChange' | 'min' | 'max' | 'step' | 'children'> {
-  /** Ticks, the default: fine lines on a band; standard: a thin line with a round thumb; fill: a thick filled bar with a thin handle. */
+  /** Ticks, the default: fine lines on a band; standard: a thin line with a round thumb; fill: a thick filled bar with a thin handle; contained: the filled bar as tall as a control, the label and value inside it. */
   look?: VariantProps<typeof slider.manifest>['look'];
   size?: VariantProps<typeof slider.manifest>['size'];
-  /** The words above the slider, which are also its accessible name. */
+  /** The words above the slider, or inside its bar in the contained look, which are also its accessible name. */
   label: string;
-  /** Hide the label row, the value in it included (Figma's Label off). The words stay the accessible name, and the bubble shows the value on keyboard focus. */
+  /** Hide the label row, the value in it included (Figma's Label off); in the contained look, the words inside the bar. The words stay the accessible name, and the bubble shows the value on keyboard focus. */
   hideLabel?: boolean;
   /** The current value at the end of the label row (Figma's Value). On unless turned off; hidden with the row. */
   showValue?: boolean;
   /** The lowest and highest values under the lines (Figma's Min and Max). On unless turned off. */
   showBounds?: boolean;
-  /** The fill look's fine marks between the lowest and highest values (Figma's Marks). On unless turned off; shown with the bounds. */
+  /** The fill and contained looks' fine marks between the lowest and highest values (Figma's Marks). On unless turned off; shown with the bounds. */
   showMarks?: boolean;
   /** A small number box beside the slider, one at each end for a range, to type an exact value (Figma's Number box). Off unless turned on. */
   numberBox?: boolean;
@@ -106,7 +109,9 @@ function NumberBox({ value, min, max, step, name, disabled, describedBy, onCommi
  * it, and the two stop when they meet. The wrapper keeps the value and sets
  * the red window, the red lines' offset and each thumb's place as percentages.
  * With numberBox, a number box beside the rail (one at each end for a range)
- * shows the same value and takes a typed one.
+ * shows the same value and takes a typed one. In the contained look the label
+ * row goes inside the rail, over the bar, and a copy of it inside the red
+ * window, set back as the red lines are, draws the words there in white.
  */
 export function Slider(props: SliderProps) {
   const {
@@ -114,6 +119,7 @@ export function Slider(props: SliderProps) {
     min = 0, max = 100, step = 1, format = String, className, id, disabled,
   } = props;
   const range = props.type === 'range';
+  const contained = look === 'contained';
   const auto = useId();
   const inputId = id ?? `${auto}-slider`;
   const span = max - min;
@@ -123,6 +129,16 @@ export function Slider(props: SliderProps) {
   const [single, keepSingle] = useControllable<number>({ value: range ? undefined : (props as SingleSliderProps).value, defaultValue: () => (props.type !== 'range' ? props.defaultValue ?? min : min), name: 'Slider value' });
   const [pairNow, keepPair] = useControllable<[number, number]>({ value: range ? (props as RangeSliderProps).value : undefined, defaultValue: () => (props.type === 'range' ? props.defaultValue ?? [min, max] : [min, max]), onChange: range ? (props as RangeSliderProps).onChange : undefined, name: 'Slider value' });
   const [pressed, setPressed] = useState<number | null>(null);
+  // The form's reset puts the starting value back, as it does for the browser's own range input.
+  const root = useRef<HTMLDivElement>(null);
+  useFormReset(root, () => {
+    if (range) keepPair((props as RangeSliderProps).defaultValue ?? [min, max]);
+    else {
+      const start = (props as SingleSliderProps).defaultValue ?? min;
+      keepSingle(start);
+      (props as SingleSliderProps).onChange?.(start);
+    }
+  });
 
   const values: number[] = range
     ? (() => {
@@ -157,6 +173,30 @@ export function Slider(props: SliderProps) {
 
   const low = range ? pct(values[0]!) : 0;
   const high = pct(values[values.length - 1]!);
+
+  /** The label row; its copy, inside the red window, is set back by the window's start and hidden with the track. */
+  const header = (copy: boolean) => {
+    const value = showValue && (
+      <span className={slider.part('value')} aria-hidden="true">
+        {shown}
+      </span>
+    );
+    return copy ? (
+      <span className={slider.part('header')} style={{ insetInlineStart: `${-low}cqi` }}>
+        <Label as="span" className={slider.part('label')}>
+          {label}
+        </Label>
+        {value}
+      </span>
+    ) : (
+      <div className={slider.part('header')}>
+        <Label htmlFor={inputId} className={slider.part('label')}>
+          {label}
+        </Label>
+        {value}
+      </div>
+    );
+  };
 
   /** A new value for one thumb, from its input or its number box. */
   const setValue = (index: number, next: number, event?: ChangeEvent<HTMLInputElement>) => {
@@ -209,8 +249,10 @@ export function Slider(props: SliderProps) {
         <span className={slider.part('track')} aria-hidden="true">
           <span className={slider.part('fill')} style={{ insetInlineStart: `${low}%`, width: `${high - low}%` }}>
             <span className={slider.part('lines')} style={{ insetInlineStart: `${-low}cqi` }} />
+            {contained && !hideLabel && header(true)}
           </span>
         </span>
+        {contained && !hideLabel && header(false)}
         {values.map((v, index) => [
           <span
             key={`thumb-${index}`}
@@ -242,7 +284,7 @@ export function Slider(props: SliderProps) {
       {showBounds && (
         <div className={slider.part('bounds')} aria-hidden="true">
           <span>{format(min)}</span>
-          {look === 'fill' && showMarks && <span className={slider.part('marks')} />}
+          {(look === 'fill' || contained) && showMarks && <span className={slider.part('marks')} />}
           <span>{format(max)}</span>
         </div>
       )}
@@ -250,19 +292,8 @@ export function Slider(props: SliderProps) {
   );
 
   return (
-    <div className={cx(slider({ look, size, type: range ? 'range' : 'single' }), className)} aria-disabled={disabled || undefined}>
-      {!hideLabel && (
-        <div className={slider.part('header')}>
-          <Label htmlFor={inputId} className={slider.part('label')}>
-            {label}
-          </Label>
-          {showValue && (
-            <span className={slider.part('value')} aria-hidden="true">
-              {shown}
-            </span>
-          )}
-        </div>
-      )}
+    <div ref={root} className={cx(slider({ look, size, type: range ? 'range' : 'single' }), className)} aria-disabled={disabled || undefined}>
+      {!hideLabel && !contained && header(false)}
       {numberBox ? (
         <div className={slider.part('row')}>
           {range && box(0)}

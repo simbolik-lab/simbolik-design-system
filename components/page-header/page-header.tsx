@@ -1,4 +1,6 @@
-import { isValidElement, useEffect, useRef, type HTMLAttributes, type ReactNode, type Ref } from 'react';
+'use client';
+
+import { cloneElement, isValidElement, useEffect, useRef, type HTMLAttributes, type ReactElement, type ReactNode, type Ref } from 'react';
 import { pageHeader } from './page-header.manifest.js';
 import { Breadcrumbs, type Crumb } from '../breadcrumbs/breadcrumbs.js';
 import { Button } from '../button/button.js';
@@ -21,6 +23,15 @@ export interface PageHeaderAction {
   disabled?: boolean;
   /** A destructive action, in a menu only: never the main action of a page. */
   danger?: boolean;
+  /**
+   * The system's own button to draw in the row in place of the header's: a Button, or a ButtonNote holding one (its
+   * `layout="header-end"`), so the action can carry its note or show its state, such as a button that is disabled
+   * while its job runs. Give it the header's look: size md, the brand tone for the main action and outline for the
+   * rest. The header adds its own classes to it and still places it, and where the action goes behind "More actions"
+   * its menu item is drawn from `label`, `icon`, `href`, `onClick`, `disabled` and `danger`. While the header is
+   * loading, the header draws its own disabled button in its place.
+   */
+  button?: ReactElement<{ className?: string }>;
 }
 
 export interface PageHeaderProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'>, Omit<VariantProps<typeof pageHeader.manifest>, 'composition'> {
@@ -45,9 +56,16 @@ export interface PageHeaderProps extends Omit<HTMLAttributes<HTMLDivElement>, 't
   /**
    * The actions for the whole page, the main one first: a brand button, then the others as outline buttons. The first
    * three show as buttons and any after them go behind "More actions", after `moreActions`; in a narrow layout the main
-   * one fills the row and the others move behind "More actions".
+   * one fills the row and the others move behind "More actions". An action may be drawn by the system's own button
+   * (`button`), such as a ButtonNote; with `mainAction={false}` none is the brand button.
    */
   actions?: PageHeaderAction[];
+  /**
+   * Whether the first action is the page's main one, drawn as the brand button and filling the row in a narrow
+   * layout. False when the page's main action sits elsewhere, such as at the end of the app's toolbar: every action
+   * is then an outline button, and in a narrow layout they all go behind "More actions". True unless given.
+   */
+  mainAction?: boolean;
   /** Actions that always sit behind "More actions", a menu at the row's end. */
   moreActions?: PageHeaderAction[];
   /** The name of the "More actions" button and its menu. */
@@ -78,14 +96,27 @@ const SHOWN_ACTIONS = 3;
  *     breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Projects' }]}
  *     actions={[{ label: 'New project', onClick: create }, { label: 'Export', onClick: exportAll }]} />
  *
+ * With the page's main action elsewhere (at the end of the app's toolbar), `mainAction={false}` draws every action
+ * as an outline button. An action's `button` draws it with the system's own Button or ButtonNote instead:
+ *
+ *   <PageHeader title="Overview" mainAction={false} actions={[
+ *     { label: 'Open the inbox', icon: 'Tray', onClick: openInbox },
+ *     { label: 'Publish', onClick: publish, button: (
+ *       <ButtonNote layout="header-end" note="Waits for the review."><Button tone="outline" size="md" disabled>Publish</Button></ButtonNote>
+ *     ) },
+ *   ]} />
+ *
  * Loading, the words are skeleton lines of their own height, the actions are disabled, and the tabs are skeletons;
  * the heading says `loadingLabel` to a screen reader.
  */
-export function PageHeader({ title, headingLevel = 1, breadcrumbs, breadcrumbsLabel, description, status, meta, actions = [], moreActions = [], moreLabel = 'More actions', tabs, loading, loadingLabel = 'Loading', className, ...rest }: PageHeaderProps) {
+export function PageHeader({ title, headingLevel = 1, breadcrumbs, breadcrumbsLabel, description, status, meta, actions = [], mainAction = true, moreActions = [], moreLabel = 'More actions', tabs, loading, loadingLabel = 'Loading', className, ...rest }: PageHeaderProps) {
   const part = pageHeader.part;
   const composition = given(tabs) ? 'tabbed' : given(status) || given(meta) ? 'object' : 'simple';
   const Heading = `h${headingLevel}` as const;
-  const [primary, ...secondary] = actions.slice(0, SHOWN_ACTIONS);
+  const shown = actions.slice(0, SHOWN_ACTIONS);
+  // Without a main action every shown action is a secondary one, so a narrow layout folds them all into the menu.
+  const primary = mainAction ? shown[0] : undefined;
+  const secondary = mainAction ? shown.slice(1) : shown;
   // Actions past the third are never dropped: they join the menu, after the ones always kept there.
   const menuActions = [...moreActions, ...actions.slice(SHOWN_ACTIONS)];
   const tabsRef = useRef<HTMLDivElement>(null);
@@ -112,6 +143,9 @@ export function PageHeader({ title, headingLevel = 1, breadcrumbs, breadcrumbsLa
   const button = (action: PageHeaderAction, kind: 'primary' | 'secondary') => {
     const classes = `${part('action')} ${part('action')}--${kind}`;
     const tone = kind === 'primary' ? 'brand' : 'outline';
+    if (action.button && !loading) {
+      return cloneElement(action.button, { key: action.label, className: cx(classes, action.button.props.className) });
+    }
     if (action.href && !loading && !action.disabled) {
       return (
         <Button key={action.label} href={action.href} tone={tone} size="md" leadingIcon={action.icon} className={classes} onClick={action.onClick}>

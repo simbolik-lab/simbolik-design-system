@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useId, useRef, useState, type CSSProperties, type HTMLAttributes, type KeyboardEvent, type PointerEvent, type Ref } from 'react';
 import { parseColor } from 'react-stately';
 import { shadowEditor } from './shadow-editor.manifest.js';

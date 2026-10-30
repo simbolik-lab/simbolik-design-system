@@ -37,6 +37,9 @@
 .smbk-tabs__list {
   max-width: 100%;
   overflow-x: auto;
+  /* Set in a line by its top, not by its first item's words: the scrollbar the script adds as its first item
+     (scrollbar.ts) has none, and would set the bar lower. */
+  vertical-align: top;
   scrollbar-width: thin;
   scrollbar-color: var(--smbk-color-border-subtle) transparent;
 }

@@ -137,3 +137,77 @@
     flex: none;
   }
 }
+
+/* ---- small: for a narrow panel, such as a settings column about 320 to 360 wide. The term in Label SM and the value in
+   Body SM, the rows closer together. Side by side, the term takes about a quarter of the row and never less than its
+   longest word, so a short value stays on one line beside it; the narrow layout keeps the columns, since the small
+   form is made for that space. ---- */
+
+.smbk-description-list--size-sm .smbk-description-list__rows {
+  gap: var(--smbk-space-stack-lg);
+}
+
+.smbk-description-list--size-sm .smbk-description-list__row {
+  gap: var(--smbk-space-stack-xs);
+}
+
+.smbk-description-list--size-sm .smbk-description-list__term {
+  font-family: var(--smbk-typography-label-sm-font-family);
+  font-size: var(--smbk-typography-label-sm-font-size);
+  font-weight: var(--smbk-typography-label-sm-font-weight);
+  line-height: var(--smbk-typography-label-sm-line-height);
+  letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
+  text-transform: var(--smbk-typography-label-sm-text-transform);
+}
+
+.smbk-description-list--size-sm .smbk-description-list__value {
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+.smbk-description-list--size-sm .smbk-description-list__icon {
+  font-size: var(--smbk-size-icon-xs);
+}
+
+.smbk-description-list--size-sm.smbk-description-list--layout-side-by-side .smbk-description-list__rows {
+  gap: var(--smbk-space-stack-sm);
+}
+
+.smbk-description-list--size-sm.smbk-description-list--layout-side-by-side .smbk-description-list__row {
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--smbk-space-inline-md);
+}
+
+.smbk-description-list--size-sm.smbk-description-list--layout-side-by-side .smbk-description-list__term {
+  flex: 0 0 25%;
+  width: auto;
+  min-width: min-content;
+}
+
+.smbk-description-list--size-sm.smbk-description-list--layout-side-by-side .smbk-description-list__value {
+  flex: 1 1 0;
+}
+
+@container style(--smbk-layout: narrow) {
+  .smbk-description-list--size-sm.smbk-description-list--layout-side-by-side .smbk-description-list__rows {
+    gap: var(--smbk-space-stack-sm);
+  }
+
+  .smbk-description-list--size-sm.smbk-description-list--layout-side-by-side .smbk-description-list__row {
+    flex-direction: row;
+    align-items: baseline;
+    gap: var(--smbk-space-inline-md);
+  }
+
+  .smbk-description-list--size-sm.smbk-description-list--layout-side-by-side .smbk-description-list__term {
+    width: auto;
+  }
+
+  .smbk-description-list--size-sm.smbk-description-list--layout-side-by-side .smbk-description-list__value {
+    flex: 1 1 0;
+  }
+}

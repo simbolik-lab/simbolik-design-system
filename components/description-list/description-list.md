@@ -42,6 +42,8 @@ The facts about one thing, as rows of a name and its value: an account's contact
 
 Stacked, each value sits under its name and the action under the value. Side by side, the names take a column of their own and each row ends with its action; the name, the value and the action share the line of their first words. Where the layout is narrow, side by side stacks before anything is cut off, and a long value wraps.
 
+Two sizes. Medium, the default, is for a page, a card or a dialog. Small is for a narrow panel, such as a settings column about 320 to 360 pixels wide: the names and values take the small text sizes and the rows sit closer. Side by side and small, the names take about a quarter of the row, never less than their longest word, so a short value stays on one line beside its name; this form keeps its columns where the layout is narrow, since it is made for that space. The action links and the loading lines follow the size.
+
 A value that is not given says "Not provided" in quieter words. A value that exists but is not shown here says "Hidden" after an eye icon, and nothing of the value is in the page. A value still loading is a line of skeleton as tall as the value, so nothing moves when it arrives. Each of these words can be changed.
 
 ## Accessibility
@@ -85,12 +87,14 @@ Holds rows. A value may hold words, a link, a badge or a tag. Sits on a page, in
 - Say a missing value in words.
 - Give each action a name of its own.
 - Use side by side where there is room for the names' column, and stacked in a narrow card.
+- Use small, side by side, in a narrow panel whose names and values are short, such as a tool's settings column.
 
 ### Don't
 
 - Leave a value blank or put a dash in its place.
 - Show a secret value and hide it with style: leave it out of the page.
 - Use it for many things of one kind.
+- Use small for long names or long values: they wrap a word a line in a quarter of a narrow row.
 
 ## Related
 

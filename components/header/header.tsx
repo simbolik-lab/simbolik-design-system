@@ -1,3 +1,5 @@
+'use client';
+
 import { cloneElement, isValidElement, useId, useRef, useState, type HTMLAttributes, type ReactElement, type ReactNode } from 'react';
 import { useControllable } from '../controllable.js';
 import { header } from './header.manifest.js';

@@ -41,6 +41,8 @@ Two tones: the default box is raised with a lift; the subtle box is sunken with 
 
 Pressing the box or the label toggles it. Checked fills the box with the inverse surface and shows the tick. Mixed, the control's indeterminate state, fills it the same way and shows a dash: use it on a box that stands for a list whose items are partly ticked. Pressing a mixed box ticks it, as the browser does. The React wrapper sets the mixed state from its `indeterminate` prop; in plain markup a script sets the control's property. Disabled grays both box and label.
 
+Ticking moves. The fill grows into the box from a little smaller as it fades in, and once the box has nearly filled, the tick draws itself from its start to its tip. Unticking erases the tick at once while the fill shrinks away, and the dash of a mixed box draws without waiting. A press on the way turns it round from where it is. Only a change moves: a box that is ticked or mixed as the page loads simply shows it. Under reduced motion the fill and the tick only fade. The motion is the stylesheet's, so markup written by hand moves the same; the box draws its fill on its own `::before`, so leave that to the box.
+
 Under the pointer, an empty box darkens its edge and a ticked or mixed one darkens its fill.
 
 With `error`, an empty box takes the danger edge and a ticked or mixed one keeps its fill inside a danger ring, under the pointer too. The control carries `aria-invalid`. The color is not the message: say what is wrong in words beside it, as the field's error line does.

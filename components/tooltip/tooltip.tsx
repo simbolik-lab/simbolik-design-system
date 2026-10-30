@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Tooltip: the bubble and its arrow, on its own or beside a target it shows itself for.
  *
@@ -13,7 +15,8 @@
  *
  * Tooltip props, with a target:
  *   trigger   The target: any element that renders one element and passes aria-describedby and the pointer, focus
- *             and key handlers through to it (Button, Link, a plain <button> or <a>). Its own handlers run too.
+ *             and key handlers through to it (Button, Link, Select, a plain <button> or <a>). Its own handlers run
+ *             too. The select takes the pointer on its whole box and focus on its button inside.
  *   arrow     The arrow the tooltip prefers, which says where it sits: top-center (the default) below the target,
  *             bottom-center above it, left to its right, right to its left; start and end line its edge up with
  *             the target's. Without room on that side it takes the opposite one, and the arrow turns with it.
@@ -23,13 +26,15 @@
  *             words, otherwise description.
  *   defaultOpen  Shown from the start, as in a picture of the page, until the reader points away, moves focus or
  *             presses Escape.
+ *   shortcut  The target's key, drawn after the words as a small key cap ("Zoom in ]") and set as the target's
+ *             aria-keyshortcuts. Only shown: the page listens for the key.
  *   Other props (inverse, className, data-*) go to the tooltip.
  *
  * Without script, or before the page's script has run, a shown tooltip hangs beside its target on the side its
  * arrow names (the stylesheet), so markup written by hand can show it the same way.
  *
- * Behaviour (React Aria's tooltip hooks): it shows after the hover open delay while a mouse rests on the target,
- * and at once when the target takes keyboard focus; never on a touch screen, so its words must be found elsewhere
+ * Behaviour (React Aria's tooltip hooks): it shows after the tooltip open delay while a mouse rests on the target,
+ * so a pointer passing over a row of controls shows nothing, and at once when the target takes keyboard focus; never on a touch screen, so its words must be found elsewhere
  * too. It stays while the pointer moves onto it, and while focus stays. It closes when the pointer leaves both
  * (after the hover close delay), when focus leaves, when the target is pressed, and on Escape, which leaves focus
  * where it is. Once one tooltip has shown, the next shows at once as the pointer moves along a row of targets.
@@ -43,6 +48,8 @@ import { cloneElement, useEffect, useLayoutEffect, useRef, useState, type HTMLAt
 import { mergeProps, useTooltip, useTooltipTrigger } from 'react-aria';
 import { useTooltipTriggerState } from 'react-stately';
 import { tooltip } from './tooltip.manifest.js';
+import { Kbd } from '../kbd/kbd.js';
+import { keyShortcut } from '../key-shortcut.js';
 import { useFloating, type FloatingSide } from '../floating.js';
 import { motionMs } from '../motion.js';
 import { cx } from '../variants.js';
@@ -76,6 +83,12 @@ function arrowFor(side: FloatingSide, align: 'start' | 'center' | 'end'): Toolti
 export interface TipOptions {
   /** The words. */
   text: ReactNode;
+  /**
+   * The target's key, drawn after the words as a small key cap ("Zoom in ]"), keys apart by a space ("⌘ K"). Hidden
+   * from screen readers with the rest of a name tooltip: the target carries the key as `aria-keyshortcuts`
+   * (key-shortcut.ts), and the page listens for it.
+   */
+  shortcut?: string;
   /** The arrow it prefers, which says where it sits (see the target API). Top-center unless given. */
   arrow?: TooltipArrow;
   /** The dark bubble. */
@@ -84,6 +97,8 @@ export interface TipOptions {
   purpose?: 'name' | 'description';
   /** Shows nothing while true. */
   disabled?: boolean;
+  /** Help the reader points at to read, as a label's info icon is: waits the help open delay, not the tooltip's. */
+  help?: boolean;
   /** Shown from the start, until the reader points away, moves focus or presses Escape. */
   defaultOpen?: boolean;
   /** Classes for the tooltip itself. */
@@ -109,10 +124,10 @@ export interface Tip {
 
 /**
  * Shows a tooltip beside a target, for a component that gives one of its own parts a tooltip (the sidebar's closed
- * items, an icon-only segment, the theme switch, a label's help). The hover delays are the motion tokens' hover
- * open and close delays, read where the target sits.
+ * items, an icon-only segment, the theme switch, a label's help). On hover it waits the motion tokens' tooltip open
+ * delay (or the help open delay, for help) and closes after the hover close delay, read where the target sits.
  */
-export function useTip({ text, arrow = 'top-center', inverse, purpose = 'description', disabled = false, defaultOpen = false, className, tooltipProps: extra }: TipOptions): Tip {
+export function useTip({ text, shortcut, arrow = 'top-center', inverse, purpose = 'description', disabled = false, help = false, defaultOpen = false, className, tooltipProps: extra }: TipOptions): Tip {
   const targetRef = useRef<HTMLElement | null>(null);
   const layer = useRef<HTMLSpanElement>(null);
   const panel = useRef<HTMLSpanElement>(null);
@@ -121,8 +136,8 @@ export function useTip({ text, arrow = 'top-center', inverse, purpose = 'descrip
 
   useLayoutEffect(() => {
     const t = targetRef.current;
-    if (t) setDelay({ open: motionMs(t, 'hover-open-delay'), close: motionMs(t, 'hover-close-delay') });
-  }, []);
+    if (t) setDelay({ open: motionMs(t, help ? 'help-open-delay' : 'tooltip-open-delay'), close: motionMs(t, 'hover-close-delay') });
+  }, [help]);
 
   const state = useTooltipTriggerState({ delay: delay.open, closeDelay: delay.close, defaultOpen });
   const { triggerProps, tooltipProps } = useTooltipTrigger({ isDisabled: disabled }, state, targetRef);
@@ -174,7 +189,14 @@ export function useTip({ text, arrow = 'top-center', inverse, purpose = 'descrip
         // A press on the tooltip goes nowhere: inside a label or a link it would choose or follow it.
         onClick={(e) => e.preventDefault()}
       >
-        <span className={tooltip.part('bubble')}>{text}</span>
+        <span className={tooltip.part('bubble')}>
+          {text}
+          {shortcut && (
+            <Kbd size="sm" className={tooltip.part('key')} aria-hidden="true">
+              {shortcut}
+            </Kbd>
+          )}
+        </span>
         <span ref={arrowRef} className={tooltip.part('arrow')} aria-hidden="true" />
       </span>
     </span>
@@ -191,6 +213,8 @@ export interface TooltipProps extends HTMLAttributes<HTMLSpanElement>, VariantPr
   purpose?: 'name' | 'description';
   /** With a target: shown from the start, until the reader points away, moves focus or presses Escape. */
   defaultOpen?: boolean;
+  /** A key after the words, as a small key cap, keys apart by a space ("]", "⌘ K"); with a target, also set as its aria-keyshortcuts. */
+  shortcut?: string;
 }
 
 /** Tooltip: the bubble alone, or the bubble beside its target when `trigger` is given. See the target API above. */
@@ -199,23 +223,31 @@ export function Tooltip(props: TooltipProps) {
 }
 
 /** The bubble alone, shown. Give it an id and point the target's aria-describedby at it; the page shows and places it. */
-function TooltipBubble({ arrow, inverse, trigger: _trigger, purpose: _purpose, defaultOpen: _defaultOpen, className, children, ...rest }: TooltipProps) {
+function TooltipBubble({ arrow, inverse, trigger: _trigger, purpose: _purpose, defaultOpen: _defaultOpen, shortcut, className, children, ...rest }: TooltipProps) {
   return (
     <span role="tooltip" className={cx(tooltip({ arrow, inverse }), className)} {...rest}>
-      <span className={tooltip.part('bubble')}>{children}</span>
+      <span className={tooltip.part('bubble')}>
+        {children}
+        {shortcut && (
+          <Kbd size="sm" className={tooltip.part('key')} aria-hidden="true">
+            {shortcut}
+          </Kbd>
+        )}
+      </span>
       <span className={tooltip.part('arrow')} aria-hidden="true" />
     </span>
   );
 }
 
 /** The target and the tooltip that shows beside it. */
-function TooltipWithTarget({ arrow, inverse, trigger, purpose, defaultOpen, className, children, ...rest }: TooltipProps & { trigger: ReactElement }) {
+function TooltipWithTarget({ arrow, inverse, trigger, purpose, defaultOpen, shortcut, className, children, ...rest }: TooltipProps & { trigger: ReactElement }) {
   const targetProps = trigger.props as Record<string, unknown>;
   const named = typeof children === 'string' && targetProps['aria-label'] === children;
-  const { targetRef, hoverProps, focusProps, tip } = useTip({ text: children, arrow, inverse, purpose: purpose ?? (named ? 'name' : 'description'), defaultOpen, className, tooltipProps: rest });
+  const { targetRef, hoverProps, focusProps, tip } = useTip({ text: children, shortcut, arrow, inverse, purpose: purpose ?? (named ? 'name' : 'description'), defaultOpen, className, tooltipProps: rest });
+  const keys = shortcut ? { 'aria-keyshortcuts': keyShortcut(shortcut) } : {};
   return (
     <span ref={targetRef as RefObject<HTMLSpanElement>} className={tooltip.part('anchor')}>
-      {cloneElement(trigger as ReactElement<Record<string, unknown>>, mergeProps(targetProps, hoverProps, focusProps))}
+      {cloneElement(trigger as ReactElement<Record<string, unknown>>, mergeProps(targetProps, hoverProps, focusProps, keys))}
       {tip}
     </span>
   );

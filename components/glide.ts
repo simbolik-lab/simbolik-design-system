@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useRef, type RefObject } from 'react';
 
 /**
@@ -23,7 +25,8 @@ import { useEffect, useRef, type RefObject } from 'react';
  *   highlight (the focused or active row, with its ring) is never drawn twice.
  * - A press in a gap (between rows, in the padding) presses the lit row: its mouse down keeps focus
  *   where it is, as a row's does, and its click becomes a real `click()` on the lit row. A press on a
- *   row, on another control, on a disabled row or inside a list nested in this one is left alone.
+ *   row, on another control, on a disabled row, on the list's scrollbar or inside a list nested in this
+ *   one is left alone; over the scrollbar the fill steps back.
  * - A size change (the list or the lit row reflowing, such as a sidebar folding) moves the fill at once,
  *   never sliding; a rectangle with no size is never used, so the last good place stands.
  *
@@ -47,7 +50,7 @@ export interface GlideOptions {
 }
 
 /** What a press inside the list may land on that is not a gap: anything that acts on its own. */
-const ACTS = 'a[href], button, summary, input, select, textarea, label, [tabindex], [role="button"], [role="link"], [role="option"], [role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"], [role="checkbox"], [role="radio"], [role="switch"], [role="tab"], :disabled, [aria-disabled="true"]';
+const ACTS = '.smbk-scrollbar, a[href], button, summary, input, select, textarea, label, [tabindex], [role="button"], [role="link"], [role="option"], [role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"], [role="checkbox"], [role="radio"], [role="switch"], [role="tab"], :disabled, [aria-disabled="true"]';
 
 const MODIFIERS = new Set(['Shift', 'Control', 'Alt', 'AltGraph', 'Meta', 'CapsLock', 'Fn', 'FnLock', 'OS', 'Super', 'Hyper']);
 
@@ -207,8 +210,8 @@ export function useGlide(listRef: RefObject<HTMLElement | null>, { rows, fill, e
 
     const onMove = (e: PointerEvent) => {
       if (e.pointerType !== 'mouse' || !hover.matches) return;
-      // Over a list nested in this one, this one steps back.
-      if (!ours(e)) {
+      // Over a list nested in this one, or over the list's scrollbar (scrollbar.ts), this one steps back.
+      if (!ours(e) || (e.target as Element).closest('.smbk-scrollbar')) {
         point = null;
         hide();
         return;

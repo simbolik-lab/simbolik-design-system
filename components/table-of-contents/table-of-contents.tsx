@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useId, useLayoutEffect, useRef, useState, type HTMLAttributes, type MouseEvent, type ReactNode } from 'react';
 import { Icon } from '../icon/icon.js';
 import { placeIndicator } from '../indicator.js';

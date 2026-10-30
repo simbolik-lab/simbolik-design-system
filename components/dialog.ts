@@ -1,5 +1,7 @@
+'use client';
+
 /**
- * A native dialog opened over the page, for the modal, the drawer and the command palette: one hook,
+ * A native dialog opened over the page, for the modal, the alert dialog, the drawer and the command palette: one hook,
  * `useModalDialog`, for what the three do alike. Its look over the page (the scrim, the motion, the page held still
  * behind it) is dialog/dialog.css.
  *
@@ -43,6 +45,10 @@ export interface ModalDialogOptions {
    * holds a long list, and a phone's browser may draw the focus ring on a button the page focuses after a tap).
    */
   focusSelf?: boolean;
+  /** Where focus starts as it opens, instead of the first control (the alert dialog's Cancel, the action that harms nothing). */
+  initialFocus?: RefObject<HTMLElement | null>;
+  /** Whether a click on the scrim asks to close; true unless given. The alert dialog closes only on its actions and Escape. */
+  scrimCloses?: boolean;
 }
 
 export interface ModalDialog {
@@ -57,7 +63,7 @@ export interface ModalDialog {
 }
 
 /** Opens and closes `ref`'s dialog over the page with `open`, and asks the page to close it on Escape and on the scrim. */
-export function useModalDialog(ref: RefObject<HTMLDialogElement | null>, { open, inline = false, onClose, panel = ref, focusSelf = false }: ModalDialogOptions): ModalDialog {
+export function useModalDialog(ref: RefObject<HTMLDialogElement | null>, { open, inline = false, onClose, panel = ref, focusSelf = false, initialFocus, scrimCloses = true }: ModalDialogOptions): ModalDialog {
   const over = !inline && open !== undefined;
   const layer = useDialogLayer(ref, over && open === true);
   const [shown, setShown] = useState(open === true);
@@ -71,6 +77,7 @@ export function useModalDialog(ref: RefObject<HTMLDialogElement | null>, { open,
       if (focusSelf) el.setAttribute('autofocus', '');
       el.showModal();
       if (focusSelf && document.activeElement !== el) el.focus();
+      if (initialFocus?.current && el.contains(initialFocus.current)) initialFocus.current.focus();
     } else if (!open && el.open) {
       el.close();
       const fading = typeof el.getAnimations === 'function' ? el.getAnimations() : [];
@@ -96,7 +103,7 @@ export function useModalDialog(ref: RefObject<HTMLDialogElement | null>, { open,
     if (layer.escapeSpent()) return;
     onClose?.();
   };
-  if (!over) return { shown, props: { onCancel } };
+  if (!over || !scrimCloses) return { shown, props: { onCancel } };
   return {
     shown,
     props: {

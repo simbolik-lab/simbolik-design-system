@@ -1,4 +1,6 @@
-import { useEffect, useId, useState, type KeyboardEvent, type Ref } from 'react';
+'use client';
+
+import { useEffect, useId, useRef, useState, type KeyboardEvent, type Ref } from 'react';
 import { useLocale } from 'react-aria';
 import { parseColor, useColorPickerState, type Color, type ColorPickerState } from 'react-stately';
 import { colorPicker } from './color-picker.manifest.js';
@@ -6,6 +8,7 @@ import { input } from '../input/input.manifest.js';
 import { select } from '../select/select.manifest.js';
 import { Popover } from '../popover/popover.js';
 import { useControllable } from '../controllable.js';
+import { useFormReset } from '../form.js';
 import { ColorSwatch } from '../color-swatch/color-swatch.js';
 import { ColorArea } from '../color-area/color-area.js';
 import { ColorSlider } from '../color-slider/color-slider.js';
@@ -100,6 +103,10 @@ export function ColorPicker({
   const { locale } = useLocale();
   const state = useColorPickerState({ value, defaultValue, onChange });
   const color = state.color;
+  // The form's reset puts the starting colour back in what the form sends and what the well shows.
+  const sent = useRef<HTMLInputElement>(null);
+  const start = useRef(color);
+  useFormReset(sent, () => state.setColor(start.current));
   // The picker holds open (or the page does) and hands it to the popover, which only draws it.
   const [openState, keepOpen] = useControllable({ value: openProp, defaultValue: defaultOpen, onChange: onOpenChange, name: 'ColorPicker open' });
   const open = openState && !disabled && !readOnly;
@@ -161,7 +168,7 @@ export function ColorPicker({
           hueLabel={hueLabel} opacityLabel={opacityLabel} formatLabel={formatLabel} codeLabel={codeLabel} eyedropperLabel={eyedropperLabel} swatchesLabel={swatchesLabel}
         />
       </Popover>
-      {name && <input type="hidden" name={name} form={form} value={color.toString('hexa')} disabled={disabled} />}
+      {name && <input ref={sent} type="hidden" name={name} form={form} value={color.toString('hexa')} disabled={disabled} />}
     </span>
   );
 }

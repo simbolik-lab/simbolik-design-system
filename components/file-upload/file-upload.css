@@ -115,8 +115,9 @@
   outline: none;
 }
 
-/* Error: the danger edge at the emphasis width. */
-.smbk-file-upload--error .smbk-file-upload__zone {
+/* Error: the danger edge at the emphasis width; its file input marked aria-invalid="true" draws the same. */
+.smbk-file-upload--error .smbk-file-upload__zone,
+.smbk-file-upload:where(:has([aria-invalid="true"])) .smbk-file-upload__zone {
   padding: calc(var(--smbk-space-inset-2xl) - var(--smbk-border-width-emphasis));
   border-width: var(--smbk-border-width-emphasis);
   border-color: var(--smbk-color-feedback-danger-border);

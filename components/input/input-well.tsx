@@ -1,3 +1,5 @@
+'use client';
+
 import type { ButtonHTMLAttributes, ReactNode, Ref, RefObject } from 'react';
 import { useObjectRef } from 'react-aria';
 import { input } from './input.manifest.js';

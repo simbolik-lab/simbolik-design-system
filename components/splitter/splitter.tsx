@@ -1,3 +1,5 @@
+'use client';
+
 import { useRef, useState, type HTMLAttributes, type KeyboardEvent, type Ref } from 'react';
 import { useMove, useObjectRef, mergeProps, type MoveMoveEvent } from 'react-aria';
 import { splitter } from './splitter.manifest.js';

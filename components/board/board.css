@@ -44,6 +44,12 @@
   pointer-events: none;
 }
 
+/* While the system's scrollbar shows over the frame (scrollbar.ts), in the same strip, the hint's bar fades out of
+   its way (its fade is the table's). */
+.smbk-board[data-scroll-hint]:has(> .smbk-scrollbar[data-shown]) .smbk-table__scroll-track {
+  opacity: 0;
+}
+
 /* ---- the narrow form: the columns stack and the frame no longer scrolls sideways ---- */
 
 @container style(--smbk-layout: narrow) {

@@ -40,9 +40,9 @@
 .smbk-toast--tone-danger { --smbk-tone-surface: var(--smbk-color-feedback-danger-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-danger-border); --smbk-tone-text: var(--smbk-color-feedback-danger-text-on-subtle); --smbk-tone-icon: var(--smbk-color-feedback-danger-icon); }
 
 /* ---- the region: where the page's toasts appear, in the corner at the end of the viewport's
-   foot, one under another, the newest last. It is the one live region they are announced
-   through, so it is in the page before the first toast arrives, and takes no room or pointer
-   while it is empty. On a phone it spans the viewport less its inset, and so do its toasts. ---- */
+   foot, one under another, the newest last. It is in the page before the first toast arrives,
+   with the hidden announcers that say each toast inside it, and takes no room or pointer while it is
+   empty. On a phone it spans the viewport less its inset, and so do its toasts. ---- */
 
 .smbk-toast__region {
   position: fixed;

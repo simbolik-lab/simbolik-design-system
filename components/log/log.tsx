@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, type HTMLAttributes, type ReactNode, type Ref } from 'react';
 import { cx } from '../variants.js';
 import type { VariantProps } from '../variants.js';
@@ -6,6 +8,7 @@ import { Button } from '../button/button.js';
 import { Divider } from '../divider/divider.js';
 import { useNameWarning } from '../name-check.js';
 import { useControllable } from '../controllable.js';
+import { useScrollbar } from '../scrollbar.js';
 import { log } from './log.manifest.js';
 
 export interface LogProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'children'>, VariantProps<typeof log.manifest> {
@@ -52,6 +55,7 @@ export function Log({ lines, state, title, note, status, emptyText, following: a
   const part = log.part;
   const id = useId();
   const scroll = useRef<HTMLDivElement>(null);
+  const bar = useScrollbar(scroll);
   const output = useRef<HTMLElement>(null);
   const [following, keepFollowing] = useControllable({ value: asked, defaultValue: true, onChange: onFollowingChange, name: 'Log following' });
   const followingRef = useRef(following);
@@ -122,6 +126,7 @@ export function Log({ lines, state, title, note, status, emptyText, following: a
         <div
           ref={scroll}
           className={part('scroll')}
+          {...bar}
           role="region"
           tabIndex={0}
           {...(title ? { 'aria-labelledby': `${id}-title` } : { 'aria-label': ariaLabel })}

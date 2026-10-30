@@ -1,3 +1,5 @@
+'use client';
+
 import type { HTMLAttributes, ReactNode, Ref } from 'react';
 import { cx } from '../variants.js';
 import type { VariantProps } from '../variants.js';

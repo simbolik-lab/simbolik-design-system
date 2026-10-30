@@ -146,3 +146,47 @@
   line-height: var(--smbk-typography-body-lg-line-height);
   letter-spacing: var(--smbk-typography-body-lg-letter-spacing);
 }
+
+/* ---- small: one panel among many, as on a dashboard. The title in Label LG straight on its line in Body SM,
+   the medium icon and the medium stack step, so the empty panel reads no louder than the panels beside it or
+   the page's own heading. Inline keeps its tight edges; centered keeps its centring with less room round it. Last,
+   so it wins over each scope's own sizes. ---- */
+
+.smbk-empty-state--size-sm {
+  gap: var(--smbk-space-stack-md);
+}
+
+.smbk-empty-state--size-sm .smbk-empty-state__icon {
+  font-size: var(--smbk-size-icon-md);
+}
+
+.smbk-empty-state--size-sm .smbk-empty-state__text {
+  gap: var(--smbk-space-text-label);
+}
+
+.smbk-empty-state--size-sm .smbk-empty-state__title {
+  font-family: var(--smbk-typography-label-lg-font-family);
+  font-size: var(--smbk-typography-label-lg-font-size);
+  font-weight: var(--smbk-typography-label-lg-font-weight);
+  line-height: var(--smbk-typography-label-lg-line-height);
+  letter-spacing: var(--smbk-typography-label-lg-letter-spacing);
+  text-transform: var(--smbk-typography-label-lg-text-transform);
+}
+
+.smbk-empty-state--size-sm .smbk-empty-state__description {
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+.smbk-empty-state--size-sm.smbk-empty-state--scope-centered,
+.smbk-empty-state--size-sm.smbk-empty-state--scope-page {
+  padding: var(--smbk-space-inset-xl);
+}
+
+.smbk-empty-state--size-sm.smbk-empty-state--scope-centered .smbk-empty-state__icon,
+.smbk-empty-state--size-sm.smbk-empty-state--scope-page .smbk-empty-state__icon {
+  font-size: var(--smbk-size-icon-lg);
+}

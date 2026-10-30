@@ -1,3 +1,5 @@
+'use client';
+
 import type { HTMLAttributes, ReactNode } from 'react';
 import { tag } from './tag.manifest.js';
 import { Icon } from '../icon/icon.js';

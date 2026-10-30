@@ -63,7 +63,14 @@
   font-size: var(--smbk-size-icon-sm);
 }
 
-.smbk-chip:has(> .smbk-chip__tick) {
+/* A toggle carries its tick off as well as on, so a page's script that sets aria-pressed shows it; it shows only while
+   the chip is on (aria-pressed, or the selected class), and then hides the avatar. */
+.smbk-chip:not([aria-pressed="true"], .smbk-chip--selected) > .smbk-chip__tick,
+.smbk-chip:is([aria-pressed="true"], .smbk-chip--selected) > .smbk-chip__tick ~ .smbk-chip__avatar {
+  display: none;
+}
+
+.smbk-chip:is([aria-pressed="true"], .smbk-chip--selected):has(> .smbk-chip__tick) {
   padding-inline-start: calc(var(--smbk-space-inset-md) - var(--smbk-border-width-hairline));
 }
 
@@ -129,7 +136,7 @@
   font-size: var(--smbk-size-icon-xs);
 }
 
-.smbk-chip--size-sm:has(> .smbk-chip__tick) {
+.smbk-chip--size-sm:is([aria-pressed="true"], .smbk-chip--selected):has(> .smbk-chip__tick) {
   padding-inline-start: calc(var(--smbk-space-inset-sm) - var(--smbk-border-width-hairline));
 }
 

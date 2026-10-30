@@ -132,9 +132,9 @@
         }
       },
       "sunken": {
-        "$value": "{color.grey.200}",
+        "$value": "{color.alpha.grey-800.5}",
         "$type": "color",
-        "$description": "Recessed wells: fields, tracks, code.",
+        "$description": "Recessed wells: fields, tracks, code. See-through, so a well always shows one step below what it sits on: the page, a card or a panel.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4115:17808",
@@ -2057,6 +2057,24 @@
             }
           }
         },
+        "border-subtle": {
+          "$value": "{color.orange.300}",
+          "$type": "color",
+          "$description": "Warning messages: pale edge.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4051:9309",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
         "icon": {
           "$value": "{color.orange.600}",
           "$type": "color",
@@ -2292,6 +2310,24 @@
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4087:12177",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "border-subtle": {
+          "$value": "{color.blue.300}",
+          "$type": "color",
+          "$description": "Info messages: pale edge.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:4051:9301",
               "collection": {
                 "id": "VariableCollectionId:4046:9254",
                 "name": "Semantic Color",

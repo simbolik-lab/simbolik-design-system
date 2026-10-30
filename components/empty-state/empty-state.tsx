@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useRef, useState, type HTMLAttributes, type ReactNode, type Ref } from 'react';
 import { emptyState } from './empty-state.manifest.js';
 import { Icon } from '../icon/icon.js';
@@ -45,7 +47,7 @@ const given = (node: ReactNode) => node !== undefined && node !== null && node !
  *     description="Try fewer filters, or clear them all to see every note."
  *     primaryAction={<Button onClick={clear}>Clear filters</Button>} announce />
  */
-export function EmptyState({ scope, tone, title, headingLevel = 2, description, icon, primaryAction, secondaryAction, reference, announce, className, children, ...rest }: EmptyStateProps) {
+export function EmptyState({ scope, tone, size, title, headingLevel = 2, description, icon, primaryAction, secondaryAction, reference, announce, className, children, ...rest }: EmptyStateProps) {
   const part = emptyState.part;
   const Heading = `h${headingLevel}` as const;
   const shown = icon === false ? undefined : (icon ?? toneIcon[tone ?? 'default']);
@@ -60,7 +62,7 @@ export function EmptyState({ scope, tone, title, headingLevel = 2, description, 
     if (words !== said) setSaid(words);
   });
   return (
-    <div className={cx(emptyState({ scope, tone }), className)} {...rest}>
+    <div className={cx(emptyState({ scope, tone, size }), className)} {...rest}>
       {shown && <Icon name={shown} className={part('icon')} />}
       <div ref={text} className={part('text')}>
         <Heading className={part('title')}>

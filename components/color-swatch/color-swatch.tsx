@@ -1,3 +1,5 @@
+'use client';
+
 import type { HTMLAttributes, Ref } from 'react';
 import { useColorSwatch } from 'react-aria';
 import type { Color } from 'react-stately';

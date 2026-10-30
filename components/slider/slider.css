@@ -1,8 +1,9 @@
 /* smbk-slider — Slider. Figma "Slider" 4711:52100 over "SliderThumb" 4711:51614.
- * Three looks. Ticks, the default: a row of fine vertical lines on a sunken
+ * Four looks. Ticks, the default: a row of fine vertical lines on a sunken
  * band; the lines turn brand red up to the thumb, a narrow red bar, or between
  * two thumbs for a range. Standard: a thin rounded line, red up to a round
- * thumb. Fill: a thick bar filled red up to a thin light handle. Each
+ * thumb. Fill: a thick bar filled red up to a thin light handle. Contained:
+ * the fill look's bar as tall as a control, the label and value inside it. Each
  * thumb has a native range input, invisible, right after it in the markup:
  * the input does the keyboard, form and screen reader work, and the thumb
  * reads the input's states with :has(+ …). A single slider's input also lies
@@ -217,7 +218,8 @@
 
 /* The red lines belong to the ticks look only. */
 .smbk-slider--look-standard .smbk-slider__lines,
-.smbk-slider--look-fill .smbk-slider__lines {
+.smbk-slider--look-fill .smbk-slider__lines,
+.smbk-slider--look-contained .smbk-slider__lines {
   display: none;
 }
 
@@ -366,6 +368,159 @@
   height: max(100%, var(--smbk-size-target-min));
 }
 
+/* ---- the contained look: the fill look's bar as tall as a control of its size, the label at its
+   start and the value at its end inside it. The bar, the red part, the handle and the input are
+   placed as in the fill look, by how far the bar reaches past the rail: the handle's width and the
+   space around it, a step wider at each larger size. The words are the label row, moved into the
+   rail and laid over the bar; a copy of the row inside the red part, as wide as the bar and moved
+   back by the red part's start as the ticks look's red lines are, draws the same words in the text
+   color on brand, so where the red passes under the words they turn, cut at its edge. ---- */
+
+.smbk-slider--look-contained {
+  --smbk-slider-reach: calc(var(--smbk-space-inline-md) + var(--smbk-size-4) / 2);
+  --smbk-slider-bar: var(--smbk-size-control-lg);
+  --smbk-slider-inset: var(--smbk-space-inset-2xl);
+  --smbk-slider-corner: var(--smbk-radius-control-lg);
+}
+
+.smbk-slider--look-contained.smbk-slider--size-md {
+  --smbk-slider-reach: calc(var(--smbk-space-inline-sm) + var(--smbk-size-4) / 2);
+  --smbk-slider-bar: var(--smbk-size-control-md);
+  --smbk-slider-inset: var(--smbk-space-inset-xl);
+  --smbk-slider-corner: var(--smbk-radius-control-md);
+}
+
+.smbk-slider--look-contained.smbk-slider--size-sm {
+  --smbk-slider-reach: calc(var(--smbk-space-inline-xs) + var(--smbk-size-4) / 2);
+  --smbk-slider-bar: var(--smbk-size-control-sm);
+  --smbk-slider-inset: var(--smbk-space-inset-lg);
+  --smbk-slider-corner: var(--smbk-radius-control-sm);
+}
+
+/* The bar and the words share the rail's one cell, so a label that wraps makes the bar taller.
+   The bar comes first: the words are drawn over it, and the red part, being placed, over both. */
+.smbk-slider--look-contained .smbk-slider__rail {
+  display: grid;
+  height: auto;
+  min-height: var(--smbk-slider-bar);
+  margin-inline: var(--smbk-slider-reach);
+}
+
+.smbk-slider--look-contained .smbk-slider__track,
+.smbk-slider--look-contained .smbk-slider__rail > .smbk-slider__header {
+  grid-area: 1 / 1;
+  margin-inline: calc(var(--smbk-slider-reach) * -1);
+}
+
+.smbk-slider--look-contained .smbk-slider__track {
+  position: static;
+  height: auto;
+  padding-inline: 0;
+  translate: none;
+  border-radius: var(--smbk-slider-corner);
+  background-color: var(--smbk-color-surface-neutral-subtle);
+  background-image: none;
+}
+
+.smbk-slider--look-contained .smbk-slider__fill {
+  box-sizing: content-box;
+  margin-inline-start: calc(var(--smbk-slider-reach) * -1);
+  padding-inline: var(--smbk-slider-reach);
+  border-radius: var(--smbk-slider-corner);
+  background-color: var(--smbk-color-action-brand-background);
+}
+
+/* The words, inset as a control's are, and never closer to an end than the red part reaches past
+   a handle there, so a handle at either end stays clear of them. The pointer goes through them to
+   the input or the rail. */
+.smbk-slider--look-contained .smbk-slider__header {
+  box-sizing: border-box;
+  align-items: center;
+  padding-block: var(--smbk-space-inset-xs);
+  padding-inline: max(var(--smbk-slider-inset), calc(var(--smbk-slider-reach) * 2));
+  color: var(--smbk-color-text-default);
+  pointer-events: none;
+}
+
+.smbk-slider--look-contained .smbk-slider__fill > .smbk-slider__header {
+  position: absolute;
+  inset-block: 0;
+  width: calc(100cqi + var(--smbk-slider-reach) * 2);
+  color: var(--smbk-color-text-on-brand);
+}
+
+.smbk-slider--look-contained .smbk-slider__header > .smbk-slider__label {
+  min-width: 0;
+  color: inherit;
+  font-family: var(--smbk-typography-label-lg-font-family);
+  font-size: var(--smbk-typography-label-lg-font-size);
+  font-weight: var(--smbk-typography-label-lg-font-weight);
+  line-height: var(--smbk-typography-label-lg-line-height);
+  letter-spacing: var(--smbk-typography-label-lg-letter-spacing);
+}
+
+.smbk-slider--look-contained .smbk-slider__header > .smbk-slider__value {
+  color: inherit;
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
+}
+
+.smbk-slider--look-contained.smbk-slider--size-sm .smbk-slider__header > .smbk-slider__label {
+  font-family: var(--smbk-typography-label-md-font-family);
+  font-size: var(--smbk-typography-label-md-font-size);
+  font-weight: var(--smbk-typography-label-md-font-weight);
+  line-height: var(--smbk-typography-label-md-line-height);
+  letter-spacing: var(--smbk-typography-label-md-letter-spacing);
+}
+
+.smbk-slider--look-contained.smbk-slider--size-sm .smbk-slider__header > .smbk-slider__value {
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+/* The handle is half the bar tall; its bubble clears the bar's top, a quarter of the bar above it. */
+.smbk-slider--look-contained .smbk-slider__thumb {
+  width: var(--smbk-size-4);
+  height: calc(var(--smbk-slider-bar) / 2);
+  margin-inline-start: calc(var(--smbk-size-4) / -2);
+  border: 0;
+  background: var(--smbk-color-action-brand-foreground);
+  box-shadow: none;
+}
+
+.smbk-slider--look-contained .smbk-slider__thumb > .smbk-slider__bubble {
+  bottom: calc(150% + var(--smbk-size-icon-xs) / 2);
+}
+
+.smbk-slider--look-contained .smbk-slider__control {
+  top: 50%;
+  translate: 0 -50%;
+  inset-inline-start: calc(var(--smbk-slider-reach) * -1);
+  width: calc(100% + var(--smbk-slider-reach) * 2);
+  height: 100%;
+}
+
+.smbk-slider--look-contained .smbk-slider__control::-webkit-slider-thumb {
+  width: calc(var(--smbk-slider-reach) * 2);
+}
+
+.smbk-slider--look-contained .smbk-slider__control::-moz-range-thumb {
+  width: calc(var(--smbk-slider-reach) * 2);
+}
+
+.smbk-slider--look-contained.smbk-slider--type-range .smbk-slider__rail::before {
+  content: '';
+  position: absolute;
+  inset-inline: calc(var(--smbk-slider-reach) * -1);
+  inset-block: 0;
+}
+
 /* ---- range: the rail takes the pointer, the thumbs take hover ---- */
 
 .smbk-slider--type-range .smbk-slider__rail {
@@ -420,14 +575,14 @@
 }
 
 /* The fill look's handle keeps its look on hover and press, as Figma draws it, and its focus
-   ring goes round the whole bar, not the handle. */
-.smbk-slider--look-fill .smbk-slider__thumb:is(:hover, :active, [data-pressed], :has(+ .smbk-slider__control:is(:hover, :active, :focus-visible))) {
+   ring goes round the whole bar, not the handle; the contained look's the same. */
+:is(.smbk-slider--look-fill, .smbk-slider--look-contained) .smbk-slider__thumb:is(:hover, :active, [data-pressed], :has(+ .smbk-slider__control:is(:hover, :active, :focus-visible))) {
   outline: 0;
   background: var(--smbk-color-action-brand-foreground);
   box-shadow: none;
 }
 
-.smbk-slider--look-fill .smbk-slider__rail:has(.smbk-slider__control:focus-visible) .smbk-slider__track {
+:is(.smbk-slider--look-fill, .smbk-slider--look-contained) .smbk-slider__rail:has(.smbk-slider__control:focus-visible) .smbk-slider__track {
   outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
   outline-offset: var(--smbk-focus-ring-offset);
 }
@@ -462,12 +617,18 @@
 }
 
 .smbk-slider--look-standard .smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__fill,
-.smbk-slider--look-fill .smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__fill {
+:is(.smbk-slider--look-fill, .smbk-slider--look-contained) .smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__fill {
   background-color: var(--smbk-color-action-disabled-foreground);
 }
 
-.smbk-slider--look-fill .smbk-slider__thumb:has(+ .smbk-slider__control:disabled) {
+:is(.smbk-slider--look-fill, .smbk-slider--look-contained) .smbk-slider__thumb:has(+ .smbk-slider__control:disabled) {
   background: var(--smbk-color-surface-track-subtle);
+}
+
+/* The contained look's words on the grayed part turn to the inverse text color, as dim as the
+   disabled words beside them in either theme. */
+.smbk-slider--look-contained:has(.smbk-slider__control:disabled) .smbk-slider__fill > .smbk-slider__header > :is(.smbk-slider__label, .smbk-slider__value) {
+  color: var(--smbk-color-text-inverse);
 }
 
 .smbk-slider:has(.smbk-slider__control:disabled) .smbk-slider__marks {
@@ -538,6 +699,10 @@
   margin-block-start: calc((var(--smbk-size-selection-sm) - var(--smbk-size-control-sm)) / 2);
 }
 
+.smbk-slider--look-contained .smbk-slider__row > .smbk-slider__number {
+  margin-block-start: calc((var(--smbk-slider-bar) - var(--smbk-size-control-sm)) / 2);
+}
+
 /* ---- the narrow form: a finger-sized target, the look unchanged ---- */
 
 @container style(--smbk-layout: narrow) {
@@ -559,6 +724,14 @@
   .smbk-slider--look-fill.smbk-slider--type-range .smbk-slider__rail::before {
     top: 50%;
     height: var(--smbk-size-target-comfortable);
+  }
+
+  /* The contained bar may be shorter than the comfortable size, so its target is centered on it and never less. */
+  .smbk-slider--look-contained .smbk-slider__control,
+  .smbk-slider--look-contained.smbk-slider--type-range .smbk-slider__rail::before {
+    top: 50%;
+    translate: 0 -50%;
+    height: max(100%, var(--smbk-size-target-comfortable));
   }
 }
 
@@ -586,6 +759,14 @@
   .smbk-slider--look-fill.smbk-slider--type-range .smbk-slider__rail::before {
     top: 50%;
     height: var(--smbk-size-target-comfortable);
+  }
+
+  /* The contained bar may be shorter than the comfortable size, so its target is centered on it and never less. */
+  .smbk-slider--look-contained .smbk-slider__control,
+  .smbk-slider--look-contained.smbk-slider--type-range .smbk-slider__rail::before {
+    top: 50%;
+    translate: 0 -50%;
+    height: max(100%, var(--smbk-size-target-comfortable));
   }
 }
 
@@ -654,34 +835,45 @@
     background-color: CanvasText;
   }
 
-  .smbk-slider--look-fill .smbk-slider__track {
+  .smbk-slider--look-fill .smbk-slider__track,
+  .smbk-slider--look-contained .smbk-slider__track {
     border: var(--smbk-border-width-hairline) solid CanvasText;
   }
 
   .smbk-slider--look-standard .smbk-slider__fill,
-  .smbk-slider--look-fill .smbk-slider__fill {
+  .smbk-slider--look-fill .smbk-slider__fill,
+  .smbk-slider--look-contained .smbk-slider__fill {
     forced-color-adjust: none;
     background-color: Highlight;
   }
 
-  .smbk-slider--look-fill .smbk-slider__thumb,
-  .smbk-slider--look-fill .smbk-slider__thumb:is(:hover, :active, [data-pressed], :has(+ .smbk-slider__control:is(:hover, :active, :focus-visible))) {
+  :is(.smbk-slider--look-fill, .smbk-slider--look-contained) .smbk-slider__thumb,
+  :is(.smbk-slider--look-fill, .smbk-slider--look-contained) .smbk-slider__thumb:is(:hover, :active, [data-pressed], :has(+ .smbk-slider__control:is(:hover, :active, :focus-visible))) {
     forced-color-adjust: none;
     background: HighlightText;
   }
 
-  .smbk-slider--look-fill .smbk-slider__rail:has(.smbk-slider__control:focus-visible) .smbk-slider__track {
+  :is(.smbk-slider--look-fill, .smbk-slider--look-contained) .smbk-slider__rail:has(.smbk-slider__control:focus-visible) .smbk-slider__track {
     outline-color: Highlight;
   }
 
   .smbk-slider--look-standard .smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__track,
   .smbk-slider--look-standard .smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__fill,
-  .smbk-slider--look-fill .smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__fill {
+  :is(.smbk-slider--look-fill, .smbk-slider--look-contained) .smbk-slider__rail:has(.smbk-slider__control:disabled) .smbk-slider__fill {
     background-color: GrayText;
   }
 
-  .smbk-slider--look-fill .smbk-slider__thumb:has(+ .smbk-slider__control:disabled) {
+  :is(.smbk-slider--look-fill, .smbk-slider--look-contained) .smbk-slider__thumb:has(+ .smbk-slider__control:disabled) {
     background: Canvas;
+  }
+
+  /* The contained look's words on the part up to the thumb, in HighlightText on it, or Canvas on GrayText. */
+  .smbk-slider--look-contained .smbk-slider__fill > .smbk-slider__header {
+    color: HighlightText;
+  }
+
+  .smbk-slider--look-contained:has(.smbk-slider__control:disabled) .smbk-slider__fill > .smbk-slider__header > :is(.smbk-slider__label, .smbk-slider__value) {
+    color: Canvas;
   }
 
   /* The marks are a background image, which forced colors would drop. */

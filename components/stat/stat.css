@@ -1,8 +1,9 @@
 /* smbk-stat — Stat. Figma "Stat" 7118:401 (Size × Type × State; Dot and Description booleans).
  * One figure with its name above it and a line under it, on the default surface with square corners:
  * the name in Label SM, the figure in a heading style with tabular digits, the line in Body SM, the
- * extra small stack step apart. As wide as its content in running text; a grid or a row it sits in
- * stretches it. A linked figure takes the link colors and underline, and its link covers the whole
+ * extra small stack step apart; an optional change badge after the figure and a small chart under the line.
+ * As wide as its content in running text; a grid or a row it sits in stretches it. In a card's slot the
+ * card drops its padding and fill (card.css), so it lines up with the card's other parts. A linked figure takes the link colors and underline, and its link covers the whole
  * tile, so the tile is the one place to press and the focus ring goes round it. */
 
 .smbk-stat {
@@ -51,6 +52,26 @@
   font-weight: var(--smbk-typography-body-sm-font-weight);
   line-height: var(--smbk-typography-body-sm-line-height);
   letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+.smbk-stat__figure:has(> .smbk-stat__trend) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+}
+
+/* The change after the figure, such as a small badge. A flex box, so the figure's line height leaves no
+   room around it. */
+.smbk-stat__trend {
+  display: flex;
+  align-items: center;
+}
+
+/* A small chart under the line, such as a sparkline or a meter, as wide as the stat. */
+.smbk-stat__chart {
+  min-width: 0;
+  margin: 0;
 }
 
 /* ---- link: the figure is the link, in the link colors and underlined; its box is stretched over the

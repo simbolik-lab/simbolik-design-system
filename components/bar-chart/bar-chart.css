@@ -5,7 +5,8 @@
  * categorical colors, the first at the foot, and the rest gathered in the muted gray. Each bar has small top
  * corners. Many bars, such as a month's, sit closer together. A narrow layout drops every second label under the
  * bars. The first time the chart comes into view its bars grow in, one after another; pointing at a bar fades the
- * others. Nothing takes focus. */
+ * others. Nothing takes focus, unless the bars are made focusable: then a focused bar takes the focus ring and the
+ * others fade. */
 
 .smbk-bar-chart {
   display: flex;
@@ -172,7 +173,7 @@
    motion too, since nothing moves. The wrapper marks the bar whose column the pointer is in, gaps and the room above
    a short bar included (`data-active`), so moving from bar to bar never brings every bar back in between; markup
    written by hand fades by the bar's own hover. Nothing is told by the fade alone: every value is in the table. Bars
-   take no focus, so the keyboard has nothing to point with. At rest every bar is whole. */
+   take no focus unless made focusable (above). At rest every bar is whole. */
 
 @media (hover: hover) {
   .smbk-bar-chart__bars:has(> .smbk-bar-chart__bar:hover) > .smbk-bar-chart__bar:not(:hover),
@@ -190,6 +191,20 @@
   .smbk-bar-chart__bar {
     transition: opacity var(--smbk-motion-feedback-duration) var(--smbk-motion-feedback-easing) var(--smbk-motion-hover-close-delay);
   }
+}
+
+/* ---- a bar that takes focus ----
+   Bars made focusable (a tabindex on each, one of them 0, and each named by its figures) take the focus ring around
+   the bar, just outside it, and a focused bar stands out as a pointed one does: every other bar fades to the faded
+   opacity, on any screen, since a keyboard has no hover. The wrapper also marks the focused bar `data-active`. */
+
+.smbk-bar-chart__bar:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+.smbk-bar-chart__bars:has(> .smbk-bar-chart__bar:focus-visible) > .smbk-bar-chart__bar:not(:focus-visible) {
+  opacity: var(--smbk-opacity-faded);
 }
 
 /* ---- motion: the entrance ----
@@ -226,10 +241,15 @@
 }
 
 /* ---- high contrast (forced colors) ---- */
-/* The plot keeps its colors, so each segment still matches its legend swatch. */
+/* The plot keeps its colors, so each segment still matches its legend swatch; a focused bar's ring takes the
+   palette's highlight. */
 
 @media (forced-colors: active) {
   .smbk-bar-chart__plot {
     forced-color-adjust: none;
+  }
+
+  .smbk-bar-chart__bar:focus-visible {
+    outline-color: Highlight;
   }
 }

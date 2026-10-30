@@ -7,9 +7,9 @@
  * the collapse button at the foot. Three displays: auto, a column of icons that opens over the
  * page while pointed at or focused; kept open; kept closed. The collapsed flag is the column's
  * look (the wrapper sets it: kept closed, or auto at rest) and the open flag the open auto panel.
- * Opening and closing are built to be smooth: every row keeps its height, what the column hides
- * grows open instead of appearing, the words fade in, and the logo's mark glides into the whole
- * logo (the wrapper measures and moves it). */
+ * Opening and closing are built to be smooth, on the fold purpose: every row keeps its height, what
+ * the column hides folds with the panel instead of vanishing, the words fade through a slight blur,
+ * and the logo's mark glides into the whole logo (the wrapper measures and moves it). */
 
 /* ---- the room ----
    As wide as the panel when it is kept open or closed. In auto it is always the column's width,
@@ -50,6 +50,12 @@
   box-shadow: var(--smbk-elevation-raised);
   interpolate-size: allow-keywords;
   transition: box-shadow var(--smbk-motion-state-duration) var(--smbk-motion-state-easing);
+}
+
+/* The small width: the open panel 240 wide, for a dense application's list of pages. The column keeps its own
+   width, so the rule steps aside while the sidebar is the column. */
+.smbk-sidebar--width-sm:not(.smbk-sidebar--collapsed) > .smbk-sidebar__panel {
+  width: var(--smbk-size-width-240);
 }
 
 /* Flat: square and on the page's own surface, with no shadow and no rim, a hairline along its end
@@ -260,7 +266,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--smbk-space-stack-sm);
-  transition: gap var(--smbk-motion-enter-duration) var(--smbk-motion-enter-easing);
+  transition: gap var(--smbk-motion-fold-duration) var(--smbk-motion-fold-easing);
 }
 
 /* The group label heads its section: small capitals over the divider's two-line rule. It does not
@@ -279,9 +285,9 @@
   line-height: var(--smbk-typography-label-sm-line-height);
   letter-spacing: var(--smbk-typography-label-sm-letter-spacing);
   text-transform: var(--smbk-typography-label-sm-text-transform);
-  transition-property: block-size, padding-top, opacity, visibility;
-  transition-duration: var(--smbk-motion-enter-duration);
-  transition-timing-function: var(--smbk-motion-enter-easing);
+  transition-property: block-size, padding-top, opacity, filter, visibility;
+  transition-duration: var(--smbk-motion-fold-duration), var(--smbk-motion-fold-duration), var(--smbk-motion-fold-label-duration), var(--smbk-motion-fold-label-duration), var(--smbk-motion-fold-duration);
+  transition-timing-function: var(--smbk-motion-fold-easing), var(--smbk-motion-fold-easing), var(--smbk-motion-fold-label-easing), var(--smbk-motion-fold-label-easing), var(--smbk-motion-fold-easing);
 }
 
 /* The two-line rule under a group label: the divider's edges, drawn on the label itself. */
@@ -305,7 +311,7 @@
 /* ---- items ----
    Figma's item at the medium size, the default: a parent is a medium control tall with Body MD and
    a medium icon; a child is the small item, a small control tall with Body SM, as Figma's sidebar
-   draws its children. A parent's icon sits in a square as big as the row is tall, centered, and the
+   draws its children (or the medium one, with child md, below). A parent's icon sits in a square as big as the row is tall, centered, and the
    label starts where the square ends, as in the column, where the item is that square alone; so the
    icon never moves between the two. Here the square is the padding before the icon and the gap
    after it, each what is left of the square around the icon. Figma draws the edge inside, so the
@@ -425,18 +431,22 @@
   font-size: var(--smbk-size-icon-sm);
 }
 
-.smbk-sidebar__group[open] > .smbk-sidebar__item .smbk-sidebar__item-caret {
+/* A group the wrapper is folding back (data-closing) is still open until its motion ends; its caret turns back as the
+   motion starts. */
+.smbk-sidebar__group[open]:not([data-closing]) > .smbk-sidebar__item .smbk-sidebar__item-caret {
   transform: rotate(180deg);
 }
 
+/* The room over the children is their own padding, not a margin, so a group folded into the column, its children
+   held at no height, keeps none of it: the column's rows sit where kept closed puts them. */
 .smbk-sidebar__children {
   display: flex;
   flex-direction: column;
   gap: 0;
-  margin: var(--smbk-space-stack-sm) 0 0;
-  padding: 0;
+  margin: 0;
+  padding: var(--smbk-space-stack-sm) 0 0;
   list-style: none;
-  transition: visibility var(--smbk-motion-enter-duration);
+  transition: visibility var(--smbk-motion-fold-duration);
 }
 
 /* A child's label starts under its parent's, where the parent's icon square ends. One line is the
@@ -502,6 +512,34 @@
 
 .smbk-sidebar__children > li:not(:last-child) > .smbk-sidebar__item--child::after {
   bottom: calc(-1 * var(--smbk-border-width-hairline));
+}
+
+/* ---- children at the medium size (child md): a child as tall as its parent, a medium control in Body MD, as
+   Figma's medium child item draws it. Its label still starts under its parent's and keeps the row's room over and
+   under its lines, and the tree line turns toward it at the middle of its first line. The small size draws every
+   row small, so it changes nothing there. The navigation alone (SidebarNav) carries the class itself, having no
+   block around it. ---- */
+
+.smbk-sidebar--child-md:not(.smbk-sidebar--size-sm) .smbk-sidebar__item--child {
+  min-height: var(--smbk-size-control-md);
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
+}
+
+.smbk-sidebar--child-md:not(.smbk-sidebar--size-sm) .smbk-sidebar__item--child .smbk-sidebar__item-label {
+  margin-block: calc((var(--smbk-size-control-md) - 1lh) / 2 - var(--smbk-border-width-hairline));
+}
+
+.smbk-sidebar--child-md:not(.smbk-sidebar--size-sm) .smbk-sidebar__item--child[aria-current="page"],
+.smbk-sidebar--child-md:not(.smbk-sidebar--size-sm) .smbk-sidebar__item--child .smbk-sidebar__item-label[data-label]::after {
+  font-weight: var(--smbk-typography-body-md-medium-font-weight);
+}
+
+.smbk-sidebar--child-md:not(.smbk-sidebar--size-sm) .smbk-sidebar__item--child::before {
+  height: calc(var(--smbk-size-control-md) / 2);
 }
 
 /* ---- the small size: every row a small control tall, in Body SM with a small icon. Figma draws the
@@ -695,9 +733,10 @@
   }
 }
 
-/* An open group's children and the group labels fold to no height and grow back with the panel,
-   so the rows under them move smoothly instead of jumping; the room between a label and its list
-   folds with them. They are hidden from assistive technology and the keyboard meanwhile. */
+/* An open group's children and the group labels fold to no height and grow back with the panel, on
+   its fold purpose, so the rows under them move smoothly instead of jumping; the room between a label
+   and its list folds with them, and a label's words fade through the fold's blur as the other words
+   do. They are hidden from assistive technology and the keyboard meanwhile. */
 .smbk-sidebar--collapsed .smbk-sidebar__children {
   visibility: hidden;
 }
@@ -714,53 +753,107 @@
   block-size: 0;
   padding-top: 0;
   opacity: 0;
+  filter: blur(var(--smbk-motion-fold-blur));
   visibility: hidden;
 }
 
+/* Coming back, a group label's words fade in over the last part of the fold, as the other words do. */
 .smbk-sidebar:not(.smbk-sidebar--collapsed) .smbk-sidebar__group-label {
-  transition-delay: 0s, 0s, var(--smbk-motion-stagger-delay), 0s;
+  transition-delay: 0s, 0s, calc(var(--smbk-motion-fold-duration) - var(--smbk-motion-fold-label-duration)), calc(var(--smbk-motion-fold-duration) - var(--smbk-motion-fold-label-duration)), 0s;
 }
 
-/* ---- motion: a group's caret turns with the state purpose, and its children grow from no
-   height to their own with the enter purpose and shrink with the exit purpose, clipped to a
-   focus ring's reach while they move. A browser that cannot animate to a natural height opens
-   at once. ---- */
-
-.smbk-sidebar__group {
-  interpolate-size: allow-keywords;
+/* While the panel folds, the wrapper moves the label's height and padding with it (data-folding), measured at both
+   ends, so it folds in every browser; the stylesheet only fades its words. */
+.smbk-sidebar__panel[data-folding] .smbk-sidebar__group-label {
+  transition-property: opacity, filter, visibility;
+  transition-duration: var(--smbk-motion-fold-label-duration), var(--smbk-motion-fold-label-duration), var(--smbk-motion-fold-duration);
+  transition-timing-function: var(--smbk-motion-fold-label-easing), var(--smbk-motion-fold-label-easing), var(--smbk-motion-fold-easing);
+  transition-delay: 0s;
 }
+
+.smbk-sidebar:not(.smbk-sidebar--collapsed) > .smbk-sidebar__panel[data-folding] .smbk-sidebar__group-label {
+  transition-delay: calc(var(--smbk-motion-fold-duration) - var(--smbk-motion-fold-label-duration)), calc(var(--smbk-motion-fold-duration) - var(--smbk-motion-fold-label-duration)), 0s;
+}
+
+/* ---- motion: a group's children unfold as an accordion's item does, with the expand purpose: they
+   grow from no height to their own as they fade in from its slight blur, and fold back the same way,
+   and the caret turns with them. The React wrapper moves them, the same in every browser, and marks
+   the navigation data-motion once it runs; while a group moves (data-moving) it is clipped to a focus
+   ring's reach. Markup written by hand is moved by the stylesheet alone where the browser can animate
+   to a natural height, and opens at once elsewhere. Under reduced motion the height lands at once and
+   the fade still plays. While the panel folds, the groups move with it on the fold purpose instead
+   (folding, below), and the column's own fold of an open group never moves on its own. ---- */
 
 .smbk-sidebar__item-caret {
-  transition: transform var(--smbk-motion-state-duration) var(--smbk-motion-state-easing);
+  transition: transform var(--smbk-motion-expand-duration) var(--smbk-motion-expand-easing);
 }
 
 .smbk-sidebar__group::details-content {
-  block-size: 0;
   overflow: clip;
   overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
-  transition-property: block-size, content-visibility;
-  transition-duration: var(--smbk-motion-exit-duration);
-  transition-timing-function: var(--smbk-motion-exit-easing);
-  transition-behavior: allow-discrete;
 }
 
-.smbk-sidebar__group[open]::details-content {
+.smbk-sidebar__group[data-moving] {
+  overflow: clip;
+  overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+}
+
+@supports (interpolate-size: allow-keywords) {
+  .smbk-sidebar__nav:not([data-motion]) .smbk-sidebar__group:not(.smbk-sidebar--collapsed *) {
+    interpolate-size: allow-keywords;
+  }
+
+  .smbk-sidebar__nav:not([data-motion]) .smbk-sidebar__group:not(.smbk-sidebar--collapsed *)::details-content {
+    block-size: 0;
+    opacity: 0;
+    filter: blur(var(--smbk-motion-expand-blur));
+    transition-property: block-size, opacity, filter, content-visibility;
+    transition-duration: var(--smbk-motion-expand-duration);
+    transition-timing-function: var(--smbk-motion-expand-easing);
+    transition-behavior: allow-discrete;
+  }
+
+  .smbk-sidebar__nav:not([data-motion]) .smbk-sidebar__group[open]:not(.smbk-sidebar--collapsed *)::details-content {
+    block-size: auto;
+    opacity: 1;
+    filter: none;
+  }
+
+  /* Under reduced motion the height steps: at once as a group opens, and only once it has faded as it closes. */
+  @media (prefers-reduced-motion: reduce) {
+    .smbk-sidebar__nav:not([data-motion]) .smbk-sidebar__group:not(.smbk-sidebar--collapsed *)::details-content {
+      transition-duration: 0s, var(--smbk-motion-expand-duration), var(--smbk-motion-expand-duration), var(--smbk-motion-expand-duration);
+      transition-delay: var(--smbk-motion-expand-duration), 0s, 0s, 0s;
+    }
+
+    .smbk-sidebar__nav:not([data-motion]) .smbk-sidebar__group[open]:not(.smbk-sidebar--collapsed *)::details-content {
+      transition-delay: 0s;
+    }
+  }
+}
+
+/* While the panel folds, the wrapper moves a group's height with it (data-folding, below): an open group closing into
+   the column keeps its children drawn, clipped by the group, until it lands. */
+.smbk-sidebar__panel[data-folding] .smbk-sidebar__group {
+  overflow: clip;
+  overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+}
+
+.smbk-sidebar--collapsed > .smbk-sidebar__panel[data-folding="closing"] .smbk-sidebar__group[open]::details-content {
   block-size: auto;
-  transition-duration: var(--smbk-motion-enter-duration);
-  transition-timing-function: var(--smbk-motion-enter-easing);
 }
 
 /* ---- folding: when the panel opens or closes, its width glides from where it was to where it
-   goes (the wrapper measures both ends and runs it with the enter purpose both ways, so it
-   answers at once and settles into place) and the wrapper marks the panel with data-folding
-   while it moves. Every row keeps its height and no label rewraps on the way. Opening, the words
-   that come back fade in a stagger step behind the glide. Closing, the items stay rows that
-   narrow with the panel and become squares once it has landed (the same size by then); their
-   words and the user's name fade out rather than vanish, and the carets go at once, since they
-   would ride the narrowing edge across the words; the user cell holds its avatar at the start,
-   and the wrapper glides it into the center once the column has landed. A restored or
-   programmatic change lands at once, and nothing moves under reduced motion (the wrapper then
-   never marks it). ---- */
+   goes (the wrapper measures both ends and runs it with the fold purpose both ways, slow to leave
+   and slow to land, so a press on the way turns it round) and the wrapper marks the panel with
+   data-folding while it moves. Every row keeps its height and no label rewraps or cuts itself
+   short on the way. Closing, the words, the carets and the user's name fade into the fold's slight
+   blur over its first part, before the rows narrow under them; the items stay rows that narrow
+   with the panel and become squares once it has landed (the same size by then); the user cell
+   holds its avatar at the start, and the wrapper glides it into the center once the column has
+   landed. Opening, the words come back out of the blur over the last part, once the rows are
+   nearly wide again. A restored or programmatic change lands at once. Under reduced motion the
+   width lands at once and an opening's words still fade in, at once; a closing lands whole. ---- */
 
 .smbk-sidebar__panel[data-folding] {
   overflow: clip;
@@ -771,16 +864,21 @@
   white-space: nowrap;
 }
 
+.smbk-sidebar__panel[data-folding] :is(.smbk-sidebar__user-name, .smbk-sidebar__user-detail) {
+  text-overflow: clip;
+}
+
 .smbk-sidebar__panel[data-folding="opening"] :is(.smbk-sidebar__search-field, .smbk-sidebar__item-label, .smbk-sidebar__item-caret, .smbk-sidebar__user) {
-  transition-property: opacity;
-  transition-duration: var(--smbk-motion-enter-duration);
-  transition-timing-function: var(--smbk-motion-enter-easing);
-  transition-delay: var(--smbk-motion-stagger-delay);
+  transition-property: opacity, filter;
+  transition-duration: var(--smbk-motion-fold-label-duration);
+  transition-timing-function: var(--smbk-motion-fold-label-easing);
+  transition-delay: calc(var(--smbk-motion-fold-duration) - var(--smbk-motion-fold-label-duration));
 }
 
 @starting-style {
   .smbk-sidebar__panel[data-folding="opening"] :is(.smbk-sidebar__search-field, .smbk-sidebar__item-label, .smbk-sidebar__item-caret, .smbk-sidebar__user) {
     opacity: 0;
+    filter: blur(var(--smbk-motion-fold-blur));
   }
 }
 
@@ -801,16 +899,35 @@
   flex: 1 1 auto;
 }
 
-.smbk-sidebar--collapsed > .smbk-sidebar__panel[data-folding="closing"] :is(.smbk-sidebar__item-label, .smbk-sidebar__user) {
+.smbk-sidebar--collapsed > .smbk-sidebar__panel[data-folding="closing"] :is(.smbk-sidebar__item-label, .smbk-sidebar__item-caret, .smbk-sidebar__user) {
   display: block;
   opacity: 0;
-  transition: opacity var(--smbk-motion-exit-duration) var(--smbk-motion-exit-easing);
+  filter: blur(var(--smbk-motion-fold-blur));
+  transition-property: opacity, filter;
+  transition-duration: var(--smbk-motion-fold-label-duration);
+  transition-timing-function: var(--smbk-motion-fold-label-easing);
 }
 
+/* Under reduced motion nothing travels or changes size: the parts the column hides come and go at once, and the
+   words that come back as the panel opens fade in at once. */
 @media (prefers-reduced-motion: reduce) {
-  .smbk-sidebar :is(.smbk-sidebar__panel, .smbk-sidebar__item-caret, .smbk-sidebar__children, .smbk-sidebar__section, .smbk-sidebar__group-label),
-  .smbk-sidebar__group::details-content {
+  .smbk-sidebar :is(.smbk-sidebar__panel, .smbk-sidebar__item-caret, .smbk-sidebar__children, .smbk-sidebar__section) {
     transition: none;
+  }
+
+  .smbk-sidebar .smbk-sidebar__group-label {
+    transition-property: opacity, filter;
+    transition-duration: var(--smbk-motion-fold-label-duration);
+    transition-timing-function: var(--smbk-motion-fold-label-easing);
+  }
+
+  .smbk-sidebar:not(.smbk-sidebar--collapsed) .smbk-sidebar__group-label,
+  .smbk-sidebar:not(.smbk-sidebar--collapsed) > .smbk-sidebar__panel[data-folding] .smbk-sidebar__group-label {
+    transition-delay: 0s;
+  }
+
+  .smbk-sidebar__panel[data-folding="opening"] :is(.smbk-sidebar__search-field, .smbk-sidebar__item-label, .smbk-sidebar__item-caret, .smbk-sidebar__user) {
+    transition-delay: 0s;
   }
 }
 
@@ -857,8 +974,9 @@
    On a touch screen an invisible area, centred on the logo's link and on each row, takes the press out to the
    comfortable target in each direction it falls short of it. A parent's children touch: between two of them each
    keeps its own edge, and the first and the last reach only halfway to the parent and the next row. A child draws
-   its tree line with both of its own pseudo-elements, so its area hangs from its label, over the whole row. The
-   panel cuts the areas off at its edge. What is drawn and every place stay as they are. */
+   its tree line with both of its own pseudo-elements, and its label keeps its ::after for its bolder copy, which
+   takes no press, so its area hangs from its label's ::before, over the whole row. The panel cuts the areas off at
+   its edge. What is drawn and every place stay as they are. */
 
 @media (pointer: coarse) {
   .smbk-sidebar__brand,
@@ -868,7 +986,7 @@
 
   .smbk-sidebar__brand::after,
   .smbk-sidebar__item:not(.smbk-sidebar__item--child)::after,
-  .smbk-sidebar__item--child > .smbk-sidebar__item-label::after {
+  .smbk-sidebar__item--child > .smbk-sidebar__item-label::before {
     content: '';
     position: absolute;
     inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
@@ -897,15 +1015,15 @@
     inset-block-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-sm) / -2);
   }
 
-  .smbk-sidebar__item--child > .smbk-sidebar__item-label::after {
+  .smbk-sidebar__item--child > .smbk-sidebar__item-label::before {
     inset-block: 0;
   }
 
-  .smbk-sidebar__children > li:first-child > .smbk-sidebar__item--child > .smbk-sidebar__item-label::after {
+  .smbk-sidebar__children > li:first-child > .smbk-sidebar__item--child > .smbk-sidebar__item-label::before {
     inset-block-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-sm) / -2);
   }
 
-  .smbk-sidebar__children > li:last-child > .smbk-sidebar__item--child > .smbk-sidebar__item-label::after {
+  .smbk-sidebar__children > li:last-child > .smbk-sidebar__item--child > .smbk-sidebar__item-label::before {
     inset-block-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-sm) / -2);
   }
 }

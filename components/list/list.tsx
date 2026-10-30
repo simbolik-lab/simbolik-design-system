@@ -1,4 +1,7 @@
+'use client';
+
 import { Children, createContext, isValidElement, useCallback, useContext, useEffect, useId, useRef, useState, type HTMLAttributes, type KeyboardEvent, type MouseEvent, type ReactNode, type Ref } from 'react';
+import { mergeProps } from 'react-aria';
 import { list } from './list.manifest.js';
 import { Icon } from '../icon/icon.js';
 import { Divider } from '../divider/divider.js';
@@ -6,6 +9,7 @@ import { useGlide } from '../glide.js';
 import { labelText } from '../label-text.js';
 import { cx } from '../variants.js';
 import { useControllable } from '../controllable.js';
+import { useFormReset } from '../form.js';
 import { useNameWarning } from '../name-check.js';
 import { useTypeAhead } from '../type-ahead.js';
 import type { VariantProps } from '../variants.js';
@@ -24,10 +28,12 @@ interface Choice {
 interface ListContext {
   type: ListType;
   dividers: boolean;
+  /** A selectable list whose chosen row shows without its tick. */
+  tickless: boolean;
   choice: Choice | null;
 }
 
-const Context = createContext<ListContext>({ type: 'plain', dividers: false, choice: null });
+const Context = createContext<ListContext>({ type: 'plain', dividers: false, tickless: false, choice: null });
 
 const ROWS: readonly ListType[] = ['navigation', 'action', 'selectable'];
 
@@ -68,8 +74,9 @@ const asList = (v: string | readonly string[] | undefined): string[] => (v === u
  *                     the up and down arrows move, Home and End jump to the ends, typing a title's first
  *                     letters moves to it, and Space or Enter chooses. Single by default; multiple
  *                     chooses and unchooses each option. It holds its own choice unless given `value`.
+ *                     `tickless` drops the chosen row's tick, for rows that open as they are chosen.
  */
-export function List({ type = 'plain', size, dividers = false, title, headingLevel, emptyText = 'Nothing here yet.', multiple = false, value, defaultValue, onChange, name, className, children, ref, ...rest }: ListProps) {
+export function List({ type = 'plain', size, dividers = false, tickless = false, title, headingLevel, emptyText = 'Nothing here yet.', multiple = false, value, defaultValue, onChange, name, className, children, ref, ...rest }: ListProps) {
   const titleId = useId();
   // The choice as a list, the page's or the list's own; onChange hears a single value in single mode, so it is told here.
   const [chosen, keep] = useControllable<string[]>({ value: value !== undefined ? asList(value) : undefined, defaultValue: () => asList(defaultValue), name: 'List value' });
@@ -88,6 +95,13 @@ export function List({ type = 'plain', size, dividers = false, title, headingLev
     ((type === 'navigation' || type === 'action') &&
       Children.toArray(children).every((child) => isValidElement<ListItemProps>(child) && (child.props.href !== undefined || child.props.onClick !== undefined)));
   useGlide(items, { rows: GLIDE_ROWS, fill: list.part('glide'), enabled: pressable && Children.count(children) > 0 });
+  // The form's reset puts the starting choice back in a selectable list, and tells a page that holds it.
+  useFormReset(items, () => {
+    const start = asList(defaultValue);
+    keep(start);
+    setActive(start[0] ?? null);
+    if (value !== undefined && (multiple || start[0] !== undefined)) onChange?.(multiple ? start : start[0]!);
+  });
 
   const choose = useCallback(
     (v: string) => {
@@ -138,7 +152,7 @@ export function List({ type = 'plain', size, dividers = false, title, headingLev
   };
 
   const count = Children.toArray(children).length;
-  const classes = cx(list({ type, size, dividers }), className);
+  const classes = cx(list({ type, size, dividers, tickless }), className);
   const Title = headingLevel ? (`h${headingLevel}` as const) : 'p';
   const named = title !== undefined && title !== null && title !== false;
   const ownName = rest['aria-label'] === undefined && rest['aria-labelledby'] === undefined;
@@ -165,7 +179,7 @@ export function List({ type = 'plain', size, dividers = false, title, headingLev
     );
 
   const inner = (
-    <Context.Provider value={{ type, dividers, choice }}>
+    <Context.Provider value={{ type, dividers, tickless, choice }}>
       {named && (
         <Title id={titleId} className={list.part('title')}>
           {title}
@@ -202,6 +216,12 @@ export interface ListItemProps extends Omit<HTMLAttributes<HTMLLIElement>, 'titl
   end?: ReactNode;
   /** Makes the row a link. */
   href?: string;
+  /** Where a link row opens: `_blank` opens it in a new tab, and its name then ends with `newTabText`. */
+  target?: string;
+  /** How a link row's page relates to this one, such as `noopener` or `external`. */
+  rel?: string;
+  /** What a row opening a new tab adds to its name: "(opens in a new tab)" unless given, for a page in another language. */
+  newTabText?: string;
   /** Makes the row a button, called when it is pressed. */
   onClick?: (e: MouseEvent<HTMLElement>) => void;
   /** The row is where the reader is: aria-current="page". */
@@ -216,8 +236,8 @@ export interface ListItemProps extends Omit<HTMLAttributes<HTMLLIElement>, 'titl
 }
 
 /** One row of a List. Its look follows the list's type, which it reads from the List around it. */
-export function ListItem({ title, meta, leadingIcon, trailingIcon, start, end, href, onClick, current, disabled, value, className, children, ...rest }: ListItemProps) {
-  const { type, dividers, choice } = useContext(Context);
+export function ListItem({ title, meta, leadingIcon, trailingIcon, start, end, href, target, rel, newTabText = '(opens in a new tab)', onClick, current, disabled, value, className, children, ...rest }: ListItemProps) {
+  const { type, dividers, tickless, choice } = useContext(Context);
   const ownId = useId();
   const titleId = `${ownId}-title`;
   const metaId = `${ownId}-meta`;
@@ -237,17 +257,23 @@ export function ListItem({ title, meta, leadingIcon, trailingIcon, start, end, h
   }
 
   const trailing = trailingIcon ?? (type === 'navigation' ? 'CaretRight' : false);
+  // A link row that opens a new tab says so at the end of its name, in words only a screen reader hears; they are
+  // left out of the bolder copy of the title, which holds the room of the words seen.
+  const newTab = href !== undefined && !choice && target === '_blank';
   const hasMeta = meta !== undefined && meta !== null && meta !== false;
   const inside = (
     <>
       {start !== undefined && start !== null && <span className={list.part('start')}>{start}</span>}
       {leadingIcon && <Icon name={leadingIcon} className={list.part('leading')} />}
       <span className={list.part('body')}>
-        <span id={titleId} className={list.part('item-title')} data-label={labelText(title ?? children)}>{title ?? children}</span>
+        <span id={titleId} className={list.part('item-title')} data-label={labelText(title ?? children)}>
+          {title ?? children}
+          {newTab && <span className="smbk-visually-hidden" data-unseen> {newTabText}</span>}
+        </span>
         {hasMeta && <span id={metaId} className={list.part('meta')}>{meta}</span>}
       </span>
       {trailing && <Icon name={trailing} className={list.part('trailing')} />}
-      {choice && <Icon name="Check" className={list.part('check')} />}
+      {choice && !tickless && <Icon name="Check" className={list.part('check')} />}
       {end !== undefined && end !== null && <span className={list.part('end')}>{end}</span>}
     </>
   );
@@ -269,9 +295,13 @@ export function ListItem({ title, meta, leadingIcon, trailingIcon, start, end, h
         tabIndex={!disabled && choice.active === key ? 0 : -1}
         data-value={key}
         {...naming}
-        onClick={press}
-        onFocus={() => !disabled && choice.setActive(key)}
-        {...rest}
+        {...mergeProps(rest, {
+          onClick: (e: MouseEvent<HTMLElement>) => {
+            press();
+            onClick?.(e);
+          },
+          onFocus: () => !disabled && choice.setActive(key),
+        })}
       >
         <div className={rowClass}>{inside}</div>
         {divider}
@@ -281,7 +311,7 @@ export function ListItem({ title, meta, leadingIcon, trailingIcon, start, end, h
 
   const here = current ? ('page' as const) : undefined;
   const row = href !== undefined ? (
-    <a className={rowClass} href={disabled ? undefined : href} role={disabled ? 'link' : undefined} aria-disabled={disabled || undefined} aria-current={here} {...naming} onClick={onClick}>
+    <a className={rowClass} href={disabled ? undefined : href} target={target} rel={rel} role={disabled ? 'link' : undefined} aria-disabled={disabled || undefined} aria-current={here} {...naming} onClick={onClick}>
       {inside}
     </a>
   ) : onClick ? (

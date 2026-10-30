@@ -1,0 +1,202 @@
+/* smbk-collapsible — Collapsible. Figma "Collapsible" 8196:2813 (State: Default, Hover, Focus, Disabled, Expanded).
+ * One row that shows or hides what is under it. The block is a native details element, so opening, closing and the
+ * keyboard are the browser's; the trigger is its summary. A row the medium control height, an optional icon, a Label LG
+ * label and a caret at the far end that turns when open. Hover and keyboard focus lay the hover surface under the row,
+ * focus with its ring. The panel unfolds with the expand purpose, as an accordion's item does (see the motion rules at
+ * the end). */
+
+.smbk-collapsible {
+  box-sizing: border-box;
+  width: 100%;
+  color: var(--smbk-color-text-default);
+}
+
+.smbk-collapsible__trigger {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-md);
+  min-height: var(--smbk-size-control-md);
+  padding: 0 var(--smbk-space-inset-lg);
+  border-radius: var(--smbk-radius-control-sm);
+  list-style: none;
+  cursor: pointer;
+  font-family: var(--smbk-typography-label-lg-font-family);
+  font-size: var(--smbk-typography-label-lg-font-size);
+  font-weight: var(--smbk-typography-label-lg-font-weight);
+  line-height: var(--smbk-typography-label-lg-line-height);
+  letter-spacing: var(--smbk-typography-label-lg-letter-spacing);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.smbk-collapsible__trigger::-webkit-details-marker {
+  display: none;
+}
+
+@media (hover: hover) {
+  .smbk-collapsible__trigger:hover {
+    background: var(--smbk-color-surface-hover);
+  }
+}
+
+.smbk-collapsible__trigger:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+  background: var(--smbk-color-surface-hover);
+}
+
+.smbk-collapsible__icon {
+  flex-shrink: 0;
+  color: var(--smbk-color-icon-subtle);
+  font-size: var(--smbk-size-icon-md);
+}
+
+/* The label takes the room the icon and the caret leave, and wraps rather than being cut short. */
+.smbk-collapsible__label {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.smbk-collapsible__caret {
+  flex-shrink: 0;
+  color: var(--smbk-color-icon-subtle);
+  font-size: var(--smbk-size-icon-md);
+}
+
+/* A collapsible the React component is closing (data-closing) is still open until its motion ends; its caret turns
+   back as the motion starts. */
+.smbk-collapsible[open]:not([data-closing]) > .smbk-collapsible__trigger .smbk-collapsible__caret {
+  transform: rotate(180deg);
+}
+
+.smbk-collapsible__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-sm);
+  padding: var(--smbk-space-stack-xs) var(--smbk-space-inset-lg) var(--smbk-space-stack-md);
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-md-font-family);
+  font-size: var(--smbk-typography-body-md-font-size);
+  font-weight: var(--smbk-typography-body-md-font-weight);
+  line-height: var(--smbk-typography-body-md-line-height);
+  letter-spacing: var(--smbk-typography-body-md-letter-spacing);
+}
+
+/* Paragraphs in the panel are spaced by its gap, not by their own margins. */
+.smbk-collapsible__panel > * {
+  margin: 0;
+}
+
+/* ---- disabled: the row dims and takes no press ---- */
+
+.smbk-collapsible--disabled > .smbk-collapsible__trigger {
+  color: var(--smbk-color-text-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.smbk-collapsible--disabled .smbk-collapsible__icon,
+.smbk-collapsible--disabled .smbk-collapsible__caret {
+  color: var(--smbk-color-icon-disabled);
+}
+
+/* ---- motion: the panel unfolds with the expand purpose and folds back the same way, as an accordion's item does.
+   The block's height grows from the trigger row to its own while the panel fades in from the purpose's slight blur,
+   and the caret turns with it. The React component moves it, the same in every browser, and marks the block
+   data-motion once it runs. While it moves (data-moving) it is clipped, with room to spare for the trigger's focus
+   ring, and the foot of what shows fades out over a spacing step, or over what is still hidden when that is less.
+   Markup written by hand is moved by the stylesheet alone where the browser can animate to a natural height, without
+   the fading foot, and opens at once elsewhere. Under reduced motion the height lands at once and the fade and the
+   blur still play. ---- */
+
+/* How much of the panel shows while the block moves, from its top: the React component moves it with the height. */
+@property --smbk-collapsible-reveal {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+
+.smbk-collapsible__caret {
+  transition: transform var(--smbk-motion-expand-duration) var(--smbk-motion-expand-easing);
+}
+
+.smbk-collapsible[data-moving] {
+  overflow: clip;
+  overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+}
+
+/* The mask reads only how opaque its paint is, so the text color stands in for "shown". */
+.smbk-collapsible[data-moving] > .smbk-collapsible__panel {
+  mask-image: linear-gradient(currentcolor calc(var(--smbk-collapsible-reveal) - min(var(--smbk-space-16), 100% - var(--smbk-collapsible-reveal))), transparent var(--smbk-collapsible-reveal));
+}
+
+@supports (interpolate-size: allow-keywords) {
+  .smbk-collapsible:not([data-motion]) {
+    interpolate-size: allow-keywords;
+  }
+
+  .smbk-collapsible:not([data-motion])::details-content {
+    block-size: 0;
+    opacity: 0;
+    filter: blur(var(--smbk-motion-expand-blur));
+    overflow: clip;
+    overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+    transition-property: block-size, opacity, filter, content-visibility;
+    transition-duration: var(--smbk-motion-expand-duration);
+    transition-timing-function: var(--smbk-motion-expand-easing);
+    transition-behavior: allow-discrete;
+  }
+
+  .smbk-collapsible:not([data-motion])[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+    filter: none;
+  }
+
+  /* Under reduced motion the height steps: at once as it opens, and only once it has faded as it closes. */
+  @media (prefers-reduced-motion: reduce) {
+    .smbk-collapsible:not([data-motion])::details-content {
+      transition-duration: 0s, var(--smbk-motion-expand-duration), var(--smbk-motion-expand-duration), var(--smbk-motion-expand-duration);
+      transition-delay: var(--smbk-motion-expand-duration), 0s, 0s, 0s;
+    }
+
+    .smbk-collapsible:not([data-motion])[open]::details-content {
+      transition-delay: 0s;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-collapsible__caret {
+    transition: none;
+  }
+}
+
+/* ---- touch: the trigger row takes an invisible press area ----
+   On a touch screen an invisible area, centred on it, takes the press out to the comfortable target in each direction
+   it falls short of it; its look, its focus ring and its place stay as drawn. */
+
+@media (pointer: coarse) {
+  .smbk-collapsible__trigger {
+    position: relative;
+  }
+
+  .smbk-collapsible__trigger::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* In Windows high-contrast mode the browser drops fills and shadows; this puts the meaning back with the
+   user's own colors. Nothing here applies outside that mode. */
+
+@media (forced-colors: active) {
+  .smbk-collapsible--disabled > .smbk-collapsible__trigger,
+  .smbk-collapsible--disabled .smbk-collapsible__icon,
+  .smbk-collapsible--disabled .smbk-collapsible__caret {
+    color: GrayText;
+  }
+}

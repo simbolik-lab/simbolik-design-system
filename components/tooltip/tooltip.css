@@ -36,6 +36,19 @@
   overflow-wrap: break-word;
 }
 
+/* A control's key after its words, as a small key cap ("Zoom in ]"): the words and the cap in a row, the small
+   inline gap apart, the cap centred on the words' line, which is taller than the cap, so the bubble keeps its
+   one-line height in every browser. */
+.smbk-tooltip__bubble:has(> .smbk-tooltip__key) {
+  display: flex;
+  align-items: center;
+  gap: var(--smbk-space-inline-sm);
+}
+
+.smbk-tooltip__key {
+  flex: none;
+}
+
 /* The arrow reaches a hairline into the bubble, so it lies over the bubble's edge where the two
    meet and they read as one shape, as Figma draws it (its 12 by 5 arrow overlaps the bubble's
    inside stroke by one); it comes after the bubble and is positioned, so it paints over the

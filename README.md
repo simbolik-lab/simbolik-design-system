@@ -55,6 +55,7 @@ That writes `css/simbolik.css`, the design tokens and every component in one sty
 | `conformance/` | A command-line checker that reads a project and lists every raw value and every hand-built copy of a component |
 | `release-notes/` | One file per version |
 | `docs/` | How names are made |
+| `synonym-list.json` | Which common design-system name each Simbolik name means, for a person or a program reading Simbolik beside a system that uses the common names: the words Simbolik uses instead (`brand` where many systems say `primary`, `success` for `positive`), the token names that stand for common ones, which token files hold raw values and which hold roles, and the four modes with their values. Every Simbolik name in it is a real token or group |
 | `GLOSSARY.md` | The words the system uses, and the ones it avoids |
 
 ## Status

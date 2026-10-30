@@ -1,3 +1,5 @@
+'use client';
+
 import type { InputHTMLAttributes, ReactNode, Ref } from 'react';
 import { radio } from './radio.manifest.js';
 import { ChoiceLabel, useChoice } from '../choice.js';

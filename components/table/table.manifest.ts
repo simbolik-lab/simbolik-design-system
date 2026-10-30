@@ -20,6 +20,6 @@ export const table = defineVariants({
     'sticky-header': { description: 'A long table: the heading row stays in view while the table scrolls inside its frame. The consumer limits the frame\'s height; the frame is then a named region the keyboard can reach.' },
     'pin-first': { description: 'A wide table: the first column stays in view while the table scrolls sideways, so every row keeps its subject. For a table on the page canvas.' },
   },
-  parts: ['table', 'caption', 'header-row', 'header', 'header-cell', 'header-text', 'header-label', 'header-icon', 'sort', 'filter', 'filter-count', 'info', 'row', 'cell', 'start', 'lead', 'expander', 'pin', 'content', 'value', 'value-icon', 'stack', 'description', 'copy', 'prose', 'figure', 'bar', 'group', 'group-label', 'group-count', 'detail-row', 'detail', 'detail-title', 'footer', 'scroll-hint', 'scroll-track', 'scroll-thumb'],
+  parts: ['table', 'caption', 'header-row', 'header', 'header-cell', 'header-text', 'header-label', 'header-icon', 'sort', 'filter', 'filter-count', 'info', 'row', 'cell', 'start', 'lead', 'expander', 'pin', 'content', 'choose-space', 'value', 'value-icon', 'stack', 'description', 'copy', 'prose', 'figure', 'bar', 'group', 'group-label', 'group-count', 'detail-row', 'detail', 'detail-title', 'footer', 'scroll-hint', 'scroll-track', 'scroll-thumb'],
   figmaNodeId: '4318:16988',
 });

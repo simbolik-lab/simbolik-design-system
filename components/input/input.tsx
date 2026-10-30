@@ -1,3 +1,5 @@
+'use client';
+
 import type { InputHTMLAttributes, ReactNode, Ref } from 'react';
 import { input } from './input.manifest.js';
 import { InputWell } from './input-well.js';

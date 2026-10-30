@@ -1,9 +1,13 @@
+'use client';
+
 import type { Ref, TextareaHTMLAttributes } from 'react';
+import { useObjectRef } from 'react-aria';
 import { textArea } from './text-area.manifest.js';
 import { input } from '../input/input.manifest.js';
 import { Icon } from '../icon/icon.js';
 import { InputWell } from '../input/input-well.js';
 import { readsField, useFieldControl } from '../field/field-context.js';
+import { useScrollbar } from '../scrollbar.js';
 import { cx } from '../variants.js';
 import type { VariantProps } from '../variants.js';
 
@@ -21,9 +25,11 @@ export interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElemen
  */
 export function TextArea(props: TextAreaProps) {
   const { error, className, rows = 2, ref, ...rest } = useFieldControl(props);
+  const control = useObjectRef(ref);
+  const bar = useScrollbar(control, { over: true });
   return (
     <InputWell className={cx(textArea({ error }), className)} error={error} nameCheck="TextArea" end={<Icon name="Notches" className={textArea.part('grip')} />}>
-      <textarea ref={ref} className={`${input.part('control')} ${textArea.part('control')}`} rows={rows} aria-invalid={error ? true : undefined} {...rest} />
+      <textarea ref={control} className={`${input.part('control')} ${textArea.part('control')}`} rows={rows} aria-invalid={error ? true : undefined} {...bar} {...rest} />
     </InputWell>
   );
 }

@@ -1,9 +1,13 @@
+'use client';
+
 import { useId, useRef, type DialogHTMLAttributes, type ReactNode } from 'react';
+import { mergeProps } from 'react-aria';
 import { drawer } from './drawer.manifest.js';
 import { Divider } from '../divider/divider.js';
 import { useModalDialog } from '../dialog.js';
 import { useControllable } from '../controllable.js';
 import { DismissButton } from '../dismiss-button.js';
+import { useScrollbar } from '../scrollbar.js';
 import { cx } from '../variants.js';
 import type { VariantProps } from '../variants.js';
 
@@ -49,6 +53,8 @@ export interface DrawerProps extends Omit<DialogHTMLAttributes<HTMLDialogElement
  */
 export function Drawer({ position, inline, open, defaultOpen = false, onOpenChange, title, description, actions, hideClose, closeLabel = 'Close', headingLevel = 2, className, children, ...rest }: DrawerProps) {
   const ref = useRef<HTMLDialogElement>(null);
+  const body = useRef<HTMLDivElement>(null);
+  const bar = useScrollbar(body);
   const id = useId();
   const Heading = `h${headingLevel}` as const;
   const classes = cx(drawer({ position, inline }), className);
@@ -56,7 +62,7 @@ export function Drawer({ position, inline, open, defaultOpen = false, onOpenChan
   const close = () => setOpened(false);
 
   // Opened over the page with focus on the panel itself, closed on Escape and on a click on the scrim, never on one
-  // on the panel (dialog.ts).
+  // on the panel (dialog.ts). The page's own handlers run after these, never instead of them.
   const dialog = useModalDialog(ref, { open: opened, inline, onClose: close, focusSelf: true });
 
   return (
@@ -67,8 +73,7 @@ export function Drawer({ position, inline, open, defaultOpen = false, onOpenChan
       className={classes}
       aria-labelledby={`${id}-title`}
       aria-describedby={description ? `${id}-description` : undefined}
-      {...dialog.props}
-      {...rest}
+      {...mergeProps(dialog.props, rest)}
     >
       <div className={drawer.part('header')}>
         <div className={drawer.part('heading')}>
@@ -84,7 +89,9 @@ export function Drawer({ position, inline, open, defaultOpen = false, onOpenChan
         {!hideClose && <DismissButton label={closeLabel} className={drawer.part('close')} onClick={close} />}
         <Divider />
       </div>
-      <div className={drawer.part('body')}>{children}</div>
+      <div ref={body} className={drawer.part('body')} {...bar}>
+        {children}
+      </div>
       {actions && (
         <div className={drawer.part('footer')}>
           <Divider />

@@ -145,9 +145,30 @@
   background: transparent;
 }
 
-.smbk-combobox:focus-within [data-highlight="keys"] > .smbk-combobox__option--active {
+/* Any option, in a group or not: the options of a group sit in the group's own list. */
+.smbk-combobox:focus-within [data-highlight="keys"] .smbk-combobox__option--active {
   outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
   outline-offset: calc(-1 * var(--smbk-focus-ring-width));
+}
+
+/* ---- what an option carries besides its label: a color swatch before it, at the item's icon size (the dropdown's
+   icon part draws an icon there), then quieter words, the select's second line set after the label instead of under
+   it, and a small badge, before the tick. The label takes the room; the words after it are cut short with an
+   ellipsis before the badge moves. Groups are the select's: the dropdown's label over the dropdown's group, a line
+   between them. ---- */
+
+.smbk-combobox__option-detail {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.smbk-combobox__option-badge {
+  flex-shrink: 0;
+}
+
+/* A disabled option dims its swatch and its badge with its words. */
+.smbk-combobox__option[aria-disabled="true"] :is(.smbk-color-swatch.smbk-combobox__option-lead, .smbk-combobox__option-badge) {
+  opacity: var(--smbk-opacity-disabled);
 }
 
 /* ---- the status row: what the list says instead of options, in words: no results, loading with the turning
@@ -260,7 +281,8 @@
     color: HighlightText;
   }
 
-  .smbk-combobox__option--active .smbk-dropdown__icon {
+  .smbk-combobox__option--active .smbk-dropdown__icon,
+  .smbk-combobox__option--active .smbk-select__option-description {
     color: inherit;
   }
 }

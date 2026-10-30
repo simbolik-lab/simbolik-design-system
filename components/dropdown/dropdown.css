@@ -1,7 +1,8 @@
 /* smbk-dropdown — Dropdown menu. Figma "Dropdown" 4800:63682 over "DropdownItem" 4210:23371.
  * A raised list of actions on the overlay surface: an optional group label,
  * items with an optional checkbox, a leading icon, a label, a trailing icon and
- * a key hint, and dividers between groups. Items come in two heights, the
+ * a key hint (or the tick of a single choice, or a submenu's caret), and
+ * dividers between groups. Items come in two heights, the
  * medium and the small control height (Figma's Items Size), each with the text,
  * icon, side padding and gap of its height; rows touch, with the extra-small
  * inset around the list. Icons read in the subtlest text color, as Figma binds them.
@@ -13,7 +14,11 @@
  * panel. Without script the panel hangs under the opener, lined up with its
  * start or end edge, the gap Figma draws between the select's well and its list
  * below it. With script, the layer is lifted over the page while the panel
- * shows and the wrapper places the panel on the side with room (floating.ts). */
+ * shows and the wrapper places the panel on the side with room (floating.ts).
+ * A submenu part holds an item that opens a second panel and that panel's
+ * layer; the second panel is placed at the right of its item the same way.
+ * A right-click menu is the same panel in an area part, placed from a point
+ * part where the pointer was. */
 
 .smbk-dropdown {
   box-sizing: border-box;
@@ -35,6 +40,11 @@
   overscroll-behavior: contain;
   scrollbar-width: thin;
   scrollbar-color: var(--smbk-color-border-subtle) transparent;
+}
+
+/* A menu opened by a press takes focus itself, as a container, not a control: no ring of its own. */
+.smbk-dropdown:focus {
+  outline: none;
 }
 
 /* Rows never shrink, so a list that stops at its height scrolls rather than squeezing them. */
@@ -159,8 +169,14 @@
   color: var(--smbk-color-action-danger-foreground-disabled);
 }
 
+/* A submenu's item keeps the hover fill while its menu shows, so the way back to it is plain (Figma's Submenu example
+   draws it in the Hover state). */
+.smbk-dropdown__item[aria-expanded="true"] {
+  background: var(--smbk-color-surface-hover);
+}
+
 /* The small row: Body SM, a small icon, the medium inset at its sides and the small gap. */
-.smbk-dropdown--size-small .smbk-dropdown__item {
+.smbk-dropdown--size-sm .smbk-dropdown__item {
   gap: var(--smbk-space-inline-sm);
   min-height: var(--smbk-size-control-sm);
   padding: calc((var(--smbk-size-control-sm) - 1lh) / 2) var(--smbk-space-inset-md);
@@ -179,12 +195,12 @@
   font-weight: var(--smbk-typography-body-md-medium-font-weight);
 }
 
-.smbk-dropdown--size-small .smbk-dropdown__item[aria-current="page"] {
+.smbk-dropdown--size-sm .smbk-dropdown__item[aria-current="page"] {
   font-family: var(--smbk-typography-body-sm-medium-font-family);
   font-weight: var(--smbk-typography-body-sm-medium-font-weight);
 }
 
-.smbk-dropdown--size-small .smbk-dropdown__label {
+.smbk-dropdown--size-sm .smbk-dropdown__label {
   padding-inline: var(--smbk-space-inset-md);
 }
 
@@ -194,7 +210,7 @@
   font-size: var(--smbk-size-icon-md);
 }
 
-.smbk-dropdown--size-small .smbk-dropdown__icon {
+.smbk-dropdown--size-sm .smbk-dropdown__icon {
   font-size: var(--smbk-size-icon-sm);
 }
 
@@ -224,6 +240,36 @@
 .smbk-dropdown__text {
   flex: 1 1 auto;
   min-width: 0;
+}
+
+/* ---- a submenu: its item and the layer of its second panel. The item is drawn as any item, with the caret at its end
+   (an icon part, in the item's icon color and size, as Figma's Submenu caret). With script, the layer is lifted over
+   the page while the second panel shows and the wrapper places the panel at the right of the item, its first item level
+   with it (floating.ts). Without script, an open second panel hangs there from the submenu part, and the panel around
+   it stops clipping so it shows. ---- */
+
+.smbk-dropdown__submenu {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.smbk-dropdown__submenu > .smbk-dropdown__layer:not(:popover-open) > .smbk-dropdown {
+  top: calc(-1 * (var(--smbk-space-inset-xs) + var(--smbk-border-width-hairline)));
+  left: calc(100% + var(--smbk-space-inset-xs) + var(--smbk-border-width-hairline) + var(--smbk-space-stack-xs));
+}
+
+.smbk-dropdown:has(.smbk-dropdown__submenu > .smbk-dropdown__layer:not(:popover-open) > .smbk-dropdown:not([hidden])) {
+  overflow: visible;
+}
+
+/* In a narrow space there is no room beside the panel: without script, an open second panel hangs under its item,
+   stepped in from the panel's edge, over the items below it. */
+@container style(--smbk-layout: narrow) {
+  .smbk-dropdown__submenu > .smbk-dropdown__layer:not(:popover-open) > .smbk-dropdown {
+    top: calc(100% + var(--smbk-space-stack-xs));
+    left: var(--smbk-space-inset-xl);
+  }
 }
 
 /* The divider keeps the extra-small stack step above and below it, as the rows touch. */
@@ -308,6 +354,32 @@
   left: auto;
 }
 
+/* ---- a right-click menu: the area part holds the part of the page the menu opens over, a point the panel hangs from
+   and the layer. The wrapper puts the point where the pointer was (or at the focused element, from the keyboard) and
+   places the panel from it (floating.ts). A finger held on the area opens the menu, so the phone's own callout for a
+   held link or picture is off there. The point is a place, not a shape: no size, no press. ---- */
+
+.smbk-dropdown__area {
+  position: relative;
+  -webkit-touch-callout: none;
+}
+
+.smbk-dropdown__point {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Without script, a right-click menu given as open hangs inside the area, stepped in from its corner, where a pointer
+   would have been. */
+.smbk-dropdown__area > .smbk-dropdown__layer:not(:popover-open) > .smbk-dropdown {
+  top: var(--smbk-space-inset-2xl);
+  left: var(--smbk-space-inset-2xl);
+}
+
 /* ---- touch: every item takes an invisible press area ----
    On a touch screen an invisible area, centred on each item, takes the press out to the comfortable target in each
    direction it falls short of it, except where two items touch: there each keeps its own edge, so the items stay one
@@ -324,20 +396,27 @@
     inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
   }
 
-  .smbk-dropdown__item + .smbk-dropdown__item::after {
+  /* A submenu's item sits in its submenu part, which counts as an item beside its neighbours. */
+  .smbk-dropdown__item + .smbk-dropdown__item::after,
+  :is(.smbk-dropdown__item, .smbk-dropdown__submenu) + .smbk-dropdown__submenu > .smbk-dropdown__item::after,
+  .smbk-dropdown__submenu + .smbk-dropdown__item::after {
     inset-block-start: 0;
   }
 
-  .smbk-dropdown__item:has(+ .smbk-dropdown__item)::after {
+  .smbk-dropdown__item:has(+ .smbk-dropdown__item)::after,
+  .smbk-dropdown__item:has(+ .smbk-dropdown__submenu)::after,
+  .smbk-dropdown__submenu:has(+ :is(.smbk-dropdown__item, .smbk-dropdown__submenu)) > .smbk-dropdown__item::after {
     inset-block-end: 0;
   }
 
   /* Each side of a divider, halfway into its room. */
-  .smbk-dropdown__divider + .smbk-dropdown__item::after {
+  .smbk-dropdown__divider + .smbk-dropdown__item::after,
+  .smbk-dropdown__divider + .smbk-dropdown__submenu > .smbk-dropdown__item::after {
     inset-block-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-xs) / -1);
   }
 
-  .smbk-dropdown__item:has(+ .smbk-dropdown__divider)::after {
+  .smbk-dropdown__item:has(+ .smbk-dropdown__divider)::after,
+  .smbk-dropdown__submenu:has(+ .smbk-dropdown__divider) > .smbk-dropdown__item::after {
     inset-block-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-stack-xs) / -1);
   }
 }

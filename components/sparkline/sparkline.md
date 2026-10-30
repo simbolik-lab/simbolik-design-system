@@ -17,6 +17,7 @@ Shows at a glance how a figure has moved: rising, falling, steady or spiky. It i
 ## Anatomy
 
 - The block, as wide as the space it is given and as tall as a small control.
+- The plot part, as big as the block, holding the svg and dot parts.
 - The svg part, holding the area part, a soft fill of the line's color down to the foot, shown with the area flag, and the line part, through the values from the oldest at the left to the newest at the right.
 - The dot part, on the last value, which stays round however wide the sparkline is.
 

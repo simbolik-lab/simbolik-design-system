@@ -1,3 +1,5 @@
+'use client';
+
 import type { InputHTMLAttributes, ReactNode, Ref } from 'react';
 import { checkbox } from './checkbox.manifest.js';
 import { Icon } from '../icon/icon.js';

@@ -25,6 +25,7 @@ export const list = defineVariants({
   },
   flags: {
     dividers: { description: 'A line between rows, for rows that are actions or choices. Text lists are grouped by their spacing and rarely need one.' },
+    tickless: { description: 'A selectable list whose chosen row shows by its fill and a bolder title, with no tick: for a list where choosing a row opens it, such as an inbox beside its reading pane, where a tick would read as chosen for later. The keyboard and what a screen reader hears stay the same.' },
   },
   parts: ['title', 'items', 'item', 'marker', 'text', 'row', 'start', 'leading', 'body', 'item-title', 'meta', 'trailing', 'check', 'end', 'divider', 'empty', 'glide'],
   figmaNodeId: '7113:863',

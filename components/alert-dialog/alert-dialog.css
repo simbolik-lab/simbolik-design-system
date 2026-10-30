@@ -1,0 +1,4 @@
+/* smbk-alert-dialog — Alert dialog. The modal with the alertdialog role, drawn by the modal's stylesheet: its
+ * markup carries the modal's block, size and part classes after its own mark, smbk-alert-dialog, so every rule of
+ * modal/modal.css and the shared dialog/dialog.css (the scrim, the motion, the page held still) draws it.
+ * This file holds no rules: the alert dialog's own class is only its mark in markup. */

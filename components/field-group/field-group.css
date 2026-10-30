@@ -57,3 +57,34 @@
   line-height: var(--smbk-typography-body-md-line-height);
   letter-spacing: var(--smbk-typography-body-md-letter-spacing);
 }
+
+/* The help under the question holds a line of words, or blocks: paragraphs a paragraph apart, a list's items a line
+   of list spacing apart with the bullets inside the group's edge, and code in the small code style, wrapping rather
+   than running past the group. The message under the options takes the same blocks. */
+:is(.smbk-field-group__description, .smbk-field-group__message) .smbk-field-message__text > :where(p, ul, ol, pre, blockquote) {
+  margin: 0;
+}
+
+:is(.smbk-field-group__description, .smbk-field-group__message) .smbk-field-message__text > * + * {
+  margin-block-start: var(--smbk-space-text-paragraph);
+}
+
+:is(.smbk-field-group__description, .smbk-field-group__message) .smbk-field-message__text :where(ul, ol) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-text-list);
+  padding-inline-start: var(--smbk-space-inset-xl);
+}
+
+:is(.smbk-field-group__description, .smbk-field-group__message) .smbk-field-message__text :where(code, pre) {
+  font-family: var(--smbk-typography-code-sm-font-family);
+  font-size: var(--smbk-typography-code-sm-font-size);
+  font-weight: var(--smbk-typography-code-sm-font-weight);
+  line-height: var(--smbk-typography-code-sm-line-height);
+  letter-spacing: var(--smbk-typography-code-sm-letter-spacing);
+}
+
+:is(.smbk-field-group__description, .smbk-field-group__message) .smbk-field-message__text pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

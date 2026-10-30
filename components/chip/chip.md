@@ -45,6 +45,8 @@ A chip given an address is a link: pressing it goes there. It is never selected 
 
 Whether a chip is a toggle is decided by the `selected` prop being given at all. A filter or choice chip is always given it, true when chosen and false when not. A chip that only acts, such as a suggestion, leaves it out.
 
+A toggle chip carries its tick whether it is on or off, and shows it while it is pressed, so a page built ahead of time can press a chip with a script of its own, setting `aria-pressed` alone, and get the same tick as when React turns it on.
+
 In markup, a link chip is an `a` element carrying the same classes, so it looks the same and has the same hover and focus. The React wrapper's types refuse `selected` and `onRemove` on a chip given an address.
 
 On a touch screen a chip that is pressed, and a remove cross, keep their size and take an invisible press area round them, out to the comfortable touch target; a removable chip takes the press on its cross alone. Where chips stand closer, as in a filter bar or a combobox, each area stops halfway to the next.
@@ -54,7 +56,7 @@ On a touch screen a chip that is pressed, and a remove cross, keep their size an
 ### What it does for you
 
 - A selectable chip is a real button with a pressed state exposed to assistive technology. Given `selected` as true or false, the wrapper marks it pressed or not pressed, so a screen reader says it is a toggle and whether it is on even while it is off.
-- The wrapper derives the pressed state from `selected`; the page does not set it itself.
+- The wrapper derives the pressed state from `selected`; a page rendered by React does not set it itself. A page's own script that presses a chip sets `aria-pressed`, and the tick follows it.
 - A removable chip is plain text plus a real remove button, which the wrapper requires an accessible name for. The button is at least 24 by 24 pixels, the least a press needs, however small its cross.
 - A chip given an address is a real link and is announced as one.
 - The focus ring is the system rule on the chip. On the remove control it is drawn round the cross itself; on a brand or inverse chip it takes the chip's own text color, so it shows on the fill.

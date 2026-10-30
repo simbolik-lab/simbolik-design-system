@@ -1,3 +1,5 @@
+'use client';
+
 import { useId, useMemo, useRef, useState, type HTMLAttributes, type KeyboardEvent, type Ref } from 'react';
 import { useLocale } from 'react-aria';
 import { colorRange } from './color-range.manifest.js';

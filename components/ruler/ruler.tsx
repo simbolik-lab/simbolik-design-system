@@ -1,3 +1,5 @@
+'use client';
+
 import { useRef, useState, type CSSProperties, type HTMLAttributes, type KeyboardEvent, type PointerEvent, type Ref } from 'react';
 import { ruler } from './ruler.manifest.js';
 import { Button } from '../button/button.js';

@@ -19,9 +19,13 @@ The control a person presses to make something happen: submit, confirm, open, de
 - The block, an inline row that centers its content and fixes its own height by size.
 - The label part, the text. Required unless the button is icon-only.
 - The icon part, a Phosphor glyph before the label, after it, or both. Optional. An icon-only button has exactly one icon and no label, and is square.
+- The leading content part, something small before the label and after the leading icon, such as an avatar at the icon's size. Optional.
+- The count part, a number after the label, such as unread messages, drawn as the [badge](../badge/badge.md)'s small neutral pill. Optional.
 - The spinner part, the spinner's turning ring, drawn in the middle of a busy button over its hidden label and icons. Present only while the loading flag is on.
 
-Leading and trailing icons are content, not options: they are placed by the markup, and the size axis sets their size. An icon-only button uses the same icon size as a labeled button of its size.
+Leading and trailing icons are content, not options: they are placed by the markup, and the size axis sets their size. An icon-only button uses the same icon size as a labeled button of its size. The order in the row is leading icon, leading content, label, count, trailing icon.
+
+The full-width flag stretches the button across the whole width of its space, with its content still centered: the one action at the foot of a narrow form, or the actions of a dialog on a phone.
 
 ## Sizes
 
@@ -60,7 +64,7 @@ A ref given to the wrapper reaches the native button, or the link when the butto
 ### What it does for you
 
 - It is a real button, or a real link when it has an address, so Enter and Space press a button and Enter follows a link, with no script of yours.
-- Its label is its name. Icons beside the label are hidden from assistive technology.
+- Its label is its name. Icons beside the label are hidden from assistive technology. A count is read after the label, as in "Inbox 12".
 - Its focus ring is the system's: an outline in the focus color, set off from its edge, which survives forced-color modes.
 - While loading, it keeps its label as its name, tells assistive technology it is busy, keeps focus and ignores presses. The turning ring is hidden from assistive technology.
 - Disabled, it uses the native disabled attribute. Marked with the aria-disabled attribute instead, it stays in the tab order and does nothing when clicked or pressed with Enter or Space. The stylesheet draws both the same.
@@ -68,6 +72,7 @@ A ref given to the wrapper reaches the native button, or the link when the butto
 
 ### What you must do
 
+- Hide an avatar in the leading content from assistive technology when it only repeats the label, since everything inside the button is read as its name.
 - Give an icon-only button an accessible name that says what it does, as a verb phrase. Without one the wrapper warns in development and names it by its icon's words, such as "Magnifying glass", which say what it shows, not what it does.
 - When a loading button's action ends, say once how it went, from the page. The button does not announce it.
 - Use aria-disabled rather than disabled when a disabled button should stay focusable and explain itself.
@@ -91,7 +96,7 @@ A ref given to the wrapper reaches the native button, or the link when the butto
 
 ## Composition
 
-Contains a label and up to two icons. May sit inside a button group, a card footer, a form, an app bar, a dialog's action row. Must not contain another interactive element. A label drawn with the button's classes round a native input, as the file upload's button is, is the exception: it holds that one input beside its label part, and takes the input's focus ring and disabled look.
+Contains a label, up to two icons, and optionally a small avatar before the label and a count after it. May sit inside a button group, a card footer, a form, an app bar, a dialog's action row. Must not contain another interactive element. A label drawn with the button's classes round a native input, as the file upload's button is, is the exception: it holds that one input beside its label part, and takes the input's focus ring and disabled look.
 
 ## Usage rules
 
@@ -107,6 +112,8 @@ Contains a label and up to two icons. May sit inside a button group, a card foot
 - Nest a button inside a link or a link inside a button.
 - Change a button's colors with extra classes. The tones are the whole palette; a new tone is a Figma decision.
 - Set a width on an icon-only button. It is square by its size.
+- Set a width to stretch a button. Use the full-width flag, which keeps its content centered.
+- Put anything that can be pressed in the leading content, or more than a short number in the count.
 - Use the extra-small size for anything but a ghost icon-only button beside text.
 
 ## Related
@@ -118,3 +125,5 @@ Contains a label and up to two icons. May sit inside a button group, a card foot
 - [Split button](../split-button/split-button.md): a main action with a menu of related ones.
 - [Button note](../button-note/button-note.md): a button with a short line that says what it does or why it cannot be pressed.
 - [Spinner](../spinner/spinner.md): the ring a loading button draws, on its own.
+- [Badge](../badge/badge.md): the pill a button's count is drawn with.
+- [Avatar](../avatar/avatar.md): a person's picture or initials, at the icon's size before a label.

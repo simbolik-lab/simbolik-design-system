@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * The charts' entrance: a chart draws itself once, the first time it comes into view (the bars grow, a line is
  * uncovered, a ring sweeps round). The wrapper writes `data-entrance="load"` on the chart's root in its markup and

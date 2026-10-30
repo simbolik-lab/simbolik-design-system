@@ -1,3 +1,5 @@
+'use client';
+
 import { cloneElement, useId, type HTMLAttributes, type ReactElement, type ReactNode } from 'react';
 import { field } from './field.manifest.js';
 import { Label } from '../label/label.js';

@@ -1,9 +1,12 @@
-import { useRef, type ButtonHTMLAttributes, type FocusEvent, type ReactNode, type Ref } from 'react';
+'use client';
+
+import { useRef, useState, type ButtonHTMLAttributes, type FocusEvent, type ReactNode, type Ref } from 'react';
 import { mergeProps, useFocusable, useId, useLocale, useNumberField, useObjectRef, usePress, type AriaButtonProps } from 'react-aria';
 import { useNumberFieldState } from 'react-stately';
 import { numberField } from './number-field.manifest.js';
 import { input } from '../input/input.manifest.js';
 import { Button } from '../button/button.js';
+import { useFormReset } from '../form.js';
 import { InputWell } from '../input/input-well.js';
 import { readsField, useFieldControl } from '../field/field-context.js';
 import { cx } from '../variants.js';
@@ -109,11 +112,17 @@ export function NumberField(props: NumberFieldProps) {
   const control = useObjectRef(ref);
   const { inputProps, decrementButtonProps, incrementButtonProps } = useNumberField(options, state, control);
   const buttonSize = size === 'sm' ? 'xs' : 'sm';
+  // Required is checked on the box the reader types in, as a native field is: a form sent with it empty stops, with
+  // the browser's own message, and the field takes its error look until a number is typed. React Aria puts the
+  // number back on the form's reset.
+  const [missing, setMissing] = useState(false);
+  const shown = Boolean(error) || (missing && Number.isNaN(state.numberValue));
+  useFormReset(control, () => setMissing(false));
   return (
     <InputWell
-      className={cx(numberField({ size, error }), className)}
+      className={cx(numberField({ size, error: shown }), className)}
       size={size}
-      error={error}
+      error={shown}
       nameCheck="NumberField"
       trailingAction={
         (hasUnit || !hideButtons) && (
@@ -129,9 +138,17 @@ export function NumberField(props: NumberFieldProps) {
           </>
         )
       }
-      end={name && <input type="hidden" name={name} form={form} value={Number.isNaN(state.numberValue) ? '' : String(state.numberValue)} />}
+      // The number the form sends, as a plain number; nothing while disabled, as a disabled native field sends nothing.
+      end={name && <input type="hidden" name={name} form={form} value={Number.isNaN(state.numberValue) ? '' : String(state.numberValue)} disabled={disabled} />}
     >
-      <input ref={control} {...inputProps} className={`${input.part('control')} ${numberField.part('control')}`} />
+      <input
+        ref={control}
+        {...inputProps}
+        className={`${input.part('control')} ${numberField.part('control')}`}
+        required={required && !readOnly}
+        aria-invalid={shown ? true : undefined}
+        onInvalid={() => setMissing(true)}
+      />
     </InputWell>
   );
 }

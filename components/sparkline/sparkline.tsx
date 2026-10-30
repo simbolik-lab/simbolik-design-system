@@ -1,3 +1,5 @@
+'use client';
+
 import type { CSSProperties, HTMLAttributes, Ref } from 'react';
 import { areaPath, placePoints, smoothPath } from '../chart.js';
 import { useEntrance } from '../entrance.js';
@@ -40,11 +42,13 @@ export function Sparkline({ values, area = true, summary, min, max, className, r
   const named = summary ? { role: 'img', 'aria-label': summary } : { 'aria-hidden': true as const };
   return (
     <span ref={entrance} data-entrance="load" className={cx(sparkline({ area }), className)} {...named} {...rest}>
-      <svg className={part('svg')} viewBox={`0 0 ${BOX.width} ${BOX.height}`} preserveAspectRatio="none" focusable="false" aria-hidden="true">
-        {area && points.length > 1 && <path className={part('area')} d={areaPath(points, BOX.height)} />}
-        <path className={part('line')} d={smoothPath(points)} />
-      </svg>
-      {dot && <span className={part('dot')} style={dot} />}
+      <span className={part('plot')}>
+        <svg className={part('svg')} viewBox={`0 0 ${BOX.width} ${BOX.height}`} preserveAspectRatio="none" focusable="false" aria-hidden="true">
+          {area && points.length > 1 && <path className={part('area')} d={areaPath(points, BOX.height)} />}
+          <path className={part('line')} d={smoothPath(points)} />
+        </svg>
+        {dot && <span className={part('dot')} style={dot} />}
+      </span>
     </span>
   );
 }

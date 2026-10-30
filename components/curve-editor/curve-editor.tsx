@@ -1,3 +1,5 @@
+'use client';
+
 import { useRef, useState, type HTMLAttributes, type KeyboardEvent, type PointerEvent, type Ref } from 'react';
 import { curveEditor } from './curve-editor.manifest.js';
 import { NumberField } from '../number-field/number-field.js';

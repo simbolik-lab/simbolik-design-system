@@ -2,7 +2,9 @@
  * Events one under another. Each has a rail, a 16 marker with a dot for its kind and a line down to the next
  * event, beside its body: what happened and when on one line, who or what did it under that, and an optional
  * detail in code type on a sunken box. The last event has no line below it. The dot's kind is also said in
- * words, for screen readers; the words a reader sees say it too. */
+ * words, for screen readers; the words a reader sees say it too. An event can hold more that it shows in place
+ * when pressed: its body is then a native details element, what happened, when, who and the detail its summary
+ * with a caret after the time, and the more under them (see the unfolding rules at the end). */
 
 .smbk-timeline {
   display: flex;
@@ -145,6 +147,154 @@
   letter-spacing: var(--smbk-typography-code-sm-letter-spacing);
   text-transform: var(--smbk-typography-code-sm-text-transform);
   overflow-wrap: anywhere;
+}
+
+/* ---- an event that unfolds to more ----
+   The summary lays out what happened, when, who and the detail as the body does, so the event looks the same closed;
+   a caret after the time, in the small icon size the title's text takes, centred on the title's first line, turns
+   when it is open. Pointing at the summary darkens the caret, and keyboard focus rings the summary. The more is Body
+   SM in the secondary text color, a small stack step under the summary, its paragraphs a small stack step apart. */
+
+.smbk-timeline__summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-2);
+  min-width: 0;
+  border-radius: var(--smbk-radius-control-sm);
+  list-style: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.smbk-timeline__summary::-webkit-details-marker {
+  display: none;
+}
+
+/* On a touch screen a summary shorter than the comfortable target takes an invisible press area out to it; the room
+   under each event keeps it clear of the next. */
+@media (pointer: coarse) {
+  .smbk-timeline__summary {
+    position: relative;
+  }
+
+  .smbk-timeline__summary::after {
+    content: '';
+    position: absolute;
+    inset: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+}
+
+.smbk-timeline__summary:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+.smbk-timeline__caret {
+  flex: none;
+  margin-top: calc((var(--smbk-typography-body-sm-medium-font-size) * var(--smbk-typography-body-sm-medium-line-height) - var(--smbk-size-icon-sm)) / 2);
+  color: var(--smbk-color-icon-subtle);
+  font-size: var(--smbk-size-icon-sm);
+  transition: transform var(--smbk-motion-expand-duration) var(--smbk-motion-expand-easing);
+}
+
+@media (hover: hover) {
+  .smbk-timeline__summary:hover .smbk-timeline__caret {
+    color: var(--smbk-color-icon-default);
+  }
+}
+
+/* An event the React component is closing (data-closing) is still open until its motion ends; its caret turns back
+   as the motion starts. */
+.smbk-timeline__disclosure[open]:not([data-closing]) > .smbk-timeline__summary .smbk-timeline__caret {
+  transform: rotate(180deg);
+}
+
+.smbk-timeline__more {
+  display: flex;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-sm);
+  padding-top: var(--smbk-space-stack-sm);
+  color: var(--smbk-color-text-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+  text-transform: var(--smbk-typography-body-sm-text-transform);
+  overflow-wrap: anywhere;
+}
+
+/* Paragraphs and lists in the more are spaced by its gap, not by their own margins. */
+.smbk-timeline__more > * {
+  margin: 0;
+}
+
+/* ---- motion: the more unfolds with the expand purpose and folds back the same way, as an accordion's item does.
+   The body's height grows from the summary to its own while the more fades in from the purpose's slight blur, and the
+   caret turns with it. The React component moves it, the same in every browser, and marks the disclosure data-motion
+   once it runs. While it moves (data-moving) it is clipped, with room for the summary's focus ring, and the foot of
+   what shows fades out over a spacing step, or over what is still hidden when that is less. Markup written by hand is
+   moved by the stylesheet alone where the browser can animate to a natural height, without the fading foot, and opens
+   at once elsewhere. Under reduced motion the height lands at once and the fade and the blur still play. ---- */
+
+/* How much of the more shows while the body moves, from its top: the React component moves it with the height. */
+@property --smbk-timeline-reveal {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+
+.smbk-timeline__disclosure[data-moving] {
+  overflow: clip;
+  overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+}
+
+/* The mask reads only how opaque its paint is, so the text color stands in for "shown". */
+.smbk-timeline__disclosure[data-moving] > .smbk-timeline__more {
+  mask-image: linear-gradient(currentcolor calc(var(--smbk-timeline-reveal) - min(var(--smbk-space-16), 100% - var(--smbk-timeline-reveal))), transparent var(--smbk-timeline-reveal));
+}
+
+@supports (interpolate-size: allow-keywords) {
+  .smbk-timeline__disclosure:not([data-motion]) {
+    interpolate-size: allow-keywords;
+  }
+
+  .smbk-timeline__disclosure:not([data-motion])::details-content {
+    block-size: 0;
+    opacity: 0;
+    filter: blur(var(--smbk-motion-expand-blur));
+    overflow: clip;
+    overflow-clip-margin: calc(var(--smbk-focus-ring-width) + var(--smbk-focus-ring-offset));
+    transition-property: block-size, opacity, filter, content-visibility;
+    transition-duration: var(--smbk-motion-expand-duration);
+    transition-timing-function: var(--smbk-motion-expand-easing);
+    transition-behavior: allow-discrete;
+  }
+
+  .smbk-timeline__disclosure:not([data-motion])[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+    filter: none;
+  }
+
+  /* Under reduced motion the height steps: at once as it opens, and only once it has faded as it closes. */
+  @media (prefers-reduced-motion: reduce) {
+    .smbk-timeline__disclosure:not([data-motion])::details-content {
+      transition-duration: 0s, var(--smbk-motion-expand-duration), var(--smbk-motion-expand-duration), var(--smbk-motion-expand-duration);
+      transition-delay: var(--smbk-motion-expand-duration), 0s, 0s, 0s;
+    }
+
+    .smbk-timeline__disclosure:not([data-motion])[open]::details-content {
+      transition-delay: 0s;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smbk-timeline__caret {
+    transition: none;
+  }
 }
 
 /* Words for screen readers only: the kind of event the dot shows. */

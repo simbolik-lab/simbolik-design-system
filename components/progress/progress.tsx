@@ -1,3 +1,5 @@
+'use client';
+
 import type { HTMLAttributes, MouseEventHandler } from 'react';
 import { progress } from './progress.manifest.js';
 import { Icon } from '../icon/icon.js';

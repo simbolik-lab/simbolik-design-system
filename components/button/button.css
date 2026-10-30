@@ -57,6 +57,23 @@
   display: inline-block;
 }
 
+/* Leading content (a small avatar) keeps its own size and sits on the label's line. */
+.smbk-btn__leading-content {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+/* The count is the badge's small neutral pill (its own classes draw it), right after the label. In a disabled
+   button its number takes the disabled label color with the rest. */
+.smbk-btn__count {
+  flex-shrink: 0;
+}
+
+.smbk-btn:is(:disabled, [aria-disabled="true"]) .smbk-btn__count {
+  color: var(--smbk-color-action-disabled-foreground);
+}
+
 /* ---- tone: brand (the default) ---- */
 
 @media (hover: hover) {
@@ -313,6 +330,13 @@ button.smbk-btn.smbk-toggle-button[aria-pressed="true"]:is(:disabled, [aria-disa
 .smbk-btn--icon-only.smbk-btn--size-xs {
   width: var(--smbk-size-control-xs);
   padding: 0;
+}
+
+/* ---- full width: the button takes the whole width of its space ----
+   The label and its icons stay centered. After the icon-only rules, so a stretched icon button stretches too. */
+
+.smbk-btn--full-width {
+  width: 100%;
 }
 
 /* ---- loading: the action is running ----

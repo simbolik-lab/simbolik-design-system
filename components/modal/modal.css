@@ -45,6 +45,12 @@
   font-size: var(--smbk-size-icon-lg);
 }
 
+/* The alert dialog (alert-dialog.css, drawn by this stylesheet) warns in the danger color while its confirm action is
+   the danger one, as its Figma drawing has it; with a brand confirm action its icon keeps the modal's color. */
+.smbk-alert-dialog:has(.smbk-btn--tone-danger) .smbk-modal__icon {
+  color: var(--smbk-color-feedback-danger-icon);
+}
+
 .smbk-modal__title {
   margin: 0;
   font-family: var(--smbk-typography-heading-2xs-bold-font-family);
@@ -78,7 +84,9 @@
   letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
 }
 
-.smbk-modal__body > :first-child {
+/* The first thing in it, after the scrollbar the script adds (scrollbar.ts). */
+.smbk-modal__body > :first-child,
+.smbk-modal__body > .smbk-scrollbar:first-child + * {
   margin-top: 0;
 }
 

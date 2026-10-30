@@ -98,6 +98,13 @@
   line-height: var(--smbk-typography-heading-xl-line-height);
 }
 
+/* An action drawn by a button note: its note hangs under the buttons. The row then lines its items up by their tops,
+   each button a medium control, a step in from the title's line so it stays centred on it, as without a note. */
+.smbk-page-header__actions:has(> .smbk-button-note) {
+  align-items: flex-start;
+  padding-block-start: calc((1lh - var(--smbk-size-control-md)) / 2);
+}
+
 /* Each "More actions" opener shows in one layout only: the narrow one also holds the actions the narrow row hides. */
 .smbk-page-header__more {
   display: flex;
@@ -207,6 +214,16 @@
 
   .smbk-page-header__actions {
     min-height: 0;
+  }
+
+  .smbk-page-header__actions:has(> .smbk-button-note) {
+    padding-block-start: 0;
+  }
+
+  /* A main action with a note fills the row too, its note under it at the start. */
+  .smbk-page-header__action--primary.smbk-button-note {
+    align-items: stretch;
+    text-align: start;
   }
 
   .smbk-page-header__action--primary {

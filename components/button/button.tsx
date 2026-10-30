@@ -1,5 +1,8 @@
+'use client';
+
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode, Ref, SyntheticEvent } from 'react';
 import { button } from './button.manifest.js';
+import { Badge } from '../badge/badge.js';
 import { Icon } from '../icon/icon.js';
 import { spinner } from '../spinner/spinner.manifest.js';
 import { iconWords, useNameWarning, useWarning } from '../name-check.js';
@@ -15,6 +18,10 @@ interface CommonProps extends Variants {
   trailingIcon?: string;
   /** The icon of an icon-only button. */
   icon?: string;
+  /** Anything small that sits before the label, after the leading icon: an Avatar at the icon's size (2xs). It is read as part of the button's name, so hide what only repeats the label (aria-hidden on an avatar of initials, an empty alt on a picture). */
+  leadingContent?: ReactNode;
+  /** A number after the label, such as unread messages, drawn as a small neutral Badge. It is read with the label ("Inbox 12"), so the label should say what it counts. */
+  count?: ReactNode;
   /** Extra classes for adjusting the button in place, such as a site's own class for its position. Never a fork. */
   className?: string;
   children?: ReactNode;
@@ -38,10 +45,11 @@ export type ButtonProps = CommonProps &
  * draws at the small size.
  */
 export function Button(props: ButtonProps) {
-  const { tone, size, loading, leadingIcon, trailingIcon, icon, className, children, ...rest } = props;
+  const { tone, size, loading, leadingIcon, trailingIcon, icon, leadingContent, count, className, children, ...rest } = props;
   const iconOnly = props['icon-only'] === true;
+  const fullWidth = props['full-width'] === true;
   const busy = loading === true;
-  const { 'icon-only': _omit, ...attrs } = rest as Record<string, unknown>;
+  const { 'icon-only': _omit, 'full-width': _omitWidth, ...attrs } = rest as Record<string, unknown>;
   // aria-disabled keeps the button in the tab order, so it can be found and explained, but it does nothing:
   // a click, Enter or Space runs no handler, submits no form, and a link goes nowhere. A busy button is the same,
   // so its action cannot run twice, and it says it is busy; it is never disabled, so focus stays on it.
@@ -55,7 +63,7 @@ export function Button(props: ButtonProps) {
   useWarning(wrongXs, 'The xs Button is a ghost icon-only button: give it tone="ghost" and icon-only, or use the sm size. It is drawn at the sm size.');
   const drawn = wrongXs ? 'sm' : size;
 
-  const classes = cx(button({ tone, size: drawn, 'icon-only': iconOnly, loading: busy }), className);
+  const classes = cx(button({ tone, size: drawn, 'icon-only': iconOnly, loading: busy, 'full-width': fullWidth }), className);
   const iconPart = button.part('icon');
 
   const content = iconOnly ? (
@@ -63,7 +71,13 @@ export function Button(props: ButtonProps) {
   ) : (
     <>
       {leadingIcon && <Icon name={leadingIcon} className={iconPart} />}
+      {leadingContent != null && <span className={button.part('leading-content')}>{leadingContent}</span>}
       <span className={button.part('label')}>{children}</span>
+      {count != null && (
+        <Badge size="sm" className={button.part('count')}>
+          {count}
+        </Badge>
+      )}
       {trailingIcon && <Icon name={trailingIcon} className={iconPart} />}
     </>
   );

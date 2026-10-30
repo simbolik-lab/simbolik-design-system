@@ -1,0 +1,34 @@
+/* smbk-menubar — Menubar. Figma "Menubar" 8222:3544 (State: Closed, Open).
+ * A row of menu titles on the default surface, the rim around it and the large control corner, the extra-small inset
+ * all round and no gap between titles. Each title is the ghost button at its small size, 32 tall, with the item part;
+ * while its menu shows it keeps the ghost button's pressed fill. The edge is drawn inside, as Figma draws it, so the
+ * inset gives its width back: the bar is 40 tall. A row too long for its space wraps onto a second line rather than
+ * pushing the page sideways.
+ * Each menu is the dropdown: its anchor holds the title and the layer, and the panel hangs the extra-small stack step
+ * below the bar, lined up with its title's start, as Figma's Open draws the File menu. With script the wrapper places
+ * it there (floating.ts, standing off from the bar); without script it hangs there from its title. */
+
+.smbk-menubar {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--smbk-space-0);
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  padding: calc(var(--smbk-space-inset-xs) - var(--smbk-border-width-hairline));
+  border: var(--smbk-border-width-hairline) solid var(--smbk-color-border-rim);
+  border-radius: var(--smbk-radius-control-lg);
+  background: var(--smbk-color-surface-default);
+  color: var(--smbk-color-text-default);
+}
+
+/* The title whose menu shows: the ghost button's pressed fill (Figma's Open, Button State=Pressed). */
+.smbk-menubar__item[aria-expanded="true"] {
+  background: var(--smbk-color-action-ghost-background-pressed);
+}
+
+/* Without script, an open menu hangs below the bar, not below its title: the bar's inset and edge, then the gap. */
+.smbk-menubar .smbk-dropdown__anchor > .smbk-dropdown__layer:not(:popover-open) > .smbk-dropdown {
+  top: calc(100% + var(--smbk-space-inset-xs) + var(--smbk-space-stack-xs));
+}

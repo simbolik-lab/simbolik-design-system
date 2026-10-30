@@ -60,6 +60,12 @@ const SYSTEM_COLOURS = new Set(
 export interface Context {
   /** Inside `@media (forced-colors: active)`. */
   forcedColors?: boolean;
+  /**
+   * The inset of a touch screen's invisible press area (a `::before` or `::after` inside `@media (pointer: coarse)`),
+   * where half of a gap's space token, negated, is the area stopping halfway into the gap to a closer neighbour: the
+   * way the system's own controls write it, and the way a project's own control is told to.
+   */
+  pressArea?: boolean;
 }
 
 const COLOUR_PROPERTY =
@@ -154,7 +160,7 @@ export function analyse(propIn: string, value: string, context: Context = {}): I
 
   // Arithmetic that makes a new value out of a token.
   for (const expr of mathExpressions(v)) {
-    const bad = tokenArithmetic(expr);
+    const bad = tokenArithmetic(expr, context.pressArea);
     if (bad) add('token-arithmetic', bad);
   }
   return issues;
@@ -203,7 +209,7 @@ function splitTop(s: string, sepChar: string): string[] {
  * and a bare number other than 1 or -1 makes a new value from a token.
  * Operands that also hold a proportion (%, vw, fr, ...) are layout arithmetic, which is fine.
  */
-function tokenArithmetic(expr: string): string | null {
+function tokenArithmetic(expr: string, pressArea = false): string | null {
   const operands: string[] = [];
   const ops: string[] = [];
   let i = 0;
@@ -238,16 +244,41 @@ function tokenArithmetic(expr: string): string | null {
     const n = Number.parseFloat(t);
     return n !== 0 && !(product && Math.abs(n) === 1);
   };
+  /**
+   * Half of one space token, negated (`var(--smbk-space-inline-sm) / -2`, or `/ 2 * -1`): a press area stopping
+   * halfway into the gap that token makes. Only in a press area's inset, and only that product.
+   */
+  const halfGap = (run: string[], runOps: string[]) => {
+    if (!pressArea) return false;
+    const tokens = run.filter(tokenOnly);
+    if (tokens.length !== 1 || !/^var\(--smbk-space-[\w-]+\)$/.test(tokens[0]!)) return false;
+    let factor = 1;
+    for (let k = 0; k < run.length; k++) {
+      const by = k === 0 ? '*' : runOps[k - 1]!;
+      if (run[k] === tokens[0]) {
+        if (by !== '*') return false;
+        continue;
+      }
+      const t = run[k]!.replace(/^\(|\)$/g, '').trim();
+      if (!NUMBER.test(t)) return false;
+      factor = by === '/' ? factor / Number.parseFloat(t) : factor * Number.parseFloat(t);
+    }
+    return factor === -0.5;
+  };
   for (const group of [['*', '/'], ['+', '-']]) {
     const product = group[0] === '*';
     // Walk runs of operands joined by this group's operators.
     let run: string[] = [operands[0] ?? ''];
-    const flush = () => run.length > 1 && run.some(tokenOnly) && run.some((o) => bareNumber(o, product));
+    let runOps: string[] = [];
+    const flush = () => run.length > 1 && run.some(tokenOnly) && run.some((o) => bareNumber(o, product)) && !(product && halfGap(run, runOps));
     for (let k = 0; k < ops.length; k++) {
-      if (group.includes(ops[k]!)) run.push(operands[k + 1] ?? '');
-      else {
+      if (group.includes(ops[k]!)) {
+        run.push(operands[k + 1] ?? '');
+        runOps.push(ops[k]!);
+      } else {
         if (flush()) return s;
         run = [operands[k + 1] ?? ''];
+        runOps = [];
       }
     }
     if (flush()) return s;

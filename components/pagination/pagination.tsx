@@ -1,6 +1,10 @@
+'use client';
+
 import type { HTMLAttributes } from 'react';
 import { pagination } from './pagination.manifest.js';
 import { Button } from '../button/button.js';
+import { button } from '../button/button.manifest.js';
+import { Icon } from '../icon/icon.js';
 import { Select } from '../select/select.js';
 import { OutsideField } from '../field/field-context.js';
 import { Label } from '../label/label.js';
@@ -12,7 +16,14 @@ export interface PaginationProps extends Omit<HTMLAttributes<HTMLElement>, 'onCh
   page: number;
   /** How many pages there are. Derived from total and pageSize for the range type. */
   count?: number;
+  /** Called with the page chosen, when the pages are buttons. With `href`, only the select's choice calls it. */
   onChange?: (page: number) => void;
+  /**
+   * Each page's address, given its number. With it, every page and Previous and Next are links to their pages, which
+   * need no script: for pages built ahead of time, and pages a search engine should follow. The select types' select
+   * goes to the chosen page's address.
+   */
+  href?: (page: number) => string;
   /** Accessible name of the navigation region. */
   label?: string;
   /** How many numbered pages to show either side of the current one before collapsing to a gap. */
@@ -42,6 +53,27 @@ export interface PaginationProps extends Omit<HTMLAttributes<HTMLElement>, 'onCh
   showingText?: string;
   /** Range type: the words after the select, given the total and the unit: "of 120 results" unless given. */
   totalText?: (total: number, unit: string) => string;
+}
+
+/**
+ * Previous or Next with no page to go to, in the links form: a link with no address, dimmed as a disabled button is,
+ * so a press, a search engine and the Tab key all pass it by.
+ */
+function NoPage({ icon, label, iconOnly = false, after = false, className }: { icon: string; label: string; iconOnly?: boolean; after?: boolean; className: string }) {
+  const glyph = <Icon name={icon} className={button.part('icon')} />;
+  return (
+    <a role="link" aria-disabled="true" aria-label={iconOnly ? label : undefined} className={cx(button({ tone: 'ghost', size: 'sm', 'icon-only': iconOnly }), className)}>
+      {iconOnly ? (
+        glyph
+      ) : (
+        <>
+          {!after && glyph}
+          <span className={button.part('label')}>{label}</span>
+          {after && glyph}
+        </>
+      )}
+    </a>
+  );
 }
 
 const englishPage = (page: number) => `Page ${page}`;
@@ -75,14 +107,29 @@ export function pageWindow(page: number, count: number, siblings = 1): (number |
  * The numbers and select types hold both of their forms, and the layout switch shows one, by CSS: in a
  * narrow space the numbers give way to the status part ("6 of 11"), and the select type's Previous and Next
  * to their icon-only forms, each named as the numbers bar's are.
+ *
+ * Given `href`, every page and Previous and Next are links instead, which work with no script; Previous on the first
+ * page and Next on the last are links with no address, out of the Tab order, since a press loads another page anyway.
  */
-export function Pagination({ type, borderless, page, count, onChange, label = 'Pagination', siblings, pageSize = 20, total = 0, unit = 'results', selectSize = 'md', previousLabel, nextLabel, pageLabel = englishPage, selectLabel, countText = englishCount, showingText = 'Showing', totalText = englishTotal, className, ...rest }: PaginationProps) {
+export function Pagination({ type, borderless, page, count, onChange, href, label = 'Pagination', siblings, pageSize = 20, total = 0, unit = 'results', selectSize = 'md', previousLabel, nextLabel, pageLabel = englishPage, selectLabel, countText = englishCount, showingText = 'Showing', totalText = englishTotal, className, ...rest }: PaginationProps) {
   const classes = cx(pagination({ type, borderless }), className);
   const pages = count ?? Math.max(1, Math.ceil(total / pageSize));
   const go = (next: number) => {
     if (next < 1 || next > pages || next === page) return;
     onChange?.(next);
+    if (href) window.location.assign(href(next));
   };
+  // Previous or Next: a button, a link to its page, or, with addresses and no page there, a link to nowhere.
+  const step = (to: number, edge: boolean, words: { label: string; icon: string; iconOnly?: boolean; after?: boolean; className: string }) => {
+    const { label: name, icon, iconOnly, after, className: part } = words;
+    if (href && edge) return <NoPage icon={icon} label={name} iconOnly={iconOnly} after={after} className={part} />;
+    const look = iconOnly ? { icon, 'icon-only': true as const, 'aria-label': name } : after ? { trailingIcon: icon } : { leadingIcon: icon };
+    const children = iconOnly ? undefined : name;
+    if (href) return <Button tone="ghost" size="sm" {...look} href={href(to)} rel={to < page ? 'prev' : 'next'} className={part}>{children}</Button>;
+    return <Button tone="ghost" size="sm" {...look} className={part} aria-disabled={edge || undefined} onClick={() => go(to)}>{children}</Button>;
+  };
+  const first = page <= 1;
+  const last = page >= pages;
 
   if (type === 'range') {
     const ranges = Array.from({ length: pages }, (_, i) => {
@@ -102,15 +149,11 @@ export function Pagination({ type, borderless, page, count, onChange, label = 'P
   if (type === 'select') {
     return (
       <nav aria-label={label} className={classes} {...rest}>
-        <Button tone="ghost" size="sm" leadingIcon="CaretLeft" className={`${pagination.part('previous')} ${pagination.part('wide-only')}`} aria-disabled={page <= 1 || undefined} onClick={() => go(page - 1)}>
-          {previousLabel ?? 'Previous'}
-        </Button>
-        <Button tone="ghost" size="sm" icon="CaretLeft" icon-only aria-label={previousLabel ?? 'Previous page'} className={`${pagination.part('previous')} ${pagination.part('narrow-only')}`} aria-disabled={page <= 1 || undefined} onClick={() => go(page - 1)} />
+        {step(page - 1, first, { label: previousLabel ?? 'Previous', icon: 'CaretLeft', className: `${pagination.part('previous')} ${pagination.part('wide-only')}` })}
+        {step(page - 1, first, { label: previousLabel ?? 'Previous page', icon: 'CaretLeft', iconOnly: true, className: `${pagination.part('previous')} ${pagination.part('narrow-only')}` })}
         <OutsideField><Select size={selectSize} aria-label={selectLabel ?? 'Page'} className={pagination.part('select')} value={String(page)} onChange={(v) => go(Number(v))} options={Array.from({ length: pages }, (_, i) => ({ value: String(i + 1), label: countText(i + 1, pages) }))} /></OutsideField>
-        <Button tone="ghost" size="sm" trailingIcon="CaretRight" className={`${pagination.part('next')} ${pagination.part('wide-only')}`} aria-disabled={page >= pages || undefined} onClick={() => go(page + 1)}>
-          {nextLabel ?? 'Next'}
-        </Button>
-        <Button tone="ghost" size="sm" icon="CaretRight" icon-only aria-label={nextLabel ?? 'Next page'} className={`${pagination.part('next')} ${pagination.part('narrow-only')}`} aria-disabled={page >= pages || undefined} onClick={() => go(page + 1)} />
+        {step(page + 1, last, { label: nextLabel ?? 'Next', icon: 'CaretRight', after: true, className: `${pagination.part('next')} ${pagination.part('wide-only')}` })}
+        {step(page + 1, last, { label: nextLabel ?? 'Next page', icon: 'CaretRight', iconOnly: true, className: `${pagination.part('next')} ${pagination.part('narrow-only')}` })}
       </nav>
     );
   }
@@ -119,7 +162,7 @@ export function Pagination({ type, borderless, page, count, onChange, label = 'P
     <nav aria-label={label} className={classes} {...rest}>
       <ul className={pagination.part('list')}>
         <li className={pagination.part('item')}>
-          <Button tone="ghost" size="sm" icon="CaretLeft" icon-only aria-label={previousLabel ?? 'Previous page'} className={pagination.part('previous')} aria-disabled={page <= 1 || undefined} onClick={() => go(page - 1)} />
+          {step(page - 1, first, { label: previousLabel ?? 'Previous page', icon: 'CaretLeft', iconOnly: true, className: pagination.part('previous') })}
         </li>
         <li className={`${pagination.part('item')} ${pagination.part('status')}`}>
           {countText(page, pages)}
@@ -133,14 +176,20 @@ export function Pagination({ type, borderless, page, count, onChange, label = 'P
             </li>
           ) : (
             <li key={n} className={pagination.part('item')}>
-              <Button tone="ghost" size="sm" className={pagination.part('page')} aria-current={n === page ? 'page' : undefined} aria-label={pageLabel(n)} onClick={() => go(n)}>
-                {n}
-              </Button>
+              {href ? (
+                <Button tone="ghost" size="sm" href={href(n)} className={pagination.part('page')} aria-current={n === page ? 'page' : undefined} aria-label={pageLabel(n)}>
+                  {n}
+                </Button>
+              ) : (
+                <Button tone="ghost" size="sm" className={pagination.part('page')} aria-current={n === page ? 'page' : undefined} aria-label={pageLabel(n)} onClick={() => go(n)}>
+                  {n}
+                </Button>
+              )}
             </li>
           ),
         )}
         <li className={pagination.part('item')}>
-          <Button tone="ghost" size="sm" icon="CaretRight" icon-only aria-label={nextLabel ?? 'Next page'} className={pagination.part('next')} aria-disabled={page >= pages || undefined} onClick={() => go(page + 1)} />
+          {step(page + 1, last, { label: nextLabel ?? 'Next page', icon: 'CaretRight', iconOnly: true, className: pagination.part('next') })}
         </li>
       </ul>
     </nav>

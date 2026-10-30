@@ -20,6 +20,7 @@ Shows things that happened, one after another, so the reader can follow a histor
 - The item part, a list item for each event. Its tone is a modifier of the part: default, info, success, warning or danger.
 - The rail part: the marker part, a 16 circle in the kind's soft color holding the dot part, and the line part, down to the next event. The last event has no line.
 - The body part: the top part holding the title part, what happened, and the time part, when; then the meta part, who or what did it; then the detail part, an optional line in code type on a sunken box.
+- An event that unfolds: the body holds the disclosure part, a `details` element whose summary part holds the top, meta and detail parts, with the caret part after the time, and the more part, what it shows when open.
 - The hidden part: the event's kind in words for screen readers, before its title.
 
 ## When to use
@@ -36,7 +37,9 @@ Shows things that happened, one after another, so the reader can follow a histor
 
 ## Behavior
 
-The events keep the order the page gives them; the timeline does not sort. The title wraps beside its time, which stays at the end of the line. The detail wraps inside its box. Nothing moves and nothing takes focus.
+The events keep the order the page gives them; the timeline does not sort. The title wraps beside its time, which stays at the end of the line. The detail wraps inside its box. Nothing moves and nothing takes focus, except an event that unfolds.
+
+An event can hold more than its title, time, meta line and detail (`more`), such as the whole entry of a log, shown in place when the reader presses the event. The event's title, time, meta line and detail are then one row that opens and closes it, with a caret after the time that turns when it is open; the more unfolds under the row with the expand motion, as an accordion's item does, in Body SM and the secondary text color, its paragraphs a small step apart. It starts closed unless `defaultExpanded` is set, or the page holds it with `expanded` and `onExpandedChange`. Under reduced motion the height lands at once and the fade still plays. Written by hand, the body holds a `details` element with the disclosure class, its `summary` with the summary class holding spans with the top, title, time, meta and detail classes, and the more after it.
 
 ## Accessibility
 ### What it does for you
@@ -46,18 +49,28 @@ The events keep the order the page gives them; the timeline does not sort. The t
 - The kind of event is said in words before the title, such as "Warning: Two images failed to upload".
 - With a machine-readable date, the time is a `time` element carrying it.
 - It takes no focus of its own; a link in a title or a detail is a Tab stop.
+- An event that unfolds is a native disclosure: its row is a Tab stop, named by the kind, title, time, meta line and detail, says whether it is expanded, and opens and closes with Enter and Space, with no script.
 
 ### What you must do
 
 - Name the list with `aria-label` when the page has more than one.
 - Say the kind in the title's own words too ("Deploy failed", not "Build 481"), so a reader who cannot tell the dots' colors apart still knows it.
 - In markup written by hand, add the kind's words in the hidden part.
+- Keep links and buttons out of an unfolding event's title, meta line and detail: they sit inside the row that opens it. Put them in the more.
 
 ### How to test
 
 - With a screen reader, the events are read as an ordered list in the order given, each with its kind before its title.
 - Tab through the page: focus skips the timeline itself and lands only on a link in a title or a detail.
 - With text at 200% and the page 320 pixels wide, the title wraps beside its time, and the detail wraps inside its box.
+- Tab to an event that unfolds and press Enter or Space: the more shows under it and a screen reader hears it expanded; press again and it closes.
+
+### Keyboard
+
+| Key | What it does |
+|---|---|
+| Tab | Moves focus to the row of each event that unfolds, and to a link in a title, a detail or an open more. |
+| Enter or Space | On an event's row, shows its more, or hides it when shown. |
 
 ## Composition
 

@@ -76,6 +76,12 @@
   color: var(--smbk-color-text-disabled);
 }
 
+/* The scrollbar drawn over the control (scrollbar.ts) stops short of the corner, where the grip and the browser's
+   resize handle are. */
+.smbk-text-area > .smbk-scrollbar .smbk-scrollbar__track--y {
+  inset-block-end: calc(var(--smbk-space-inset-xs) + var(--smbk-size-icon-xs));
+}
+
 /* A read-only text area cannot be made taller, so it has no grip, as Figma draws it. */
 .smbk-text-area:has(.smbk-input__control[readonly]) .smbk-text-area__grip {
   display: none;

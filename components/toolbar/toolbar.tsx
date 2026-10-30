@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Toolbar: a labelled bar of related tools for a view, a selection or an editor.
  *
@@ -58,6 +60,7 @@ import { Dropdown } from '../dropdown/dropdown.js';
 import { FilterBarApplied, FilterBarCount, type AppliedFilter } from '../filter-bar/filter-bar.js';
 import { Icon } from '../icon/icon.js';
 import { input } from '../input/input.manifest.js';
+import { keyShortcut } from '../key-shortcut.js';
 import { link } from '../link/link.manifest.js';
 import { Popover, PopoverBody } from '../popover/popover.js';
 import { spinner } from '../spinner/spinner.manifest.js';
@@ -294,11 +297,16 @@ export function ToolbarActions({ divider = true, ...props }: ToolbarToolsProps) 
   return zone('actions', divider, props);
 }
 
-export interface ToolbarToolProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'aria-label' | 'aria-pressed'> {
+export interface ToolbarToolProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'aria-label' | 'aria-pressed' | 'aria-keyshortcuts'> {
   /** The Phosphor icon. */
   icon: string;
   /** The tool's name: what a screen reader says, and what its tooltip shows. The same whether on or off. */
   label: string;
+  /**
+   * The tool's key, keys apart by a space ("]", "⌘ B"): shown after the name in its tooltip as a key cap, and told to
+   * screen readers as the tool's aria-keyshortcuts. Only shown: the page listens for the key and presses the tool.
+   */
+  shortcut?: string;
   /** Given, true or false, the tool is a toggle that stays on or off, as the page holds it. */
   pressed?: boolean;
   /** Given, the tool is a toggle that holds its own state, starting on or off. */
@@ -312,11 +320,13 @@ export interface ToolbarToolProps extends Omit<ButtonHTMLAttributes<HTMLButtonEl
  * An icon-only tool: the small ghost icon button, or the ghost toggle button when given `pressed` or
  * `defaultPressed`, named by `label`. The name shows in a tooltip under it while it is pointed at or has keyboard
  * focus, as the arrow keys give it, and the tooltip is hidden from screen readers, which hear the name once.
+ * Given a `shortcut`, the tooltip shows the key after the name as a key cap ("Zoom in ]") and the tool carries it as
+ * aria-keyshortcuts; the page listens for the key.
  */
-export function ToolbarTool({ icon, label, pressed, defaultPressed, onPressedChange, ref, ...rest }: ToolbarToolProps) {
-  const { targetRef, hoverProps, focusProps, tip } = useTip({ text: label, purpose: 'name' });
+export function ToolbarTool({ icon, label, shortcut, pressed, defaultPressed, onPressedChange, ref, ...rest }: ToolbarToolProps) {
+  const { targetRef, hoverProps, focusProps, tip } = useTip({ text: label, shortcut, purpose: 'name' });
   const own = mergeRefs(targetRef as RefObject<HTMLButtonElement | null>, ref);
-  const props = { ...mergeProps(rest, hoverProps, focusProps), ref: own, 'aria-label': label };
+  const props = { ...mergeProps(rest, hoverProps, focusProps), ref: own, 'aria-label': label, 'aria-keyshortcuts': shortcut ? keyShortcut(shortcut) : undefined };
   const toggle = pressed !== undefined || defaultPressed !== undefined;
   return (
     <>
@@ -488,7 +498,7 @@ export function ToolbarOverflow({ label = 'More actions', children, defaultOpen 
       <Dropdown
         label={label}
         align="end"
-        size="small"
+        size="sm"
         defaultOpen={defaultOpen}
         trigger={<Button tone="ghost" size="sm" icon-only icon="DotsThree" aria-label={label} ref={targetRef as RefObject<HTMLButtonElement | null>} {...mergeProps(hoverProps, focusProps)} />}
       >

@@ -343,6 +343,7 @@ export const primitive = {
     "80": "80ms",
     "150": "150ms",
     "200": "200ms",
+    "280": "280ms",
     "320": "320ms",
     "500": "500ms",
     "1000": "1000ms",
@@ -354,7 +355,12 @@ export const primitive = {
     "expo-out": "cubic-bezier(0.16, 1, 0.3, 1)",
     "expo-in": "cubic-bezier(0.7, 0, 0.84, 0)",
     "cubic-in-out": "cubic-bezier(0.65, 0, 0.35, 1)",
-    "steep-out": "cubic-bezier(0, 0.7, 0.5, 1)"
+    "quart-in-out": "cubic-bezier(0.77, 0, 0.175, 1)",
+    "cubic-out": "cubic-bezier(0.215, 0.61, 0.355, 1)",
+    "steep-out": "cubic-bezier(0, 0.7, 0.5, 1)",
+    "standard": "cubic-bezier(0.4, 0, 0.2, 1)",
+    "ease-out": "cubic-bezier(0, 0, 0.58, 1)",
+    "back-out": "cubic-bezier(0.44, 0.85, 0.1, 1.3)"
   }
 } as const;
 
@@ -902,18 +908,46 @@ export const semantic = {
       "body": {
         "stack": "Geist Fallback, system-ui, sans-serif",
         "local": "Arial, Helvetica",
-        "size-adjust": 1.0476,
-        "ascent": 0.9594,
-        "descent": 0.2816,
-        "line-gap": 0
+        "size-adjust": 1.0264,
+        "ascent": 0.9792,
+        "descent": 0.2874,
+        "line-gap": 0,
+        "light": {
+          "size-adjust": 1.0109
+        },
+        "medium": {
+          "size-adjust": 1.0504
+        },
+        "semibold": {
+          "local": "Arial Bold, Helvetica Bold",
+          "size-adjust": 0.9956
+        },
+        "bold": {
+          "local": "Arial Bold, Helvetica Bold",
+          "size-adjust": 1.0175
+        }
       },
       "display": {
         "stack": "Funnel Display Fallback, system-ui, sans-serif",
         "local": "Arial, Helvetica",
-        "size-adjust": 1.0655,
-        "ascent": 0.9385,
-        "descent": 0.2346,
-        "line-gap": 0
+        "size-adjust": 1.0568,
+        "ascent": 0.9463,
+        "descent": 0.2366,
+        "line-gap": 0,
+        "light": {
+          "size-adjust": 1.0481
+        },
+        "medium": {
+          "size-adjust": 1.0685
+        },
+        "semibold": {
+          "local": "Arial Bold, Helvetica Bold",
+          "size-adjust": 0.9966
+        },
+        "bold": {
+          "local": "Arial Bold, Helvetica Bold",
+          "size-adjust": 1.0044
+        }
       },
       "mono": {
         "stack": "Geist Mono Fallback, ui-monospace, monospace",
@@ -942,12 +976,49 @@ export const semantic = {
       "duration": "200ms",
       "easing": "cubic-bezier(0.7, 0, 0.84, 0)"
     },
+    "expand": {
+      "duration": "320ms",
+      "easing": "cubic-bezier(0.215, 0.61, 0.355, 1)",
+      "blur": "2px"
+    },
+    "fill": {
+      "duration": "320ms",
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)"
+    },
+    "draw": {
+      "duration": "320ms",
+      "delay": "200ms",
+      "easing": "cubic-bezier(0, 0, 0.58, 1)"
+    },
+    "pop": {
+      "duration": "500ms",
+      "easing": "cubic-bezier(0.44, 0.85, 0.1, 1.3)"
+    },
+    "fold": {
+      "duration": "280ms",
+      "easing": "cubic-bezier(0.77, 0, 0.175, 1)",
+      "label-duration": "150ms",
+      "label-easing": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "blur": "2px"
+    },
     "stagger": {
       "delay": "80ms"
     },
     "hover": {
       "open-delay": "80ms",
       "close-delay": "320ms"
+    },
+    "hold": {
+      "delay": "500ms"
+    },
+    "tooltip": {
+      "open-delay": "1000ms"
+    },
+    "help": {
+      "open-delay": "320ms"
+    },
+    "scrollbar": {
+      "hide-delay": "500ms"
     },
     "marquee": {
       "duration": "22000ms"
@@ -968,6 +1039,10 @@ export const semantic = {
     },
     "ambient": {
       "duration": "1600ms",
+      "easing": "cubic-bezier(0.65, 0, 0.35, 1)"
+    },
+    "theme-wipe": {
+      "duration": "1000ms",
       "easing": "cubic-bezier(0.65, 0, 0.35, 1)"
     },
     "chart-entrance": {
@@ -1002,8 +1077,8 @@ export const semantic = {
         "dark": "#e7ebf0"
       },
       "sunken": {
-        "light": "#e7ebf0",
-        "dark": "#111213"
+        "light": "#373d430d",
+        "dark": "#00000066"
       },
       "translucent": {
         "light": "#ffffff66",
@@ -1362,6 +1437,10 @@ export const semantic = {
           "dark": "#febea2"
         },
         "border": "#da601a",
+        "border-subtle": {
+          "light": "#febea2",
+          "dark": "#692903"
+        },
         "icon": {
           "light": "#b14904",
           "dark": "#fa8349"
@@ -1400,6 +1479,10 @@ export const semantic = {
           "dark": "#b8ccff"
         },
         "border": "#557bff",
+        "border-subtle": {
+          "light": "#b8ccff",
+          "dark": "#213583"
+        },
         "icon": {
           "light": "#3b5ce3",
           "dark": "#7fa0ff"
@@ -2344,6 +2427,7 @@ export const cssVariables = {
   "duration.80": "--smbk-duration-80",
   "duration.150": "--smbk-duration-150",
   "duration.200": "--smbk-duration-200",
+  "duration.280": "--smbk-duration-280",
   "duration.320": "--smbk-duration-320",
   "duration.500": "--smbk-duration-500",
   "duration.1000": "--smbk-duration-1000",
@@ -2353,7 +2437,12 @@ export const cssVariables = {
   "easing.expo-out": "--smbk-easing-expo-out",
   "easing.expo-in": "--smbk-easing-expo-in",
   "easing.cubic-in-out": "--smbk-easing-cubic-in-out",
+  "easing.quart-in-out": "--smbk-easing-quart-in-out",
+  "easing.cubic-out": "--smbk-easing-cubic-out",
   "easing.steep-out": "--smbk-easing-steep-out",
+  "easing.standard": "--smbk-easing-standard",
+  "easing.ease-out": "--smbk-easing-ease-out",
+  "easing.back-out": "--smbk-easing-back-out",
   "motion.feedback.duration": "--smbk-motion-feedback-duration",
   "motion.feedback.easing": "--smbk-motion-feedback-easing",
   "motion.state.duration": "--smbk-motion-state-duration",
@@ -2362,9 +2451,28 @@ export const cssVariables = {
   "motion.enter.easing": "--smbk-motion-enter-easing",
   "motion.exit.duration": "--smbk-motion-exit-duration",
   "motion.exit.easing": "--smbk-motion-exit-easing",
+  "motion.expand.duration": "--smbk-motion-expand-duration",
+  "motion.expand.easing": "--smbk-motion-expand-easing",
+  "motion.expand.blur": "--smbk-motion-expand-blur",
+  "motion.fill.duration": "--smbk-motion-fill-duration",
+  "motion.fill.easing": "--smbk-motion-fill-easing",
+  "motion.draw.duration": "--smbk-motion-draw-duration",
+  "motion.draw.delay": "--smbk-motion-draw-delay",
+  "motion.draw.easing": "--smbk-motion-draw-easing",
+  "motion.pop.duration": "--smbk-motion-pop-duration",
+  "motion.pop.easing": "--smbk-motion-pop-easing",
+  "motion.fold.duration": "--smbk-motion-fold-duration",
+  "motion.fold.easing": "--smbk-motion-fold-easing",
+  "motion.fold.label-duration": "--smbk-motion-fold-label-duration",
+  "motion.fold.label-easing": "--smbk-motion-fold-label-easing",
+  "motion.fold.blur": "--smbk-motion-fold-blur",
   "motion.stagger.delay": "--smbk-motion-stagger-delay",
   "motion.hover.open-delay": "--smbk-motion-hover-open-delay",
   "motion.hover.close-delay": "--smbk-motion-hover-close-delay",
+  "motion.hold.delay": "--smbk-motion-hold-delay",
+  "motion.tooltip.open-delay": "--smbk-motion-tooltip-open-delay",
+  "motion.help.open-delay": "--smbk-motion-help-open-delay",
+  "motion.scrollbar.hide-delay": "--smbk-motion-scrollbar-hide-delay",
   "motion.marquee.duration": "--smbk-motion-marquee-duration",
   "motion.spin.duration": "--smbk-motion-spin-duration",
   "motion.live-pulse.duration": "--smbk-motion-live-pulse-duration",
@@ -2374,6 +2482,8 @@ export const cssVariables = {
   "motion.cursor.duration": "--smbk-motion-cursor-duration",
   "motion.ambient.duration": "--smbk-motion-ambient-duration",
   "motion.ambient.easing": "--smbk-motion-ambient-easing",
+  "motion.theme-wipe.duration": "--smbk-motion-theme-wipe-duration",
+  "motion.theme-wipe.easing": "--smbk-motion-theme-wipe-easing",
   "motion.chart-entrance.grow-duration": "--smbk-motion-chart-entrance-grow-duration",
   "motion.chart-entrance.reveal-duration": "--smbk-motion-chart-entrance-reveal-duration",
   "motion.chart-entrance.stagger": "--smbk-motion-chart-entrance-stagger",
@@ -2488,6 +2598,7 @@ export const cssVariables = {
   "color.feedback.warning.text-on-surface": "--smbk-color-feedback-warning-text-on-surface",
   "color.feedback.warning.text-on-subtle": "--smbk-color-feedback-warning-text-on-subtle",
   "color.feedback.warning.border": "--smbk-color-feedback-warning-border",
+  "color.feedback.warning.border-subtle": "--smbk-color-feedback-warning-border-subtle",
   "color.feedback.warning.icon": "--smbk-color-feedback-warning-icon",
   "color.feedback.danger.surface": "--smbk-color-feedback-danger-surface",
   "color.feedback.danger.surface-subtle": "--smbk-color-feedback-danger-surface-subtle",
@@ -2501,6 +2612,7 @@ export const cssVariables = {
   "color.feedback.info.text-on-surface": "--smbk-color-feedback-info-text-on-surface",
   "color.feedback.info.text-on-subtle": "--smbk-color-feedback-info-text-on-subtle",
   "color.feedback.info.border": "--smbk-color-feedback-info-border",
+  "color.feedback.info.border-subtle": "--smbk-color-feedback-info-border-subtle",
   "color.feedback.info.icon": "--smbk-color-feedback-info-icon",
   "color.shadow.xs": "--smbk-color-shadow-xs",
   "color.shadow.sm": "--smbk-color-shadow-sm",
