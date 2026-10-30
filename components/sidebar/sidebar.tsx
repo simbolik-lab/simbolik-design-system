@@ -271,12 +271,34 @@ function CollapsedGroup({ item, small }: { item: SidebarItem; small: boolean }) 
   const group = useRef<HTMLDivElement>(null);
   const opener = useRef<HTMLButtonElement>(null);
   const panel = useRef<HTMLDivElement>(null);
+  const layer = useRef<HTMLDivElement>(null);
+  const lowering = useRef<number | undefined>(undefined);
   const timer = useRef<number | undefined>(undefined);
   const refocusing = useRef(false);
   const id = useId();
   const cls = sidebar.part('item');
   useGlide(panel, FLYOUT_GLIDE);
   const bar = useScrollbar(panel);
+
+  // Shown, the panel's layer is lifted into the browser's top layer, as the dropdown's own panels are (floating.ts), so
+  // no part of the page draws over it: the navigation the panel lives in scrolls inside itself and is a stacking context
+  // of its own, which no z-index leaves. The sidebar still places the panel itself (below). Closed, the layer comes
+  // down once the panel has finished leaving; opening again before then keeps it up.
+  useLayoutEffect(() => {
+    const l = layer.current;
+    if (!l || !('showPopover' in l)) return undefined;
+    if (open) {
+      window.clearTimeout(lowering.current);
+      if (!l.hasAttribute('popover')) l.setAttribute('popover', 'manual');
+      if (!l.matches(':popover-open')) l.showPopover();
+      return undefined;
+    }
+    if (!l.matches(':popover-open')) return undefined;
+    lowering.current = window.setTimeout(() => {
+      if (l.matches(':popover-open')) l.hidePopover();
+    }, panel.current ? motionMs(panel.current, 'exit-duration') : 0);
+    return () => window.clearTimeout(lowering.current);
+  }, [open]);
 
   const place = useCallback(() => {
     const b = opener.current;
@@ -401,18 +423,20 @@ function CollapsedGroup({ item, small }: { item: SidebarItem; small: boolean }) 
           {item.dot && <StatusDot tone="info" className={sidebar.part('item-dot')} aria-hidden="true" />}
         </span>
       </button>
-      <div ref={panel} id={id} className={`${dropdown({ size: small ? 'sm' : 'md' })} ${sidebar.part('flyout')}`} hidden={!open} {...bar}>
-        <p className={dropdown.part('label')}>{item.label}</p>
-        <ul className={sidebar.part('flyout-list')}>
-          {item.children!.map((child) => (
-            <li key={child.href}>
-              <a className={dropdown.part('item')} href={child.disabled ? undefined : child.href} aria-current={child.active ? 'page' : undefined} aria-disabled={child.disabled ? true : undefined}>
-                <span className={dropdown.part('text')}>{child.label}</span>
-                <Marks item={child} />
-              </a>
-            </li>
-          ))}
-        </ul>
+      <div ref={layer} className={dropdown.part('layer')}>
+        <div ref={panel} id={id} className={`${dropdown({ size: small ? 'sm' : 'md' })} ${sidebar.part('flyout')}`} hidden={!open} {...bar}>
+          <p className={dropdown.part('label')}>{item.label}</p>
+          <ul className={sidebar.part('flyout-list')}>
+            {item.children!.map((child) => (
+              <li key={child.href}>
+                <a className={dropdown.part('item')} href={child.disabled ? undefined : child.href} aria-current={child.active ? 'page' : undefined} aria-disabled={child.disabled ? true : undefined}>
+                  <span className={dropdown.part('text')}>{child.label}</span>
+                  <Marks item={child} />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );

@@ -89,6 +89,10 @@ What each Release of the Simbolik Design System brought, newest first. Each Rele
 - **Dropdown sizes.** The dropdown's `default` and `small` sizes are gone, as props and as the classes `smbk-dropdown--size-default` and `smbk-dropdown--size-small`. Use `md` and `sm`, as on the other controls, and the classes `smbk-dropdown--size-md` and `smbk-dropdown--size-sm`. They're also on the list of a select, a combobox or a sidebar flyout written in plain HTML.
 - **Keys on the segmented control and toolbar tool.** `SegmentedControl` and `ToolbarTool` no longer pass an `aria-keyshortcuts` prop through. Give the key as `shortcut`. Screen readers are told it the same way, and the tooltip shows it as a key cap.
 
+### Hotfix 1 · 2026-10-30
+
+- **Sidebar flyout.** In a kept-closed sidebar, the menu that opens from an item with children shows above the page again. Since this Release's scrollbars, a part of the page beside the sidebar on a layer of its own, such as a card, a chart or a sticky bar, drew over it. The menu now opens in the browser's top layer, as the dropdown's menus do.
+
 ### Known gaps
 
 - **Table rows can't be reordered.** The table has no drag handle in this Release, so a site that needs to move rows builds that itself for now.

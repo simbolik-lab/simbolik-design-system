@@ -18623,8 +18623,10 @@ button.smbk-ruler__width:focus-visible {
    The panel carries the dropdown's own classes, so it looks like every other menu; here it is
    placed fixed beside the column (the sidebar's script sets its top, left and height from the
    item's position, using the panel's start margin as the gap), above the page, scrolling inside
-   itself when its list is longer than the window. The pointer crossing the gap is given a
-   moment by the script before the flyout closes. */
+   itself when its list is longer than the window. While it shows, the script lifts it in the
+   dropdown's layer into the browser's top layer (floating.css), since the navigation around it
+   is a stacking context of its own; the z-index here serves where there is no top layer. The
+   pointer crossing the gap is given a moment by the script before the flyout closes. */
 
 .smbk-sidebar__group--flyout {
   position: relative;
