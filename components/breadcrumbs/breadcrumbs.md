@@ -19,6 +19,7 @@ Shows where the current page sits in the site, as a trail of links from the root
 - The block, an ordered list inside a navigation landmark.
 - The item part, one page in the trail.
 - The link part, the page name. Every item but the last is a link; the last is the current page and is marked as such.
+- The label part, the page's name inside the link. On hover the line runs under it alone, never under the icon or the gap beside it.
 - The icon part, optional, a small decorative icon before a page name, in the subtle text color. Give every crumb one or none.
 - The separator part, the small caret between items, which follows the size as the icons do.
 - The more part, when folded: the ghost extra-small icon button standing for the crumbs between the first and the parent.

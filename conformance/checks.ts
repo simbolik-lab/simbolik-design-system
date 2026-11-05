@@ -4,7 +4,7 @@
  * selectors, queries and elements, and hands them here.
  */
 import type { ProjectConfig } from './project.js';
-import type { RuleId } from './rules.js';
+import { REMOVED_PROPS, type RuleId } from './rules.js';
 import { looksPrimitive, type System } from './system.js';
 import { analyse, describe, familyFor, PLACEHOLDER, type Context, type IssueKind } from './values.js';
 
@@ -178,6 +178,19 @@ export function checkPropertyRef(ctx: Ctx, raw: string, line: number): void {
 /** Every --smbk- name in a piece of text. */
 export function checkPropertyRefsIn(ctx: Ctx, text: string, line: number): void {
   for (const m of text.matchAll(/--smbk-[\w\u0000-]*/g)) checkPropertyRef(ctx, m[0], line);
+}
+
+// ---------------------------------------------------------------- props
+
+/** One prop given to a design system wrapper: `wrapper` is its export, `tag` the name this file calls it by. */
+export function checkWrapperProp(ctx: Ctx, wrapper: string, tag: string, prop: string, line: number): void {
+  const removed = REMOVED_PROPS.find((r) => r.component === wrapper && r.prop === prop);
+  if (!removed) return;
+  ctx.out.add({
+    rule: 'removed-prop', file: ctx.file, line, text: `<${tag} ${prop}>`,
+    message: `${wrapper} no longer takes ${prop}.`,
+    hint: removed.instead,
+  });
 }
 
 // ---------------------------------------------------------------- declarations

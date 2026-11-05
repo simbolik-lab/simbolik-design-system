@@ -23,6 +23,7 @@ import {
   checkPropertyRefsIn,
   checkQuery,
   checkSelector,
+  checkWrapperProp,
   selectorClasses,
   type Ctx,
 } from './checks.js';
@@ -51,6 +52,10 @@ const CANVAS_COLOUR = new Set(['fillStyle', 'strokeStyle', 'shadowColor']);
 const MANIFEST_METHODS = new Set(['part', 'modifier', 'flag']);
 /** A design system manifest module, wherever the project reaches it from: components/<name>/<name>.manifest. */
 const MANIFEST_MODULE = /(?:^|\/)components\/([a-z0-9-]+)\/\1\.manifest(?:\.[cm]?[jt]s)?$/;
+/** A design system wrapper's module: components/<name>/<name>. */
+const WRAPPER_MODULE = /(?:^|\/)components\/([a-z0-9-]+)\/\1(?:\.[cm]?[jt]sx?)?$/;
+/** A relative path naming neither way in to the design system: the project's own folder of that shape. */
+const PROJECT_MODULE = /^\.{1,2}\/(?!.*\b(?:design-system|simbolik)\/)/;
 const CLASSLIST_METHODS = new Set(['add', 'remove', 'toggle', 'replace', 'contains']);
 const SELECTOR_METHODS = new Set(['querySelector', 'querySelectorAll', 'closest', 'matches', 'webkitMatchesSelector']);
 const LOOK_ALIKE_TAGS = new Set(['button', 'input', 'select', 'textarea', 'dialog', 'details', 'summary', 'table', 'progress']);
@@ -89,13 +94,23 @@ export function scanScript(ctx: Ctx, code: string, lineBase = 0, fileName = ctx.
   // The design system's manifests this file imports: local name to component folder, and namespaces.
   const manifests = new Map<string, string>();
   const manifestNamespaces = new Map<string, string>();
+  // Its wrappers: local name to the name the wrapper exports, and namespaces. A tag is judged by what it was imported
+  // from, so a project's own part of the same name is never taken for the system's.
+  const wrappers = new Map<string, string>();
+  const wrapperNamespaces = new Set<string>();
   for (const st of sf.statements) {
     if (!ts.isImportDeclaration(st) || !ts.isStringLiteral(st.moduleSpecifier) || st.importClause?.isTypeOnly) continue;
-    const component = MANIFEST_MODULE.exec(st.moduleSpecifier.text)?.[1];
+    const from = st.moduleSpecifier.text;
     const bindings = st.importClause?.namedBindings;
-    if (!component || !bindings) continue;
-    if (ts.isNamespaceImport(bindings)) manifestNamespaces.set(bindings.name.text, component);
-    else for (const el of bindings.elements) if (!el.isTypeOnly) manifests.set(el.name.text, component);
+    if (!bindings) continue;
+    const component = MANIFEST_MODULE.exec(from)?.[1];
+    if (component) {
+      if (ts.isNamespaceImport(bindings)) manifestNamespaces.set(bindings.name.text, component);
+      else for (const el of bindings.elements) if (!el.isTypeOnly) manifests.set(el.name.text, component);
+    } else if (WRAPPER_MODULE.test(from) && !PROJECT_MODULE.test(from)) {
+      if (ts.isNamespaceImport(bindings)) wrapperNamespaces.add(bindings.name.text);
+      else for (const el of bindings.elements) if (!el.isTypeOnly) wrappers.set(el.name.text, (el.propertyName ?? el.name).text);
+    }
   }
 
   const unwrap = (e: ts.Expression): ts.Expression => {
@@ -297,6 +312,20 @@ export function scanScript(ctx: Ctx, code: string, lineBase = 0, fileName = ctx.
     return undefined;
   };
   const tagName = (node: ts.JsxOpeningElement | ts.JsxSelfClosingElement) => (ts.isIdentifier(node.tagName) ? node.tagName.text : '');
+  /** The design system wrapper a tag names, as the wrapper exports it, or undefined. */
+  const wrapperOf = (tag: ts.JsxTagNameExpression): string | undefined => {
+    if (ts.isIdentifier(tag)) return wrappers.get(tag.text);
+    return ts.isPropertyAccessExpression(tag) && ts.isIdentifier(tag.expression) && wrapperNamespaces.has(tag.expression.text) ? tag.name.text : undefined;
+  };
+  /** Every prop a JSX element is given by name: its attributes, and what it spreads from an object written here or in a same-file constant. */
+  const givenProps = (attrs: ts.JsxAttributes): Array<{ name: string; line: number }> =>
+    attrs.properties.flatMap((a) => {
+      if (ts.isJsxAttribute(a)) return ts.isIdentifier(a.name) ? [{ name: a.name.text, line: lineOf(a) }] : [];
+      const spread = unwrap(a.expression);
+      const object = ts.isIdentifier(spread) && consts.has(spread.text) ? unwrap(consts.get(spread.text)!) : spread;
+      if (!ts.isObjectLiteralExpression(object)) return [];
+      return object.properties.flatMap((p) => (p.name && (ts.isIdentifier(p.name) || ts.isStringLiteral(p.name)) ? [{ name: p.name.text, line: lineOf(a) }] : []));
+    });
   /** Elements whose children are text, never markup: code samples may name any class and raw values freely. */
   const textTags = new Set(['pre', 'code', ctx.system.components.get('code-block')?.wrapper ?? 'CodeBlock']);
   const isTextElement = (node: ts.Node): node is ts.JsxElement => ts.isJsxElement(node) && textTags.has(tagName(node.openingElement));
@@ -350,6 +379,9 @@ export function scanScript(ctx: Ctx, code: string, lineBase = 0, fileName = ctx.
             }
           }
         }
+      } else {
+        const wrapper = wrapperOf(node.tagName);
+        if (wrapper) for (const p of givenProps(node.attributes)) checkWrapperProp(ctx, wrapper, node.tagName.getText(sf), p.name, p.line);
       }
     }
 

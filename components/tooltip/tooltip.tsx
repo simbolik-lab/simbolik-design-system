@@ -160,15 +160,6 @@ export function useTip({ text, shortcut, arrow = 'top-center', inverse, purpose 
   const { side, arrowOffset } = useFloating({ target: targetRef, layer, panel, open, side: SIDE[arrow], align: ALIGN[arrow], listHeight: false, arrow: arrowRef });
   const placed = side ? arrowFor(side, ALIGN[arrow]) : arrow;
 
-  // The arrow's middle where the target's middle is, along the edge it sits on, once placed.
-  useLayoutEffect(() => {
-    const a = arrowRef.current;
-    if (!a) return;
-    const across = placed === 'left' || placed === 'right';
-    a.style.left = arrowOffset !== null && !across ? `${arrowOffset}px` : '';
-    a.style.top = arrowOffset !== null && across ? `${arrowOffset}px` : '';
-  }, [arrowOffset, placed]);
-
   // React Aria's trigger props, split between the part the pointer rests on and the part that takes focus. The
   // target is described by the bubble whether it shows or not, so the description is there before it shows.
   const { onPointerEnter, onPointerLeave, onPointerDown, onMouseEnter, onMouseLeave, onTouchStart, tabIndex: _tabIndex, 'aria-describedby': _described, ...focus } = triggerProps;

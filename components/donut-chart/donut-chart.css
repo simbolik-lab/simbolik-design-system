@@ -72,6 +72,26 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* A long figure steps down, so it keeps clear of the ring: the wrapper sets the size from how far the figure runs, the
+   smaller heading first and a label after it. The heading the ring draws reaches it at seven characters. */
+.smbk-donut-chart__figure--size-md {
+  font-family: var(--smbk-typography-heading-2xs-font-family);
+  font-size: var(--smbk-typography-heading-2xs-font-size);
+  font-weight: var(--smbk-typography-heading-2xs-font-weight);
+  line-height: var(--smbk-typography-heading-2xs-line-height);
+  letter-spacing: var(--smbk-typography-heading-2xs-letter-spacing);
+  text-transform: var(--smbk-typography-heading-2xs-text-transform);
+}
+
+.smbk-donut-chart__figure--size-sm {
+  font-family: var(--smbk-typography-label-lg-font-family);
+  font-size: var(--smbk-typography-label-lg-font-size);
+  font-weight: var(--smbk-typography-label-lg-font-weight);
+  line-height: var(--smbk-typography-label-lg-line-height);
+  letter-spacing: var(--smbk-typography-label-lg-letter-spacing);
+  text-transform: var(--smbk-typography-label-lg-text-transform);
+}
+
 .smbk-donut-chart__caption {
   color: var(--smbk-color-text-subtle);
   font-family: var(--smbk-typography-body-xs-font-family);

@@ -30,6 +30,7 @@ The semantic layer names the *kind* of distance, which is the thing that changes
 - **Gutter** — the breathing room at a section's inline edges.
 - **Layout** — the spacing of a page's sections: their padding, the gap under a section's heading, the gaps between blocks and the gap of a grid.
 - **Text** — the gap between texts: paragraph to paragraph, a heading to its text, a caption under its title, one list item to the next. Text is not trimmed, so these are set for the full line box.
+- **Link underline** — the gap between a link's words and the line under them. It is the same in every density, because the line belongs to the words and not to the layout.
 
 Each kind has its own run of sizes, and the runs are not the same length. Inline distances stop earlier than stack distances because things side by side never need the breathing room that stacked sections do. Component spacing is named by role, so that a density change can move a coherent set of decisions rather than every number at once.
 
@@ -45,7 +46,7 @@ The semantic roles are mandatory for any distance that *does* change with contex
 
 Density changes the semantic roles and nothing else. Under compact density each role steps down one or more primitive steps. The smallest inset does not shrink, because it cannot become smaller and still be an inset; the largest section rhythm shrinks the most.
 
-Density is chosen once by the person building a project and set as an attribute on the page element. It is never a reader-facing control and never follows the viewport.
+Density is chosen once by the person building a project and set as an attribute on the page element. It is never a reader-facing control and never follows the viewport. A Table is the one part of a page that can differ: it can take compact on its own in a comfortable page.
 
 The layout and text roles are the one part of spacing that follows the screen: each has a phone value and a desktop value, which switch at the layout breakpoint, as the components' narrow and wide forms do, and either can be forced on any part of a page with the layout attribute. Each value is itself one of the roles above, so it still follows density.
 

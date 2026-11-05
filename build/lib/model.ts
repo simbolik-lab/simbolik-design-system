@@ -30,6 +30,11 @@ export interface ModelToken {
   /** The one modifier whose contexts change this token's CSS, if any. */
   axis: string | null;
   /**
+   * An axis laid over that one, if this token changes on it too: an axis configured `over` the token's own (the data
+   * palette over the theme), whose blocks give its value for each context of the token's own axis.
+   */
+  over: string | null;
+  /**
    * Declarations that must be repeated inside a context's scoped block because they
    * reference (via var()) a token that changes on that axis. Keyed by axis.
    */
@@ -123,6 +128,7 @@ export function buildModel(source: TokenSource): Model {
       resolved: {},
       css: {},
       axis: null,
+      over: null,
       dependent: {},
       extensions: t.token.$extensions,
       ...(t.token.$deprecated !== undefined ? { deprecated: t.token.$deprecated as string | boolean } : {}),
@@ -190,6 +196,17 @@ export function buildModel(source: TokenSource): Model {
         const value = JSON.stringify(t.emitted ? t.css[key] : t.resolved[key]);
         if (value !== baseline) changing.add(axis);
       }
+    }
+    // An axis laid over another (the data palette over the theme) may change a token as well as the axis it lies over.
+    // Its values differ per context of the axis it lies over, so a token that is the same in both themes of the
+    // default palette still takes the laid-over blocks.
+    for (const axis of [...changing]) {
+      const cfg = CONTEXT_CSS[axis];
+      if (cfg?.kind !== 'attribute' || !cfg.over) continue;
+      t.over = axis;
+      changing.delete(axis);
+      const other = [...changing].find((a) => a !== cfg.over);
+      if (other) throw new Error(`"${t.path}" changes with ${axis} and ${other}; a token on the ${axis} axis may change with ${cfg.over} only.`);
     }
     if (changing.size > 1) throw new Error(`"${t.path}" changes with more than one context (${[...changing].join(', ')}); a token may follow one axis only.`);
     t.axis = changing.size === 1 ? [...changing][0]! : null;
@@ -298,6 +315,13 @@ export function valueByContext(model: Model, t: ModelToken): unknown {
       out[part] = collapse(model, perCombo, t.axis);
     }
     return out;
+  }
+  if (t.over) {
+    // A token on a laid-over axis (the data palette): keyed by the axis it lies over, then by its palette.
+    const base = (CONTEXT_CSS[t.over] as { over: string }).over;
+    const nested = Object.fromEntries(model.axes[base]!.values.map((b) => [b, Object.fromEntries(model.axes[t.over!]!.values.map((o) => [o, literal(combinationKey({ ...model.defaults, [base]: b, [t.over!]: o }))]))]));
+    const inner = Object.values(nested).map((v) => JSON.stringify(v));
+    return inner.every((v) => v === inner[0]) ? Object.values(nested)[0] : nested;
   }
   const perCombo = new Map<string, string | number>();
   for (const combo of model.combos) perCombo.set(combinationKey(combo), literal(combinationKey(combo)) as string | number);

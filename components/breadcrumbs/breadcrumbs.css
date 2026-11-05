@@ -41,8 +41,14 @@
 @media (hover: hover) {
   .smbk-breadcrumbs__link:hover {
     color: var(--smbk-color-text-link-hover);
-    text-decoration: underline;
+  }
+
+  /* The line runs under the name, never under an icon or the gap beside it, and the current page has none. */
+  .smbk-breadcrumbs__link:not([aria-current="page"]):hover > .smbk-breadcrumbs__label {
+    text-decoration-line: underline;
     text-decoration-color: var(--smbk-color-text-link-underline-hover);
+    text-decoration-thickness: var(--smbk-border-width-link-underline);
+    text-underline-offset: var(--smbk-space-link-underline);
   }
 }
 

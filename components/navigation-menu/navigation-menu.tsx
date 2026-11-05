@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useRef, useState, type HTMLAttributes, type PointerEvent as ReactPointerEvent, type ReactNode } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState, type HTMLAttributes, type PointerEvent as ReactPointerEvent, type ReactNode } from 'react';
 import { navigationMenu } from './navigation-menu.manifest.js';
 import { NavItem } from '../nav-item/nav-item.js';
 import { Icon } from '../icon/icon.js';
@@ -163,9 +163,10 @@ interface PanelItemProps {
 function PanelItem({ item, panelId, open, onToggle, onClose, hover }: PanelItemProps) {
   const root = useRef<HTMLLIElement>(null);
   // In a narrow space the panel opens in place, in the flow of a stacked list: a press elsewhere or focus moving on
-  // leaves it open, as a group in a list stays open.
+  // leaves it open, as a group in a list stays open. Read before the page is drawn, so the press rule below is never
+  // in force for the moment after a narrow panel opens.
   const [inPlace, setInPlace] = useState(false);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (open && root.current) setInPlace(isNarrow(root.current));
   }, [open]);
   const close = (back: boolean) => {

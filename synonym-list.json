@@ -83,13 +83,17 @@
     { "common": "type.family.label", "simbolik": ["font.family.body"], "description": "Labels share the body family." },
     { "common": "type.family.code", "simbolik": ["font.family.mono"] },
     { "common": "type.body.md.fontSize", "simbolik": ["text.body-md"] },
-    { "common": "space.component.inline.md", "simbolik": ["space.inline.md"], "description": "Spacing inside components has no component segment: space.inset, space.inline and space.stack." }
+    { "common": "space.component.inline.md", "simbolik": ["space.inline.md"], "description": "Spacing inside components has no component segment: space.inset, space.inline and space.stack." },
+    { "common": "link.underline.thickness", "simbolik": ["border-width.link-underline"], "description": "How thick the line under a link is. Each part of the line sits in its own family: its color is color.text.link-underline." },
+    { "common": "link.underline.offset", "simbolik": ["space.link-underline"], "description": "How far under the words the line of a link sits." }
   ],
   "files": [
     { "file": "tokens/primitives.tokens.json", "tier": "primitive", "description": "Raw values: the palette, the spacing, size and radius scales, line widths, fonts, opacity and blur. Components read colors and type only through roles." },
     { "file": "tokens/semantic.tokens.json", "tier": "semantic", "description": "Roles that stay the same in every mode: corners, line widths, fixed sizes and the focus ring." },
     { "file": "tokens/semantic-color/light.tokens.json", "tier": "semantic", "mode": "theme", "context": "light", "description": "Color roles in the light theme." },
     { "file": "tokens/semantic-color/dark.tokens.json", "tier": "semantic", "mode": "theme", "context": "dark", "description": "Color roles in the dark theme." },
+    { "file": "tokens/data-palette/default.tokens.json", "tier": "semantic", "mode": "palette", "context": "default", "description": "The default data palette: each data color's value in each theme, read only through the data colors and never in CSS." },
+    { "file": "tokens/data-palette/cockpit.tokens.json", "tier": "semantic", "mode": "palette", "context": "cockpit", "description": "The cockpit data palette, calmer chart colors: each data color's value in each theme, read only through the data colors and never in CSS." },
     { "file": "tokens/semantic-dimension/comfortable.tokens.json", "tier": "semantic", "mode": "density", "context": "comfortable", "description": "Spacing roles and control heights at comfortable density." },
     { "file": "tokens/semantic-dimension/compact.tokens.json", "tier": "semantic", "mode": "density", "context": "compact", "description": "Spacing roles and control heights at compact density." },
     { "file": "tokens/semantic-typography/min.tokens.json", "tier": "semantic", "mode": "text-size", "context": "min", "description": "Font sizes by role on a narrow window." },
@@ -99,11 +103,12 @@
     { "file": "tokens/typography-styles.tokens.json", "tier": "semantic", "composite": true, "description": "Text styles: each a composite of a family, weight, size role, line height and letter spacing." },
     { "file": "tokens/effect-styles.tokens.json", "tier": "semantic", "composite": true, "description": "Shadows by purpose, each a composite of shadow layers." },
     { "file": "tokens/authored.tokens.json", "tier": "primitive", "groups": ["duration", "easing", "breakpoint", "font"], "description": "Raw values the design file cannot hold: durations, easings, breakpoints, the bold weight and the backup fonts." },
-    { "file": "tokens/authored.tokens.json", "tier": "semantic", "groups": ["motion", "layer", "size"], "description": "Roles the design file cannot hold: motion by purpose, the stacking order and fixed widths." },
+    { "file": "tokens/authored.tokens.json", "tier": "semantic", "groups": ["motion", "layer", "size", "border-width", "space"], "description": "Roles the design file cannot hold: motion by purpose, the stacking order, fixed widths and the line under a link." },
     { "file": "tokens/authored.tokens.json", "tier": "semantic", "composite": true, "groups": ["typography"], "description": "The bold, semibold, medium and light text styles." }
   ],
   "modes": [
     { "name": "theme", "common": "color scheme", "contexts": ["light", "dark"], "default": "light", "description": "Light or dark. A page follows the reader's setting; data-theme=\"light\" or \"dark\" on any element fixes it inside." },
+    { "name": "palette", "common": "chart palette", "contexts": ["default", "cockpit"], "default": "default", "description": "Which set of colors charts draw their data in, chosen once for the whole page: data-palette=\"cockpit\" on the root element. Only the data colors change, each in both themes." },
     { "name": "density", "common": "density", "contexts": ["comfortable", "compact"], "default": "comfortable", "description": "How tight spacing and control heights are. data-density=\"compact\" on any element tightens it inside." },
     { "name": "text-size", "common": "viewport", "contexts": ["min", "max"], "default": "min", "breakpoint": "breakpoint.text-size", "description": "Font sizes for a narrow or a wide window, switched by a media query at the breakpoint." },
     { "name": "layout", "common": "viewport", "contexts": ["phone", "desktop"], "default": "phone", "breakpoint": "breakpoint.layout", "description": "The narrow or wide form of components and page layout, switched at the breakpoint by one inherited custom property, --smbk-layout, which components read with a style container query; data-layout=\"narrow\" or \"wide\" on any element forces one form inside." }

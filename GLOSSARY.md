@@ -17,7 +17,7 @@ The context that decides a Semantic Token's color, chosen by the person reading 
 _Avoid_: mode, scheme, color scheme
 
 **Density**:
-The context that decides a Semantic Token's spacing and control size, chosen once by the person building a project and never exposed to a reader. This system has two: compact and comfortable.
+The context that decides a Semantic Token's spacing and control size, chosen once by the person building a project and never exposed to a reader. This system has two: compact and comfortable. A Table can take compact on its own, in a comfortable page.
 _Avoid_: mode, spacing mode, compactness
 
 **Text Size**:

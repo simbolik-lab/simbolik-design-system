@@ -16,16 +16,21 @@
  *   focus stays where it is (`onClose(false)`), as after a press outside.
  * - A dialog over the page is a layer too, but the browser closes it: Escape reaches it as its `cancel` event, a press
  *   outside it is a press on its scrim. While a dialog is the top layer, Escape and presses are left to it.
- * - Optionally (`blur`), focus moving to anything outside the layer closes it, whichever layer is on top.
+ * - Optionally (`blur`), focus moving to anything outside the layer closes it, whichever layer is on top. Focus a press
+ *   drops on a part around the layer does not count, and the press rule answers for that press: a browser that gives a
+ *   pressed button no focus (Safari) hands it to the nearest part that can take it, and a close here would have the
+ *   click that follows open the layer again. Tab, or a page's own focus(), reaching that part does count.
  *
- * One listener for presses and one for keys sit on the document while anything is open; a layer also takes Escape
- * from inside itself (`props.onKeyDown`), so it stops there and a component around it never sees it.
+ * Listeners for presses and keys sit on the document while anything is open; a layer also takes Escape from inside
+ * itself (`props.onKeyDown`), so it stops there and a component around it never sees it.
  */
 import { useEffect, useRef, type FocusEvent, type KeyboardEvent, type RefObject } from 'react';
 
 interface Layer {
   /** Everything that belongs to the layer: the opener and the panel (the anchor around both), or the dialog. */
   root: RefObject<Element | null>;
+  /** An opener that sits outside `root`: says whether a node is that opener, which belongs to the layer too. */
+  opener?: ((node: Node) => boolean) | undefined;
   /** Closes it, putting focus back on the opener when `back`. Null for a dialog, which the browser closes. */
   close: ((back: boolean) => void) | null;
 }
@@ -36,8 +41,11 @@ const layers: Layer[] = [];
 /** Whether an Escape was spent closing a layer, until the task that pressed it ends. */
 let spent = false;
 
+/** Whether a press is moving focus, until the task that pressed ends. */
+let pressing = false;
+
 const top = (): Layer | undefined => layers[layers.length - 1];
-const within = (layer: Layer, node: unknown) => node instanceof Node && Boolean(layer.root.current?.contains(node));
+const within = (layer: Layer, node: unknown) => node instanceof Node && Boolean(layer.root.current?.contains(node) || layer.opener?.(node));
 
 /** Closes the top layer for an Escape, if this module closes it; says whether it did. */
 function escape(event: { preventDefault(): void }): boolean {
@@ -62,9 +70,18 @@ function onDocumentPress(event: PointerEvent) {
   if (layer?.close && !within(layer, event.target)) layer.close(false);
 }
 
+/** A mousedown, not the pointerdown above: after a touch it is what comes right before the browser moves focus. */
+function onDocumentMouseDown() {
+  pressing = true;
+  setTimeout(() => {
+    pressing = false;
+  }, 0);
+}
+
 function raise(layer: Layer) {
   if (layers.length === 0) {
     document.addEventListener('pointerdown', onDocumentPress);
+    document.addEventListener('mousedown', onDocumentMouseDown, true);
     document.addEventListener('keydown', onDocumentKey);
   }
   layers.push(layer);
@@ -75,6 +92,7 @@ function lower(layer: Layer) {
   if (at >= 0) layers.splice(at, 1);
   if (layers.length === 0) {
     document.removeEventListener('pointerdown', onDocumentPress);
+    document.removeEventListener('mousedown', onDocumentMouseDown, true);
     document.removeEventListener('keydown', onDocumentKey);
   }
 }
@@ -93,6 +111,8 @@ export interface DismissOptions {
   open: boolean;
   /** Everything that belongs to it: a press or focus here is inside. The anchor around the opener and the panel. */
   root: RefObject<Element | null>;
+  /** For an opener outside `root`: says whether a node is it, so a press on it or focus reaching it is inside too. */
+  opener?: (node: Node) => boolean;
   /** Closes it. `back` is true when focus was inside it: put focus back on the opener. */
   onClose: (back: boolean) => void;
   /** Also close when focus moves to anything outside `root`. */
@@ -104,22 +124,39 @@ export interface DismissOptions {
  * (see the header). Spread what it returns on `root` (or call its handlers from the root's own): `onKeyDown` takes
  * Escape from inside it, and with `blur`, `onBlur` closes it as focus leaves.
  */
-export function useDismiss({ open: isOpen, root, onClose, blur = false }: DismissOptions) {
+export function useDismiss({ open: isOpen, root, opener, onClose, blur = false }: DismissOptions) {
   const close = useRef(onClose);
   close.current = onClose;
   const layer = useRef<Layer>({ root, close: (back) => close.current(back) }).current;
+  layer.opener = opener;
   useLayer(layer, isOpen);
+
+  // Focus leaving an opener outside the root never reaches the root's handlers, so it is heard here.
+  const outside = Boolean(opener);
+  useEffect(() => {
+    if (!isOpen || !blur || !outside) return undefined;
+    const onFocusOut = (event: globalThis.FocusEvent) => {
+      if (event.target instanceof Node && layer.opener?.(event.target) && event.relatedTarget instanceof Node && !within(layer, event.relatedTarget)) close.current(false);
+    };
+    document.addEventListener('focusout', onFocusOut);
+    return () => document.removeEventListener('focusout', onFocusOut);
+  }, [isOpen, blur, outside, layer]);
 
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.key !== 'Escape' || event.defaultPrevented || !isOpen) return;
     if (escape(event)) event.stopPropagation();
   };
-  // A blur with nowhere to go is a press, which the press rule handles.
+  // A blur with nowhere to go is a press, which the press rule handles; so is one a press drops on a part around root.
   const onBlur = (event: FocusEvent) => {
     const next = event.relatedTarget;
-    if (isOpen && next instanceof Node && root.current && !root.current.contains(next)) close.current(false);
+    if (!isOpen || !(next instanceof Node) || !root.current || root.current.contains(next)) return;
+    if (!(pressing && next.contains(root.current))) close.current(false);
   };
-  return { onKeyDown, onBlur: blur ? onBlur : undefined };
+  // Focus reaching an opener outside the root has not left the layer.
+  const onLeaving = (event: FocusEvent) => {
+    if (!(event.relatedTarget instanceof Node && opener?.(event.relatedTarget))) onBlur(event);
+  };
+  return { onKeyDown, onBlur: blur ? onLeaving : undefined };
 }
 
 /**

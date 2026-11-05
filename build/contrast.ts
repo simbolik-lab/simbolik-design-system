@@ -3,7 +3,8 @@
  *
  *   npm run tokens:contrast
  *
- * Reads the built JSON and measures WCAG 2.2 contrast in both themes, from the
+ * Reads the built JSON and measures WCAG 2.2 contrast in both themes, and in both again in each data palette but
+ * the default, from the
  * composited colours, for the pairs listed in contrast-pairs.ts: text on what
  * it really sits on, and the few non-text colours that identify a control, its
  * state or focus. Decorative borders and disabled
@@ -20,7 +21,37 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 
 interface Record_ {
   path: string;
-  value: string | Record<string, string>;
+  value: string | Record<string, string | Record<string, string>>;
+}
+
+interface Output {
+  contexts: Record<string, { values: string[]; default: string }>;
+  tokens: Record_[];
+}
+
+/**
+ * The settings colors are measured in: each theme, and each theme again in every data palette but the default
+ * ("dark cockpit"), since a palette changes the data colors per theme.
+ */
+function settingsOf(data: Output): { name: string; theme: string; palette?: string }[] {
+  const themes = data.contexts.theme?.values ?? ['light'];
+  const palette = data.contexts.palette;
+  const others = palette ? palette.values.filter((p) => p !== palette.default) : [];
+  return [...themes.map((theme) => ({ name: theme, theme, palette: palette?.default })), ...others.flatMap((p) => themes.map((theme) => ({ name: `${theme} ${p}`, theme, palette: p })))];
+}
+
+/** A token's color in one setting, whichever contexts its value is keyed by. */
+function valueIn(data: Output, setting: { theme: string; palette?: string }): (path: string) => string {
+  const byPath = new Map(data.tokens.map((t) => [t.path, t]));
+  return (path) => {
+    const t = byPath.get(path);
+    if (!t) throw new Error(`A contrast pair or the data color order names a token that does not exist: ${path}`);
+    let v: unknown = t.value;
+    if (typeof v === 'object' && v && setting.theme in v) v = (v as Record<string, unknown>)[setting.theme];
+    if (typeof v === 'object' && v && setting.palette && setting.palette in v) v = (v as Record<string, unknown>)[setting.palette];
+    if (typeof v !== 'string') throw new Error(`${path} has no single color in ${setting.theme}${setting.palette ? `, ${setting.palette}` : ''}.`);
+    return v;
+  };
 }
 
 type Rgb = [number, number, number, number];
@@ -59,21 +90,18 @@ import { PAIRS, NEEDS, CATEGORICAL, SEPARATION, type ContrastPair } from './cont
 
 export interface Measured extends ContrastPair {
   needs: number;
-  /** Ratio per theme, rounded to two places. */
+  /** Ratio per setting (each theme, then each theme in each other data palette), rounded to two places. */
   ratios: Record<string, number>;
   passes: Record<string, boolean>;
 }
 
 /** Every listed pair, measured in every theme from the composited colours. */
 export function measure(jsonFile = join(HERE, '..', 'output', 'tokens.json')): { themes: string[]; rows: Measured[] } {
-  const data = JSON.parse(readFileSync(jsonFile, 'utf8')) as { contexts: Record<string, { values: string[] }>; tokens: Record_[] };
-  const byPath = new Map(data.tokens.map((t) => [t.path, t]));
-  const themes = data.contexts.theme?.values ?? ['light'];
-  const value = (path: string, theme: string): string => {
-    const t = byPath.get(path);
-    if (!t) throw new Error(`Contrast pair names a token that does not exist: ${path}`);
-    return typeof t.value === 'string' ? t.value : t.value[theme]!;
-  };
+  const data = JSON.parse(readFileSync(jsonFile, 'utf8')) as Output;
+  const settings = settingsOf(data);
+  const themes = settings.map((s) => s.name);
+  const lookups = new Map(settings.map((s) => [s.name, valueIn(data, s)]));
+  const value = (path: string, theme: string): string => lookups.get(theme)!(path);
   const rows = PAIRS.map((p) => {
     const needs = NEEDS[p.kind];
     const ratios: Record<string, number> = {};
@@ -140,14 +168,11 @@ export interface Separated {
 
 /** Each pair of categorical data colors a chart draws side by side, measured in every theme for every vision. */
 export function separations(jsonFile = join(HERE, '..', 'output', 'tokens.json')): { themes: string[]; rows: Separated[]; needs: typeof SEPARATION } {
-  const data = JSON.parse(readFileSync(jsonFile, 'utf8')) as { contexts: Record<string, { values: string[] }>; tokens: Record_[] };
-  const byPath = new Map(data.tokens.map((t) => [t.path, t]));
-  const themes = data.contexts.theme?.values ?? ['light'];
-  const value = (path: string, theme: string): string => {
-    const t = byPath.get(path);
-    if (!t) throw new Error(`The data color order names a token that does not exist: ${path}`);
-    return typeof t.value === 'string' ? t.value : t.value[theme]!;
-  };
+  const data = JSON.parse(readFileSync(jsonFile, 'utf8')) as Output;
+  const settings = settingsOf(data);
+  const themes = settings.map((s) => s.name);
+  const lookups = new Map(settings.map((s) => [s.name, valueIn(data, s)]));
+  const value = (path: string, theme: string): string => lookups.get(theme)!(path);
   const pairs: [string, string, Separated['where']][] = CATEGORICAL.slice(1).map((b, i) => [CATEGORICAL[i]!, b, 'next']);
   if (CATEGORICAL.length > 2) pairs.push([CATEGORICAL[CATEGORICAL.length - 1]!, CATEGORICAL[0]!, 'around']);
   const rows = pairs.map(([a, b, where]): Separated => ({
@@ -179,15 +204,15 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const { pass, fails } = report();
   console.log(`Contrast: ${pass} pairs pass, ${fails.length} fall short.`);
   if (fails.length) {
-    console.log('theme  ratio  needs  foreground -> background  (why)');
-    for (const f of fails) console.log(`${f.theme.padEnd(6)} ${String(f.ratio).padStart(5)}  ${String(f.needs).padStart(5)}  ${f.fg} -> ${f.bg}  (${f.why})`);
+    console.log(`theme`.padEnd(13) + ' ratio  needs  foreground -> background  (why)');
+    for (const f of fails) console.log(`${f.theme.padEnd(13)} ${String(f.ratio).padStart(5)}  ${String(f.needs).padStart(5)}  ${f.fg} -> ${f.bg}  (${f.why})`);
   }
   const { themes, rows, needs } = separations();
   const apart = rows.flatMap((r) => themes.map((t) => r.themes[t]!.verdict)).filter((v) => v === 'apart').length;
   console.log(`\nColor blindness: ${apart} of ${rows.length * themes.length} categorical pairs look apart (${needs.target} or more under protanopia, deuteranopia and tritanopia; ${needs.floor} with a label beside them).`);
-  console.log('theme  normal  protan  deutan  tritan  verdict      pair');
+  console.log('theme'.padEnd(13) + ' normal  protan  deutan  tritan  verdict      pair');
   for (const r of rows) for (const t of themes) {
     const { distances: d, verdict } = r.themes[t]!;
-    console.log(`${t.padEnd(6)} ${[d.normal, d.protanopia, d.deuteranopia, d.tritanopia].map((n) => n.toFixed(1).padStart(6)).join('  ')}  ${verdict.padEnd(11)}  ${r.a} ${r.where === 'next' ? 'beside' : 'around to'} ${r.b}`);
+    console.log(`${t.padEnd(13)} ${[d.normal, d.protanopia, d.deuteranopia, d.tritanopia].map((n) => n.toFixed(1).padStart(6)).join('  ')}  ${verdict.padEnd(11)}  ${r.a} ${r.where === 'next' ? 'beside' : 'around to'} ${r.b}`);
   }
 }

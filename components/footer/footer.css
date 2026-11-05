@@ -518,20 +518,22 @@
    legal links, where it is underlined on hover only. */
 .smbk-footer__legal-link:not(.smbk-link) {
   color: var(--smbk-color-text-default);
-  text-decoration: underline;
+  text-decoration-line: underline;
   text-decoration-color: var(--smbk-color-text-link-underline);
+  text-decoration-thickness: var(--smbk-border-width-link-underline);
+  text-underline-offset: var(--smbk-space-link-underline);
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
 
 .smbk-footer__legal-links .smbk-footer__legal-link:not(.smbk-link) {
-  text-decoration: none;
+  text-decoration-line: none;
 }
 
 @media (hover: hover) {
   .smbk-footer__legal-link:not(.smbk-link):hover {
     color: var(--smbk-color-text-brand);
-    text-decoration: underline;
+    text-decoration-line: underline;
     text-decoration-color: currentColor;
   }
 }

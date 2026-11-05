@@ -4,7 +4,8 @@ import { defineVariants } from '../variants.js';
  * Donut chart. Figma "Donut chart" 7580:1283 (Parts: 4, 3, 2; Legend; texts Figure and Caption). Parts is the
  * number of items in the data, not an axis. Each part's color is a modifier of the `part` part
  * (smbk-donut-chart__part--swatch-2), set from its place. Legend is a boolean of Figma's, a prop here; Figure and
- * Caption are the centre's words.
+ * Caption are the centre's words. A long figure's size is a modifier of the `figure` part
+ * (smbk-donut-chart__figure--size-md, --size-sm), set from how far it runs.
  */
 export const donutChart = defineVariants({
   name: 'donut-chart',

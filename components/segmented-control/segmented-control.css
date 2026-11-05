@@ -47,6 +47,9 @@
   font-weight: var(--smbk-typography-body-md-font-weight);
   line-height: var(--smbk-typography-body-md-line-height);
   letter-spacing: var(--smbk-typography-body-md-letter-spacing);
+  /* Figures of one width in the label, its short line and a short word, so a count that changes ("Short 8" to
+     "Short 9") keeps its item's width and never moves the bar or what follows it on the line. */
+  font-variant-numeric: tabular-nums;
   white-space: nowrap;
   cursor: pointer;
   -webkit-user-select: none;

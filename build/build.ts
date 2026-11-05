@@ -76,6 +76,10 @@ function formatCss(model: Model): string {
   for (const [axis, { values, default: def }] of Object.entries(model.axes)) {
     const cfg = CONTEXT_CSS[axis];
     if (!cfg) throw new Error(`build/config.ts has no CSS strategy for the "${axis}" axis.`);
+    if (cfg.kind === 'attribute' && cfg.over) {
+      out.push(...formatLaidOver(model, axis, emitted.filter((t) => t.over === axis)));
+      continue;
+    }
     const onAxis = emitted.filter((t) => t.axis === axis);
     const dependent = emitted.filter((t) => t.dependent[axis]?.length);
     if (onAxis.length === 0) continue;
@@ -117,6 +121,41 @@ function formatCss(model: Model): string {
   }
   out.push(formatLayoutSwitch(model));
   return out.join('\n');
+}
+
+/**
+ * An axis laid over another (the data palette over the theme), read on the root element only. The axis it lies over
+ * already declares the default context's values; each other context gets one block per context of that axis, written
+ * heavier than that axis's own blocks so it wins on the root and on any element inside that sets its own theme:
+ *
+ *   :root[data-palette="cockpit"], :root[data-palette="cockpit"] [data-theme="light"]                 the default theme
+ *   :root[data-palette="cockpit"][data-theme="dark"], :root[data-palette="cockpit"] [data-theme="dark"]
+ *   @media (prefers-color-scheme: dark) { :root[data-palette="cockpit"]:not([data-theme]) }          the reader's setting
+ */
+function formatLaidOver(model: Model, axis: string, tokens: ModelToken[]): string[] {
+  const cfg = CONTEXT_CSS[axis]!;
+  if (cfg.kind !== 'attribute' || !cfg.over) throw new Error(`The "${axis}" axis is not laid over another.`);
+  const base = CONTEXT_CSS[cfg.over];
+  const baseAxis = model.axes[cfg.over];
+  if (base?.kind !== 'attribute' || !baseAxis) throw new Error(`The "${axis}" axis lies over "${cfg.over}", which is not an attribute axis.`);
+  if (tokens.length === 0) return [];
+  const { values, default: def } = model.axes[axis]!;
+  const out = [`/* ${axis}: ${values.join(' | ')} (default ${def}), set on the root element; each ${cfg.over}'s values */`];
+  for (const context of values) {
+    if (context === def) continue;
+    const root = `:root[${cfg.attribute}="${context}"]`;
+    for (const b of baseAxis.values) {
+      const key = combinationKey({ ...model.defaults, [cfg.over]: b, [axis]: context });
+      const decls: Record<string, string> = {};
+      for (const t of tokens) Object.assign(decls, t.css[key]);
+      const own = `[${base.attribute}="${b}"]`;
+      const selectors = b === baseAxis.default ? [root, `${root} ${own}`] : [`${root}${own}`, `${root} ${own}`];
+      out.push(`${selectors.join(',\n')} {\n${declarations(decls)}\n}\n`);
+      const pref = base.systemPreference?.[b];
+      if (pref) out.push(`@media ${pref} {\n  ${root}:not([${base.attribute}]) {\n${declarations(decls, '    ')}\n  }\n}\n`);
+    }
+  }
+  return out;
 }
 
 /** The layout switch: one inherited custom property, wide at and above the breakpoint, either form forceable by attribute. */
@@ -203,6 +242,7 @@ function formatJson(model: Model): string {
     emitted: t.emitted,
     css: t.emitted ? (t.type === 'typography' ? t.cssNames : t.cssNames.value) : null,
     axis: t.axis,
+    ...(t.over ? { over: t.over } : {}),
     value: valueByContext(model, t),
     reference: typeof t.original === 'string' && t.original.startsWith('{') ? t.original : undefined,
     description: t.description,

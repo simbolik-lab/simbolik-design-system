@@ -8,6 +8,7 @@ import { Icon } from '../icon/icon.js';
 import { Select } from '../select/select.js';
 import { OutsideField } from '../field/field-context.js';
 import { Label } from '../label/label.js';
+import { numberFormat } from '../format.js';
 import { cx } from '../variants.js';
 import type { VariantProps } from '../variants.js';
 
@@ -34,7 +35,7 @@ export interface PaginationProps extends Omit<HTMLAttributes<HTMLElement>, 'onCh
   total?: number;
   /** Range type: what the rows are called, e.g. "results". */
   unit?: string;
-  /** The select's size, for the range and select types: `sm` in a table's foot, where every control is 32 tall. */
+  /** The select's size, for the range and select types. `sm` for the range type, which sits in a table's foot where every control is 32 tall, and `md` for the select type, unless given. */
   selectSize?: 'md' | 'sm';
   /**
    * The Previous button's name. Unless given, "Previous page" where the button shows its arrow alone and "Previous"
@@ -43,16 +44,18 @@ export interface PaginationProps extends Omit<HTMLAttributes<HTMLElement>, 'onCh
   previousLabel?: string;
   /** The Next button's name: "Next page" with the arrow alone and "Next" with words, unless given. */
   nextLabel?: string;
-  /** A numbered page's name, given its number. "Page 3" unless given. */
+  /** A numbered page's name, given its bare number. "Page 3" unless given. */
   pageLabel?: (page: number) => string;
   /** The select's name. "Page" for the select type and "Rows showing" for the range type, unless given. */
   selectLabel?: string;
-  /** Where the reader is, in the narrow numbers bar and the select type's choices: "6 of 11" unless given. */
+  /** Where the reader is, in the narrow numbers bar and the select type's choices, given the bare numbers: "6 of 11" unless given. */
   countText?: (page: number, count: number) => string;
   /** Range type: the word before the select. "Showing" unless given. */
   showingText?: string;
-  /** Range type: the words after the select, given the total and the unit: "of 120 results" unless given. */
+  /** Range type: the words after the select, given the bare total and the unit: "of 120 results" unless given. */
   totalText?: (total: number, unit: string) => string;
+  /** The language its numbers are written in: the page numbers, the counts and the range's choices. English unless given, so 1,116. */
+  locale?: string;
 }
 
 /**
@@ -75,10 +78,6 @@ function NoPage({ icon, label, iconOnly = false, after = false, className }: { i
     </a>
   );
 }
-
-const englishPage = (page: number) => `Page ${page}`;
-const englishCount = (page: number, count: number) => `${page} of ${count}`;
-const englishTotal = (total: number, unit: string) => `of ${total} ${unit}`;
 
 /** The page numbers to show, with null where a gap goes: the current page with its neighbours, the first page, and the last two, as the Figma frame lays them out. */
 export function pageWindow(page: number, count: number, siblings = 1): (number | null)[] {
@@ -111,8 +110,12 @@ export function pageWindow(page: number, count: number, siblings = 1): (number |
  * Given `href`, every page and Previous and Next are links instead, which work with no script; Previous on the first
  * page and Next on the last are links with no address, out of the Tab order, since a press loads another page anyway.
  */
-export function Pagination({ type, borderless, page, count, onChange, href, label = 'Pagination', siblings, pageSize = 20, total = 0, unit = 'results', selectSize = 'md', previousLabel, nextLabel, pageLabel = englishPage, selectLabel, countText = englishCount, showingText = 'Showing', totalText = englishTotal, className, ...rest }: PaginationProps) {
+export function Pagination({ type, borderless, page, count, onChange, href, label = 'Pagination', siblings, pageSize = 20, total = 0, unit = 'results', selectSize = type === 'range' ? 'sm' : 'md', previousLabel, nextLabel, pageLabel, selectLabel, countText, showingText = 'Showing', totalText, locale, className, ...rest }: PaginationProps) {
   const classes = cx(pagination({ type, borderless }), className);
+  const written = numberFormat(locale).format;
+  const pageName = pageLabel ?? ((n: number) => `Page ${written(n)}`);
+  const whereAt = countText ?? ((n: number, all: number) => `${written(n)} of ${written(all)}`);
+  const outOf = totalText ?? ((all: number, name: string) => `of ${written(all)} ${name}`);
   const pages = count ?? Math.max(1, Math.ceil(total / pageSize));
   const go = (next: number) => {
     if (next < 1 || next > pages || next === page) return;
@@ -135,13 +138,13 @@ export function Pagination({ type, borderless, page, count, onChange, href, labe
     const ranges = Array.from({ length: pages }, (_, i) => {
       const from = i * pageSize + 1;
       const to = Math.min((i + 1) * pageSize, total);
-      return { value: String(i + 1), label: `${from}-${to}` };
+      return { value: String(i + 1), label: `${written(from)}-${written(to)}` };
     });
     return (
       <nav aria-label={label} className={classes} {...rest}>
         <Label tone="subtle" className={pagination.part('label')}>{showingText}</Label>
         <OutsideField><Select size={selectSize} aria-label={selectLabel ?? 'Rows showing'} className={pagination.part('select')} value={String(page)} onChange={(v) => go(Number(v))} options={ranges} /></OutsideField>
-        <Label tone="subtle" className={pagination.part('label')}>{totalText(total, unit)}</Label>
+        <Label tone="subtle" className={pagination.part('label')}>{outOf(total, unit)}</Label>
       </nav>
     );
   }
@@ -151,7 +154,7 @@ export function Pagination({ type, borderless, page, count, onChange, href, labe
       <nav aria-label={label} className={classes} {...rest}>
         {step(page - 1, first, { label: previousLabel ?? 'Previous', icon: 'CaretLeft', className: `${pagination.part('previous')} ${pagination.part('wide-only')}` })}
         {step(page - 1, first, { label: previousLabel ?? 'Previous page', icon: 'CaretLeft', iconOnly: true, className: `${pagination.part('previous')} ${pagination.part('narrow-only')}` })}
-        <OutsideField><Select size={selectSize} aria-label={selectLabel ?? 'Page'} className={pagination.part('select')} value={String(page)} onChange={(v) => go(Number(v))} options={Array.from({ length: pages }, (_, i) => ({ value: String(i + 1), label: countText(i + 1, pages) }))} /></OutsideField>
+        <OutsideField><Select size={selectSize} aria-label={selectLabel ?? 'Page'} className={pagination.part('select')} value={String(page)} onChange={(v) => go(Number(v))} options={Array.from({ length: pages }, (_, i) => ({ value: String(i + 1), label: whereAt(i + 1, pages) }))} /></OutsideField>
         {step(page + 1, last, { label: nextLabel ?? 'Next', icon: 'CaretRight', after: true, className: `${pagination.part('next')} ${pagination.part('wide-only')}` })}
         {step(page + 1, last, { label: nextLabel ?? 'Next page', icon: 'CaretRight', iconOnly: true, className: `${pagination.part('next')} ${pagination.part('narrow-only')}` })}
       </nav>
@@ -165,7 +168,7 @@ export function Pagination({ type, borderless, page, count, onChange, href, labe
           {step(page - 1, first, { label: previousLabel ?? 'Previous page', icon: 'CaretLeft', iconOnly: true, className: pagination.part('previous') })}
         </li>
         <li className={`${pagination.part('item')} ${pagination.part('status')}`}>
-          {countText(page, pages)}
+          {whereAt(page, pages)}
         </li>
         {pageWindow(page, pages, siblings).map((n, i) =>
           n === null ? (
@@ -177,12 +180,12 @@ export function Pagination({ type, borderless, page, count, onChange, href, labe
           ) : (
             <li key={n} className={pagination.part('item')}>
               {href ? (
-                <Button tone="ghost" size="sm" href={href(n)} className={pagination.part('page')} aria-current={n === page ? 'page' : undefined} aria-label={pageLabel(n)}>
-                  {n}
+                <Button tone="ghost" size="sm" href={href(n)} className={pagination.part('page')} data-label={written(n)} aria-current={n === page ? 'page' : undefined} aria-label={pageName(n)}>
+                  {written(n)}
                 </Button>
               ) : (
-                <Button tone="ghost" size="sm" className={pagination.part('page')} aria-current={n === page ? 'page' : undefined} aria-label={pageLabel(n)} onClick={() => go(n)}>
-                  {n}
+                <Button tone="ghost" size="sm" className={pagination.part('page')} data-label={written(n)} aria-current={n === page ? 'page' : undefined} aria-label={pageName(n)} onClick={() => go(n)}>
+                  {written(n)}
                 </Button>
               )}
             </li>

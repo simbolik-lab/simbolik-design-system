@@ -12,7 +12,7 @@ status: candidate
 
 ## Purpose
 
-Two to five named choices side by side in one bar, exactly one of them chosen, taking effect at once: a view switch, a period picker, a unit toggle. It is a radio group that looks like a control rather than a list.
+Two to five named choices side by side in one bar, one of them chosen, taking effect at once: a view switch, a period picker, a unit toggle. It is a radio group that looks like a control rather than a list.
 
 ## Anatomy
 
@@ -40,6 +40,8 @@ Choosing raises the chosen item and lowers the previous one: the raised surface 
 
 On a touch screen the bar keeps its size, and each item takes an invisible press area out to the comfortable touch target above and below it and halfway to the next item.
 
+A bar may have nothing chosen when what the page shows is none of its choices, such as days picked on a calendar beside a bar of periods. Give `value` an empty string: no item is raised, and the next choice lands at once rather than sliding. A bar with neither `value` nor `defaultValue` also starts with nothing chosen. A reader can change the choice but never clear it, so only the page can go back to nothing chosen.
+
 ## Accessibility
 
 ### What it does for you
@@ -57,11 +59,13 @@ On a touch screen the bar keeps its size, and each item takes an invisible press
 
 - Give the bar an accessible name; the wrapper requires one.
 - For a bar of icons alone, make the bar's own name and the chosen icon clear the choices, since a touch shows no tooltip.
+- With nothing chosen, say in words near the bar what the page shows, since the bar no longer does.
 - Listen for a key you give the control or an item, and choose as it says: the control only shows and names the key. Take a single key only outside text fields.
 
 ### How to test
 
 - Tab to the bar: focus lands on the chosen item. The arrow keys move the choice, which takes effect at once.
+- With nothing chosen, Tab lands on the first item and Space chooses it.
 - In a bar of icons alone, an item's label shows in a tooltip when focus reaches it, and Escape hides it.
 - With a screen reader, the bar is read as a group by its name, and each item as a radio by its label, with whether it is chosen and its place in the group.
 - With text at 200% and the page 320 pixels wide, the items stay whole and reachable.
@@ -71,9 +75,10 @@ On a touch screen the bar keeps its size, and each item takes an invisible press
 
 | Key | What it does |
 |---|---|
-| Tab | Moves focus into the bar, to the chosen item, and out of it. |
+| Tab | Moves focus into the bar, to the chosen item or, with nothing chosen, the first, and out of it. |
 | Down Arrow or Right Arrow | Moves the choice to the next item. |
 | Up Arrow or Left Arrow | Moves the choice to the previous item. |
+| Space | With nothing chosen, chooses the focused item. |
 | Escape | Hides the tooltip: an item's label in a bar of icons alone, or the bar's own name and key. |
 
 ## Composition
@@ -85,10 +90,11 @@ Contains items only. Sits in toolbars, card headers and settings rows.
 ### Do
 
 - Give every item roughly the same label length so the bar reads as one control.
+- Keep a choice made whenever what the page shows is one of the choices.
 
 ### Don't
 
-- Leave nothing chosen. A segmented control always has a current value.
+- Leave nothing chosen without saying what the page shows instead.
 
 ## Related
 

@@ -551,6 +551,58 @@
           }
         }
       },
+      "grey-200": {
+        "19": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.9058823529411765,
+              0.9215686274509803,
+              0.9411764705882353
+            ],
+            "alpha": 0.19,
+            "hex": "#e7ebf0"
+          },
+          "$type": "color",
+          "$description": "Grey 200 at 19% opacity, for the line under a link at rest on dark surfaces.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8393:2798",
+              "collection": {
+                "id": "VariableCollectionId:4005:5458",
+                "name": "Primitives",
+                "defaultModeId": "4005:0"
+              }
+            }
+          }
+        }
+      },
+      "grey-400": {
+        "50": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.6078431372549019,
+              0.6470588235294118,
+              0.6941176470588235
+            ],
+            "alpha": 0.5,
+            "hex": "#9ba5b1"
+          },
+          "$type": "color",
+          "$description": "Grey 400 at 50% opacity, for the line under a link on hover on dark surfaces.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8393:2800",
+              "collection": {
+                "id": "VariableCollectionId:4005:5458",
+                "name": "Primitives",
+                "defaultModeId": "4005:0"
+              }
+            }
+          }
+        }
+      },
       "grey-600": {
         "10": {
           "$value": {
@@ -686,6 +738,32 @@
           "$extensions": {
             "figma": {
               "variableId": "VariableID:7190:3",
+              "collection": {
+                "id": "VariableCollectionId:4005:5458",
+                "name": "Primitives",
+                "defaultModeId": "4005:0"
+              }
+            }
+          }
+        }
+      },
+      "grey-700": {
+        "50": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3058823529411765,
+              0.3333333333333333,
+              0.3686274509803922
+            ],
+            "alpha": 0.5,
+            "hex": "#4e555e"
+          },
+          "$type": "color",
+          "$description": "Grey 700 at 50% opacity, for the line under a link on hover on light surfaces.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8393:2799",
               "collection": {
                 "id": "VariableCollectionId:4005:5458",
                 "name": "Primitives",
@@ -856,6 +934,32 @@
           "$extensions": {
             "figma": {
               "variableId": "VariableID:4040:9113",
+              "collection": {
+                "id": "VariableCollectionId:4005:5458",
+                "name": "Primitives",
+                "defaultModeId": "4005:0"
+              }
+            }
+          }
+        }
+      },
+      "grey-900": {
+        "19": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.13725490196078433,
+              0.1450980392156863,
+              0.15294117647058825
+            ],
+            "alpha": 0.19,
+            "hex": "#232527"
+          },
+          "$type": "color",
+          "$description": "Grey 900 at 19% opacity, for the line under a link at rest on light surfaces.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8393:2797",
               "collection": {
                 "id": "VariableCollectionId:4005:5458",
                 "name": "Primitives",

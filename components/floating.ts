@@ -11,10 +11,13 @@
  * inside it is placed by React Aria's overlay positioning: on the side of the opener it prefers, or the opposite side
  * when that one lacks room, lined up with the opener's start or end edge or its middle, moved inward at the
  * window's edge, never taller than that room (or than the list height the stylesheet gives a list), and kept
- * beside the opener as anything scrolls or changes size. A tooltip's arrow is moved along its edge to point at
- * the opener's middle. A submenu (`nested`) opens beside a row of a panel like itself: it stands off from that
+ * beside the opener as anything scrolls or changes size. A tooltip's arrow, or a popover's pointer, is moved along its
+ * edge to point at the opener's middle. A submenu (`nested`) opens beside a row of a panel like itself: it stands off from that
  * panel's edge rather than the row's, and its first row lines up with the row. A panel may stand off from an
- * element around its opener instead of the opener (`standOff`: a menubar's menus hang below the bar).
+ * element around its opener instead of the opener (`standOff`: a menubar's menus hang below the bar). A panel that
+ * prefers the left or the right and fits on neither takes another side (`fallback`: a popover on a phone goes below).
+ * A part of the page going full screen is drawn over everything lifted before it, so a panel inside that part is
+ * lifted again over it and placed again, and placed again when the page comes back.
  *
  * Without script, or before the page's script has run, the layer has no box of its own and the stylesheet hangs
  * the panel under its opener. A browser without the top layer places the panel the same way, inside the page.
@@ -42,6 +45,8 @@ export interface FloatingOptions {
   open: boolean;
   /** The side of the opener the panel prefers; it takes the opposite side when this one lacks room. Below unless given. */
   side?: FloatingSide;
+  /** Preferring the left or the right: the side it takes when it fits on neither. Read as the panel opens. */
+  fallback?: FloatingSide;
   /** Which edge of the opener the panel lines up with, or its middle: its start or end edge below and above, its top
    * or bottom edge on the left and the right. */
   align?: 'start' | 'center' | 'end';
@@ -51,7 +56,7 @@ export interface FloatingOptions {
   matchWidth?: boolean;
   /** Keeps the panel no taller than the list height token, as a list's panel is; otherwise only the room limits it. On unless turned off. */
   listHeight?: boolean;
-  /** A tooltip's arrow: the panel stands that much further off, and the arrow is moved to point at the opener's middle. */
+  /** A tooltip's arrow or a popover's pointer: the panel stands that much further off, and it is moved to point at the opener's middle. */
   arrow?: RefObject<HTMLElement | null>;
   /** A submenu: the panel opens beside a row of a panel like itself, standing off from that panel's edge by the gap,
    * with its own first row level with the row (both read from the panel's own padding and edge). */
@@ -78,8 +83,8 @@ const topLayer = () => typeof HTMLElement !== 'undefined' && 'showPopover' in HT
  * token, both read where the panel sits so a density region keeps its own. An arrow adds its depth to the gap
  * (less the hairline it reaches into the panel) and is kept the medium inset from the panel's corners.
  */
-export function useFloating({ target, layer, panel, open, side: preferred = 'below', align = 'start', boundary, matchWidth = false, listHeight = true, arrow, nested = false, standOff }: FloatingOptions): FloatingPlace {
-  const [room, setRoom] = useState<{ gap: number; max: number | undefined; depth: number; size: number; inset: number; edge: Element | null; away: number; along: number } | null>(null);
+export function useFloating({ target, layer, panel, open, side: asked = 'below', fallback, align = 'start', boundary, matchWidth = false, listHeight = true, arrow, nested = false, standOff }: FloatingOptions): FloatingPlace {
+  const [room, setRoom] = useState<{ gap: number; max: number | undefined; depth: number; size: number; inset: number; edge: Element | null; away: number; along: number; side: FloatingSide } | null>(null);
   const lowering = useRef(0);
 
   // Before the panel is placed: lift the layer into the top layer and read the tokens where the panel sits, and the
@@ -98,8 +103,10 @@ export function useFloating({ target, layer, panel, open, side: preferred = 'bel
     if (matchWidth) p.style.width = `${t.getBoundingClientRect().width}px`;
     const gap = lengthPx(p, '--smbk-space-stack-xs') ?? 0;
     const max = listHeight ? lengthPx(p, '--smbk-size-list-max-height') : undefined;
-    // The arrow's box is as deep as its shape, whichever edge it is on, and as long as its base.
-    const a = arrow?.current?.getBoundingClientRect();
+    // The arrow's box is as deep as its shape, whichever edge it is on, and as long as its base. Read from its style,
+    // since a panel coming in may be growing while this reads it.
+    const shape = arrow?.current ? getComputedStyle(arrow.current) : null;
+    const a = shape ? { width: Number.parseFloat(shape.width) || 0, height: Number.parseFloat(shape.height) || 0 } : null;
     const depth = a ? Math.min(a.width, a.height) - (lengthPx(p, '--smbk-border-width-hairline') ?? 0) : 0;
     const size = a ? Math.max(a.width, a.height) : 0;
     const inset = a ? lengthPx(p, '--smbk-space-inset-md') ?? 0 : 0;
@@ -113,14 +120,18 @@ export function useFloating({ target, layer, panel, open, side: preferred = 'bel
       away = Number.parseFloat(own.paddingInlineStart) + Number.parseFloat(own.borderInlineStartWidth);
       along = -(Number.parseFloat(own.paddingTop) + Number.parseFloat(own.borderTopWidth));
     }
+    const mine = t.getBoundingClientRect();
     const around = standOff?.current?.getBoundingClientRect();
     if (around) {
-      const mine = t.getBoundingClientRect();
-      away += preferred === 'below' || preferred === 'above' ? Math.max(around.bottom - mine.bottom, mine.top - around.top, 0) : Math.max(around.right - mine.right, mine.left - around.left, 0);
+      away += asked === 'below' || asked === 'above' ? Math.max(around.bottom - mine.bottom, mine.top - around.top, 0) : Math.max(around.right - mine.right, mine.left - around.left, 0);
     }
-    setRoom((was) => (was && was.gap === gap && was.max === max && was.depth === depth && was.size === size && was.inset === inset && was.edge === edge && was.away === away && was.along === along ? was : { gap, max, depth, size, inset, edge, away, along }));
-  }, [open, layer, panel, target, matchWidth, listHeight, arrow, boundary, nested, standOff]);
+    // Preferring the left or the right, it needs its width, the gaps and the arrow on the roomier of the two.
+    const fits = Math.max(mine.left, window.innerWidth - mine.right) >= p.offsetWidth + 2 * gap + depth;
+    const side = fallback && (asked === 'left' || asked === 'right') && !fits ? fallback : asked;
+    setRoom((was) => (was && was.gap === gap && was.max === max && was.depth === depth && was.size === size && was.inset === inset && was.edge === edge && was.away === away && was.along === along && was.side === side ? was : { gap, max, depth, size, inset, edge, away, along, side }));
+  }, [open, layer, panel, target, matchWidth, listHeight, arrow, boundary, nested, standOff, asked, fallback]);
 
+  const preferred = room?.side ?? asked;
   const across = preferred === 'below' || preferred === 'above';
   // React Aria names the edge to line up with: start or end below and above, top or bottom on the left and the right.
   const edgeName = across ? align : align === 'start' ? 'top' : 'bottom';
@@ -151,6 +162,22 @@ export function useFloating({ target, layer, panel, open, side: preferred = 'bel
     return () => window.removeEventListener('scroll', follow, { capture: true });
   }, [open, panel, updatePosition]);
 
+  // A part around the opener going full screen is drawn over everything lifted before it, and the opener moves with it:
+  // the layer is lifted again, over it, and the panel placed again. Coming back, the opener moves again.
+  useEffect(() => {
+    if (!open) return undefined;
+    const follow = () => {
+      const l = layer.current;
+      if (l && topLayer() && l.matches(':popover-open') && document.fullscreenElement?.contains(l)) {
+        l.hidePopover();
+        l.showPopover();
+      }
+      updatePosition();
+    };
+    document.addEventListener('fullscreenchange', follow);
+    return () => document.removeEventListener('fullscreenchange', follow);
+  }, [open, layer, updatePosition]);
+
   // Closed: the layer leaves the top layer once the panel has finished leaving (the exit motion). Under reduced
   // motion the panel still fades out, in place, so the layer waits the same. Opening again before then keeps it.
   useEffect(() => {
@@ -166,6 +193,17 @@ export function useFloating({ target, layer, panel, open, side: preferred = 'bel
   // The side stays named after the panel closes, so it leaves the way it came, back toward its opener, and a tooltip's
   // arrow stays on the edge it was on while the tooltip fades. It is null until the panel is first placed.
   const side: FloatingSide | null = placement === 'top' ? 'above' : placement === 'bottom' ? 'below' : placement === 'left' || placement === 'right' ? placement : null;
-  const along = side === 'left' || side === 'right' ? arrowProps.style?.top : arrowProps.style?.left;
-  return { side, arrowOffset: arrow && typeof along === 'number' ? along : null, update: updatePosition };
+  const sideways = side === 'left' || side === 'right';
+  const along = sideways ? arrowProps.style?.top : arrowProps.style?.left;
+  const arrowOffset = arrow && typeof along === 'number' ? along : null;
+
+  // The arrow's middle where the opener's middle is, along the edge it sits on, once placed.
+  useLayoutEffect(() => {
+    const a = arrow?.current;
+    if (!a) return;
+    a.style.left = arrowOffset !== null && !sideways ? `${arrowOffset}px` : '';
+    a.style.top = arrowOffset !== null && sideways ? `${arrowOffset}px` : '';
+  }, [arrow, arrowOffset, sideways]);
+
+  return { side, arrowOffset, update: updatePosition };
 }

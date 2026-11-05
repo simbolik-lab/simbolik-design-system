@@ -19,7 +19,7 @@ How thick a line is. There are only a few thicknesses, because a border is rarel
 
 ## How it is structured
 
-Primitive steps named by their size, and semantic roles that say what each is for: a hairline for separation and almost every edge, an emphasis width for a chosen card or a focus ring, and an accent width for accent rules and stripe callouts. The focus ring reads its width from its own token, which aliases one of these steps.
+Primitive steps named by their size, and semantic roles that say what each is for: a hairline for separation and almost every edge, an emphasis width for a chosen card or a focus ring, and an accent width for accent rules and stripe callouts. The focus ring reads its width from its own token, which aliases one of these steps. The line under a link has a role of its own too, between the hairline and the emphasis width: it sits under words rather than round a box, so it is not a step on the scale.
 
 ## Tiers
 

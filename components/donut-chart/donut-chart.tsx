@@ -5,6 +5,7 @@ import { ChartData } from '../chart-data.js';
 import { chartSwatches, markKey, type ChartSwatch } from '../chart.js';
 import { useEntrance } from '../entrance.js';
 import { chartFormat, numberFormat } from '../format.js';
+import { labelText } from '../label-text.js';
 import { LegendItem } from '../legend-item/legend-item.js';
 import { donutChart } from './donut-chart.manifest.js';
 import { cx } from '../variants.js';
@@ -41,7 +42,7 @@ export interface DonutChartProps extends Omit<HTMLAttributes<HTMLDivElement>, 'c
   summary?: string;
   /** The parts, in the order they run clockwise from the top: two to eight. A ninth and later are gathered as one, in gray. */
   parts: readonly DonutPart[];
-  /** The figure in the middle, such as "$5,084". The total of the parts unless given. */
+  /** The figure in the middle, such as "$5,084". The total of the parts unless given. A long one is set smaller; the middle holds ten characters. */
   figure?: ReactNode;
   /** The words under the figure, such as "7 days". None unless given. */
   caption?: ReactNode;
@@ -87,6 +88,16 @@ function arc(from: number, to: number): string {
   }
   const large = to - from > Math.PI ? 1 : 0;
   return `M${at(OUTER, from)} A${OUTER} ${OUTER} 0 ${large} 1 ${at(OUTER, to)} L${at(INNER, to)} A${INNER} ${INNER} 0 ${large} 0 ${at(INNER, from)} Z`;
+}
+
+/** How far a figure runs, in digits of its type: a comma, a point or a space is half of one, a capital or a percent sign one and a half. */
+const digitsWide = (words: string) => Array.from(words).reduce((n, c) => n + (/[\s.,]/.test(c) ? 0.5 : /[\p{Lu}%]/u.test(c) ? 1.5 : 1), 0);
+
+/** The figure's modifier, read from its words so a page prepared on a server draws it alike. The full size holds "$5,084", the next "$99,999", the last "$1,250,000". */
+function figureSize(figure: ReactNode): 'md' | 'sm' | undefined {
+  const width = digitsWide(labelText(figure) ?? '');
+  if (width <= 5.5) return undefined;
+  return width <= 6.5 ? 'md' : 'sm';
 }
 
 /**
@@ -150,6 +161,8 @@ export function DonutChart({ label, summary, parts, figure, caption, legend = tr
     if (!e.currentTarget.contains(e.relatedTarget as Node | null)) activate(null);
   };
   const legendItems = legendEmpty ? drawn : drawn.filter((p) => p.value > 0);
+  const middle = figure ?? fmt(total);
+  const size = figureSize(middle);
   return (
     <div ref={entrance} data-entrance="load" className={cx(donutChart(), className)} {...rest}>
       <div className={part('ring')} role={focusable ? 'group' : 'img'} aria-label={summary ?? label}>
@@ -184,7 +197,7 @@ export function DonutChart({ label, summary, parts, figure, caption, legend = tr
           ))}
         </svg>
         <span className={part('center')} aria-hidden={focusable || undefined}>
-          <span className={part('figure')}>{figure ?? fmt(total)}</span>
+          <span className={cx(part('figure'), size && `${part('figure')}--size-${size}`)}>{middle}</span>
           {caption !== undefined && caption !== null && caption !== '' && <span className={part('caption')}>{caption}</span>}
         </span>
       </div>

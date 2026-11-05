@@ -17,6 +17,13 @@
       },
       "default": "light"
     },
+    "palette": {
+      "contexts": {
+        "default": [{ "$ref": "data-palette/default.tokens.json" }],
+        "cockpit": [{ "$ref": "data-palette/cockpit.tokens.json" }]
+      },
+      "default": "default"
+    },
     "density": {
       "contexts": {
         "comfortable": [{ "$ref": "semantic-dimension/comfortable.tokens.json" }],
@@ -46,6 +53,7 @@
     { "$ref": "#/sets/effect-styles" },
     { "$ref": "#/sets/authored" },
     { "$ref": "#/modifiers/theme" },
+    { "$ref": "#/modifiers/palette" },
     { "$ref": "#/modifiers/density" },
     { "$ref": "#/modifiers/text-size" },
     { "$ref": "#/modifiers/layout" }

@@ -10,6 +10,7 @@
 export type RuleId =
   | 'unknown-class'
   | 'unknown-property'
+  | 'removed-prop'
   | 'primitive-token'
   | 'raw-value'
   | 'width-breakpoint'
@@ -36,6 +37,11 @@ export const RULES: Record<RuleId, Rule> = {
     title: '--smbk- custom property that does not exist',
     advice:
       'The token build does not write this name and no component defines it, so it resolves to nothing. Check the name on the Showroom foundation pages; names are derived from token paths (docs/naming.md).',
+  },
+  'removed-prop': {
+    title: 'Prop a Release removed from a component',
+    advice:
+      'A Release took this prop off the component and said so under What breaks. Nothing else warns of it: TypeScript does not check a hyphenated name in JSX, and a name the element also knows goes through to the element. The prop no longer does what it did. Use what the finding names.',
   },
   'primitive-token': {
     title: 'Primitive color or type token',
@@ -98,6 +104,32 @@ export const RULE_ORDER = Object.keys(RULES) as RuleId[];
 export const RETIRED_RULES: Record<string, string> = {
   'old-system': 'A class it found is now a class without the project prefix (class-prefix); a custom property it found is no longer a finding.',
 };
+
+/** A prop a Release took off a React wrapper. */
+export interface RemovedProp {
+  /** The wrapper's export, e.g. "ToolbarTool". */
+  component: string;
+  prop: string;
+  /** What to use instead, as the Release's What breaks says it. */
+  instead: string;
+}
+
+/**
+ * Every prop on the list is a finding when a project gives it to that wrapper. A component's files no longer hold a
+ * prop it lost, so nothing can derive this list and What breaks is written for readers, not for a program: the change
+ * that removes a prop adds its line here beside its line under What breaks.
+ */
+export const REMOVED_PROPS: RemovedProp[] = [
+  { component: 'ToolbarTool', prop: 'aria-keyshortcuts', instead: 'Give the key as shortcut.' },
+  { component: 'SegmentedControl', prop: 'aria-keyshortcuts', instead: 'Give the key as shortcut.' },
+  { component: 'Avatar', prop: 'scheme', instead: 'Use tone.' },
+  { component: 'Checkbox', prop: 'variant', instead: 'Use tone.' },
+  { component: 'Link', prop: 'underline', instead: 'Every link is underlined. Set standalone on one that stands on its own.' },
+  { component: 'Card', prop: 'media', instead: 'Use layout: stacked for none and top, side for side, behind for background.' },
+  { component: 'Modal', prop: 'onClose', instead: 'Use onOpenChange, which is told false when one asks to close.' },
+  { component: 'Drawer', prop: 'onClose', instead: 'Use onOpenChange, which is told false when one asks to close.' },
+  { component: 'CommandPalette', prop: 'onClose', instead: 'Use onOpenChange, which is told false when one asks to close.' },
+];
 
 export function isRuleId(id: string): id is RuleId {
   return id in RULES;

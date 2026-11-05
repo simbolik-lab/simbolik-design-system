@@ -3,7 +3,8 @@
  * The default tone is a see-through gray with no edge and no shadow, so it
  * shows on every surface. Figma draws the edge inside the tag, so the padding
  * gives the edge's width back, and every tag draws one, clear where its tone
- * has none, so all are the same size. */
+ * has none, so all are the same size. A pressable tag is a button drawn the
+ * same, with a control's hover, pressed and focus looks (the end of this file). */
 
 .smbk-tag {
   /* The default tone; each feedback tone sets these again below (the tone recipe). */
@@ -31,6 +32,29 @@
 
 .smbk-tag__icon {
   font-size: var(--smbk-size-icon-xs);
+}
+
+/* The page's own picture in the icon's place: a box the icon's size, an svg or an img filling it, and any other element
+   of the page's own held to it however large it is drawn elsewhere. An svg that fills or strokes with currentColor
+   takes the tag's text color, as the icon does. */
+.smbk-tag__leading-content {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--smbk-size-icon-xs);
+  height: var(--smbk-size-icon-xs);
+}
+
+.smbk-tag__leading-content > * {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.smbk-tag__leading-content > :is(svg, img) {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 /* The cross sits inside a 24 px box, the least a press needs; the box reaches past the cross into the gap
@@ -80,3 +104,66 @@
 .smbk-tag--tone-success { --smbk-tone-surface: var(--smbk-color-feedback-success-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-success-border-subtle); --smbk-tone-text: var(--smbk-color-feedback-success-text-on-subtle); }
 .smbk-tag--tone-danger { --smbk-tone-surface: var(--smbk-color-feedback-danger-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-danger-border-subtle); --smbk-tone-text: var(--smbk-color-feedback-danger-text-on-subtle); }
 .smbk-tag--tone-warning { --smbk-tone-surface: var(--smbk-color-feedback-warning-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-warning-border-subtle); --smbk-tone-text: var(--smbk-color-feedback-warning-text-on-subtle); }
+
+/* ---- pressable: a button that opens something about what it names ----
+   The tag's own shape, height, corner and type, never the chip's pill, with the chip's pointer, hover, pressed and
+   focus looks. The button's own look is reset, so a button and a span draw the same tag. The hover and pressed looks
+   go through the tone recipe: the default tone takes the hover and pressed fills, a feedback tone keeps its surface and
+   takes its family's full edge for its pale one; brand and outline set their colors directly, as they do at rest.
+   Pressed, every tone sinks in. On a touch screen the tag takes an invisible press area round it, out to the
+   comfortable target (press-box/press-box.css). */
+
+.smbk-tag--pressable {
+  margin: 0;
+  cursor: pointer;
+  text-align: start;
+  text-decoration: none;
+  -webkit-user-select: none;
+  user-select: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.smbk-tag--pressable:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: var(--smbk-focus-ring-offset);
+}
+
+@media (hover: hover) {
+  .smbk-tag--pressable:hover { --smbk-tone-surface: var(--smbk-color-surface-hover); }
+  .smbk-tag--pressable.smbk-tag--tone-info:hover { --smbk-tone-surface: var(--smbk-color-feedback-info-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-info-border); }
+  .smbk-tag--pressable.smbk-tag--tone-success:hover { --smbk-tone-surface: var(--smbk-color-feedback-success-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-success-border); }
+  .smbk-tag--pressable.smbk-tag--tone-danger:hover { --smbk-tone-surface: var(--smbk-color-feedback-danger-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-danger-border); }
+  .smbk-tag--pressable.smbk-tag--tone-warning:hover { --smbk-tone-surface: var(--smbk-color-feedback-warning-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-warning-border); }
+
+  .smbk-tag--pressable.smbk-tag--tone-brand:hover {
+    background: var(--smbk-color-action-brand-background-hover);
+    border-color: var(--smbk-color-action-brand-border-hover);
+  }
+
+  .smbk-tag--pressable.smbk-tag--tone-outline:hover {
+    background: var(--smbk-color-action-outline-background-hover);
+    border-color: var(--smbk-color-action-outline-border-hover);
+  }
+}
+
+.smbk-tag--pressable:active {
+  --smbk-tone-surface: var(--smbk-color-action-default-background-pressed);
+  box-shadow: var(--smbk-elevation-inset-strong);
+}
+
+.smbk-tag--pressable.smbk-tag--tone-info:active { --smbk-tone-surface: var(--smbk-color-feedback-info-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-info-border); }
+.smbk-tag--pressable.smbk-tag--tone-success:active { --smbk-tone-surface: var(--smbk-color-feedback-success-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-success-border); }
+.smbk-tag--pressable.smbk-tag--tone-danger:active { --smbk-tone-surface: var(--smbk-color-feedback-danger-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-danger-border); }
+.smbk-tag--pressable.smbk-tag--tone-warning:active { --smbk-tone-surface: var(--smbk-color-feedback-warning-surface-subtle); --smbk-tone-border: var(--smbk-color-feedback-warning-border); }
+
+.smbk-tag--pressable.smbk-tag--tone-brand:active {
+  background: var(--smbk-color-action-brand-background-pressed);
+  border-color: var(--smbk-color-action-brand-border-hover);
+}
+
+.smbk-tag--pressable.smbk-tag--tone-outline:active {
+  background: var(--smbk-color-action-outline-background-pressed);
+  border-color: var(--smbk-color-action-outline-border-hover);
+}

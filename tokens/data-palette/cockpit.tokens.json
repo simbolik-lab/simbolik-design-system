@@ -1,0 +1,1222 @@
+{
+  "$extensions": {
+    "tokens-bruecke-meta": {
+      "useDTCG": true,
+      "spec": "https://www.designtokens.org/tr/2025.10/format/",
+      "colorMode": "srgb-dtcg",
+      "variableCollections": [
+        "Primitives",
+        "Semantic Color",
+        "Semantic Dimension",
+        "Semantic Typography",
+        "Semantic",
+        "Semantic Layout"
+      ],
+      "createdAt": "2026-10-13T11:06:03.073Z"
+    }
+  },
+  "palette": {
+    "light": {
+      "series": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0392156862745098,
+            0.5215686274509804,
+            0.6313725490196078
+          ],
+          "alpha": 1,
+          "hex": "#0a85a1"
+        },
+        "$type": "color",
+        "$description": "color/data/series in the light theme, for each data palette. Bind color/data/series, never this.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8384:2801",
+            "collection": {
+              "id": "VariableCollectionId:8384:2797",
+              "name": "Data Palette",
+              "defaultModeId": "8384:0"
+            },
+            "scopes": []
+          }
+        }
+      },
+      "series-hover": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0196078431372549,
+            0.4196078431372549,
+            0.5137254901960784
+          ],
+          "alpha": 1,
+          "hex": "#056b83"
+        },
+        "$type": "color",
+        "$description": "color/data/series-hover in the light theme, for each data palette. Bind color/data/series-hover, never this.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8384:2803",
+            "collection": {
+              "id": "VariableCollectionId:8384:2797",
+              "name": "Data Palette",
+              "defaultModeId": "8384:0"
+            },
+            "scopes": []
+          }
+        }
+      },
+      "categorical": {
+        "1": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.0392156862745098,
+              0.5215686274509804,
+              0.6313725490196078
+            ],
+            "alpha": 1,
+            "hex": "#0a85a1"
+          },
+          "$type": "color",
+          "$description": "color/data/categorical/1 in the light theme, for each data palette. Bind color/data/categorical/1, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2805",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "2": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7098039215686275,
+              0.4666666666666667,
+              0.10980392156862745
+            ],
+            "alpha": 1,
+            "hex": "#b5771c"
+          },
+          "$type": "color",
+          "$description": "color/data/categorical/2 in the light theme, for each data palette. Bind color/data/categorical/2, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2807",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "3": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.5568627450980392,
+              0.2549019607843137,
+              0.4392156862745098
+            ],
+            "alpha": 1,
+            "hex": "#8e4170"
+          },
+          "$type": "color",
+          "$description": "color/data/categorical/3 in the light theme, for each data palette. Bind color/data/categorical/3, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2809",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "4": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.06666666666666667,
+              0.5843137254901961,
+              0.48627450980392156
+            ],
+            "alpha": 1,
+            "hex": "#11957c"
+          },
+          "$type": "color",
+          "$description": "color/data/categorical/4 in the light theme, for each data palette. Bind color/data/categorical/4, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2811",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "5": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.43529411764705883,
+              0.34901960784313724,
+              0.6509803921568628
+            ],
+            "alpha": 1,
+            "hex": "#6f59a6"
+          },
+          "$type": "color",
+          "$description": "color/data/categorical/5 in the light theme, for each data palette. Bind color/data/categorical/5, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2813",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "6": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.40784313725490196,
+              0.5568627450980392,
+              0.23137254901960785
+            ],
+            "alpha": 1,
+            "hex": "#688e3b"
+          },
+          "$type": "color",
+          "$description": "color/data/categorical/6 in the light theme, for each data palette. Bind color/data/categorical/6, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2815",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "7": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2549019607843137,
+              0.403921568627451,
+              0.6784313725490196
+            ],
+            "alpha": 1,
+            "hex": "#4167ad"
+          },
+          "$type": "color",
+          "$description": "color/data/categorical/7 in the light theme, for each data palette. Bind color/data/categorical/7, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2817",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "8": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.6274509803921569,
+              0.30980392156862746,
+              0.15294117647058825
+            ],
+            "alpha": 1,
+            "hex": "#a04f27"
+          },
+          "$type": "color",
+          "$description": "color/data/categorical/8 in the light theme, for each data palette. Bind color/data/categorical/8, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2819",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        }
+      },
+      "sequential": {
+        "1": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7215686274509804,
+              0.8588235294117647,
+              0.9058823529411765
+            ],
+            "alpha": 1,
+            "hex": "#b8dbe7"
+          },
+          "$type": "color",
+          "$description": "color/data/sequential/1 in the light theme, for each data palette. Bind color/data/sequential/1, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2821",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "2": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.49411764705882355,
+              0.7372549019607844,
+              0.8156862745098039
+            ],
+            "alpha": 1,
+            "hex": "#7ebcd0"
+          },
+          "$type": "color",
+          "$description": "color/data/sequential/2 in the light theme, for each data palette. Bind color/data/sequential/2, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2823",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "3": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2196078431372549,
+              0.615686274509804,
+              0.7254901960784313
+            ],
+            "alpha": 1,
+            "hex": "#389db9"
+          },
+          "$type": "color",
+          "$description": "color/data/sequential/3 in the light theme, for each data palette. Bind color/data/sequential/3, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2825",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "4": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.00784313725490196,
+              0.4823529411764706,
+              0.5882352941176471
+            ],
+            "alpha": 1,
+            "hex": "#027b96"
+          },
+          "$type": "color",
+          "$description": "color/data/sequential/4 in the light theme, for each data palette. Bind color/data/sequential/4, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2827",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "5": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.00392156862745098,
+              0.34901960784313724,
+              0.42745098039215684
+            ],
+            "alpha": 1,
+            "hex": "#01596d"
+          },
+          "$type": "color",
+          "$description": "color/data/sequential/5 in the light theme, for each data palette. Bind color/data/sequential/5, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2829",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        }
+      },
+      "diverging": {
+        "low-2": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.45098039215686275,
+              0.2823529411764706,
+              0.011764705882352941
+            ],
+            "alpha": 1,
+            "hex": "#734803"
+          },
+          "$type": "color",
+          "$description": "color/data/diverging/low-2 in the light theme, for each data palette. Bind color/data/diverging/low-2, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2831",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "low-1": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.5882352941176471,
+              0.4196078431372549,
+              0.20392156862745098
+            ],
+            "alpha": 1,
+            "hex": "#966b34"
+          },
+          "$type": "color",
+          "$description": "color/data/diverging/low-1 in the light theme, for each data palette. Bind color/data/diverging/low-1, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2833",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "mid": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.5843137254901961,
+              0.6,
+              0.615686274509804
+            ],
+            "alpha": 1,
+            "hex": "#95999d"
+          },
+          "$type": "color",
+          "$description": "color/data/diverging/mid in the light theme, for each data palette. Bind color/data/diverging/mid, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2835",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "high-1": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.14901960784313725,
+              0.5019607843137255,
+              0.6
+            ],
+            "alpha": 1,
+            "hex": "#268099"
+          },
+          "$type": "color",
+          "$description": "color/data/diverging/high-1 in the light theme, for each data palette. Bind color/data/diverging/high-1, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2837",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "high-2": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.0,
+              0.3607843137254902,
+              0.44313725490196076
+            ],
+            "alpha": 1,
+            "hex": "#005c71"
+          },
+          "$type": "color",
+          "$description": "color/data/diverging/high-2 in the light theme, for each data palette. Bind color/data/diverging/high-2, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2839",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        }
+      },
+      "reference-line": {
+        "$value": "{color.grey.700}",
+        "$type": "color",
+        "$description": "color/data/reference-line in the light theme, for each data palette. Bind color/data/reference-line, never this.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8384:2841",
+            "collection": {
+              "id": "VariableCollectionId:8384:2797",
+              "name": "Data Palette",
+              "defaultModeId": "8384:0"
+            },
+            "scopes": []
+          }
+        }
+      },
+      "status": {
+        "good": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.13333333333333333,
+              0.5254901960784314,
+              0.2901960784313726
+            ],
+            "alpha": 1,
+            "hex": "#22864a"
+          },
+          "$type": "color",
+          "$description": "color/data/status/good in the light theme, for each data palette. Bind color/data/status/good, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2843",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "warning": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.6980392156862745,
+              0.43529411764705883,
+              0.011764705882352941
+            ],
+            "alpha": 1,
+            "hex": "#b26f03"
+          },
+          "$type": "color",
+          "$description": "color/data/status/warning in the light theme, for each data palette. Bind color/data/status/warning, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2845",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "bad": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.6823529411764706,
+              0.17647058823529413,
+              0.1843137254901961
+            ],
+            "alpha": 1,
+            "hex": "#ae2d2f"
+          },
+          "$type": "color",
+          "$description": "color/data/status/bad in the light theme, for each data palette. Bind color/data/status/bad, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2847",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        }
+      }
+    },
+    "dark": {
+      "series": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.20392156862745098,
+            0.6352941176470588,
+            0.7490196078431373
+          ],
+          "alpha": 1,
+          "hex": "#34a2bf"
+        },
+        "$type": "color",
+        "$description": "color/data/series in the dark theme, for each data palette. Bind color/data/series, never this.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8384:2802",
+            "collection": {
+              "id": "VariableCollectionId:8384:2797",
+              "name": "Data Palette",
+              "defaultModeId": "8384:0"
+            },
+            "scopes": []
+          }
+        }
+      },
+      "series-hover": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.3215686274509804,
+            0.7333333333333333,
+            0.8549019607843137
+          ],
+          "alpha": 1,
+          "hex": "#52bbda"
+        },
+        "$type": "color",
+        "$description": "color/data/series-hover in the dark theme, for each data palette. Bind color/data/series-hover, never this.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8384:2804",
+            "collection": {
+              "id": "VariableCollectionId:8384:2797",
+              "name": "Data Palette",
+              "defaultModeId": "8384:0"
+            },
+            "scopes": []
+          }
+        }
+      },
+      "categorical": {
+        "1": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.20392156862745098,
+              0.6352941176470588,
+              0.7490196078431373
+            ],
+            "alpha": 1,
+            "hex": "#34a2bf"
+          },
+          "$type": "color",
+          "$description": "color/data/categorical/1 in the dark theme, for each data palette. Bind color/data/categorical/1, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2806",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "2": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7607843137254902,
+              0.5215686274509804,
+              0.20784313725490197
+            ],
+            "alpha": 1,
+            "hex": "#c28535"
+          },
+          "$type": "color",
+          "$description": "color/data/categorical/2 in the dark theme, for each data palette. Bind color/data/categorical/2, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2808",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "3": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.6392156862745098,
+              0.36470588235294116,
+              0.5215686274509804
+            ],
+            "alpha": 1,
+            "hex": "#a35d85"
+          },
+          "$type": "color",
+          "$description": "color/data/categorical/3 in the dark theme, for each data palette. Bind color/data/categorical/3, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2810",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "4": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.23529411764705882,
+              0.6588235294117647,
+              0.5607843137254902
+            ],
+            "alpha": 1,
+            "hex": "#3ca88f"
+          },
+          "$type": "color",
+          "$description": "color/data/categorical/4 in the dark theme, for each data palette. Bind color/data/categorical/4, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2812",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "5": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.5098039215686274,
+              0.4392156862745098,
+              0.7098039215686275
+            ],
+            "alpha": 1,
+            "hex": "#8270b5"
+          },
+          "$type": "color",
+          "$description": "color/data/categorical/5 in the dark theme, for each data palette. Bind color/data/categorical/5, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2814",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "6": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.49411764705882355,
+              0.6274509803921569,
+              0.34901960784313724
+            ],
+            "alpha": 1,
+            "hex": "#7ea059"
+          },
+          "$type": "color",
+          "$description": "color/data/categorical/6 in the dark theme, for each data palette. Bind color/data/categorical/6, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2816",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "7": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.35294117647058826,
+              0.49019607843137253,
+              0.7372549019607844
+            ],
+            "alpha": 1,
+            "hex": "#5a7dbc"
+          },
+          "$type": "color",
+          "$description": "color/data/categorical/7 in the dark theme, for each data palette. Bind color/data/categorical/7, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2818",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "8": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.6901960784313725,
+              0.40784313725490196,
+              0.27450980392156865
+            ],
+            "alpha": 1,
+            "hex": "#b06846"
+          },
+          "$type": "color",
+          "$description": "color/data/categorical/8 in the dark theme, for each data palette. Bind color/data/categorical/8, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2820",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        }
+      },
+      "sequential": {
+        "1": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.10196078431372549,
+              0.2627450980392157,
+              0.30980392156862746
+            ],
+            "alpha": 1,
+            "hex": "#1a434f"
+          },
+          "$type": "color",
+          "$description": "color/data/sequential/1 in the dark theme, for each data palette. Bind color/data/sequential/1, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2822",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "2": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.11372549019607843,
+              0.3686274509803922,
+              0.4392156862745098
+            ],
+            "alpha": 1,
+            "hex": "#1d5e70"
+          },
+          "$type": "color",
+          "$description": "color/data/sequential/2 in the dark theme, for each data palette. Bind color/data/sequential/2, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2824",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "3": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.11372549019607843,
+              0.47843137254901963,
+              0.5764705882352941
+            ],
+            "alpha": 1,
+            "hex": "#1d7a93"
+          },
+          "$type": "color",
+          "$description": "color/data/sequential/3 in the dark theme, for each data palette. Bind color/data/sequential/3, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2826",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "4": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.18823529411764706,
+              0.592156862745098,
+              0.7019607843137254
+            ],
+            "alpha": 1,
+            "hex": "#3097b3"
+          },
+          "$type": "color",
+          "$description": "color/data/sequential/4 in the dark theme, for each data palette. Bind color/data/sequential/4, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2828",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "5": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.39215686274509803,
+              0.7215686274509804,
+              0.8235294117647058
+            ],
+            "alpha": 1,
+            "hex": "#64b8d2"
+          },
+          "$type": "color",
+          "$description": "color/data/sequential/5 in the dark theme, for each data palette. Bind color/data/sequential/5, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2830",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        }
+      },
+      "diverging": {
+        "low-2": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.8431372549019608,
+              0.6196078431372549,
+              0.34901960784313724
+            ],
+            "alpha": 1,
+            "hex": "#d79e59"
+          },
+          "$type": "color",
+          "$description": "color/data/diverging/low-2 in the dark theme, for each data palette. Bind color/data/diverging/low-2, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2832",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "low-1": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.6470588235294118,
+              0.49411764705882355,
+              0.30980392156862746
+            ],
+            "alpha": 1,
+            "hex": "#a57e4f"
+          },
+          "$type": "color",
+          "$description": "color/data/diverging/low-1 in the dark theme, for each data palette. Bind color/data/diverging/low-1, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2834",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "mid": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.40784313725490196,
+              0.4235294117647059,
+              0.4392156862745098
+            ],
+            "alpha": 1,
+            "hex": "#686c70"
+          },
+          "$type": "color",
+          "$description": "color/data/diverging/mid in the dark theme, for each data palette. Bind color/data/diverging/mid, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2836",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "high-1": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2823529411764706,
+              0.5725490196078431,
+              0.6588235294117647
+            ],
+            "alpha": 1,
+            "hex": "#4892a8"
+          },
+          "$type": "color",
+          "$description": "color/data/diverging/high-1 in the dark theme, for each data palette. Bind color/data/diverging/high-1, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2838",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "high-2": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2901960784313726,
+              0.7333333333333333,
+              0.8588235294117647
+            ],
+            "alpha": 1,
+            "hex": "#4abbdb"
+          },
+          "$type": "color",
+          "$description": "color/data/diverging/high-2 in the dark theme, for each data palette. Bind color/data/diverging/high-2, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2840",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        }
+      },
+      "reference-line": {
+        "$value": "{color.grey.400}",
+        "$type": "color",
+        "$description": "color/data/reference-line in the dark theme, for each data palette. Bind color/data/reference-line, never this.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8384:2842",
+            "collection": {
+              "id": "VariableCollectionId:8384:2797",
+              "name": "Data Palette",
+              "defaultModeId": "8384:0"
+            },
+            "scopes": []
+          }
+        }
+      },
+      "status": {
+        "good": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3803921568627451,
+              0.7490196078431373,
+              0.49411764705882355
+            ],
+            "alpha": 1,
+            "hex": "#61bf7e"
+          },
+          "$type": "color",
+          "$description": "color/data/status/good in the dark theme, for each data palette. Bind color/data/status/good, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2844",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "warning": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.9058823529411765,
+              0.7098039215686275,
+              0.3176470588235294
+            ],
+            "alpha": 1,
+            "hex": "#e7b551"
+          },
+          "$type": "color",
+          "$description": "color/data/status/warning in the dark theme, for each data palette. Bind color/data/status/warning, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2846",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        },
+        "bad": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.8470588235294118,
+              0.3686274509803922,
+              0.34901960784313724
+            ],
+            "alpha": 1,
+            "hex": "#d85e59"
+          },
+          "$type": "color",
+          "$description": "color/data/status/bad in the dark theme, for each data palette. Bind color/data/status/bad, never this.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2848",
+              "collection": {
+                "id": "VariableCollectionId:8384:2797",
+                "name": "Data Palette",
+                "defaultModeId": "8384:0"
+              },
+              "scopes": []
+            }
+          }
+        }
+      }
+    }
+  }
+}

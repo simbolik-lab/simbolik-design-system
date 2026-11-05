@@ -55,6 +55,7 @@
   --shadow-overlay: var(--smbk-elevation-overlay);
   --inset-shadow-inset: var(--smbk-elevation-inset);
   --inset-shadow-inset-strong: var(--smbk-elevation-inset-strong);
+  --spacing-link-underline: var(--smbk-space-link-underline);
   --ease-expo-out: var(--smbk-easing-expo-out);
   --ease-expo-in: var(--smbk-easing-expo-in);
   --ease-cubic-in-out: var(--smbk-easing-cubic-in-out);
@@ -109,6 +110,7 @@
   --color-text-link-pressed: var(--smbk-color-text-link-pressed);
   --color-text-link-underline: var(--smbk-color-text-link-underline);
   --color-text-link-underline-hover: var(--smbk-color-text-link-underline-hover);
+  --color-text-link-underline-pressed: var(--smbk-color-text-link-underline-pressed);
   --color-text-link-disabled: var(--smbk-color-text-link-disabled);
   --color-border-subtle: var(--smbk-color-border-subtle);
   --color-border-strong: var(--smbk-color-border-strong);
@@ -237,6 +239,9 @@
   --color-data-diverging-high-1: var(--smbk-color-data-diverging-high-1);
   --color-data-diverging-high-2: var(--smbk-color-data-diverging-high-2);
   --color-data-reference-line: var(--smbk-color-data-reference-line);
+  --color-data-status-good: var(--smbk-color-data-status-good);
+  --color-data-status-warning: var(--smbk-color-data-status-warning);
+  --color-data-status-bad: var(--smbk-color-data-status-bad);
   --color-code-keyword: var(--smbk-color-code-keyword);
   --color-code-string: var(--smbk-color-code-string);
   --color-code-number: var(--smbk-color-code-number);

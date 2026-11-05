@@ -16,6 +16,9 @@
  * - It is drawn by an element the hook adds as the part's first child (`smbk-scrollbar`, an `li` in a list, a `span`
  *   elsewhere, hidden from screen readers),
  *   held at the part's top corner as it scrolls, with no size of its own; it cancels the gap a flex part puts after it.
+ *   While the bar is hidden, the element is not laid out at all (the stylesheet's `display: none`), so a part that
+ *   shrinks reads what it holds as its scrolling size at once, before the script follows it; the bar is laid over the
+ *   part as it is now each time it appears. While it shows, the script follows the part's size as it changes.
  *   In a grid, where any child takes a cell, it is laid over the part instead, so a grid part must be positioned.
  *   A text area cannot hold it, so with `over` it is added to the control's parent, over the control.
  * - The part is marked `data-scrollbar` from the first render (spread what the hook returns on it), so the browser's
@@ -102,47 +105,52 @@ function draw(el: HTMLElement, axis: 'y' | 'x' | 'both', over: boolean): () => v
   const zone = over ? (el.parentElement ?? el) : el;
   let rtl = false;
 
-  const measure = () => {
-    const style = getComputedStyle(el);
-    rtl = style.direction === 'rtl';
-    if (!over) {
-      const grid = style.display.includes('grid');
-      host.classList.toggle('smbk-scrollbar--spread', grid);
-      if (grid) {
-        // In a grid any child takes a cell, so the element is laid over the part instead, as large as all it
-        // scrolls through (measured without it), and the area is held in view inside it, at the padding's edge.
-        host.style.width = host.style.height = '0px';
-        host.style.width = `${el.scrollWidth}px`;
-        host.style.height = `${el.scrollHeight}px`;
-        host.style.marginBlockEnd = host.style.marginInlineEnd = '';
-        area.style.left = area.style.top = '';
-        area.style.insetBlockStart = `${-px(style.paddingTop)}px`;
-        area.style.insetInlineStart = `${-px(rtl ? style.paddingRight : style.paddingLeft)}px`;
-      } else {
-        // A flex part puts its gap after the bar's element too: give it back.
-        const flex = style.display.includes('flex');
-        const column = style.flexDirection.startsWith('column');
-        host.style.width = host.style.height = '';
-        host.style.marginBlockEnd = flex && column ? `${-px(style.rowGap)}px` : '';
-        host.style.marginInlineEnd = flex && !column ? `${-px(style.columnGap)}px` : '';
-        // The element is held at the part's top corner, inside its padding: the area covers what shows of the part.
-        const box = el.getBoundingClientRect();
-        const at = host.getBoundingClientRect();
-        area.style.insetBlockStart = area.style.insetInlineStart = '';
-        area.style.left = `${box.left + el.clientLeft - at.left}px`;
-        area.style.top = `${box.top + el.clientTop - at.top}px`;
-      }
-      area.style.width = `${el.clientWidth}px`;
-      area.style.height = `${el.clientHeight}px`;
+  /** Whether the bar's element is laid out now: while it shows and while it fades. At rest the stylesheet takes it out
+   *  of the layout (`display: none`), so it adds nothing to how far the part scrolls, whatever size it was given last. */
+  const laid = () => host.getClientRects().length > 0;
+
+  /** Lays the bar over the part: its element at the part's top corner, its area over what shows of the part. */
+  const cover = (style: CSSStyleDeclaration) => {
+    if (over) return;
+    const grid = style.display.includes('grid');
+    host.classList.toggle('smbk-scrollbar--spread', grid);
+    // What shows of the part, inside its edges, in whole pixels never past them. The browser rounds client sizes to
+    // the nearest pixel, up as well: a bar sized by them could end a fraction of a pixel past the part's edge, and the
+    // part would scroll that fraction, so a part with nothing to scroll took a whole swipe of the wheel from the
+    // page under the pointer (in Chrome, the swipe is given to the part it starts on).
+    const box = el.getBoundingClientRect();
+    const viewWidth = Math.min(el.clientWidth, Math.floor(box.width - px(style.borderLeftWidth) - px(style.borderRightWidth)));
+    const viewHeight = Math.min(el.clientHeight, Math.floor(box.height - px(style.borderTopWidth) - px(style.borderBottomWidth)));
+    if (grid) {
+      // In a grid any child takes a cell, so the element is laid over the part instead, as large as all it
+      // scrolls through (measured without it), and the area is held in view inside it, at the padding's edge.
+      // Where the part does not run past its size that way, it is as large as what shows, for the reason above.
+      host.style.width = host.style.height = '0px';
+      host.style.width = `${el.scrollWidth > el.clientWidth ? el.scrollWidth : viewWidth}px`;
+      host.style.height = `${el.scrollHeight > el.clientHeight ? el.scrollHeight : viewHeight}px`;
+      host.style.marginBlockEnd = host.style.marginInlineEnd = '';
+      area.style.left = area.style.top = '';
+      area.style.insetBlockStart = `${-px(style.paddingTop)}px`;
+      area.style.insetInlineStart = `${-px(rtl ? style.paddingRight : style.paddingLeft)}px`;
+    } else {
+      // A flex part puts its gap after the bar's element too: give it back.
+      const flex = style.display.includes('flex');
+      const column = style.flexDirection.startsWith('column');
+      host.style.width = host.style.height = '';
+      host.style.marginBlockEnd = flex && column ? `${-px(style.rowGap)}px` : '';
+      host.style.marginInlineEnd = flex && !column ? `${-px(style.columnGap)}px` : '';
+      // The element is held at the part's top corner, inside its padding: the area covers what shows of the part.
+      const at = host.getBoundingClientRect();
+      area.style.insetBlockStart = area.style.insetInlineStart = '';
+      area.style.left = `${box.left + el.clientLeft - at.left}px`;
+      area.style.top = `${box.top + el.clientTop - at.top}px`;
     }
-    for (const bar of bars) {
-      const down = bar.axis === 'y';
-      const view = down ? el.clientHeight : el.clientWidth;
-      const full = down ? el.scrollHeight : el.scrollWidth;
-      bar.travel = full > view + 1 ? full - view : 0;
-      bar.track.toggleAttribute('data-overflows', bar.travel > 0);
-    }
-    host.toggleAttribute('data-both', bars.every((bar) => bar.travel > 0));
+    area.style.width = `${viewWidth}px`;
+    area.style.height = `${viewHeight}px`;
+  };
+
+  /** Sizes each thumb to the share of the part in view: its track has a length only while the bar is laid out. */
+  const size = () => {
     for (const bar of bars) {
       if (!bar.travel) continue;
       const down = bar.axis === 'y';
@@ -155,7 +163,35 @@ function draw(el: HTMLElement, axis: 'y' | 'x' | 'both', over: boolean): () => v
       bar.room = Math.max(0, length - bar.size);
       bar.thumb.style[down ? 'height' : 'width'] = `${bar.size}px`;
     }
+  };
+
+  /** Lays the bar over the part as it is now, its thumbs sized and where the scroll is. */
+  const lay = () => {
+    cover(getComputedStyle(el));
+    size();
     follow();
+  };
+
+  /** Follows the part's size: how far it scrolls each way, and, while the bar is laid out, where it is drawn. */
+  const measure = () => {
+    const style = getComputedStyle(el);
+    rtl = style.direction === 'rtl';
+    // Laid out, the bar is put over the part as it is now first, so its area is never larger than what shows and
+    // adds nothing to the part's scrolling size read next. Hidden, it is not laid out at all: it is laid as it appears.
+    const drawn = laid();
+    if (drawn) cover(style);
+    for (const bar of bars) {
+      const down = bar.axis === 'y';
+      const view = down ? el.clientHeight : el.clientWidth;
+      const full = down ? el.scrollHeight : el.scrollWidth;
+      bar.travel = full > view + 1 ? full - view : 0;
+      bar.track.toggleAttribute('data-overflows', bar.travel > 0);
+    }
+    host.toggleAttribute('data-both', bars.every((bar) => bar.travel > 0));
+    if (drawn) {
+      size();
+      follow();
+    }
     show();
   };
 
@@ -173,7 +209,13 @@ function draw(el: HTMLElement, axis: 'y' | 'x' | 'both', over: boolean): () => v
   let scrolling = false;
   let dragging = false;
   let linger = 0;
-  const show = () => host.toggleAttribute('data-shown', (hovering || scrolling || dragging) && bars.some((bar) => bar.travel > 0));
+  /** Shows the bar or lets it fade. As it appears it is laid out again, so it is laid over the part as it is now. */
+  const show = () => {
+    const on = (hovering || scrolling || dragging) && bars.some((bar) => bar.travel > 0);
+    if (on === host.hasAttribute('data-shown')) return;
+    host.toggleAttribute('data-shown', on);
+    if (on) lay();
+  };
 
   const onEnter = (e: PointerEvent) => {
     if (e.pointerType === 'touch') return;

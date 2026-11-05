@@ -19,6 +19,6 @@ export const breadcrumbs = defineVariants({
     },
   },
   flags: {},
-  parts: ['item', 'link', 'icon', 'separator', 'more'],
+  parts: ['item', 'link', 'label', 'icon', 'separator', 'more'],
   figmaNodeId: '4136:867',
 });

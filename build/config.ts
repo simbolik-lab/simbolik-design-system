@@ -13,6 +13,7 @@ export const TIER_OF: Record<string, 'primitive' | 'semantic'> = {
   'effect-styles': 'semantic',
   authored: 'semantic',
   theme: 'semantic',
+  palette: 'semantic',
   density: 'semantic',
   'text-size': 'semantic',
   layout: 'semantic',
@@ -43,6 +44,9 @@ const SEMANTIC_ONLY_CATEGORIES = new Set(['color', 'font']);
 export function isEmitted(category: string, tier: 'primitive' | 'semantic'): boolean {
   // Font primitives (families, weights, letter-spacings) are read through the typography composites only, whichever file declares them.
   if (category === 'font') return false;
+  // A data palette's values for each theme (`palette.<theme>.<role>`) are read through the data colors only: each
+  // `color.data.*` token points at its theme's value, and the palette chosen decides which value that is.
+  if (category === 'palette') return false;
   if (tier === 'semantic') return true;
   return !SEMANTIC_ONLY_CATEGORIES.has(category);
 }
@@ -67,7 +71,17 @@ export const LAYOUT_SWITCH = {
  * media query with the layout switch's attribute forcing either context on any element.
  */
 export type ContextCss =
-  | { kind: 'attribute'; attribute: string; systemPreference?: Record<string, string>; colorScheme?: boolean }
+  | {
+      kind: 'attribute';
+      attribute: string;
+      systemPreference?: Record<string, string>;
+      colorScheme?: boolean;
+      /**
+       * An axis whose values are chosen per context of another attribute axis (the data palette, per theme). Its
+       * attribute is read on the page's root element only, and a token may change on it as well as on that axis.
+       */
+      over?: string;
+    }
   | { kind: 'media'; queries: Record<string, string>; attribute?: { name: string; values: Record<string, string> } };
 
 export const CONTEXT_CSS: Record<string, ContextCss> = {
@@ -80,6 +94,9 @@ export const CONTEXT_CSS: Record<string, ContextCss> = {
     // nobody styled or a native control's popup, follow the theme instead of staying light.
     colorScheme: true,
   },
+  // The data palette: which set of data colors a chart draws in, chosen once by the project for the whole page, so
+  // set on the root element. Each palette has a value per theme, so its blocks are written once per theme.
+  palette: { kind: 'attribute', attribute: 'data-palette', over: 'theme' },
   density: { kind: 'attribute', attribute: 'data-density' },
   'text-size': {
     kind: 'media',

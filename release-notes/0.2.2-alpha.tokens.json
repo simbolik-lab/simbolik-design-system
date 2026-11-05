@@ -1,0 +1,284 @@
+{
+  "version": "0.2.2-alpha",
+  "since": "v0.2.1-alpha",
+  "renamed": [],
+  "leaving": [],
+  "changed": [
+    {
+      "token": "color.text.link-underline",
+      "setting": "theme light",
+      "before": "#606a75",
+      "after": "#23252730"
+    },
+    {
+      "token": "color.text.link-underline",
+      "setting": "theme dark",
+      "before": "#9ba5b1",
+      "after": "#e7ebf030"
+    },
+    {
+      "token": "color.text.link-underline-hover",
+      "setting": "theme light",
+      "before": "#232527",
+      "after": "#4e555e80"
+    },
+    {
+      "token": "color.text.link-underline-hover",
+      "setting": "theme dark",
+      "before": "#e7ebf0",
+      "after": "#9ba5b180"
+    },
+    {
+      "token": "color.data.series",
+      "setting": "theme light",
+      "before": "#3b5ce3",
+      "after": "{\"default\":\"#3b5ce3\",\"cockpit\":\"#0a85a1\"}"
+    },
+    {
+      "token": "color.data.series",
+      "setting": "theme dark",
+      "before": "#7fa0ff",
+      "after": "{\"default\":\"#7fa0ff\",\"cockpit\":\"#34a2bf\"}"
+    },
+    {
+      "token": "color.data.series-hover",
+      "setting": "theme light",
+      "before": "#2f4ab8",
+      "after": "{\"default\":\"#2f4ab8\",\"cockpit\":\"#056b83\"}"
+    },
+    {
+      "token": "color.data.series-hover",
+      "setting": "theme dark",
+      "before": "#b8ccff",
+      "after": "{\"default\":\"#b8ccff\",\"cockpit\":\"#52bbda\"}"
+    },
+    {
+      "token": "color.data.categorical.1",
+      "setting": "theme light",
+      "before": "#3b5ce3",
+      "after": "{\"default\":\"#3b5ce3\",\"cockpit\":\"#0a85a1\"}"
+    },
+    {
+      "token": "color.data.categorical.1",
+      "setting": "theme dark",
+      "before": "#7fa0ff",
+      "after": "{\"default\":\"#7fa0ff\",\"cockpit\":\"#34a2bf\"}"
+    },
+    {
+      "token": "color.data.categorical.2",
+      "setting": "theme light",
+      "before": "#da601a",
+      "after": "{\"default\":\"#da601a\",\"cockpit\":\"#b5771c\"}"
+    },
+    {
+      "token": "color.data.categorical.2",
+      "setting": "theme dark",
+      "before": "#fa8349",
+      "after": "{\"default\":\"#fa8349\",\"cockpit\":\"#c28535\"}"
+    },
+    {
+      "token": "color.data.categorical.3",
+      "setting": "theme light",
+      "before": "#4e555e",
+      "after": "{\"default\":\"#4e555e\",\"cockpit\":\"#8e4170\"}"
+    },
+    {
+      "token": "color.data.categorical.3",
+      "setting": "theme dark",
+      "before": "#c4cdd8",
+      "after": "{\"default\":\"#c4cdd8\",\"cockpit\":\"#a35d85\"}"
+    },
+    {
+      "token": "color.data.categorical.4",
+      "setting": "theme light",
+      "before": "#269936",
+      "after": "{\"default\":\"#269936\",\"cockpit\":\"#11957c\"}"
+    },
+    {
+      "token": "color.data.categorical.4",
+      "setting": "theme dark",
+      "before": "#54b85b",
+      "after": "{\"default\":\"#54b85b\",\"cockpit\":\"#3ca88f\"}"
+    },
+    {
+      "token": "color.data.categorical.5",
+      "setting": "theme light",
+      "before": "#ae5bf9",
+      "after": "{\"default\":\"#ae5bf9\",\"cockpit\":\"#6f59a6\"}"
+    },
+    {
+      "token": "color.data.categorical.5",
+      "setting": "theme dark",
+      "before": "#dac3f7",
+      "after": "{\"default\":\"#dac3f7\",\"cockpit\":\"#8270b5\"}"
+    },
+    {
+      "token": "color.data.categorical.6",
+      "setting": "theme light",
+      "before": "#137575",
+      "after": "{\"default\":\"#137575\",\"cockpit\":\"#688e3b\"}"
+    },
+    {
+      "token": "color.data.categorical.6",
+      "setting": "theme dark",
+      "before": "#1d9393",
+      "after": "{\"default\":\"#1d9393\",\"cockpit\":\"#7ea059\"}"
+    },
+    {
+      "token": "color.data.categorical.7",
+      "setting": "theme light",
+      "before": "#968507",
+      "after": "{\"default\":\"#968507\",\"cockpit\":\"#4167ad\"}"
+    },
+    {
+      "token": "color.data.categorical.7",
+      "setting": "theme dark",
+      "before": "#968507",
+      "after": "{\"default\":\"#968507\",\"cockpit\":\"#5a7dbc\"}"
+    },
+    {
+      "token": "color.data.categorical.8",
+      "setting": "theme light",
+      "before": "#c41883",
+      "after": "{\"default\":\"#c41883\",\"cockpit\":\"#a04f27\"}"
+    },
+    {
+      "token": "color.data.categorical.8",
+      "setting": "theme dark",
+      "before": "#f8bbd7",
+      "after": "{\"default\":\"#f8bbd7\",\"cockpit\":\"#b06846\"}"
+    },
+    {
+      "token": "color.data.sequential.1",
+      "setting": "theme light",
+      "before": "#b8ccff",
+      "after": "{\"default\":\"#b8ccff\",\"cockpit\":\"#b8dbe7\"}"
+    },
+    {
+      "token": "color.data.sequential.1",
+      "setting": "theme dark",
+      "before": "#213583",
+      "after": "{\"default\":\"#213583\",\"cockpit\":\"#1a434f\"}"
+    },
+    {
+      "token": "color.data.sequential.2",
+      "setting": "theme light",
+      "before": "#7fa0ff",
+      "after": "{\"default\":\"#7fa0ff\",\"cockpit\":\"#7ebcd0\"}"
+    },
+    {
+      "token": "color.data.sequential.2",
+      "setting": "theme dark",
+      "before": "#2f4ab8",
+      "after": "{\"default\":\"#2f4ab8\",\"cockpit\":\"#1d5e70\"}"
+    },
+    {
+      "token": "color.data.sequential.3",
+      "setting": "theme light",
+      "before": "#557bff",
+      "after": "{\"default\":\"#557bff\",\"cockpit\":\"#389db9\"}"
+    },
+    {
+      "token": "color.data.sequential.3",
+      "setting": "theme dark",
+      "before": "#3b5ce3",
+      "after": "{\"default\":\"#3b5ce3\",\"cockpit\":\"#1d7a93\"}"
+    },
+    {
+      "token": "color.data.sequential.4",
+      "setting": "theme light",
+      "before": "#3b5ce3",
+      "after": "{\"default\":\"#3b5ce3\",\"cockpit\":\"#027b96\"}"
+    },
+    {
+      "token": "color.data.sequential.4",
+      "setting": "theme dark",
+      "before": "#557bff",
+      "after": "{\"default\":\"#557bff\",\"cockpit\":\"#3097b3\"}"
+    },
+    {
+      "token": "color.data.sequential.5",
+      "setting": "theme light",
+      "before": "#2f4ab8",
+      "after": "{\"default\":\"#2f4ab8\",\"cockpit\":\"#01596d\"}"
+    },
+    {
+      "token": "color.data.sequential.5",
+      "setting": "theme dark",
+      "before": "#b8ccff",
+      "after": "{\"default\":\"#b8ccff\",\"cockpit\":\"#64b8d2\"}"
+    },
+    {
+      "token": "color.data.diverging.low-2",
+      "setting": "theme light",
+      "before": "#913900",
+      "after": "{\"default\":\"#913900\",\"cockpit\":\"#734803\"}"
+    },
+    {
+      "token": "color.data.diverging.low-2",
+      "setting": "theme dark",
+      "before": "#febea2",
+      "after": "{\"default\":\"#febea2\",\"cockpit\":\"#d79e59\"}"
+    },
+    {
+      "token": "color.data.diverging.low-1",
+      "setting": "theme light",
+      "before": "#da601a",
+      "after": "{\"default\":\"#da601a\",\"cockpit\":\"#966b34\"}"
+    },
+    {
+      "token": "color.data.diverging.low-1",
+      "setting": "theme dark",
+      "before": "#da601a",
+      "after": "{\"default\":\"#da601a\",\"cockpit\":\"#a57e4f\"}"
+    },
+    {
+      "token": "color.data.diverging.mid",
+      "setting": "theme light",
+      "before": "#7c8692",
+      "after": "{\"default\":\"#7c8692\",\"cockpit\":\"#95999d\"}"
+    },
+    {
+      "token": "color.data.diverging.mid",
+      "setting": "theme dark",
+      "before": "#7c8692",
+      "after": "{\"default\":\"#7c8692\",\"cockpit\":\"#686c70\"}"
+    },
+    {
+      "token": "color.data.diverging.high-1",
+      "setting": "theme light",
+      "before": "#557bff",
+      "after": "{\"default\":\"#557bff\",\"cockpit\":\"#268099\"}"
+    },
+    {
+      "token": "color.data.diverging.high-1",
+      "setting": "theme dark",
+      "before": "#557bff",
+      "after": "{\"default\":\"#557bff\",\"cockpit\":\"#4892a8\"}"
+    },
+    {
+      "token": "color.data.diverging.high-2",
+      "setting": "theme light",
+      "before": "#2f4ab8",
+      "after": "{\"default\":\"#2f4ab8\",\"cockpit\":\"#005c71\"}"
+    },
+    {
+      "token": "color.data.diverging.high-2",
+      "setting": "theme dark",
+      "before": "#b8ccff",
+      "after": "{\"default\":\"#b8ccff\",\"cockpit\":\"#4abbdb\"}"
+    },
+    {
+      "token": "color.data.reference-line",
+      "setting": "theme light",
+      "before": "#373d43",
+      "after": "{\"default\":\"#373d43\",\"cockpit\":\"#4e555e\"}"
+    },
+    {
+      "token": "color.data.reference-line",
+      "setting": "theme dark",
+      "before": "#e7ebf0",
+      "after": "{\"default\":\"#e7ebf0\",\"cockpit\":\"#9ba5b1\"}"
+    }
+  ]
+}

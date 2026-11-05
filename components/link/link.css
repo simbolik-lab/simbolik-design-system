@@ -12,8 +12,10 @@
   font-weight: var(--smbk-typography-body-lg-font-weight);
   line-height: var(--smbk-typography-body-lg-line-height);
   letter-spacing: var(--smbk-typography-body-lg-letter-spacing);
-  text-decoration: underline;
+  text-decoration-line: underline;
   text-decoration-color: var(--smbk-color-text-link-underline);
+  text-decoration-thickness: var(--smbk-border-width-link-underline);
+  text-underline-offset: var(--smbk-space-link-underline);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
@@ -34,7 +36,7 @@ button.smbk-link {
   .smbk-link:hover,
   .smbk-link--standalone:hover {
     color: var(--smbk-color-text-link-hover);
-    text-decoration: underline;
+    text-decoration-line: underline;
     text-decoration-color: var(--smbk-color-text-link-underline-hover);
   }
 }
@@ -42,7 +44,8 @@ button.smbk-link {
 .smbk-link:active,
 .smbk-link--standalone:active {
   color: var(--smbk-color-text-link-pressed);
-  text-decoration: underline;
+  text-decoration-line: underline;
+  text-decoration-color: var(--smbk-color-text-link-underline-pressed);
 }
 
 .smbk-link:focus-visible {
@@ -59,7 +62,52 @@ button.smbk-link {
 /* A link standing on its own, outside running text, shows its underline on hover and press only.
    Inside a sentence the underline stays, so a link never reads as plain words. */
 .smbk-link--standalone {
-  text-decoration: none;
+  text-decoration-line: none;
+}
+
+/* Words that are pressed rather than followed, such as a name that opens its card. They are the words of the text
+   around them, in its color, so the line is what says they can be pressed: it stays, standing on its own too, and
+   the words keep their color under the pointer. A press shows in the words as well as the line. */
+.smbk-link--pressable {
+  color: inherit;
+  text-decoration-line: underline;
+}
+
+@media (hover: hover) {
+  .smbk-link--pressable:hover {
+    color: inherit;
+  }
+}
+
+.smbk-link--pressable:active {
+  color: var(--smbk-color-text-subtle);
+}
+
+/* The underline runs under the words, never under an icon or the gap beside it. A line set on the link reaches
+   everything inline inside it and nothing inside can take it off: only a box of its own would shed it, and that would
+   let the line break before the icon. So a link with an icon leaves the underline to its label, and the icon stays
+   inline. The label takes its line's color and thickness from the link, whichever state the link is in. */
+.smbk-link__label {
+  text-decoration-color: inherit;
+  text-decoration-thickness: inherit;
+}
+
+.smbk-link:has(> .smbk-link__icon):has(> .smbk-link__label) {
+  text-decoration-line: none;
+}
+
+.smbk-link:has(> .smbk-link__icon):is(:not(.smbk-link--standalone), .smbk-link--pressable) > .smbk-link__label {
+  text-decoration-line: underline;
+}
+
+@media (hover: hover) {
+  .smbk-link:has(> .smbk-link__icon):hover > .smbk-link__label {
+    text-decoration-line: underline;
+  }
+}
+
+.smbk-link:has(> .smbk-link__icon):active > .smbk-link__label {
+  text-decoration-line: underline;
 }
 
 /* Not a box of its own, which would let the line break before it. Sitting on

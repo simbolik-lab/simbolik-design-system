@@ -5,10 +5,21 @@
  * a secondary control at rest, on hover and pressed, so the words under it still read in both themes.
  *
  * The script marks the part `data-scrollbar` and adds the bar as its first child, a corner held in place with no size
- * of its own; the bar's area covers what shows of the part. Only where the main pointer is a mouse or a trackpad: a
- * touch screen keeps the browser's own bar, which already sits over the content there. Markup written by hand has
- * no mark, so each component's own rule draws the browser's thin bar.
+ * of its own; the bar's area covers what shows of the part. While it is hidden it is not laid out at all, so it never
+ * adds to how far the part scrolls. Only where the main pointer is a mouse or a trackpad: a touch screen keeps the
+ * browser's own bar, which already sits over the content there. Markup written by hand has no mark, so each
+ * component's own rule draws the browser's thin bar.
+ *
+ * The page's own scrolling is here too: it does not bounce past its ends (below).
  */
+
+/* ---- the page's ends ---- */
+/* The page does not bounce (rubber-band) past its top or bottom, on a phone or a Mac. Up and down only: sideways, a
+   trackpad's swipe still goes back a page. In Chrome on Android it also stops pulling down to reload. A part that
+   scrolls inside the page keeps its own, and stops at its own end where its component says contain. */
+:root {
+  overscroll-behavior-y: none;
+}
 
 .smbk-scrollbar {
   display: none;
@@ -32,7 +43,6 @@
     inset-block-start: 0;
     inset-inline-start: 0;
     z-index: var(--smbk-layer-overlay);
-    display: block;
     flex: none;
     align-self: flex-start;
     width: 0;
@@ -40,21 +50,30 @@
     margin: 0;
     padding: 0;
     pointer-events: none;
-    visibility: hidden;
     opacity: 0;
-    /* Going, it waits for a widened thumb to narrow back, then fades, and is hidden once it has: nothing of it is
-       drawn or pressed while it rests. */
+    /* Going, it waits for a widened thumb to narrow back, then fades, and is taken out of the layout once it has
+       (display stays none, above): while it rests nothing of it is laid out, drawn or pressed, so its area, sized in
+       pixels for the part as it last showed, never adds to how far the part scrolls when the part shrinks. */
     transition:
       opacity var(--smbk-motion-exit-duration) var(--smbk-motion-exit-easing) var(--smbk-motion-feedback-duration),
-      visibility 0s linear calc(var(--smbk-motion-feedback-duration) + var(--smbk-motion-exit-duration));
+      display 0s linear calc(var(--smbk-motion-feedback-duration) + var(--smbk-motion-exit-duration));
+    transition-behavior: allow-discrete;
   }
 
   .smbk-scrollbar[data-shown] {
-    visibility: visible;
+    display: block;
     opacity: 1;
     transition:
       opacity var(--smbk-motion-feedback-duration) var(--smbk-motion-feedback-easing),
-      visibility 0s;
+      display 0s;
+    transition-behavior: allow-discrete;
+  }
+
+  /* Laid out again as it appears, it fades in from clear. */
+  @starting-style {
+    .smbk-scrollbar[data-shown] {
+      opacity: 0;
+    }
   }
 
   /* Over a control that cannot hold it (a text area), in the control's parent, which the control fills. */

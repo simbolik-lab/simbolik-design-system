@@ -4,7 +4,7 @@ import { defineVariants } from '../variants.js';
 export const segmentedControl = defineVariants({
   name: 'segmented-control',
   block: 'smbk-segmented',
-  summary: 'A row of named choices in one bar, exactly one of which is selected, with the selected one raised.',
+  summary: 'A row of named choices in one bar, one of which is selected, with the selected one raised.',
   adapt: 'css',
   axes: {
     size: {

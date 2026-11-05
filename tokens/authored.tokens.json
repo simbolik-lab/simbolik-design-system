@@ -248,6 +248,23 @@
    }
   }
  },
+ "border-width": {
+  "link-underline": {
+   "$type": "dimension",
+   "$value": {
+    "value": 1.5,
+    "unit": "px"
+   },
+   "$description": "Thickness of the line under a link. Figma sets a text's underline as a plain number with no variable behind it, and this one is not a step on the width scale."
+  }
+ },
+ "space": {
+  "link-underline": {
+   "$type": "dimension",
+   "$value": "{space.4}",
+   "$description": "Gap between a link's words and the line under them. Figma sets a text's underline as a plain number with no variable behind it."
+  }
+ },
  "breakpoint": {
   "text-size": {
    "$type": "dimension",
@@ -741,7 +758,7 @@
   }
  },
  "motion": {
-  "$description": "Motion by purpose (motion.{purpose}.{property}): timing is chosen by purpose, not taste. Each purpose pairs a duration with an easing. Under reduced motion every component drops its movement; these values then go unused.",
+  "$description": "Motion by purpose (motion.{purpose}.{property}): timing is chosen by purpose, not taste. Each purpose pairs a duration with an easing. Under reduced motion components move less and more gently, not never: anything that travels (a slide, a rise or drop, a change of size or height, a sweep, a turn) lands at once, while opacity and color fades keep their purposes.",
   "feedback": {
    "$description": "Confirming a pointer or focus change: a color shift on hover, a tooltip appearing.",
    "duration": {

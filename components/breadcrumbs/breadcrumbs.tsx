@@ -36,17 +36,21 @@ export function Breadcrumbs({ size, overflow, items, label = 'Breadcrumb', moreL
   const separator = <Icon name="CaretRight" className={breadcrumbs.part('separator')} />;
   const crumb = (item: Crumb, i: number) => {
     const last = i === items.length - 1;
+    const name = (
+      <>
+        {item.icon && <Icon name={item.icon} className={breadcrumbs.part('icon')} />}
+        <span className={breadcrumbs.part('label')}>{item.label}</span>
+      </>
+    );
     return (
       <li key={i} className={breadcrumbs.part('item')}>
         {last ? (
           <a className={breadcrumbs.part('link')} aria-current="page">
-            {item.icon && <Icon name={item.icon} className={breadcrumbs.part('icon')} />}
-            {item.label}
+            {name}
           </a>
         ) : (
           <a className={breadcrumbs.part('link')} href={item.href}>
-            {item.icon && <Icon name={item.icon} className={breadcrumbs.part('icon')} />}
-            {item.label}
+            {name}
           </a>
         )}
         {!last && separator}

@@ -53,7 +53,7 @@ With both a date and a time, the date field takes the room left beside the time 
 
 Days before `min`, after `max`, and days `isDateUnavailable` marks are struck through in the calendar and cannot be picked; one typed in is still read, and reported. For the time type, `min` and `max` are times. Dates and times are written in the Gregorian calendar, in the reader's language or the one set with `locale`, and `hourCycle` sets 12 or 24 hours. A ref given to the React wrapper reaches the first field, so a page can focus it.
 
-`defaultOpen` shows the calendar open from the start, as in a picture of the page, without moving focus; a press elsewhere closes it. The behaviour comes from React Aria, which a React project installs beside React.
+`defaultOpen` shows the calendar open from the start, as in a picture of the page, without moving focus; a press elsewhere closes it. The behavior comes from React Aria, which a React project installs beside React.
 
 ## Accessibility
 
@@ -111,7 +111,7 @@ The input's well for each field, the button's small ghost icon-only form for the
 ### Don't
 
 - Say the format only in the placeholder.
-- Use it for a range of dates or a month and year alone.
+- Use it for a month and year alone, or for a range of times.
 - Change what the reader typed into a guess: report it and let them put it right.
 
 ## Related

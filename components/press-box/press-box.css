@@ -4,7 +4,8 @@
  * adds no look of its own and the glyph or the words sit where Figma draws them. The alert's and the toast's dismiss
  * crosses, the tag's remove cross and the progress bar's Try again share it, written once. On a touch screen an
  * invisible area, centred on the box, takes the press out to the comfortable target in each direction it falls short
- * of it; the look, the focus ring and the place stay as drawn.
+ * of it; the look, the focus ring and the place stay as drawn. A pressable tag, drawn the least a press needs tall,
+ * takes that area too.
  *
  * Each component keeps its own part class, named here as a selector of these rules, so markup written by hand with it
  * keeps working; each component's stylesheet adds what its part needs beyond this: its size, its margins that keep
@@ -60,6 +61,7 @@
   .smbk-alert__dismiss,
   .smbk-toast__dismiss,
   .smbk-tag__remove,
+  .smbk-tag--pressable,
   .smbk-progress__retry {
     position: relative;
   }
@@ -67,6 +69,7 @@
   .smbk-alert__dismiss::after,
   .smbk-toast__dismiss::after,
   .smbk-tag__remove::after,
+  .smbk-tag--pressable::after,
   .smbk-progress__retry::after {
     content: '';
     position: absolute;

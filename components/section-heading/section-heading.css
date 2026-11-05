@@ -23,7 +23,7 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--smbk-space-stack-lg);
+  gap: var(--smbk-space-stack-sm);
 }
 
 .smbk-section-heading__title-row {

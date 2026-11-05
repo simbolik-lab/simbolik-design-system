@@ -1,11 +1,15 @@
 /* smbk-table — Table. Figma page "Table" 4312:13783: "Table" 4318:16988 over "TableHeader" 4318:11164,
  * "TableHeaderCell" 4313:6100, "TableRow" 4318:11168, "TableRowCell" 4313:9290 and "TableFooter" 4318:11163.
- * A bordered, rounded table: a header row on the default surface with a
+ * Three looks. Framed, the default: a bordered, rounded table, a header row on the default surface with a
  * control-colored rule under it, hairlines between header cells, rows with
- * a subtle rule under each that take the hover fill under the pointer and their own fill when chosen,
- * and a foot for the pagination under a strong rule. Numbers take tabular digits. A heading may line up at the end
+ * a subtle rule under each that take the hover fill under the pointer and their own fill when chosen or current,
+ * and a foot for the pagination under a strong rule. Flat, for a table inside a card: no frame, no heading surface,
+ * a subtle rule over every row, no room at the table's sides, and rows one line of text high. Filled, the framed table
+ * with a calmer heading: the heading row and the foot on a neutral fill, group rows sunken and low, no hairlines
+ * between headings, and an arrow only where a reader is sorting. Numbers take tabular digits. A heading may line up at the end
  * and carry a filter and an info button; a row may be pinned, highlighted, ruled off, open a detail row under it, or
- * be a group heading; a column may hold prose that wraps; a cell may hold a figure with a bar. */
+ * be a group heading; a column may hold prose that wraps, or keep a width of its own; a cell may hold a figure with a bar;
+ * and a table whose cells differ in height may line them up at the top of their rows. */
 
 /* Positioned so the visually hidden caption is placed inside the frame; left to the page, it would sit
    at the far end of a long scrolling area and stretch the document. The frame scrolls a table too wide for it. */
@@ -161,6 +165,11 @@
   border-bottom: 0;
 }
 
+/* An open row and its detail read as one: no rule between them. The detail row keeps the rule under it. */
+.smbk-table__row:has(+ .smbk-table__detail-row:not([hidden])) {
+  border-bottom: 0;
+}
+
 @media (hover: hover) {
   .smbk-table__row:hover {
     background: var(--smbk-color-surface-hover);
@@ -173,13 +182,20 @@
   }
 }
 
-/* A chosen row: its own fill, beside the ticked checkbox that says so without color. A description on it takes
-   the subtle text color, which keeps 4.5:1 on the fill where the subtlest does not. */
-.smbk-table__row--selected {
+/* A chosen row: its own fill, beside the ticked checkbox that says so without color. The current row, the one the
+   page's own button in it acted on, in a table with or without checkboxes, takes the same fill; its row says so to a
+   screen reader (aria-current) and the page in words. Each keeps its fill under the pointer: a press with a mouse
+   leaves the pointer on the row it made current, and a hover fill there would say it had not. A description on either
+   takes the subtle text color, which keeps 4.5:1 on the fill where the subtlest does not. */
+.smbk-table__row--selected,
+.smbk-table__row--current,
+.smbk-table__row--selected:hover,
+.smbk-table__row--current:hover {
   background: var(--smbk-color-action-default-background-pressed);
 }
 
-.smbk-table__row--selected .smbk-table__description {
+.smbk-table__row--selected .smbk-table__description,
+.smbk-table__row--current .smbk-table__description {
   color: var(--smbk-color-text-subtle);
 }
 
@@ -236,7 +252,8 @@
 }
 
 /* The row a row unfolds: one cell across every column on the sunken surface, its text starting where the group
-   heading's does. Closed, it is hidden, so it is out of the reading order. */
+   heading's does. Closed, it is hidden, so it is out of the reading order. A caret at the row's start opens it, or a
+   button of the page's own in one of its cells, which then draws no caret and no leading room. */
 .smbk-table__detail {
   box-sizing: border-box;
   padding: var(--smbk-space-inset-lg);
@@ -319,8 +336,61 @@
   vertical-align: top;
 }
 
-/* The first cell's leading room, in a table with a row that opens or a pinned row: one small icon wide in every
-   row and in the heading, so the columns line up, holding the caret or the pin. */
+/* Rows aligned to the top, for cells of very different heights: every cell starts at the top of its row, and its first
+   line sits where a one-line value's does, so the eye reads across the row. A row of one line looks as it always does.
+   The two lengths say where that first line is: its room, one small control high, and how far down the row that room
+   starts. A control keeps the room to itself, and a line of words sits in the middle of it. */
+.smbk-table--align-top {
+  --smbk-table-line: var(--smbk-size-control-sm);
+  --smbk-table-line-start: calc((var(--smbk-size-control-md) - var(--smbk-size-control-sm)) / 2);
+}
+
+.smbk-table--align-top .smbk-table__cell:not(.smbk-table__cell--type-prose) {
+  padding-block-start: var(--smbk-table-line-start);
+  vertical-align: top;
+}
+
+/* Words or a block of the page's own in a cell, with none of the table's pieces to center them. */
+.smbk-table--align-top .smbk-table__cell:not(.smbk-table__cell--type-prose, :has(.smbk-table__content, .smbk-table__start)) {
+  padding-block-start: calc(var(--smbk-table-line-start) + (var(--smbk-table-line) - 1lh) / 2);
+}
+
+/* Set at the line's top, a piece cannot be pushed down by its own baseline. */
+.smbk-table--align-top :is(.smbk-table__content, .smbk-table__start) {
+  vertical-align: top;
+}
+
+/* A value or a link that wraps keeps its first line in that room, its other lines under it. */
+.smbk-table--align-top :is(.smbk-table__value, .smbk-table__content > .smbk-link) {
+  margin-block: calc((var(--smbk-table-line) - 1lh) / 2);
+}
+
+.smbk-table--align-top .smbk-table__value {
+  align-items: flex-start;
+}
+
+/* What stands beside those lines stays with the first of them: the icon before a value, the copy button after it, and
+   a row's caret, pin and choose box. */
+.smbk-table--align-top .smbk-table__value-icon {
+  margin-block-start: calc((1lh - var(--smbk-size-icon-sm)) / 2);
+}
+
+.smbk-table--align-top .smbk-table__start {
+  align-items: flex-start;
+}
+
+.smbk-table--align-top .smbk-table__lead {
+  min-height: var(--smbk-table-line);
+}
+
+.smbk-table--align-top .smbk-table__content > :is(.smbk-table__copy, .smbk-checkbox) {
+  align-self: flex-start;
+  margin-block-start: calc((var(--smbk-table-line) - var(--smbk-size-target-min)) / 2);
+}
+
+/* The first cell's leading room, in a table with a caret that opens a row or a pinned row: one small icon wide in every
+   row and in the heading, so the columns line up, holding the caret or the pin. A row opened by the page's own button
+   in a cell has no caret, and needs no room. */
 .smbk-table__start {
   display: inline-flex;
   align-items: center;
@@ -431,6 +501,17 @@
   color: var(--smbk-color-text-subtlest);
 }
 
+/* In a row aligned to the top, the value over its description is smaller type than a one-line value. Half the difference
+   of their line heights and of their sizes further down, its letters stand on the same line as those beside it. Under
+   it, the cell's own inset. */
+.smbk-table--align-top .smbk-table__value:has(> .smbk-table__stack) {
+  margin-block-end: 0;
+}
+
+.smbk-table--align-top .smbk-table__stack {
+  margin-block-start: calc((var(--smbk-typography-body-sm-font-size) * var(--smbk-typography-body-sm-line-height) - 1lh + var(--smbk-typography-body-sm-font-size) - 1em) / 2);
+}
+
 /* The copy glyph, inside a 24 px box, the least a press needs; the box reaches past the glyph and its
    margins give the room back, so the value does not move. */
 .smbk-table__copy {
@@ -488,13 +569,316 @@
   border-top: var(--smbk-border-width-hairline) solid var(--smbk-color-border-strong);
 }
 
-/* ---- a long table: the heading row stays in view ----
-   The consumer limits the frame's height; the frame then scrolls both ways and the headings stick to its top.
-   A collapsed border stays where it was drawn, so a sticking heading carries its rule as a line of its own. */
+/* ---- the flat look: a table inside a card ----
+   No frame and no corner, no fill on the heading row and no hairlines between its headings, a subtle rule over every
+   row, the heading row's included, and no room at the table's first and last cell, so its words line up with the
+   card's other lines. Each row is one line of the body text with a small inset above and below, the heading row as
+   high as the others; the headings are in the small body style. The frame is still there, unseen, and still scrolls a
+   table too wide for it, with its scrollbar and its scroll hint. A flat table takes neither the long nor the pinned
+   form (the wrapper drops them): their sticking cells paint a surface of their own, which a card would not match. */
 
+.smbk-table--look-flat {
+  border: 0;
+  border-top: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  border-radius: 0;
+}
+
+.smbk-table--look-flat .smbk-table__header-row {
+  background: none;
+}
+
+.smbk-table--look-flat .smbk-table__header,
+.smbk-table--look-flat .smbk-table__cell {
+  height: auto;
+  padding: var(--smbk-space-inset-sm) 0;
+}
+
+/* Between columns, the room a cell keeps before its words; none before the first or after the last. */
+.smbk-table--look-flat .smbk-table__header + .smbk-table__header,
+.smbk-table--look-flat .smbk-table__cell + .smbk-table__cell {
+  padding-inline-start: var(--smbk-space-inline-md);
+}
+
+.smbk-table--look-flat .smbk-table__header {
+  border: 0;
+  font-family: var(--smbk-typography-body-xs-font-family);
+  font-size: var(--smbk-typography-body-xs-font-size);
+  font-weight: var(--smbk-typography-body-xs-font-weight);
+  line-height: var(--smbk-typography-body-xs-line-height);
+  letter-spacing: var(--smbk-typography-body-xs-letter-spacing);
+  text-transform: var(--smbk-typography-body-xs-text-transform);
+}
+
+/* The heading's line is as high as a row's, so the heading row is as high as the rows under it. */
+.smbk-table--look-flat .smbk-table__header-cell {
+  height: calc(var(--smbk-typography-body-sm-font-size) * var(--smbk-typography-body-sm-line-height));
+}
+
+.smbk-table--look-flat .smbk-table__row {
+  border-top: var(--smbk-border-width-hairline) solid var(--smbk-color-border-subtle);
+  border-bottom: 0;
+}
+
+/* An open row's detail joins it, with no rule over it; the next row's rule runs under it. */
+.smbk-table--look-flat .smbk-table__detail-row {
+  border-top: 0;
+}
+
+/* What a cell holds sets its row's height: a line of text, or a control with the inset above and below it. Set at the
+   line's top, an icon before a value cannot push the line down by its own baseline. */
+.smbk-table--look-flat .smbk-table__content,
+.smbk-table--look-flat .smbk-table__start {
+  min-height: 0;
+  vertical-align: top;
+}
+
+/* A prose column's first line, and the other cells of its row, start the same inset down. */
+.smbk-table--look-flat .smbk-table__row:has(> .smbk-table__cell--type-prose) > .smbk-table__cell {
+  padding-block-start: var(--smbk-space-inset-sm);
+}
+
+/* Aligned to the top, a flat row's first line is that one line of text, the same inset down. */
+.smbk-table--look-flat.smbk-table--align-top {
+  --smbk-table-line: calc(var(--smbk-typography-body-sm-font-size) * var(--smbk-typography-body-sm-line-height));
+  --smbk-table-line-start: var(--smbk-space-inset-sm);
+}
+
+.smbk-table--look-flat .smbk-table__group {
+  height: auto;
+  padding-inline: 0;
+}
+
+.smbk-table--look-flat .smbk-table__footer {
+  padding-inline: 0;
+}
+
+/* ---- columns with a width of their own ----
+   A table whose columns name their widths, in the column elements at its top, keeps them whatever its rows hold: the
+   browser lays such a table out from those elements alone and never reads a row, so filtering, paging or opening a row
+   moves no column. A column takes a share of the table, a size token, or the room the others leave. What a cell holds
+   wraps inside its column, as the widths no longer follow it; a word too long for the column breaks, and the row grows.
+   The table stops narrowing at its least width, past which its frame scrolls it sideways, so a column taking the room
+   that is left keeps some on a phone. A table that names no width has none of this, and sizes itself as it always has. */
+
+.smbk-table__table--columns-fixed {
+  table-layout: fixed;
+  min-width: var(--smbk-size-width-480);
+  overflow-wrap: anywhere;
+}
+
+.smbk-table__table--columns-fixed :is(.smbk-table__header, .smbk-table__cell, .smbk-table__group) {
+  white-space: normal;
+}
+
+/* A heading too long for its column takes a second line, its row growing with it. */
+.smbk-table__table--columns-fixed .smbk-table__header-cell {
+  height: auto;
+  min-height: var(--smbk-size-mark-md);
+}
+
+.smbk-table--look-flat .smbk-table__table--columns-fixed .smbk-table__header-cell {
+  min-height: calc(var(--smbk-typography-body-sm-font-size) * var(--smbk-typography-body-sm-line-height));
+}
+
+.smbk-table__table--columns-fixed .smbk-table__sort {
+  text-align: inherit;
+}
+
+/* The column sets a prose cell's width, so its narrowest measure no longer holds; its widest still keeps lines readable. */
+.smbk-table__table--columns-fixed .smbk-table__prose {
+  min-width: 0;
+}
+
+/* What a cell lines up stops at its column, and a figure's bar gives way before its figure. */
+.smbk-table__table--columns-fixed :is(.smbk-table__content, .smbk-table__start) {
+  max-width: 100%;
+}
+
+.smbk-table__table--columns-fixed .smbk-table__content > .smbk-table__bar {
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+/* The room the columns with a width leave. Columns that take it share it equally. */
+.smbk-table__column--width-rest {
+  width: auto;
+}
+
+/* A share of the table's width, so the column grows and narrows with the table. */
+.smbk-table__column--width-share-5 {
+  width: 5%;
+}
+
+.smbk-table__column--width-share-10 {
+  width: 10%;
+}
+
+.smbk-table__column--width-share-15 {
+  width: 15%;
+}
+
+.smbk-table__column--width-share-20 {
+  width: 20%;
+}
+
+.smbk-table__column--width-share-25 {
+  width: 25%;
+}
+
+.smbk-table__column--width-share-30 {
+  width: 30%;
+}
+
+.smbk-table__column--width-share-35 {
+  width: 35%;
+}
+
+.smbk-table__column--width-share-40 {
+  width: 40%;
+}
+
+.smbk-table__column--width-share-45 {
+  width: 45%;
+}
+
+.smbk-table__column--width-share-50 {
+  width: 50%;
+}
+
+.smbk-table__column--width-share-55 {
+  width: 55%;
+}
+
+.smbk-table__column--width-share-60 {
+  width: 60%;
+}
+
+.smbk-table__column--width-share-65 {
+  width: 65%;
+}
+
+.smbk-table__column--width-share-70 {
+  width: 70%;
+}
+
+.smbk-table__column--width-share-75 {
+  width: 75%;
+}
+
+.smbk-table__column--width-share-80 {
+  width: 80%;
+}
+
+.smbk-table__column--width-share-85 {
+  width: 85%;
+}
+
+.smbk-table__column--width-share-90 {
+  width: 90%;
+}
+
+.smbk-table__column--width-share-95 {
+  width: 95%;
+}
+
+/* A size token: the column keeps this width whatever the table's. */
+.smbk-table__column--width-size-40 {
+  width: var(--smbk-size-40);
+}
+
+.smbk-table__column--width-size-48 {
+  width: var(--smbk-size-48);
+}
+
+.smbk-table__column--width-size-56 {
+  width: var(--smbk-size-56);
+}
+
+.smbk-table__column--width-size-64 {
+  width: var(--smbk-size-64);
+}
+
+.smbk-table__column--width-size-72 {
+  width: var(--smbk-size-72);
+}
+
+.smbk-table__column--width-size-80 {
+  width: var(--smbk-size-80);
+}
+
+.smbk-table__column--width-size-88 {
+  width: var(--smbk-size-88);
+}
+
+.smbk-table__column--width-size-96 {
+  width: var(--smbk-size-96);
+}
+
+.smbk-table__column--width-size-width-240 {
+  width: var(--smbk-size-width-240);
+}
+
+.smbk-table__column--width-size-width-320 {
+  width: var(--smbk-size-width-320);
+}
+
+.smbk-table__column--width-size-width-400 {
+  width: var(--smbk-size-width-400);
+}
+
+.smbk-table__column--width-size-width-480 {
+  width: var(--smbk-size-width-480);
+}
+
+/* How narrow the table gets before its frame scrolls it sideways, in place of the least width above; none lets it
+   narrow with its frame. */
+.smbk-table__table--min-width-none {
+  min-width: 0;
+}
+
+.smbk-table__table--min-width-size-width-320 {
+  min-width: var(--smbk-size-width-320);
+}
+
+.smbk-table__table--min-width-size-width-400 {
+  min-width: var(--smbk-size-width-400);
+}
+
+.smbk-table__table--min-width-size-width-480 {
+  min-width: var(--smbk-size-width-480);
+}
+
+.smbk-table__table--min-width-size-width-640 {
+  min-width: var(--smbk-size-width-640);
+}
+
+.smbk-table__table--min-width-size-width-720 {
+  min-width: var(--smbk-size-width-720);
+}
+
+.smbk-table__table--min-width-size-width-960 {
+  min-width: var(--smbk-size-width-960);
+}
+
+/* ---- a long table: the heading row stays in view ----
+   Two forms. In a frame of its own (sticky-header), the consumer limits the frame's height; the frame then scrolls
+   both ways, the headings stick to its top and the foot to its foot. In the page (page-sticky-header), the frame keeps
+   no height and scrolls only sideways, and the page's own scroll moves the real heading cells down to stay in view, and
+   the foot up to the window's foot, until the table ends (below). A collapsed border stays where it was drawn, so in
+   both a heading that sticks or moves carries its rule as a line of its own. */
+
+/* The heading can be pressed anywhere down the table, and a browser anchoring a scroll to a row would follow the row the
+   sort moved. Nothing in either form's frame anchors a scroll, so the reader stays where they are. */
 .smbk-table--sticky-header {
   overflow-y: auto;
   isolation: isolate;
+  overflow-anchor: none;
+  /* What the frame scrolls into view (a focused cell, a button) lands clear of the heading and the foot over the rows. */
+  scroll-padding-block-start: var(--smbk-size-control-md);
+}
+
+.smbk-table--sticky-header:has(> .smbk-table__footer) {
+  scroll-padding-block-end: var(--smbk-table-foot-height, var(--smbk-size-control-lg));
 }
 
 /* A frame the keyboard reaches: one that scrolls up and down, or a table too wide for it (the wrapper makes it a region then). */
@@ -511,29 +895,156 @@
   background: var(--smbk-color-surface-default);
 }
 
-/* The rule under a sticking heading, and the hairline between headings, drawn by the heading itself. */
-.smbk-table--sticky-header .smbk-table__header::after {
+/* The rule under a sticking heading, and the hairline between headings, drawn by the heading itself. The rule's part
+   also lays the heading's surface again under its words, a hairline past its top edge and past its sides. A cell paints
+   nothing in its share of a collapsed border, so without it the rows would show between two headings and the rule would
+   break there; and a heading that moves with the scroll can land a device pixel under its place when the table sits
+   between two pixels, so they would show along its top too. It stops at the table's two ends, since a part past them
+   would give the frame something to scroll. */
+:is(.smbk-table--sticky-header, .smbk-table--page-sticky-header) .smbk-table__header::after {
   content: '';
   position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: var(--smbk-border-width-hairline);
-  background: var(--smbk-color-border-control);
+  z-index: -1;
+  inset-block: calc(-1 * var(--smbk-border-width-hairline)) 0;
+  inset-inline: 0;
+  border-bottom: var(--smbk-border-width-hairline) solid var(--smbk-color-border-control);
+  background: inherit;
 }
 
-.smbk-table--sticky-header .smbk-table__header + .smbk-table__header {
+:is(.smbk-table--sticky-header, .smbk-table--page-sticky-header) .smbk-table__header:not(:first-child)::after {
+  inset-inline-start: calc(-1 * var(--smbk-border-width-hairline));
+}
+
+:is(.smbk-table--sticky-header, .smbk-table--page-sticky-header) .smbk-table__header:not(:last-child)::after {
+  inset-inline-end: calc(-1 * var(--smbk-border-width-hairline));
+}
+
+:is(.smbk-table--sticky-header, .smbk-table--page-sticky-header) .smbk-table__header + .smbk-table__header {
   border-left-color: transparent;
 }
 
-.smbk-table--sticky-header .smbk-table__header + .smbk-table__header::before {
+:is(.smbk-table--sticky-header, .smbk-table--page-sticky-header) .smbk-table__header + .smbk-table__header::before {
   content: '';
   position: absolute;
   top: 0;
-  bottom: 0;
+  bottom: var(--smbk-border-width-hairline);
   left: 0;
   width: var(--smbk-border-width-hairline);
   background: var(--smbk-color-border-subtle);
+}
+
+/* The foot stays at the frame's foot while the rows scroll under it, on the heading row's floor. Sideways it scrolls
+   with the table, as in every table, so a foot wider than a narrow frame can still be scrolled to its end. */
+.smbk-table--sticky-header .smbk-table__footer {
+  position: sticky;
+  bottom: 0;
+  z-index: var(--smbk-layer-raised);
+  background: var(--smbk-color-surface-default);
+}
+
+/* ---- a long table in the page: the heading row and the foot follow the page's scroll ----
+   The frame scrolls sideways only; it never scrolls downwards, so the wheel and the finger always move the page. The
+   heading cells move down by the page's scroll to stay just under the room the page keeps clear at the top of what
+   scrolls it (its scroll padding, which the system's app bar sets while it sticks), and stop where the table ends;
+   the foot, the scroll hint and the scrollbar's sideways track move up to the window's foot, never above the heading
+   row's own place. The wrapper's script writes how far they may move (--smbk-table-travel); where the browser links
+   an animation to a scroll, it moves them as it scrolls, and elsewhere the script does. Sideways the heading cells
+   scroll with their columns, as they are the real cells; a held first column stays held. Without the script nothing
+   moves, and the table reads as a plain long one. */
+
+.smbk-table--page-sticky-header {
+  overflow-y: hidden;
+  isolation: isolate;
+  overflow-anchor: none;
+}
+
+.smbk-table--page-sticky-header .smbk-table__header {
+  position: relative;
+  z-index: var(--smbk-layer-raised);
+  border-bottom-color: transparent;
+  background: var(--smbk-color-surface-default);
+}
+
+.smbk-table--page-sticky-header .smbk-table__footer {
+  position: relative;
+  z-index: var(--smbk-layer-raised);
+  background: var(--smbk-color-surface-default);
+}
+
+/* A table's height and the text above it often leave the frame's foot on part of a pixel, and a layer moved by part of
+   a pixel draws its edge across two rows of pixels, with the rows showing there. So the script writes the part of a
+   pixel that lands the foot on a whole one (--smbk-table-foot-snap), to the nearest, and what follows the table moves
+   by that much. The heading's move starts later or sooner by a part of its own (below). */
+.smbk-table--page-sticky-header > .smbk-table__table {
+  margin-block-end: var(--smbk-table-foot-snap, 0px);
+}
+
+/* What the page scrolls into view inside the rows (a focused cell, a button) lands clear of the heading and the foot. */
+.smbk-table--page-sticky-header .smbk-table__table > tbody * {
+  scroll-margin-block: var(--smbk-size-control-md) var(--smbk-size-control-lg);
+}
+
+/* While the system's app bar that hides on scroll has slid away, the room it kept at the window's top is free, and
+   the heading rises into it. */
+:root:has(.smbk-app-bar--scrolled-away) .smbk-table--page-sticky-header {
+  --smbk-table-room-top: 0px;
+}
+
+@supports (animation-timeline: view()) {
+  /* The frame's place in what scrolls it, inside the room kept clear at its top and foot. */
+  .smbk-table--page-sticky-header {
+    view-timeline-name: --smbk-table-page;
+    view-timeline-axis: block;
+    view-timeline-inset: var(--smbk-table-room-top, auto) auto;
+  }
+
+  /* Down by as much as the frame has passed that top, from its edge, to the table's end. The text above a table often
+     leaves the frame on part of a pixel, and a heading moved by part of a pixel draws its rule across two rows of pixels,
+     with the rows showing there. So the move starts later or sooner by the part of a pixel that makes it a whole one
+     (--smbk-table-top-snap), which the script writes. */
+  .smbk-table--page-sticky-header .smbk-table__header {
+    animation-name: smbk-table-heading;
+    animation-duration: auto;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: --smbk-table-page;
+    animation-range:
+      exit-crossing calc(var(--smbk-border-width-hairline) + var(--smbk-table-top-snap, 0px))
+      exit-crossing calc(var(--smbk-border-width-hairline) + var(--smbk-table-top-snap, 0px) + var(--smbk-table-travel, 0px));
+  }
+
+  /* Up by as much as the frame runs past the foot, from its edge, as far as the heading row's place. */
+  .smbk-table--page-sticky-header > :is(.smbk-table__scroll-hint, .smbk-table__footer),
+  .smbk-table--page-sticky-header > .smbk-scrollbar .smbk-scrollbar__track--x {
+    animation-name: smbk-table-foot;
+    animation-duration: auto;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: --smbk-table-page;
+    animation-range:
+      entry-crossing calc(100% - var(--smbk-border-width-hairline) - var(--smbk-table-travel, 0px))
+      entry-crossing calc(100% - var(--smbk-border-width-hairline));
+  }
+}
+
+@keyframes smbk-table-heading {
+  from {
+    translate: 0 0;
+  }
+
+  to {
+    translate: 0 var(--smbk-table-travel, 0px);
+  }
+}
+
+@keyframes smbk-table-foot {
+  from {
+    translate: 0 calc(-1 * var(--smbk-table-travel, 0px));
+  }
+
+  to {
+    translate: 0 0;
+  }
 }
 
 /* ---- a wide table: the first column stays in view ----
@@ -569,7 +1080,10 @@
   }
 }
 
-.smbk-table--pin-first .smbk-table__row--selected .smbk-table__cell:first-child {
+.smbk-table--pin-first .smbk-table__row--selected .smbk-table__cell:first-child,
+.smbk-table--pin-first .smbk-table__row--current .smbk-table__cell:first-child,
+.smbk-table--pin-first .smbk-table__row--selected:hover .smbk-table__cell:first-child,
+.smbk-table--pin-first .smbk-table__row--current:hover .smbk-table__cell:first-child {
   background: var(--smbk-color-action-default-background-pressed);
 }
 
@@ -613,11 +1127,131 @@
   background: var(--smbk-color-border-subtle);
 }
 
+/* In the long forms the heading's rule runs on under its edge, as under the hairlines between headings. */
+:is(.smbk-table--sticky-header, .smbk-table--page-sticky-header).smbk-table--pin-first .smbk-table__header:first-child::before {
+  bottom: var(--smbk-border-width-hairline);
+}
+
+/* ---- the filled look: the framed table with a calmer heading ----
+   The frame, the rows, their height and their states stay as framed draws them. The heading row and the foot sit on
+   the neutral fill, with no hairlines between headings; a group row is sunken and one small control high; the room at
+   a row's ends and between its columns is the same. The fills are see-through, so a table takes them on any surface.
+   These rules come after the long and pinned forms, which this look takes, because they replace what those paint. */
+
+.smbk-table--look-filled .smbk-table__header-row {
+  background: none;
+}
+
+.smbk-table--look-filled .smbk-table__header {
+  background: var(--smbk-color-surface-neutral-subtle);
+}
+
+.smbk-table--look-filled .smbk-table__header + .smbk-table__header {
+  border-left: 0;
+}
+
+.smbk-table--look-filled .smbk-table__header + .smbk-table__header::before {
+  content: none;
+}
+
+/* The fill marks the heading row and the foot, so the rule along each is the rows' own, not a stronger one. A heading
+   that sticks or moves carries its rule as a line of its own, so its border stays clear. */
+.smbk-table--look-filled:not(.smbk-table--sticky-header, .smbk-table--page-sticky-header) .smbk-table__header {
+  border-bottom-color: var(--smbk-color-border-subtle);
+}
+
+.smbk-table--look-filled .smbk-table__header::after {
+  border-bottom-color: var(--smbk-color-border-subtle);
+}
+
+/* A collapsed table adds its rule's half to what a cell's content and padding take, so the padding stays well inside
+   the row's height and the edge is drawn inside it, at compact too. */
+.smbk-table--look-filled .smbk-table__header {
+  padding-block: var(--smbk-space-inset-xs);
+}
+
+/* Half the room between columns on each side of a cell, and the row's own room at its two ends. Each side keeps some,
+   so a held first column's words stay clear of its edge. */
+.smbk-table--look-filled :is(.smbk-table__header, .smbk-table__cell) {
+  padding-inline: calc(var(--smbk-space-inline-xl) / 2);
+}
+
+.smbk-table--look-filled :is(.smbk-table__header, .smbk-table__cell):first-child {
+  padding-inline-start: var(--smbk-space-inset-xl);
+}
+
+.smbk-table--look-filled :is(.smbk-table__header, .smbk-table__cell):last-child {
+  padding-inline-end: var(--smbk-space-inset-xl);
+}
+
+/* What runs across every column starts where the first column does. */
+.smbk-table--look-filled .smbk-table__detail {
+  padding-inline: var(--smbk-space-inset-xl);
+}
+
+/* The fill is on the heading cell, not the row, so a group row keeps it under the rule that takes a row's hover fill
+   away. Its line sits centered in the small control's height, the edge inside it, and a label that wraps keeps that
+   room over and under. */
+.smbk-table--look-filled .smbk-table__group {
+  height: var(--smbk-size-control-sm);
+  padding: calc((var(--smbk-size-control-sm) - 1lh) / 2 - var(--smbk-border-width-hairline)) var(--smbk-space-inset-xl);
+  background: var(--smbk-color-surface-sunken);
+}
+
+/* The foot is at least one small control high, and grows with what it holds: two paginations are taller, and on a
+   phone they wrap. So nothing in it runs past the frame, it stays where it is while a wide table scrolls sideways, its
+   fill under the whole of what shows; a foot scrolling with the table would leave the table's far end without one. */
+.smbk-table--look-filled .smbk-table__footer {
+  position: sticky;
+  inset-inline: 0;
+  flex-wrap: wrap;
+  row-gap: var(--smbk-space-stack-xs);
+  min-height: var(--smbk-size-control-sm);
+  padding: var(--smbk-space-inset-2xs) var(--smbk-space-inset-xl);
+  border-top-color: var(--smbk-color-border-subtle);
+  background: var(--smbk-color-surface-neutral-subtle);
+  font-family: var(--smbk-typography-body-sm-font-family);
+  font-size: var(--smbk-typography-body-sm-font-size);
+  font-weight: var(--smbk-typography-body-sm-font-weight);
+  line-height: var(--smbk-typography-body-sm-line-height);
+  letter-spacing: var(--smbk-typography-body-sm-letter-spacing);
+}
+
+/* The neutral fill is see-through, so what the rows pass under takes a floor beneath it: the page canvas, as a held
+   column's cells do, so a stuck heading looks as it does at rest on the canvas. */
+.smbk-table--look-filled:is(.smbk-table--sticky-header, .smbk-table--page-sticky-header) :is(.smbk-table__header, .smbk-table__footer),
+.smbk-table--look-filled:is(.smbk-table--sticky-header, .smbk-table--page-sticky-header)[data-scroll-hint] .smbk-table__scroll-hint,
+.smbk-table--look-filled.smbk-table--pin-first .smbk-table__header:first-child {
+  background: linear-gradient(var(--smbk-color-surface-neutral-subtle), var(--smbk-color-surface-neutral-subtle)), var(--smbk-color-surface-canvas);
+}
+
+.smbk-table--look-filled.smbk-table--pin-first .smbk-table__group-label {
+  left: var(--smbk-space-inset-xl);
+}
+
+/* The arrow of a column not sorted waits for the reader: on a device that hovers, over its heading, and at keyboard
+   focus. Unseen, it keeps its room, so the heading does not move, and the button stays where Tab reaches it, with its
+   name. On a touch screen it shows once the column is sorted. */
+.smbk-table--look-filled .smbk-table__header:not(.smbk-table__header--active) .smbk-table__sort > .smbk-table__header-icon {
+  opacity: 0;
+}
+
+.smbk-table--look-filled .smbk-table__header:not(.smbk-table__header--active) .smbk-table__sort:focus-visible > .smbk-table__header-icon {
+  opacity: 1;
+}
+
+@media (hover: hover) {
+  .smbk-table--look-filled .smbk-table__header:not(.smbk-table__header--active):hover .smbk-table__sort > .smbk-table__header-icon {
+    opacity: 1;
+  }
+}
+
 /* ---- the scroll hint: where the table runs past its frame and the browser hides its own scrollbar until
    the frame scrolls (a phone, a trackpad), the script marks the frame and a thin bar along its foot shows
    that there is more sideways and how much of it is in view (the wrapper sizes and moves the thumb as the
    frame scrolls). It holds the frame's visible edges while the table scrolls under it, and its foot in a
-   long table. Decoration: hidden from assistive technology, and it takes no press. ---- */
+   long table, on the foot where there is one; in the page, it comes up to the window's foot with the foot.
+   Decoration: hidden from assistive technology, and it takes no press. ---- */
 
 .smbk-table__scroll-hint {
   display: none;
@@ -640,8 +1274,14 @@
 }
 
 /* In a long table the rows scroll under the hint, so it takes the heading row's floor. */
-.smbk-table--sticky-header[data-scroll-hint] .smbk-table__scroll-hint {
+:is(.smbk-table--sticky-header, .smbk-table--page-sticky-header)[data-scroll-hint] .smbk-table__scroll-hint {
   background: var(--smbk-color-surface-default);
+}
+
+/* In a frame of its own the hint sits on the foot, which sticks to the frame's foot under it (the wrapper writes the
+   foot's height). */
+.smbk-table--sticky-header[data-scroll-hint] .smbk-table__scroll-hint {
+  bottom: var(--smbk-table-foot-height, 0px);
 }
 
 .smbk-table__scroll-track {
@@ -678,6 +1318,13 @@
   .smbk-table__row--pinned > .smbk-table__cell:first-child {
     border-inline-start: var(--smbk-border-width-accent) solid CanvasText;
   }
+
+  /* A floor drawn as a picture stays in this mode, and the user's text color may not read on it. */
+  .smbk-table--look-filled:is(.smbk-table--sticky-header, .smbk-table--page-sticky-header) :is(.smbk-table__header, .smbk-table__footer),
+  .smbk-table--look-filled:is(.smbk-table--sticky-header, .smbk-table--page-sticky-header)[data-scroll-hint] .smbk-table__scroll-hint,
+  .smbk-table--look-filled.smbk-table--pin-first .smbk-table__header:first-child {
+    background-image: none;
+  }
 }
 
 /* ---- touch: the small buttons and choose boxes take invisible press areas, each within its own row ----
@@ -708,10 +1355,37 @@
     inset-block: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), (100% - var(--smbk-size-control-md)) / 2);
   }
 
+  /* Within a flat row: one line of the body text and the small inset above and below it, or a control and that inset
+     where the control is taller than the line. In the heading every control is held to the line, and the copy and
+     caret buttons give back the room they take past it, so the line alone sets their row. */
+  .smbk-table--look-flat :is(.smbk-table__header, .smbk-table__cell) :is(.smbk-table__sort, .smbk-table__copy, .smbk-table__expander, .smbk-btn, .smbk-checkbox)::after {
+    inset-block: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), min(-1 * var(--smbk-space-inset-sm), (100% - var(--smbk-typography-body-sm-font-size) * var(--smbk-typography-body-sm-line-height)) / 2 - var(--smbk-space-inset-sm)));
+  }
+
+  .smbk-table--look-flat .smbk-table__header :is(.smbk-table__sort, .smbk-btn, .smbk-checkbox)::after,
+  .smbk-table--look-flat .smbk-table__cell :is(.smbk-table__copy, .smbk-table__expander)::after {
+    inset-block: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), (100% - var(--smbk-typography-body-sm-font-size) * var(--smbk-typography-body-sm-line-height)) / 2 - var(--smbk-space-inset-sm));
+  }
+
   /* A row grown to hold a value over its description is taller than the comfortable target in either density, so its
      controls take the whole target and still stay inside it. */
   .smbk-table__row:has(.smbk-table__stack) :is(.smbk-table__sort, .smbk-table__copy, .smbk-table__expander, .smbk-btn, .smbk-checkbox)::after {
     inset-block: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  /* In a filled table, a control at the top of a row a prose cell holds has the prose's lines under it, so it takes the
+     whole target downward. How many lines the prose has no stylesheet can tell: on a row of one line it reaches a few
+     pixels past the row's foot, where the next row's own controls stay on top of it. */
+  .smbk-table--look-filled .smbk-table__row:has(> .smbk-table__cell--type-prose) :is(.smbk-table__copy, .smbk-table__expander, .smbk-btn, .smbk-checkbox)::after {
+    inset-block-end: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+
+  /* In a row aligned to the top, a control on the first line has the row under it, however tall the row: it takes the
+     whole target downward and stops at the row's top. On a row of one line it reaches a few pixels past the row's foot,
+     as in a filled row a prose cell holds. */
+  .smbk-table--align-top:not(.smbk-table--look-flat) .smbk-table__row :is(.smbk-table__copy, .smbk-table__expander, .smbk-checkbox, .smbk-table__cell > .smbk-table__content > .smbk-btn)::after {
+    inset-block-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), (100% - var(--smbk-size-control-md)) / 2);
+    inset-block-end: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
   }
 
   /* Beside each other in a cell: halfway into the cell's gap. A choose box beside words alone (a heading that does not
@@ -729,8 +1403,14 @@
     inset-inline-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), var(--smbk-space-inline-md) / -2);
   }
 
-  .smbk-table__start > .smbk-table__lead:has(+ .smbk-checkbox) > .smbk-table__expander::after {
+  /* A caret beside a row's choose box, which the wrapper draws first in the content after the lead: each halfway. */
+  .smbk-table__start > .smbk-table__lead:has(+ .smbk-checkbox) > .smbk-table__expander::after,
+  .smbk-table__start > .smbk-table__lead:has(+ .smbk-table__content > .smbk-checkbox:first-child) > .smbk-table__expander::after {
     inset-inline-end: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), (var(--smbk-space-inline-lg) + (var(--smbk-size-icon-sm) - var(--smbk-size-target-min)) / 2) / -2);
+  }
+
+  .smbk-table__start > .smbk-table__lead:has(> .smbk-table__expander) + .smbk-table__content > .smbk-checkbox:first-child::after {
+    inset-inline-start: max(min(0%, (100% - var(--smbk-size-target-comfortable)) / 2), (var(--smbk-space-inline-lg) + (var(--smbk-size-icon-sm) - var(--smbk-size-target-min)) / 2) / -2);
   }
 
   /* A pinned first column keeps what the frame scrolls into view out from under it, by its width, which the wrapper
@@ -745,4 +1425,190 @@
   .smbk-table__cell::after {
     pointer-events: none;
   }
+}
+
+/* ---- a tall heading: a column headed by a block ----
+   A column that asks for it holds a block in its heading, a few lines and buttons, and the cell grows to hold it. The
+   table lays the heading row out as any row, so the row is as high as its tallest heading and the line under it runs
+   under that one. A row with a tall heading starts every heading at the top, each first line where a one-line heading's
+   sits; the columns that did not ask keep their one line. The sort button cannot hold a block, which may hold buttons of
+   its own, so here it is the arrow alone, after the block, or before it in a column lined up at the end. */
+
+.smbk-table__header--tall {
+  white-space: normal;
+}
+
+.smbk-table__header--tall .smbk-table__header-cell {
+  align-items: flex-start;
+  height: auto;
+  min-height: var(--smbk-size-mark-md);
+}
+
+.smbk-table__header-row:has(> .smbk-table__header--tall) > .smbk-table__header {
+  padding-block: calc((var(--smbk-size-control-md) - var(--smbk-size-mark-md)) / 2);
+  vertical-align: top;
+}
+
+.smbk-table--look-flat .smbk-table__header-row:has(> .smbk-table__header--tall) > .smbk-table__header {
+  padding-block: var(--smbk-space-inset-sm);
+}
+
+.smbk-table--look-flat .smbk-table__header--tall .smbk-table__header-cell {
+  min-height: calc(var(--smbk-typography-body-sm-font-size) * var(--smbk-typography-body-sm-line-height));
+}
+
+/* A column keeps a width its block can be read at while a table too wide for its frame narrows; a column with a width
+   of its own sets it. The block's lines stack, and it fills the heading, so a row of buttons in it can reach the
+   column's end. */
+.smbk-table__header--tall .smbk-table__header-cell {
+  min-width: var(--smbk-size-width-240);
+}
+
+.smbk-table__table--columns-fixed .smbk-table__header--tall .smbk-table__header-cell {
+  min-width: 0;
+}
+
+.smbk-table__header-block {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-xs);
+  min-width: 0;
+  color: var(--smbk-color-text-default);
+}
+
+/* In a column lined up at the end, its lines and buttons go there too, the arrow close before them. */
+.smbk-table__header--align-end .smbk-table__header-block {
+  flex-grow: 0;
+  align-items: flex-end;
+}
+
+/* The arrow alone: the least a press needs both ways, on the block's first line. */
+.smbk-table__header--tall .smbk-table__sort {
+  flex-shrink: 0;
+  justify-content: center;
+  min-width: var(--smbk-size-target-min);
+}
+
+@media (hover: hover) {
+  .smbk-table__header--tall .smbk-table__sort:hover > .smbk-table__header-icon {
+    color: var(--smbk-color-text-default);
+  }
+}
+
+/* It is all there is to press, so in the filled look it does not wait for a reader to go to it. */
+.smbk-table--look-filled .smbk-table__header--tall:not(.smbk-table__header--active) .smbk-table__sort > .smbk-table__header-icon {
+  opacity: 1;
+}
+
+/* A row's press areas stop at a medium control's height, which a tall heading has passed: its lines and the room at its
+   foot lie under its controls, so on a touch screen each takes the whole target downward. */
+@media (pointer: coarse) {
+  .smbk-table .smbk-table__header--tall :is(.smbk-table__sort, .smbk-btn)::after {
+    inset-block-end: min(0%, (100% - var(--smbk-size-target-comfortable)) / 2);
+  }
+}
+
+/* In the long forms, what is scrolled into view lands clear of the heading as high as it stands: the wrapper writes its
+   height when a heading can be more than one line, a tall heading or a long one in a column with a width. */
+.smbk-table--sticky-header {
+  scroll-padding-block-start: var(--smbk-table-head-height, var(--smbk-size-control-md));
+}
+
+.smbk-table--page-sticky-header .smbk-table__table > tbody * {
+  scroll-margin-block-start: var(--smbk-table-head-height, var(--smbk-size-control-md));
+}
+
+/* A heading that would take more than half of what shows would cover the rows it heads, so the wrapper marks the frame
+   and the heading stays in its place at the table's top, scrolling away with the rows, and leaves them all the room. A
+   held first column stays held sideways. In the page the script writes its move on the cells themselves, which only an
+   important rule stands above. */
+.smbk-table--sticky-header[data-heading-scrolls] {
+  scroll-padding-block-start: 0;
+}
+
+.smbk-table--sticky-header[data-heading-scrolls] .smbk-table__header {
+  top: auto;
+}
+
+.smbk-table--page-sticky-header[data-heading-scrolls] .smbk-table__header {
+  animation-name: none;
+  translate: none !important;
+}
+
+.smbk-table--page-sticky-header[data-heading-scrolls] .smbk-table__table > tbody * {
+  scroll-margin-block-start: 0;
+}
+
+/* ---- a row that can be pressed as a whole ----
+   Off unless a row is given a link or an action. The row stays a plain table row: one real link or button of its own,
+   with no words to show and a name for screen readers, lies over the whole row, so a press anywhere on it is a press
+   on that link or button, and a link opens in a new tab from anywhere on the row as any link does. Whatever a person
+   can press in a cell lies over that link or button in turn, so a press there does its own job and never reaches the
+   row's. It lies over what a cell only shows, a bar or a picture included, so no part of a row takes a press and does
+   nothing. A held first column is a layer that nothing outside it can reach into: there the row's link or button is
+   the first thing in the second cell, and the held cell holds an unnamed copy of it that Tab and screen readers leave
+   out. A control passing under the held column stays out of reach, as in every held table. */
+
+.smbk-table:has(.smbk-table__row--pressable) {
+  isolation: isolate;
+}
+
+.smbk-table__row--pressable {
+  position: relative;
+}
+
+.smbk-table__row-press {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  appearance: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* No weight, so a control's own place in its stylesheet stands; the row's link or button, a class, keeps its own. */
+:where(.smbk-table__row--pressable > .smbk-table__cell) :where(a[href], button, input, select, textarea, label, summary, [tabindex], [contenteditable], [aria-disabled='true']) {
+  position: relative;
+  z-index: 2;
+}
+
+/* A control that cannot be pressed now keeps the press and does nothing with it. Left to take no pointer, as it does
+   elsewhere, it would pass the press down to the row. Its disabled look holds under the pointer. */
+.smbk-table__row--pressable > .smbk-table__cell :is(:disabled, [aria-disabled='true']) {
+  pointer-events: auto;
+  cursor: not-allowed;
+}
+
+/* The ring runs round the row, over a held cell too, and lies inside it, since the frame would clip it. The link or
+   button sits under what a held cell paints, so the cell holding it draws the ring, over the whole row as the link or
+   button lies. The row itself cannot: anything it draws, placed absolutely or not, gets a table cell of its own from
+   the browser, which is one more column, and in a table with column widths takes room from the columns. A held column
+   alone holds the link or button itself, where the ring stands in for a pinned row's edge while it shows. */
+.smbk-table__row-press:focus-visible {
+  outline: 0;
+}
+
+.smbk-table__row--pressable > .smbk-table__cell:has(> .smbk-table__row-press:focus-visible)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: var(--smbk-layer-raised);
+  width: auto;
+  background: none;
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: calc(-1 * var(--smbk-focus-ring-width));
+  pointer-events: none;
+}
+
+/* While it is pressed it takes the fill it takes while what it opens is open (the current row). On a touch screen, with
+   no hover, this is the sign that the press landed. */
+.smbk-table__row--pressable:has(> .smbk-table__cell > .smbk-table__row-press:active),
+.smbk-table--pin-first .smbk-table__row--pressable:has(> .smbk-table__cell > .smbk-table__row-press:active) .smbk-table__cell:first-child {
+  background: var(--smbk-color-action-default-background-pressed);
 }

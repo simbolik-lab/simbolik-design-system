@@ -35,10 +35,29 @@
   display: inline-flex;
 }
 
+/* At least a square, and as wide as its number needs with the inset beside it, so a page past 999 fits. Column, so the
+   copy below lies under the number and not beside it. */
 .smbk-pagination__page {
-  width: var(--smbk-size-control-sm);
-  padding: 0;
+  flex-direction: column;
+  gap: 0;
+  min-width: var(--smbk-size-control-sm);
+  padding: 0 var(--smbk-space-inset-xs);
   font-variant-numeric: tabular-nums;
+}
+
+/* The button is always as wide as its number at the current page's weight: an invisible copy of the number
+   (`data-label`, which the wrapper writes) lies under it with no height, so a page turning current never moves the
+   pages beside it. The copy is generated content, hidden, with empty words for assistive technology. */
+.smbk-pagination__page[data-label]::after {
+  content: attr(data-label);
+  content: attr(data-label) / "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-weight: var(--smbk-typography-body-sm-semibold-font-weight);
+  pointer-events: none;
+  user-select: none;
 }
 
 /* Figma holds the current page in the pressed fill; its label one weight bolder, the semibold of the

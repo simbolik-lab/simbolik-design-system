@@ -560,9 +560,9 @@
         }
       },
       "link-underline": {
-        "$value": "{color.grey.600}",
+        "$value": "{color.alpha.grey-900.19}",
         "$type": "color",
-        "$description": "The line under a link.",
+        "$description": "The line under a link at rest, see-through so it sits the same on every surface.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4129:21362",
@@ -578,12 +578,30 @@
         }
       },
       "link-underline-hover": {
-        "$value": "{color.grey.900}",
+        "$value": "{color.alpha.grey-700.50}",
         "$type": "color",
         "$description": "The line under a link, on hover.",
         "$extensions": {
           "figma": {
             "variableId": "VariableID:4129:21363",
+            "collection": {
+              "id": "VariableCollectionId:4046:9254",
+              "name": "Semantic Color",
+              "defaultModeId": "4046:2"
+            },
+            "scopes": [
+              "TEXT_FILL"
+            ]
+          }
+        }
+      },
+      "link-underline-pressed": {
+        "$value": "{color.grey.700}",
+        "$type": "color",
+        "$description": "The line under a link, while pressed.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:8393:2801",
             "collection": {
               "id": "VariableCollectionId:4046:9254",
               "name": "Semantic Color",
@@ -2617,7 +2635,7 @@
     },
     "data": {
       "series": {
-        "$value": "{color.blue.600}",
+        "$value": "{palette.light.series}",
         "$type": "color",
         "$description": "The single series colour; the same as categorical 1, so one series and the first of many agree. Light blue/600, dark blue/400. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
         "$extensions": {
@@ -2637,7 +2655,7 @@
         }
       },
       "series-hover": {
-        "$value": "{color.blue.700}",
+        "$value": "{palette.light.series-hover}",
         "$type": "color",
         "$description": "The single series, one step stronger, when pointed at or focused. Light blue/700, dark blue/300. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
         "$extensions": {
@@ -2658,7 +2676,7 @@
       },
       "categorical": {
         "1": {
-          "$value": "{color.blue.600}",
+          "$value": "{palette.light.categorical.1}",
           "$type": "color",
           "$description": "Categorical position 1 (blue). Fixed order, never cycled. Light blue/600, dark blue/400. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
           "$extensions": {
@@ -2678,7 +2696,7 @@
           }
         },
         "2": {
-          "$value": "{color.orange.500}",
+          "$value": "{palette.light.categorical.2}",
           "$type": "color",
           "$description": "Categorical position 2 (orange). Light orange/500, dark orange/400. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
           "$extensions": {
@@ -2698,7 +2716,7 @@
           }
         },
         "3": {
-          "$value": "{color.grey.700}",
+          "$value": "{palette.light.categorical.3}",
           "$type": "color",
           "$description": "Categorical position 3 (neutral). Light grey/700, dark grey/300. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
           "$extensions": {
@@ -2718,7 +2736,7 @@
           }
         },
         "4": {
-          "$value": "{color.green.500}",
+          "$value": "{palette.light.categorical.4}",
           "$type": "color",
           "$description": "Categorical position 4 (green). Light green/500, dark green/400. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
           "$extensions": {
@@ -2738,7 +2756,7 @@
           }
         },
         "5": {
-          "$value": "{color.purple.500}",
+          "$value": "{palette.light.categorical.5}",
           "$type": "color",
           "$description": "Categorical position 5 (purple). Light purple/500, dark purple/300. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
           "$extensions": {
@@ -2758,7 +2776,7 @@
           }
         },
         "6": {
-          "$value": "{color.teal.600}",
+          "$value": "{palette.light.categorical.6}",
           "$type": "color",
           "$description": "Categorical position 6 (teal). Light teal/600, dark teal/500. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
           "$extensions": {
@@ -2778,7 +2796,7 @@
           }
         },
         "7": {
-          "$value": "{color.yellow.500}",
+          "$value": "{palette.light.categorical.7}",
           "$type": "color",
           "$description": "Categorical position 7 (yellow). Light yellow/500, dark yellow/500. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
           "$extensions": {
@@ -2798,7 +2816,7 @@
           }
         },
         "8": {
-          "$value": "{color.pink.600}",
+          "$value": "{palette.light.categorical.8}",
           "$type": "color",
           "$description": "Categorical position 8 (pink). Light pink/600, dark pink/300. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
           "$extensions": {
@@ -2820,7 +2838,7 @@
       },
       "sequential": {
         "1": {
-          "$value": "{color.blue.300}",
+          "$value": "{palette.light.sequential.1}",
           "$type": "color",
           "$description": "Sequential scale, low end (faint cells are outlined and carry their number). Light blue/300, dark blue/800. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
           "$extensions": {
@@ -2840,7 +2858,7 @@
           }
         },
         "2": {
-          "$value": "{color.blue.400}",
+          "$value": "{palette.light.sequential.2}",
           "$type": "color",
           "$description": "Light blue/400, dark blue/700. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
           "$extensions": {
@@ -2860,7 +2878,7 @@
           }
         },
         "3": {
-          "$value": "{color.blue.500}",
+          "$value": "{palette.light.sequential.3}",
           "$type": "color",
           "$description": "Sequential scale, step 3. Light blue/500, dark blue/600. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
           "$extensions": {
@@ -2880,7 +2898,7 @@
           }
         },
         "4": {
-          "$value": "{color.blue.600}",
+          "$value": "{palette.light.sequential.4}",
           "$type": "color",
           "$description": "Sequential scale, step 4. Light blue/600, dark blue/500. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
           "$extensions": {
@@ -2900,7 +2918,7 @@
           }
         },
         "5": {
-          "$value": "{color.blue.700}",
+          "$value": "{palette.light.sequential.5}",
           "$type": "color",
           "$description": "Sequential scale, high end: stands out most in both themes. Light blue/700, dark blue/300. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
           "$extensions": {
@@ -2922,7 +2940,7 @@
       },
       "diverging": {
         "low-2": {
-          "$value": "{color.orange.700}",
+          "$value": "{palette.light.diverging.low-2}",
           "$type": "color",
           "$description": "Diverging scale, far low end. Light orange/700, dark orange/300. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
           "$extensions": {
@@ -2942,7 +2960,7 @@
           }
         },
         "low-1": {
-          "$value": "{color.orange.500}",
+          "$value": "{palette.light.diverging.low-1}",
           "$type": "color",
           "$description": "Diverging scale, low. Light orange/500, dark orange/500. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
           "$extensions": {
@@ -2962,7 +2980,7 @@
           }
         },
         "mid": {
-          "$value": "{color.grey.500}",
+          "$value": "{palette.light.diverging.mid}",
           "$type": "color",
           "$description": "Diverging scale, the neutral middle (3:1 on both themes). Light grey/500, dark grey/500. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
           "$extensions": {
@@ -2982,7 +3000,7 @@
           }
         },
         "high-1": {
-          "$value": "{color.blue.500}",
+          "$value": "{palette.light.diverging.high-1}",
           "$type": "color",
           "$description": "Diverging scale, high. Light blue/500, dark blue/500. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
           "$extensions": {
@@ -3002,7 +3020,7 @@
           }
         },
         "high-2": {
-          "$value": "{color.blue.700}",
+          "$value": "{palette.light.diverging.high-2}",
           "$type": "color",
           "$description": "Diverging scale, far high end. Light blue/700, dark blue/300. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
           "$extensions": {
@@ -3023,7 +3041,7 @@
         }
       },
       "reference-line": {
-        "$value": "{color.grey.800}",
+        "$value": "{palette.light.reference-line}",
         "$type": "color",
         "$description": "A threshold or target line across a chart. Light grey/800, dark grey/200. Marks reach 3:1 on the plot background; never colour alone: direct labels, markers or patterns too.",
         "$extensions": {
@@ -3039,6 +3057,68 @@
               "SHAPE_FILL",
               "STROKE_COLOR"
             ]
+          }
+        }
+      },
+      "status": {
+        "good": {
+          "$value": "{palette.light.status.good}",
+          "$type": "color",
+          "$description": "A chart mark that shows a state that is fine: on target, healthy, done. Calmer than the feedback colors, which stay for badges, banners, icons and text, and never a series color. Marks reach 3:1 on the plot background; never colour alone: a label or an icon says the state too.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2798",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "warning": {
+          "$value": "{palette.light.status.warning}",
+          "$type": "color",
+          "$description": "A chart mark that shows a state that needs watching: near a limit, slipping. Calmer than the feedback colors, which stay for badges, banners, icons and text, and never a series color. Marks reach 3:1 on the plot background; never colour alone: a label or an icon says the state too.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2799",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ]
+            }
+          }
+        },
+        "bad": {
+          "$value": "{palette.light.status.bad}",
+          "$type": "color",
+          "$description": "A chart mark that shows a state that is wrong: over a limit, failed, lost. Calmer than the feedback colors, which stay for badges, banners, icons and text, and never a series color. Marks reach 3:1 on the plot background; never colour alone: a label or an icon says the state too.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8384:2800",
+              "collection": {
+                "id": "VariableCollectionId:4046:9254",
+                "name": "Semantic Color",
+                "defaultModeId": "4046:2"
+              },
+              "scopes": [
+                "FRAME_FILL",
+                "SHAPE_FILL",
+                "STROKE_COLOR"
+              ]
+            }
           }
         }
       }

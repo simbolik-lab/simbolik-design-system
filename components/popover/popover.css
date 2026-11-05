@@ -8,9 +8,11 @@
  * room it is given.
  * With an opener, the anchor holds the opener and the layer, and the layer the
  * panel, which hangs under the opener (or over it, on the above side) as the
- * dropdown's does, the same gap away. With script, the layer is lifted over the
- * page while the panel shows and the wrapper places the panel on the side it
- * prefers, or the other when that one has no room (floating.ts). */
+ * dropdown's does, the same gap away, or beside it on the left and right sides.
+ * With script, the layer is lifted over the page while the panel shows and the
+ * wrapper places the panel on the side it prefers, or the other when that one has
+ * no room (floating.ts). With the pointer flag, what the panel holds sits in the
+ * scroll part and the pointer beside it, on the edge facing the opener. */
 
 .smbk-popover {
   box-sizing: border-box;
@@ -153,6 +155,14 @@
   display: inline-flex;
 }
 
+/* Words as the opener stay in their line: a flex box would make them a box of their own, which does not break with
+   the words around it. An inline box ends at the words, so the padding takes in their line for the panel to hang
+   under; it moves nothing in the line. */
+.smbk-popover__anchor:has(> .smbk-link--pressable) {
+  display: inline;
+  padding-block-end: var(--smbk-space-link-underline);
+}
+
 /* Until the wrapper lifts the layer, the panel hangs from the anchor, as in markup without the layer. Hanging from its
    opener, the panel is never wider than the window less the extra-large inset on either side, so on the narrowest
    phones it narrows rather than make the page scroll sideways. */
@@ -178,6 +188,32 @@
   bottom: calc(100% + var(--smbk-space-stack-xs));
 }
 
+/* Preferring the left or the right, it hangs beside the opener, its top lined up with the opener's, or its foot when
+   lined up with the end, until the wrapper places it. */
+.smbk-popover__anchor > :is(.smbk-popover--side-left, .smbk-popover--side-right),
+.smbk-popover__layer > :is(.smbk-popover--side-left, .smbk-popover--side-right) {
+  top: 0;
+  bottom: auto;
+}
+
+.smbk-popover__anchor > .smbk-popover--side-right,
+.smbk-popover__layer > .smbk-popover--side-right {
+  right: auto;
+  left: calc(100% + var(--smbk-space-stack-xs));
+}
+
+.smbk-popover__anchor > .smbk-popover--side-left,
+.smbk-popover__layer > .smbk-popover--side-left {
+  right: calc(100% + var(--smbk-space-stack-xs));
+  left: auto;
+}
+
+.smbk-popover__anchor > .smbk-popover--align-end:where(.smbk-popover--side-left, .smbk-popover--side-right),
+.smbk-popover__layer > .smbk-popover--align-end:where(.smbk-popover--side-left, .smbk-popover--side-right) {
+  top: auto;
+  bottom: 0;
+}
+
 /* Placed in the lifted layer, it is never taller than the room on its side of the opener (the wrapper sets that
    height), and a panel taller than that scrolls inside itself, with the system's scrollbar over it (scrollbar.ts), or
    the browser's thin one in markup written by hand. */
@@ -188,3 +224,184 @@
   scrollbar-color: var(--smbk-color-border-subtle) transparent;
 }
 
+/* ---- the pointer: a small triangle on the edge facing the opener ----
+   A panel that scrolled would cut it off, so with the pointer the panel keeps what sticks out past its edge and what it
+   holds scrolls in the scroll part, which takes the panel's padding and its gap. */
+
+.smbk-popover--pointer {
+  --smbk-popover-pointer-base: calc(var(--smbk-size-icon-lg) - 2 * var(--smbk-border-width-hairline));
+  --smbk-popover-pointer-depth: calc(var(--smbk-popover-pointer-base) / 2);
+  gap: 0;
+  padding: 0;
+}
+
+.smbk-popover__scroll {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--smbk-space-stack-lg);
+  min-height: 0;
+  padding: var(--smbk-space-inset-xl);
+  border-radius: inherit;
+}
+
+/* The keyboard reaches it while it scrolls (the wrapper makes it a region then): its ring is drawn inside its edge. */
+.smbk-popover__scroll:focus-visible {
+  outline: var(--smbk-focus-ring-width) solid var(--smbk-color-border-focus);
+  outline-offset: calc(-1 * var(--smbk-focus-ring-width));
+}
+
+.smbk-popover__layer:popover-open > .smbk-popover--pointer {
+  overflow: visible;
+}
+
+.smbk-popover__layer:popover-open > .smbk-popover--pointer > .smbk-popover__scroll {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--smbk-color-border-subtle) transparent;
+}
+
+/* Hanging from its opener, the panel stands the pointer's reach further off, as the wrapper places it. These weigh no
+   more than the other hanging rules, so a lifted panel still takes only the place the wrapper writes (floating.css). */
+.smbk-popover__anchor > .smbk-popover--pointer:where(.smbk-popover--side-below),
+.smbk-popover__layer > .smbk-popover--pointer:where(.smbk-popover--side-below) {
+  top: calc(100% + var(--smbk-space-stack-xs) + var(--smbk-popover-pointer-depth) - var(--smbk-border-width-hairline));
+}
+
+.smbk-popover__anchor > .smbk-popover--pointer:where(.smbk-popover--side-above),
+.smbk-popover__layer > .smbk-popover--pointer:where(.smbk-popover--side-above) {
+  bottom: calc(100% + var(--smbk-space-stack-xs) + var(--smbk-popover-pointer-depth) - var(--smbk-border-width-hairline));
+}
+
+.smbk-popover__anchor > .smbk-popover--pointer:where(.smbk-popover--side-right),
+.smbk-popover__layer > .smbk-popover--pointer:where(.smbk-popover--side-right) {
+  left: calc(100% + var(--smbk-space-stack-xs) + var(--smbk-popover-pointer-depth) - var(--smbk-border-width-hairline));
+}
+
+.smbk-popover__anchor > .smbk-popover--pointer:where(.smbk-popover--side-left),
+.smbk-popover__layer > .smbk-popover--pointer:where(.smbk-popover--side-left) {
+  right: calc(100% + var(--smbk-space-stack-xs) + var(--smbk-popover-pointer-depth) - var(--smbk-border-width-hairline));
+}
+
+/* In a narrow space there is no room beside the opener: it hangs under it, as the wrapper places it. */
+@container style(--smbk-layout: narrow) {
+  .smbk-popover__anchor > :is(.smbk-popover--side-left, .smbk-popover--side-right),
+  .smbk-popover__layer > :is(.smbk-popover--side-left, .smbk-popover--side-right) {
+    top: calc(100% + var(--smbk-space-stack-xs));
+    right: auto;
+    bottom: auto;
+    left: 0;
+  }
+
+  .smbk-popover__anchor > :is(.smbk-popover--side-left, .smbk-popover--side-right) > .smbk-popover__pointer,
+  .smbk-popover__layer:not(:popover-open) > :is(.smbk-popover--side-left, .smbk-popover--side-right):not([data-side]) > .smbk-popover__pointer {
+    display: none;
+  }
+}
+
+/* Its box is the triangle's, as deep as its shape, which the wrapper measures. It stands on the panel's inside edge, so
+   it covers the hairline there and the two read as one shape. Its own edge is the strong border: the panel's rim is
+   nearly the panel's color, and with no shadow the triangle would be lost on a light page. The fill is the same
+   triangle moved in by a hairline across its slopes, so the edge shows only along them. */
+.smbk-popover__pointer {
+  position: absolute;
+  width: var(--smbk-popover-pointer-base);
+  height: var(--smbk-popover-pointer-depth);
+  background: var(--smbk-color-border-strong);
+}
+
+.smbk-popover__pointer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--smbk-color-surface-overlay);
+  clip-path: inherit;
+}
+
+/* The side it is on: the one the wrapper placed it on, or until then the one asked for. */
+.smbk-popover--pointer:is([data-side="below"], .smbk-popover--side-below:not([data-side])) > .smbk-popover__pointer {
+  bottom: 100%;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.smbk-popover--pointer:is([data-side="below"], .smbk-popover--side-below:not([data-side])) > .smbk-popover__pointer::after {
+  translate: 0 calc(var(--smbk-border-width-hairline) * 1.4142);
+}
+
+.smbk-popover--pointer:is([data-side="above"], .smbk-popover--side-above:not([data-side])) > .smbk-popover__pointer {
+  top: 100%;
+  clip-path: polygon(50% 100%, 0 0, 100% 0);
+}
+
+.smbk-popover--pointer:is([data-side="above"], .smbk-popover--side-above:not([data-side])) > .smbk-popover__pointer::after {
+  translate: 0 calc(var(--smbk-border-width-hairline) * -1.4142);
+}
+
+.smbk-popover--pointer:is([data-side="right"], .smbk-popover--side-right:not([data-side])) > .smbk-popover__pointer {
+  right: 100%;
+  width: var(--smbk-popover-pointer-depth);
+  height: var(--smbk-popover-pointer-base);
+  clip-path: polygon(0 50%, 100% 0, 100% 100%);
+}
+
+.smbk-popover--pointer:is([data-side="right"], .smbk-popover--side-right:not([data-side])) > .smbk-popover__pointer::after {
+  translate: calc(var(--smbk-border-width-hairline) * 1.4142) 0;
+}
+
+.smbk-popover--pointer:is([data-side="left"], .smbk-popover--side-left:not([data-side])) > .smbk-popover__pointer {
+  left: 100%;
+  width: var(--smbk-popover-pointer-depth);
+  height: var(--smbk-popover-pointer-base);
+  clip-path: polygon(100% 50%, 0 0, 0 100%);
+}
+
+.smbk-popover--pointer:is([data-side="left"], .smbk-popover--side-left:not([data-side])) > .smbk-popover__pointer::after {
+  translate: calc(var(--smbk-border-width-hairline) * -1.4142) 0;
+}
+
+/* Where along the edge: until it is placed, the inset in from the end the panel lines up with. */
+.smbk-popover--pointer:is([data-side="below"], [data-side="above"], .smbk-popover--side-below:not([data-side]), .smbk-popover--side-above:not([data-side])) > .smbk-popover__pointer {
+  left: var(--smbk-space-inset-xl);
+}
+
+.smbk-popover--pointer.smbk-popover--align-end:is([data-side="below"], [data-side="above"], .smbk-popover--side-below:not([data-side]), .smbk-popover--side-above:not([data-side])) > .smbk-popover__pointer {
+  right: var(--smbk-space-inset-xl);
+  left: auto;
+}
+
+.smbk-popover--pointer:is([data-side="left"], [data-side="right"], .smbk-popover--side-left:not([data-side]), .smbk-popover--side-right:not([data-side])) > .smbk-popover__pointer {
+  top: var(--smbk-space-inset-xl);
+}
+
+.smbk-popover--pointer.smbk-popover--align-end:is([data-side="left"], [data-side="right"], .smbk-popover--side-left:not([data-side]), .smbk-popover--side-right:not([data-side])) > .smbk-popover__pointer {
+  top: auto;
+  bottom: var(--smbk-space-inset-xl);
+}
+
+/* Placed, the wrapper writes the place of its middle, measured from the panel's outside edge, where the pointer's own
+   place is measured from inside it: the hairline between the two is taken back here. */
+.smbk-popover--pointer[data-placed]:is([data-side="below"], [data-side="above"]) > .smbk-popover__pointer {
+  right: auto;
+  translate: calc(-50% - var(--smbk-border-width-hairline)) 0;
+}
+
+.smbk-popover--pointer[data-placed]:is([data-side="left"], [data-side="right"]) > .smbk-popover__pointer {
+  bottom: auto;
+  translate: 0 calc(-50% - var(--smbk-border-width-hairline));
+}
+
+/* ---- high contrast (forced colors) ---- */
+/* The browser drops fills there: drawn in the user's own colors, the pointer points again and keeps its edge. */
+
+@media (forced-colors: active) {
+  .smbk-popover__pointer {
+    background: CanvasText;
+  }
+
+  .smbk-popover__pointer::after {
+    background: Canvas;
+  }
+}
